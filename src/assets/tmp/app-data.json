@@ -15,6 +15,15 @@
       "type": "personal",
       "role": "owner",
       "joinedAt": "2025-01-01T00:00:00Z"
+    },
+    {
+      "id": "org-demo-001",
+      "name": "示範組織",
+      "type": "organization",
+      "role": "owner",
+      "joinedAt": "2025-01-15T00:00:00Z",
+      "logo": "./assets/logo.svg",
+      "description": "這是一個示範組織，用於測試組織功能"
     }
   ],
   "personalMenu": [
@@ -114,5 +123,45 @@
       }
     ]
   },
-  "organizationMenus": {}
+  "organizationMenus": {
+    "org-demo-001": [
+      {
+        "text": "組織導航",
+        "i18n": "menu.organization",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+          {
+            "text": "快捷菜單",
+            "i18n": "menu.shortcut",
+            "icon": "anticon-rocket",
+            "shortcutRoot": true,
+            "hideInBreadcrumb": true,
+            "children": []
+          },
+          {
+            "text": "組織儀表板",
+            "i18n": "menu.organization.dashboard",
+            "icon": "anticon-dashboard",
+            "link": "/dashboard/v1",
+            "shortcut": true
+          },
+          {
+            "text": "專案管理",
+            "i18n": "menu.organization.projects",
+            "icon": "anticon-folder",
+            "link": "/projects",
+            "shortcut": true
+          },
+          {
+            "text": "組織設定",
+            "i18n": "menu.organization.settings",
+            "icon": "anticon-setting",
+            "link": "/organization",
+            "shortcut": true
+          }
+        ]
+      }
+    ]
+  }
 }

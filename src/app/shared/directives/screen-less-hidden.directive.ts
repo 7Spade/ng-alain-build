@@ -1,6 +1,11 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Directive, inject, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
+// TODO: [OPTIMIZATION] Critical - Missing OnDestroy - 此指令缺少 ngOnDestroy，會造成嚴重記憶體洩漏
+// 建議：implements OnDestroy, 使用 Subscription 儲存訂閱，在 ngOnDestroy 中 unsubscribe
+// 或使用 DestroyRef + takeUntilDestroyed (Angular 16+)
+// 影響：此指令可能在多處使用，記憶體洩漏會累積
+
 /**
  * 響應式隱藏指令
  * @description 當螢幕寬度小於指定值時隱藏元素
@@ -35,6 +40,8 @@ export class ScreenLessHiddenDirective {
       return;
     }
     
+    // TODO: [OPTIMIZATION] Memory Leak Risk - breakpointObserver 訂閱未取消訂閱
+    // 建議：儲存 subscription 並在 ngOnDestroy 中取消訂閱
     // 監聽螢幕寬度變化
     this.breakpointObserver.observe([`(max-width: ${lessScreen}px)`]).subscribe(result => {
       // 當螢幕寬度小於閾值時隱藏

@@ -109,6 +109,8 @@ export class ProTableListComponent implements OnInit {
     if (this.q.status !== null && this.q.status > -1) {
       this.q.statusList.push(this.q.status);
     }
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未取消訂閱
+    // 建議：實作 OnDestroy 並使用 takeUntilDestroyed() 管理訂閱
     this.http
       .get('/rule', this.q)
       .pipe(
@@ -142,6 +144,8 @@ export class ProTableListComponent implements OnInit {
   }
 
   remove(): void {
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP delete 訂閱未取消訂閱
+    // 建議：使用 takeUntilDestroyed() 統一管理所有訂閱
     this.http.delete('/rule', { nos: this.selectedRows.map(i => i['no']).join(',') }).subscribe(() => {
       this.getData();
       this.st.clearCheck();

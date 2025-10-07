@@ -85,6 +85,7 @@ export class ProjectOverviewComponent implements OnInit {
    */
   loadProject(id: string): void {
     this.loading.set(true);
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未管理（建議使用 takeUntilDestroyed）
     this.projectService.getProject(id).subscribe({
       next: project => {
         this.project.set(project);
@@ -114,6 +115,8 @@ export class ProjectOverviewComponent implements OnInit {
   /**
    * 格式化儲存空間
    */
+  // TODO: [OPTIMIZATION] Code Duplication - formatStorage 工具函數重複
+  // 建議：使用共享的 src/app/shared/utils/file-size.util.ts
   formatStorage(bytes: number): string {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -132,6 +135,9 @@ export class ProjectOverviewComponent implements OnInit {
   /**
    * 獲取可見性文字
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 專案屬性映射邏輯重複
+  // 建議：提取到 src/app/features/projects/models/project.constants.ts
+  // 包含：PROJECT_VISIBILITY_LABELS, PROJECT_OWNER_TYPE_LABELS
   getVisibilityText(visibility: string): string {
     switch (visibility) {
       case 'public':
@@ -148,6 +154,7 @@ export class ProjectOverviewComponent implements OnInit {
   /**
    * 獲取擁有者類型文字
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 與 getVisibilityText 一起提取為常數
   getOwnerTypeText(ownerType: string): string {
     return ownerType === 'personal' ? '個人' : '組織';
   }

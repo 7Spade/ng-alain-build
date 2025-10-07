@@ -205,6 +205,8 @@ export class ProjectListComponent implements OnInit {
   /**
    * 格式化儲存空間
    */
+  // TODO: [OPTIMIZATION] Code Duplication - formatStorage 工具函數重複（第3次）
+  // 建議：使用共享的 src/app/shared/utils/file-size.util.ts
   formatStorage(bytes: number): string {
     if (bytes === 0) return '0 B';
     const k = 1024;

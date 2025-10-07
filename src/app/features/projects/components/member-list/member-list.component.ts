@@ -104,6 +104,7 @@ export class MemberListComponent implements OnInit {
    * @note HTTP 請求完成後自動清理
    */
   removeMember(member: ProjectMember): void {
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未管理（建議統一使用 takeUntilDestroyed）
     this.memberService.removeMember(this.projectId(), member.id).subscribe({
       next: () => {
         this.message.success('成員已移除');
@@ -126,6 +127,9 @@ export class MemberListComponent implements OnInit {
   /**
    * 獲取角色標籤顏色
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 專案成員角色邏輯重複
+  // 建議：提取到 src/app/features/projects/models/project-member.constants.ts
+  // 包含：PROJECT_MEMBER_ROLE_COLORS, PROJECT_MEMBER_ROLE_LABELS
   getRoleColor(role: string): string {
     switch (role) {
       case 'owner':
@@ -144,6 +148,7 @@ export class MemberListComponent implements OnInit {
   /**
    * 獲取角色文字
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 與 getRoleColor 應一起提取為常數
   getRoleText(role: string): string {
     switch (role) {
       case 'owner':

@@ -81,6 +81,12 @@ export class ProjectDashboardComponent implements OnInit {
   loadData(projectId: string): void {
     this.loading.set(true);
 
+    // TODO: [OPTIMIZATION] Anti-pattern - toPromise() 已廢棄，應使用 forkJoin + takeUntilDestroyed
+    // 建議：import { forkJoin } from 'rxjs';
+    //      forkJoin({ project: this.projectService.getProject(projectId), ... })
+    //        .pipe(takeUntilDestroyed())
+    //        .subscribe(({ project, fileResponse, memberResponse }) => { ... });
+    // 參考：https://rxjs.dev/deprecations/to-promise
     // 並行載入專案資訊、檔案、成員
     Promise.all([
       this.projectService.getProject(projectId).toPromise(),
@@ -107,6 +113,9 @@ export class ProjectDashboardComponent implements OnInit {
   /**
    * 格式化儲存空間
    */
+  // TODO: [OPTIMIZATION] Code Duplication - formatStorage 在多個組件重複
+  // 建議：提取到 src/app/shared/utils/file-size.util.ts
+  // 與 project-list.component.ts、project-overview.component.ts 共用
   formatStorage(bytes: number): string {
     if (bytes === 0) return '0 B';
     const k = 1024;
