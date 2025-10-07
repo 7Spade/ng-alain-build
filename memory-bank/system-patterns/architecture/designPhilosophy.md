@@ -1,140 +1,70 @@
 # 設計哲學
 
-> 基於實際代碼分析和官方文檔查詢生成
+## 核心原則
 
-## 🌟 設計理念體系總結
-
-### 核心三原則
-
+### 三大理念
 1. **Modern Angular First**: 擁抱 Angular 20 最新特性
-2. **Enterprise UI Standards**: 基於 Ant Design 規範
-3. **Developer Experience First**: 優化開發體驗
+2. **Enterprise UI Standards**: 基於 Ant Design 規範  
+3. **Developer Experience**: 優化開發體驗
 
-### 六大設計原則
+## 六大設計原則
 
-1. **架構設計原則**: Standalone, Lazy Loading, Feature Modules
-2. **組件設計原則**: OnPush, Explicit Imports, Native Control Flow
-3. **數據狀態原則**: Service-based, Observable, Type-safe
-4. **權限安全原則**: Functional Guards, RBAC, Graceful Errors
-5. **開發體驗原則**: Mock-First, HMR, Linting
-6. **UI/UX 原則**: ng-zorro, Empty States, GitHub-style
+### A. 架構原則
+- Standalone 組件優先
+- Lazy Loading 全域應用
+- Feature Module 組織
+- TypeScript 路徑別名
 
-### 關鍵技術選型
+### B. 組件原則
+- OnPush 變更檢測
+- 明確導入聲明
+- 原生控制流 (@if, @for)
+- 內聯模板 (<150 行)
 
-- ✅ Angular 20 (Standalone Architecture)
-- ✅ ng-zorro-antd (Enterprise UI Components)
-- ✅ @delon (Admin Scaffold & Utilities)
-- ✅ TypeScript Strict Mode
-- ✅ RxJS Observable Streams
-- ✅ Less Preprocessor
-- ✅ Hash Routing
-- ✅ @delon/mock (Mock-First Development)
+### C. 數據原則
+- Service-based 狀態管理
+- Observable 資料流
+- 完整類型安全
+- URL 作為狀態源
 
-## 🏗️ 架構分層
+### D. 權限原則
+- 函數式守衛 (CanActivateFn)
+- 角色階層 (Owner→Admin→Member→Viewer)
+- Observable 權限驗證
+- 優雅錯誤處理
 
-### 1. Presentation Layer
-- **Framework**: Angular 20.3.0
-- **UI Components**: ng-zorro-antd 20.3.1
-- **Admin Framework**: ng-alain 20.0.2
-- **Styling**: Less with dynamic theme support
+### E. 開發體驗
+- Mock-First 開發
+- HMR 熱更新
+- 8GB 記憶體建置
+- ESLint + Stylelint + Prettier
 
-### 2. Application Layer
-- **Core Services**: @delon/* modules
-  - @delon/abc: Admin components (ST, SE, etc.)
-  - @delon/acl: Access control
-  - @delon/auth: Authentication
-  - @delon/cache: Caching system
-  - @delon/chart: Chart components
-  - @delon/form: Form handling
-  - @delon/mock: Mock data
-  - @delon/theme: Theming system
-  - @delon/util: Utility functions
+### F. UI/UX 原則
+- ng-zorro 優先
+- Empty States 全域
+- Loading States 完整
+- 響應式設計
 
-### 3. Infrastructure Layer
-- **Build System**: Angular CLI with high memory allocation
-- **Package Management**: Yarn 4.9.2
-- **Code Quality**: ESLint + Stylelint + Prettier
-- **Testing**: Jasmine + Karma + Protractor
-- **Development Tools**: HMR, Proxy configuration
+## 技術棧
 
-## 🎯 設計決策記錄
+| 層級 | 技術 | 版本 |
+|------|------|------|
+| 前端框架 | Angular | 20.3.0 |
+| Admin 框架 | ng-alain | 20.0.2 |
+| UI 組件 | ng-zorro-antd | 20.3.1 |
+| 狀態管理 | RxJS | 7.8.0 |
+| 樣式處理 | Less | - |
+| 類型系統 | TypeScript | 5.9.2 |
 
-### 核心架構決策
-- **Standalone Components**: 100% adoption of Angular standalone components, removing NgModule complexity
-- **Service-based State Management**: Using Angular services with RxJS instead of NgRx for simpler state management
-- **Hash Routing**: Using hash-based routing for simplified deployment without server configuration
-- **Lazy Loading Strategy**: All feature modules use lazy loading for optimal bundle splitting
+## 已實現功能模組
 
-### 技術棧決策
-- **CSS Preprocessor**: Less chosen for seamless integration with ng-zorro-antd theming system
-- **TypeScript Configuration**: Strict mode enabled for maximum type safety
-- **HTTP Client**: Using @delon/theme _HttpClient for unified error handling and loading states
-- **Mock Development**: Mock-first development approach using @delon/mock for parallel frontend/backend development
+### 核心模組
+- Dashboard (analysis, monitor, workplace)
+- Widgets (小工具展示)
+- Style (colors, typography)
 
-### 開發模式決策
-- **Functional Guards**: Using CanActivateFn instead of class-based guards for modern Angular patterns
-- **Dependency Injection**: Preferring inject() function over constructor DI for cleaner code
-- **Change Detection**: OnPush strategy enforced for optimal performance
-- **Control Flow**: Native Angular control flow (@if, @for, @switch) instead of structural directives
-
-## 📊 實際實現的功能模組
-
-基於實際代碼分析，以下功能模組已實現：
-
-### 核心功能
-- **Dashboard** - 儀表板（analysis, monitor, v1, workplace）
-- **Widgets** - 小工具展示
-- **Style** - 樣式系統（colors, gridmasonry, typography）
-
-### 業務功能
-- **Pro** - 專業功能
-  - Account（center, settings）
-  - Form（advanced-form, basic-form, step-form）
-  - List（applications, articles, basic-list, card-list, projects, table-list）
-  - Profile（advanced, basic）
-  - Result（fail, success）
-
-### 系統功能
-- **Delon** - delon 功能展示
-  - ACL（權限控制）
-  - Cache（緩存）
-  - Downfile（文件下載）
-  - Form（表單）
-  - Guard（守衛）
-  - Print（列印）
-  - QR（二維碼）
-  - ST（表格）
-  - Util（工具）
-  - Xlsx（Excel）
-  - Zip（壓縮）
-
-### 認證與異常
-- **Passport** - 認證系統（login, register, landing, lock）
-- **Exception** - 異常頁面處理
-
-### 額外功能
-- **Extras** - 額外功能（helpcenter, poi, settings）
-- **Data-v** - 數據可視化（relation）
-
-## 🚀 性能優化策略
-
-### 建置優化
-- **Memory Allocation**: 8GB allocation for large builds
-- **Bundle Analysis**: Source map explorer integration
-- **Tree Shaking**: Automatic unused code elimination
-- **Lazy Loading**: Route-based code splitting
-
-### 運行時優化
-- **Change Detection**: OnPush strategy implementation
-- **Virtual Scrolling**: Large dataset handling
-- **Caching**: @delon/cache integration
-- **Memory Management**: Proper subscription cleanup
-
-## 🎨 設計亮點
-
-1. **現代化架構**: 採用 Angular 20 最新特性，包括 Standalone Components
-2. **企業級 UI**: 基於 ng-zorro-antd 的完整企業級組件庫
-3. **開發體驗**: Mock-first 開發模式，支援並行開發
-4. **性能優化**: OnPush 變更檢測策略，大幅提升性能
-5. **類型安全**: TypeScript Strict Mode 確保最大類型安全
-6. **主題系統**: 動態主題切換，支援多種視覺風格
+### 業務模組
+- Pro (Account, Form, List, Profile, Result)
+- Delon (ACL, Cache, Form, ST, Util, Xlsx)
+- Passport (login, register)
+- Exception (異常處理)

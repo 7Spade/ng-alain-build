@@ -1,334 +1,89 @@
-# Development Patterns
+# 開發模式
 
-## Angular Development Patterns
+## Angular 核心模式
 
-### Component Patterns
-- **Smart/Dumb Components**: Separation of container and presentational components
-- **Reactive Forms**: FormGroup and FormControl usage
-- **OnPush Change Detection**: Performance optimization strategy
-- **Component Composition**: Building complex UIs from simple components
+### 組件模式
+- **Smart/Dumb Components**: 容器與展示組件分離
+- **OnPush Detection**: 性能優化策略
+- **Standalone Components**: 100% standalone 架構
+- **Component Composition**: 組件組合設計
 
-### Service Patterns
-- **Singleton Services**: Shared business logic
-- **Injectable Services**: Dependency injection
-- **Observable Services**: RxJS-based data flow
-- **Guard Services**: Route protection and validation
+### 服務模式
+- **Injectable Services**: providedIn: 'root' 單例
+- **Observable Services**: RxJS 資料流
+- **_HttpClient**: @delon/theme 統一 HTTP 客戶端
+- **RESTful API**: 標準 REST API 設計
 
-### State Management Patterns
-- **Service-based State**: Centralized state management
-- **Reactive State**: Observable-based state updates
-- **Local Component State**: Component-scoped state
-- **Cache Management**: @delon/cache integration
+### 狀態管理模式
+- **Service-based State**: 集中式狀態管理
+- **URL as State**: 路由狀態管理
+- **Observable Streams**: 響應式資料流
+- **Cache Service**: @delon/cache 緩存策略
 
-## ng-alain Specific Patterns
+## ng-alain 特定模式
 
-### Admin Panel Patterns
-- **ST (Simple Table)**: Data table with built-in features
-- **SE (Search Engine)**: Advanced search and filtering
-- **ACL Integration**: Role-based access control
-- **Theme Integration**: Dynamic theming support
+### Admin 面板模式
+- **ST (Simple Table)**: 內建功能的資料表格
+- **SE (Search Engine)**: 進階搜索與篩選
+- **ACL Integration**: 角色權限控制
+- **Theme Integration**: 動態主題支援
 
-### Form Patterns
-- **Schema-driven Forms**: JSON schema form generation
-- **Validation Patterns**: Built-in and custom validators
-- **Dynamic Forms**: Runtime form generation
-- **Form State Management**: Reactive form patterns
+### 表單模式
+- **Schema-driven Forms**: JSON schema 表單生成
+- **Reactive Forms**: FormGroup 響應式表單
+- **Validation Patterns**: 內建與自訂驗證器
+- **Dynamic Forms**: 運行時表單生成
 
-### Layout Patterns
-- **Responsive Layout**: Mobile-first design approach
-- **Sidebar Navigation**: Collapsible navigation
-- **Breadcrumb Navigation**: Hierarchical navigation
-- **Header Actions**: Toolbar and action buttons
+### 佈局模式
+- **Responsive Layout**: Mobile-first 響應式設計
+- **Sidebar Navigation**: 可折疊側邊導航
+- **Breadcrumb Navigation**: 階層導航
+- **Header Actions**: 工具列與操作按鈕
 
-## Code Quality Patterns
+## 現代 Angular 模式
 
-### Linting Patterns
-- **ESLint Rules**: TypeScript and Angular specific rules
-- **Stylelint Rules**: Less file linting
-- **Prettier Formatting**: Consistent code formatting
-- **Husky Hooks**: Pre-commit validation
+### Standalone 模式
+- 使用 standalone: true
+- 明確 imports 陣列
+- 移除 NgModule
+- bootstrapApplication 啟動
 
-## Technical Patterns from VAN Analysis
+### 函數式守衛
+- CanActivateFn 替代 class-based
+- inject() 依賴注入
+- 守衛組合
+- 完整類型安全
 
-### Design Patterns
-1. **Smart & Dumb Components**: Container components handle logic, presentational components handle display
-2. **Async Pipe Pattern**: Using async pipe for Observable subscriptions in templates
-3. **RxJS Operators Pattern**: Using map, filter, switchMap, catchError for data transformation
-4. **Guard Composition Pattern**: Combining multiple guards for complex permission logic
-5. **Error Handling Pattern**: Centralized error handling with user notifications
-6. **Form Handling Pattern**: Reactive forms with validation and state management
-7. **Pagination Pattern**: Consistent pagination implementation across components
-8. **Search & Filter Pattern**: Unified search and filtering across data tables
+### 模板模式
+- **Native Control Flow**: @if, @for, @switch
+- **Template Inlining**: <150 行內聯
+- **Grid Layout**: CSS Grid 響應式佈局
+- **trackBy Functions**: @for 性能優化
 
-### Performance Patterns
-1. **Lazy Loading Pattern**: Route-based and component-based lazy loading
-2. **OnPush Pattern**: OnPush change detection with manual change detection
-3. **TrackBy Pattern**: TrackBy functions for *ngFor optimization
-4. **Virtual Scrolling Pattern**: For large datasets (100+ items)
-5. **Bundle Optimization Pattern**: Tree-shaking and code splitting strategies
+## 測試模式
 
-### State Management Patterns
-1. **Service-based State**: Angular services with BehaviorSubject for state management
-2. **URL as State**: Router state as primary state source
-3. **Observable Streams**: RxJS Observable patterns for data flow
-4. **Cache Pattern**: @delon/cache for application-level caching
-5. **Mock Pattern**: @delon/mock for development and testing
+### 單元測試
+- **AAA Pattern**: Arrange, Act, Assert
+- **Mock Pattern**: 服務與依賴模擬
+- **TestBed**: Angular 測試工具
+- **Spy Objects**: jasmine.createSpyObj
 
-### Testing Patterns
-1. **AAA Pattern**: Arrange, Act, Assert test structure
-2. **Mock Pattern**: Service and dependency mocking strategies
-3. **Component Testing Pattern**: TestBed configuration and component testing
-4. **E2E Pattern**: Protractor integration with data-testid attributes
-5. **Coverage Pattern**: Test coverage requirements and reporting
+### E2E 測試
+- **Protractor**: Angular E2E 框架
+- **data-testid**: E2E 測試選擇器
+- **Page Objects**: 頁面物件模式
+- **Browser Actions**: 瀏覽器操作模擬
 
-### Development Patterns
-1. **Mock-First Pattern**: Development with mock data before backend integration
-2. **Hot Module Replacement**: HMR for faster development cycles
-3. **High Memory Build**: 8GB memory allocation for large builds
-4. **Git Workflow Pattern**: Angular commit convention with structured messages
-5. **Code Review Pattern**: Comprehensive review checklist and standards
+## 性能模式
 
-### Testing Patterns
-- **Unit Testing**: Jasmine + Karma
-- **Component Testing**: Angular Testing Utilities
-- **E2E Testing**: Protractor integration
-- **Mock Data**: @delon/mock integration
+### 建置優化
+- **Tree Shaking**: 未使用代碼消除
+- **Code Splitting**: 路由級代碼分割
+- **Bundle Analysis**: source-map-explorer
+- **High Memory**: 8GB 記憶體配置
 
-## Performance Patterns
-
-### Build Optimization
-- **Tree Shaking**: Unused code elimination
-- **Code Splitting**: Route-based splitting
-- **Bundle Analysis**: Source map explorer
-- **Memory Management**: High memory allocation
-
-### Runtime Optimization
-- **OnPush Strategy**: Change detection optimization
-- **Lazy Loading**: On-demand module loading
-- **Caching**: @delon/cache implementation
-- **Virtual Scrolling**: Large dataset handling
-
-## ng-alain Specific Patterns
-
-### Admin Panel Patterns
-- **ST (Simple Table)**: Data table with built-in features
-- **SE (Search Engine)**: Advanced search and filtering
-- **ACL Integration**: Role-based access control
-- **Theme Integration**: Dynamic theming support
-
-### Form Patterns
-- **Schema-driven Forms**: JSON schema form generation
-- **Validation Patterns**: Built-in and custom validators
-- **Dynamic Forms**: Runtime form generation
-- **Form State Management**: Reactive form patterns
-
-### Layout Patterns
-- **Responsive Layout**: Mobile-first design approach
-- **Sidebar Navigation**: Collapsible navigation
-- **Breadcrumb Navigation**: Hierarchical navigation
-- **Header Actions**: Toolbar and action buttons
-
-## Modern Angular Patterns
-
-### Standalone Component Patterns
-- **Component Definition**: Using standalone: true for all components
-- **Import Management**: Explicit imports array for dependencies
-- **Module Elimination**: Removing NgModule declarations
-- **Bootstrap Application**: Using bootstrapApplication instead of bootstrapModule
-
-### Functional Guard Patterns
-- **CanActivateFn**: Using functional guards instead of class-based guards
-- **inject() Usage**: Modern dependency injection with inject() function
-- **Guard Composition**: Combining multiple functional guards
-- **Type Safety**: Leveraging TypeScript for guard parameter types
-
-### State Management Patterns
-- **Service-based State**: Centralized state management with Angular services
-- **RxJS Integration**: Observable-based data flow
-- **URL as State**: Using router state for application state
-- **Local Component State**: Component-scoped state management
-
-### Template Patterns
-- **Native Control Flow**: Using @if, @for, @switch instead of structural directives
-- **Template Inlining**: Inline templates for components <150 lines
-- **Separated Templates**: External templates for complex components
-- **Grid Layout**: CSS Grid for card-based layouts
-
-## ng-alain Development Patterns
-
-### Component Development Patterns
-- **Standalone Component Template**: Complete standalone component with inject() DI
-- **Component Size Limits**: <100 lines inline, 100-300 lines consider separation, >300 lines must separate
-- **Single Responsibility**: Each component handles one specific responsibility
-- **OnPush Strategy**: All components use OnPush change detection for optimal performance
-
-### Service Development Patterns
-- **Injectable providedIn root**: All services use providedIn: 'root' for tree-shaking
-- **@delon/theme _HttpClient**: Use @delon's _HttpClient wrapper for unified error handling
-- **RESTful API Convention**: Strict adherence to REST standards with proper HTTP methods
-- **Observable Return Types**: All service methods return Observable, not Promise
-
-### Guard Development Patterns
-- **Functional Guard Template**: Use CanActivateFn instead of class-based guards
-- **Guard Naming Convention**: Feature + Permission Level + Guard (e.g., orgOwnerGuard)
-- **Error Handling**: Complete error handling with user notifications
-- **Permission Validation**: Always validate input parameters before processing
-
-### Routing Development Patterns
-- **Layered Route Structure**: Layout → Feature Module → Sub-features
-- **Route Data for Metadata**: All routes should have data properties (title, permission)
-- **Lazy Loading**: Use loadComponent for optimal bundle splitting
-- **Route Guards**: Implement appropriate guards for route protection
-
-### Styling Development Patterns
-- **BEM Naming Convention**: Block__Element--Modifier pattern
-- **CSS Grid for Layouts**: Prefer CSS Grid over Flexbox for responsive layouts
-- **Design Tokens**: Use Less variables for consistent design system
-- **Mobile-First**: Responsive design with mobile-first approach
-
-### Performance Optimization Patterns
-- **trackBy in @for Loops**: All @for loops must use track for performance
-- **OnPush + Manual detectChanges**: Explicit change detection control
-- **Lazy Load Heavy Dependencies**: Load heavy dependencies on-demand
-- **Bundle Optimization**: Tree shaking, code splitting, bundle analysis
-
-### Security Patterns
-- **Input Validation**: Always validate user inputs
-- **Complete Error Handling**: Comprehensive error handling with user feedback
-- **Avoid Function Calls in Templates**: Use pipes or pre-computed values
-- **Safe Navigation**: Use safe navigation operators and null checks
-
-### Data Model Patterns
-- **Interface for Data**: Use interfaces for data structures, enums for constants
-- **Separate Request/Response Types**: Different interfaces for different operations
-- **Type Safety**: Strict TypeScript configuration with no any types
-- **Immutable Updates**: Use spread operator for immutable state updates
-
-### Mock Data Patterns
-- **Complete CRUD Operations**: Mock must support full CRUD operations
-- **Realistic Data Relationships**: Mock data should simulate real business logic
-- **Query Parameter Support**: Support for pagination, search, and filtering
-- **Memory Persistence**: Mock data should persist in memory during session
-
-### Dependency Management Patterns
-- **Lock Major Versions**: Use ^ for patch updates, lock major versions
-- **Regular Updates**: Monthly dependency updates with careful testing
-- **Version Compatibility**: Ensure Angular and ng-alain version compatibility
-- **Tree Shaking**: Use providedIn: 'root' for optimal tree shaking
-
-### Internationalization Patterns
-- **i18n for All Text**: Use i18n pipe for all user-facing text
-- **Namespace Organization**: Feature.component.element naming structure
-- **Translation Keys**: Consistent translation key structure
-- **Fallback Handling**: Proper fallback for missing translations
-
-## Development Principles Integration
-
-### Component Development Principles
-- **Standalone Component Template**: Complete standalone component with inject() DI
-- **Component Size Limits**: <100 lines inline, 100-300 lines consider separation, >300 lines must separate
-- **Single Responsibility**: Each component handles one specific responsibility
-- **OnPush Strategy**: All components use OnPush change detection for optimal performance
-
-### Service Development Principles
-- **Injectable providedIn root**: All services use providedIn: 'root' for tree-shaking
-- **@delon/theme _HttpClient**: Use @delon's _HttpClient wrapper for unified error handling
-- **RESTful API Convention**: Strict adherence to REST standards with proper HTTP methods
-- **Observable Return Types**: All service methods return Observable, not Promise
-
-### Guard Development Principles
-- **Functional Guard Template**: Use CanActivateFn instead of class-based guards
-- **Guard Naming Convention**: Feature + Permission Level + Guard (e.g., orgOwnerGuard)
-- **Error Handling**: Complete error handling with user notifications
-- **Permission Validation**: Always validate input parameters before processing
-
-### Routing Development Principles
-- **Layered Route Structure**: Layout → Feature Module → Sub-features
-- **Route Data for Metadata**: All routes should have data properties (title, permission)
-- **Lazy Loading**: Use loadComponent for optimal bundle splitting
-- **Route Guards**: Implement appropriate guards for route protection
-
-### Styling Development Principles
-- **BEM Naming Convention**: Block__Element--Modifier pattern
-- **CSS Grid for Layouts**: Prefer CSS Grid over Flexbox for responsive layouts
-- **Design Tokens**: Use Less variables for consistent design system
-- **Mobile-First**: Responsive design with mobile-first approach
-
-### Performance Optimization Principles
-- **trackBy in @for Loops**: All @for loops must use track for performance
-- **OnPush + Manual detectChanges**: Explicit change detection control
-- **Lazy Load Heavy Dependencies**: Load heavy dependencies on-demand
-- **Bundle Optimization**: Tree shaking, code splitting, bundle analysis
-
-### Security Principles
-- **Input Validation**: Always validate user inputs
-- **Complete Error Handling**: Comprehensive error handling with user feedback
-- **Avoid Function Calls in Templates**: Use pipes or pre-computed values
-- **Safe Navigation**: Use safe navigation operators and null checks
-
-### Data Model Principles
-- **Interface for Data**: Use interfaces for data structures, enums for constants
-- **Separate Request/Response Types**: Different interfaces for different operations
-- **Type Safety**: Strict TypeScript configuration with no any types
-- **Immutable Updates**: Use spread operator for immutable state updates
-
-### Mock Data Principles
-- **Complete CRUD Operations**: Mock must support full CRUD operations
-- **Realistic Data Relationships**: Mock data should simulate real business logic
-- **Query Parameter Support**: Support for pagination, search, and filtering
-- **Memory Persistence**: Mock data should persist in memory during session
-
-### Dependency Management Principles
-- **Lock Major Versions**: Use ^ for patch updates, lock major versions
-- **Regular Updates**: Monthly dependency updates with careful testing
-- **Version Compatibility**: Ensure Angular and ng-alain version compatibility
-- **Tree Shaking**: Use providedIn: 'root' for optimal tree shaking
-
-### Internationalization Principles
-- **i18n for All Text**: Use i18n pipe for all user-facing text
-- **Namespace Organization**: Feature.component.element naming structure
-- **Translation Keys**: Consistent translation key structure
-- **Fallback Handling**: Proper fallback for missing translations
-
-### Code Review Checklist
-- **Architecture**: Standalone components, lazy loading, proper guards, providedIn: 'root'
-- **Performance**: OnPush strategy, trackBy in loops, avoid function calls in templates
-- **Type Safety**: All parameters typed, avoid any, Observable return types
-- **User Experience**: Loading states, empty states, error notifications, responsive design
-- **Code Quality**: ESLint compliance, Stylelint compliance, proper comments, README files
-  
-### Performance Patterns
-- **OnPush Strategy**: Change detection optimization
-- **TrackBy Functions**: Optimized list rendering with trackBy
-- **Lazy Loading**: On-demand module loading
-- **Caching**: @delon/cache implementation
-- **Virtual Scrolling**: Large dataset handling
-- **Bundle Optimization**: Tree-shaking and code splitting
-
-### Error Handling Patterns
-- **Observable Error Handling**: catchError operator usage
-- **User Feedback**: Notification service integration
-- **Graceful Degradation**: Fallback behaviors
-- **Error Logging**: Console error logging with context
-
-### Form Patterns
-- **Reactive Forms**: FormGroup and FormControl usage
-- **Schema-driven Forms**: JSON schema form generation
-- **Validation Patterns**: Built-in and custom validators
-- **Dynamic Forms**: Runtime form generation
-- **Form State Management**: Reactive form patterns
-
-### Testing Patterns
-- **Unit Testing**: Jasmine + Karma setup
-- **Component Testing**: Angular Testing Utilities
-- **E2E Testing**: Protractor integration
-- **Mock Data**: @delon/mock integration
-- **Test Structure**: Arrange, Act, Assert pattern
-- **Coverage Requirements**: >80% code coverage
-
-### Security Patterns
-- **Route Guards**: Functional guards for route protection
-- **ACL Integration**: Role-based access control
-- **Input Validation**: Form validation and sanitization
-- **Token Management**: Secure token handling
-- **Session Management**: Proper session handling
+### 運行時優化
+- **OnPush Strategy**: 40-60% 性能提升
+- **Lazy Loading**: 按需模組載入
+- **Virtual Scrolling**: 大資料集處理
+- **Subscription Cleanup**: 記憶體管理
