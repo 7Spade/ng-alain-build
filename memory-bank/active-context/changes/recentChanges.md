@@ -1,5 +1,72 @@
 # 最近變更
 
+## 2025-10-07 深夜 - 修復 organization 模組 TypeScript 錯誤
+### 變更內容
+- **organization/routes.ts** - 修復守衛導入錯誤:
+  - 修復：將 `authGuard` from `@core` 改為 `authSimpleCanActivate` from `@delon/auth`
+  - 原因：@core 模組沒有匯出 authGuard，應使用 ng-alain 官方認證守衛
+  - 使用正確的 @delon/auth 認證守衛
+
+- **organization.guard.ts** - 修復 ACL API 使用錯誤:
+  - 修復：將 `aclService.can().pipe()` 改為直接使用 `aclService.can()`
+  - 原因：ACL 的 can() 和 canAbility() 方法返回 boolean，不是 Observable
+  - 影響 5 個守衛函數：organizationGuard, organizationEditGuard, departmentManageGuard, employeeManageGuard, roleManageGuard
+  - 移除不必要的 RxJS 導入（of, map, catchError）
+  - 改為同步權限檢查，直接返回 boolean
+
+- **organization/routes.ts** - 暫時註釋未實現的組件路由:
+  - 註釋所有懶加載組件路由（6 個組件尚未實現）
+  - 組件：organization-tree, department-list, department-detail, employee-list, employee-detail, role-management
+  - 保留路由結構和配置，添加 TODO 註釋
+  - 待 components/ 目錄和組件實現後再啟用
+
+### 檔案清單
+- 修改：2 個文件
+  - src/app/routes/organization/routes.ts
+  - src/app/routes/organization/guards/organization.guard.ts
+
+### 錯誤修復統計
+- ✅ 修復 authGuard 導入錯誤（1 個）
+- ✅ 修復 ACL API 類型錯誤（5 個：boolean.pipe()）
+- ✅ 修復組件不存在錯誤（6 個：懶加載失敗）
+- ✅ 總計修復 12 個 TypeScript 錯誤
+
+### 影響評估
+- **範圍**: organization 模組路由和守衛
+- **風險**: 極低（修復錯誤，不改變邏輯）
+- **效益**: 修復所有編譯錯誤，代碼可正常編譯
+- **測試**: Linter 驗證通過，無錯誤
+
+### 修復成效
+- ✅ 12 個 TypeScript 錯誤 → 0 個錯誤
+- ✅ 使用正確的 @delon/auth 守衛（authSimpleCanActivate）
+- ✅ 使用正確的 ACL API（同步 boolean 返回）
+- ✅ 保留 organization 模組結構（models, services, guards）
+- ✅ 為未來組件實現保留路由配置（已註釋）
+- ✅ 通過 Linter 驗證，無錯誤
+
+### 技術說明
+**ACL API 正確用法**：
+```typescript
+// ❌ 錯誤：期望 Observable
+aclService.can('permission').pipe(...)
+
+// ✅ 正確：直接使用 boolean
+const hasPerm = aclService.can('permission');
+if (!hasPerm) { router.navigate(['/403']); return false; }
+```
+
+**或使用 @delon/acl 的官方守衛**：
+```typescript
+// 在 routes 中使用
+{
+  canActivate: [aclCanActivate],
+  data: { guard: 'role-name' }
+}
+```
+
+---
+
 ## 2025-10-07 深夜 - 移除所有社交登入功能
 ### 變更內容
 - **passport/login** - 完全移除社交登入功能:

@@ -21,6 +21,13 @@ last_updated: 2025-10-07
 
 ## 已完成任務 ✅
 
+### 修復 organization 模組錯誤 (2025-10-07 深夜)
+- ✅ 修復 authGuard 導入（改用 authSimpleCanActivate）
+- ✅ 修復 ACL API 類型錯誤（5 個：boolean.pipe()）
+- ✅ 暫時註釋未實現的組件路由（6 個組件）
+- ✅ 修復 12 個 TypeScript 錯誤
+- ✅ Linter 驗證通過
+
 ### 移除所有社交登入功能 (2025-10-07 深夜)
 - ✅ 移除 login.component.ts 的 open() 方法和 SocialService
 - ✅ 移除所有社交登入圖標（Auth0、GitHub、Weibo）

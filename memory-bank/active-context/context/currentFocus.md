@@ -11,6 +11,12 @@
 - **複雜度**: Level 2
 
 ## 最新完成（2025-10-07）
+- ✅ **修復 organization 模組 TypeScript 錯誤**
+  - 修復 authGuard 導入錯誤（改用 authSimpleCanActivate）
+  - 修復 ACL API 使用錯誤（boolean.pipe() → 同步 boolean）
+  - 暫時註釋 6 個未實現的組件路由
+  - 修復 12 個 TypeScript 錯誤，通過 Linter 驗證
+
 - ✅ **移除所有社交登入功能**
   - 完全移除社交登入（Auth0、GitHub、Weibo）
   - 移除 SocialService 和 CallbackComponent

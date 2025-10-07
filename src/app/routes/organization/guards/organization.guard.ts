@@ -8,8 +8,6 @@ import type { CanActivateFn } from '@angular/router';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
 
 /**
  * 組織管理權限守衛
@@ -28,26 +26,19 @@ export const organizationGuard: CanActivateFn = (route, state) => {
     return true;
   }
   
-  // 檢查權限
-  return aclService.canAbility(requiredPermissions).pipe(
-    map(hasPermission => {
-      if (!hasPermission) {
-        notification.error(
-          '權限不足',
-          '您沒有訪問此頁面的權限，請聯繫管理員'
-        );
-        router.navigate(['/403']);
-        return false;
-      }
-      return true;
-    }),
-    catchError(err => {
-      console.error('權限驗證失敗', err);
-      notification.error('錯誤', '權限驗證失敗，請稍後再試');
-      router.navigate(['/error']);
-      return of(false);
-    })
-  );
+  // 檢查權限（ACL can 方法返回 boolean）
+  const hasPermission = aclService.canAbility(requiredPermissions);
+  
+  if (!hasPermission) {
+    notification.error(
+      '權限不足',
+      '您沒有訪問此頁面的權限，請聯繫管理員'
+    );
+    router.navigate(['/403']);
+    return false;
+  }
+  
+  return true;
 };
 
 /**
@@ -57,20 +48,17 @@ export const organizationGuard: CanActivateFn = (route, state) => {
 export const organizationEditGuard: CanActivateFn = (route, state) => {
   const aclService = inject(ACLService);
   const notification = inject(NzNotificationService);
+  const router = inject(Router);
   
-  return aclService.can('organization.edit').pipe(
-    map(canEdit => {
-      if (!canEdit) {
-        notification.warning('權限不足', '您沒有編輯組織的權限');
-        return false;
-      }
-      return true;
-    }),
-    catchError(err => {
-      console.error('權限驗證失敗', err);
-      return of(false);
-    })
-  );
+  const canEdit = aclService.can('organization.edit');
+  
+  if (!canEdit) {
+    notification.warning('權限不足', '您沒有編輯組織的權限');
+    router.navigate(['/403']);
+    return false;
+  }
+  
+  return true;
 };
 
 /**
@@ -80,20 +68,17 @@ export const organizationEditGuard: CanActivateFn = (route, state) => {
 export const departmentManageGuard: CanActivateFn = (route, state) => {
   const aclService = inject(ACLService);
   const notification = inject(NzNotificationService);
+  const router = inject(Router);
   
-  return aclService.can('department.manage').pipe(
-    map(canManage => {
-      if (!canManage) {
-        notification.warning('權限不足', '您沒有管理部門的權限');
-        return false;
-      }
-      return true;
-    }),
-    catchError(err => {
-      console.error('權限驗證失敗', err);
-      return of(false);
-    })
-  );
+  const canManage = aclService.can('department.manage');
+  
+  if (!canManage) {
+    notification.warning('權限不足', '您沒有管理部門的權限');
+    router.navigate(['/403']);
+    return false;
+  }
+  
+  return true;
 };
 
 /**
@@ -103,20 +88,17 @@ export const departmentManageGuard: CanActivateFn = (route, state) => {
 export const employeeManageGuard: CanActivateFn = (route, state) => {
   const aclService = inject(ACLService);
   const notification = inject(NzNotificationService);
+  const router = inject(Router);
   
-  return aclService.can('employee.manage').pipe(
-    map(canManage => {
-      if (!canManage) {
-        notification.warning('權限不足', '您沒有管理員工的權限');
-        return false;
-      }
-      return true;
-    }),
-    catchError(err => {
-      console.error('權限驗證失敗', err);
-      return of(false);
-    })
-  );
+  const canManage = aclService.can('employee.manage');
+  
+  if (!canManage) {
+    notification.warning('權限不足', '您沒有管理員工的權限');
+    router.navigate(['/403']);
+    return false;
+  }
+  
+  return true;
 };
 
 /**
@@ -126,19 +108,16 @@ export const employeeManageGuard: CanActivateFn = (route, state) => {
 export const roleManageGuard: CanActivateFn = (route, state) => {
   const aclService = inject(ACLService);
   const notification = inject(NzNotificationService);
+  const router = inject(Router);
   
-  return aclService.can('role.manage').pipe(
-    map(canManage => {
-      if (!canManage) {
-        notification.warning('權限不足', '您沒有管理角色的權限');
-        return false;
-      }
-      return true;
-    }),
-    catchError(err => {
-      console.error('權限驗證失敗', err);
-      return of(false);
-    })
-  );
+  const canManage = aclService.can('role.manage');
+  
+  if (!canManage) {
+    notification.warning('權限不足', '您沒有管理角色的權限');
+    router.navigate(['/403']);
+    return false;
+  }
+  
+  return true;
 };
 

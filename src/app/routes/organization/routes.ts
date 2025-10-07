@@ -4,7 +4,7 @@
  */
 
 import type { Routes } from '@angular/router';
-import { authGuard } from '@core';
+import { authSimpleCanActivate } from '@delon/auth';
 import { organizationGuard } from './guards/organization.guard';
 
 /**
@@ -13,8 +13,12 @@ import { organizationGuard } from './guards/organization.guard';
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [authGuard],
+    canActivate: [authSimpleCanActivate],
     children: [
+      // TODO: 組織管理組件尚未實現，暫時註釋所有路由
+      // 待組件開發完成後再啟用以下路由配置
+      
+      /*
       // 重定向到組織架構頁面
       {
         path: '',
@@ -111,12 +115,7 @@ export const routes: Routes = [
         },
         canActivate: [organizationGuard]
       },
-      
-      // 404 - 未找到頁面
-      {
-        path: '**',
-        redirectTo: 'structure'
-      }
+      */
     ]
   }
 ];
