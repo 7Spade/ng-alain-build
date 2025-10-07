@@ -1,3 +1,18 @@
+---
+type: design-decisions
+category: technical-decisions
+complexity: intermediate
+target_audience: [developer, architect, designer]
+reading_time: 10min
+tags: [decisions, ui-ux, technical-stack, permissions, i18n]
+summary: 專案的核心設計決策記錄，包括 UI/UX、技術堆疊、權限系統和國際化策略
+related_files:
+  - org-switcher-design.md
+  - ../../exploration/technologyExploration.md
+  - ../../alternatives/alternativeSolutions.md
+last_updated: 2025-10-07
+---
+
 # 設計決策
 
 ## UI/UX 決策

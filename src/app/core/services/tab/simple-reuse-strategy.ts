@@ -183,7 +183,8 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
       this.runHook('_onReuseInit', SimpleReuseStrategy.handlers[futureKey].componentRef);
     }
 
-    const result = futureKey === currKey;
+    // 若任一方沒有 key，退回 Angular 預設：僅當 routeConfig 相同才復用
+    const result = !!futureKey && !!currKey ? futureKey === currKey : future.routeConfig === curr.routeConfig;
     
     // 懶加載讀取不到 data，通過此方法下鑽到最下一級路由
     while (future.firstChild) {

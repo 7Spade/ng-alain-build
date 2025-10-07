@@ -1,3 +1,18 @@
+---
+type: architecture
+category: project-architecture
+complexity: advanced
+target_audience: [architect, senior-developer]
+reading_time: 20min
+tags: [architecture, design, layers, structure, diagrams]
+summary: ng-alain 專案的完整架構設計，包含系統分層、數據流、狀態管理和路由架構的視覺化說明
+related_files:
+  - architectureDecisions.md
+  - designPhilosophy.md
+  - README.md
+last_updated: 2025-10-07
+---
+
 # 專案架構
 
 ## 🚀 快速導覽

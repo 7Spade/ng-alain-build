@@ -1,3 +1,17 @@
+---
+type: changelog
+category: recent-changes
+complexity: intermediate
+target_audience: [developer, architect, team]
+reading_time: 15min
+tags: [changes, updates, history, timeline]
+summary: 專案最近變更和重要更新的詳細記錄
+related_files:
+  - README.md
+  - ../status/systemStatus.md
+last_updated: 2025-10-07
+---
+
 # 最近變更
 
 ## 2025-10-07 深夜 - 組織切換器設計完成（與 Tab 系統集成）

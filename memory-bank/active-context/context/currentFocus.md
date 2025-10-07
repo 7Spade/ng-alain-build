@@ -1,3 +1,17 @@
+---
+type: active-context
+category: current-focus
+complexity: dynamic
+target_audience: [developer, architect]
+reading_time: 5min
+tags: [current-work, focus, tasks, priorities]
+summary: 當前正在進行的工作焦點和任務優先級
+related_files:
+  - enhancement-opportunities.md
+  - ../status/systemStatus.md
+last_updated: 2025-10-07
+---
+
 # 當前工作焦點
 
 ## 2025-10-07 深夜 - 組織切換器設計完成（與 Tab 系統完美集成）
