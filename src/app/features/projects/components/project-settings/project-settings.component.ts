@@ -203,6 +203,7 @@ export class ProjectSettingsComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         return new Promise((resolve, reject) => {
+          // TODO: [OPTIMIZATION] Promise 內的訂閱應該妥善處理錯誤，避免未處理的 rejection
           this.projectService.deleteProject(projectId).subscribe({
             next: () => {
               this.message.success('專案已刪除');

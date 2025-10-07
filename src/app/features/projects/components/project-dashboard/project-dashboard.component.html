@@ -1,156 +1,131 @@
 <!-- 載入中 -->
 @if (loading()) {
-  <div class="text-center py-lg">
-    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
-  </div>
+<div class="text-center py-lg">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
 }
 
 <!-- 儀表板內容 -->
 @if (!loading() && project()) {
-  <div class="project-dashboard">
-    <!-- 統計卡片 -->
-    <div nz-row [nzGutter]="[16, 16]" class="mb-lg">
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="project()!.fileCount"
-            [nzTitle]="'檔案數量'"
-            [nzPrefix]="fileIcon"
-          ></nz-statistic>
-          <ng-template #fileIcon>
-            <span nz-icon nzType="file" nzTheme="outline"></span>
-          </ng-template>
-        </nz-card>
-      </div>
-
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="formatStorage(project()!.storageUsed)"
-            [nzTitle]="'儲存空間'"
-            [nzPrefix]="storageIcon"
-          ></nz-statistic>
-          <ng-template #storageIcon>
-            <span nz-icon nzType="database" nzTheme="outline"></span>
-          </ng-template>
-        </nz-card>
-      </div>
-
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="project()!.memberCount"
-            [nzTitle]="'成員數量'"
-            [nzPrefix]="memberIcon"
-          ></nz-statistic>
-          <ng-template #memberIcon>
-            <span nz-icon nzType="team" nzTheme="outline"></span>
-          </ng-template>
-        </nz-card>
-      </div>
-
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-card>
-          <nz-statistic
-            [nzValue]="0"
-            [nzTitle]="'活動數量'"
-            [nzPrefix]="activityIcon"
-          ></nz-statistic>
-          <ng-template #activityIcon>
-            <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
-          </ng-template>
-        </nz-card>
-      </div>
+<div class="project-dashboard">
+  <!-- 統計卡片 -->
+  <div nz-row [nzGutter]="[16, 16]" class="mb-lg">
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
+      <nz-card>
+        <nz-statistic [nzValue]="project()!.fileCount" [nzTitle]="'檔案數量'" [nzPrefix]="fileIcon"></nz-statistic>
+        <ng-template #fileIcon>
+          <span nz-icon nzType="file" nzTheme="outline"></span>
+        </ng-template>
+      </nz-card>
     </div>
 
-    <!-- 專案資訊 + 最近檔案 -->
-    <div nz-row [nzGutter]="[16, 16]">
-      <!-- 專案資訊 -->
-      <div nz-col [nzXs]="24" [nzMd]="12">
-        <nz-card nzTitle="專案資訊">
-          <div class="info-list">
-            <div class="info-item">
-              <span class="info-label">專案 ID：</span>
-              <span class="info-value">{{ project()!.id }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">擁有者類型：</span>
-              <span class="info-value">{{ getOwnerTypeText(project()!.ownerType) }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">可見性：</span>
-              <span class="info-value">{{ getVisibilityText(project()!.visibility) }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">狀態：</span>
-              <span class="info-value">{{ project()!.status === 'active' ? '活躍' : '已歸檔' }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">創建時間：</span>
-              <span class="info-value">{{ formatDate(project()!.createdAt) }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">最後更新：</span>
-              <span class="info-value">{{ formatDate(project()!.updatedAt) }}</span>
-            </div>
-          </div>
-        </nz-card>
-      </div>
-
-      <!-- 最近檔案 -->
-      <div nz-col [nzXs]="24" [nzMd]="12">
-        <nz-card nzTitle="最近檔案">
-          @if (recentFiles().length === 0) {
-            <nz-empty nzNotFoundContent="暫無檔案"></nz-empty>
-          } @else {
-            <nz-list [nzDataSource]="recentFiles()" [nzRenderItem]="fileItem">
-              <ng-template #fileItem let-file>
-                <nz-list-item>
-                  <nz-list-item-meta
-                    [nzAvatar]="fileAvatar"
-                    [nzTitle]="file.name"
-                    [nzDescription]="formatFileSize(file.size) + ' · ' + formatDate(file.uploadedAt)"
-                  >
-                    <ng-template #fileAvatar>
-                      <nz-avatar 
-                        [nzIcon]="getFileIcon(file)"
-                        [nzSize]="32"
-                      ></nz-avatar>
-                    </ng-template>
-                  </nz-list-item-meta>
-                </nz-list-item>
-              </ng-template>
-            </nz-list>
-          }
-        </nz-card>
-      </div>
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
+      <nz-card>
+        <nz-statistic [nzValue]="formatStorage(project()!.storageUsed)" [nzTitle]="'儲存空間'"
+          [nzPrefix]="storageIcon"></nz-statistic>
+        <ng-template #storageIcon>
+          <span nz-icon nzType="database" nzTheme="outline"></span>
+        </ng-template>
+      </nz-card>
     </div>
 
-    <!-- 專案成員 -->
-    <div nz-row [nzGutter]="[16, 16]" class="mt-md">
-      <div nz-col [nzSpan]="24">
-        <nz-card nzTitle="專案成員">
-          @if (members().length === 0) {
-            <nz-empty nzNotFoundContent="暫無成員"></nz-empty>
-          } @else {
-            <div class="members-grid">
-              @for (member of members(); track member.id) {
-                <div class="member-item">
-                  <nz-avatar 
-                    [nzSize]="48"
-                    [nzIcon]="'user'"
-                  ></nz-avatar>
-                  <div class="member-info">
-                    <div class="member-name">成員 {{ member.userId }}</div>
-                    <div class="member-role">{{ member.role }}</div>
-                  </div>
-                </div>
-              }
-            </div>
-          }
-        </nz-card>
-      </div>
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
+      <nz-card>
+        <nz-statistic [nzValue]="project()!.memberCount" [nzTitle]="'成員數量'" [nzPrefix]="memberIcon"></nz-statistic>
+        <ng-template #memberIcon>
+          <span nz-icon nzType="team" nzTheme="outline"></span>
+        </ng-template>
+      </nz-card>
+    </div>
+
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
+      <nz-card>
+        <nz-statistic [nzValue]="0" [nzTitle]="'活動數量'" [nzPrefix]="activityIcon"></nz-statistic>
+        <ng-template #activityIcon>
+          <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+        </ng-template>
+      </nz-card>
     </div>
   </div>
-}
 
+  <!-- 專案資訊 + 最近檔案 -->
+  <div nz-row [nzGutter]="[16, 16]">
+    <!-- 專案資訊 -->
+    <div nz-col [nzXs]="24" [nzMd]="12">
+      <nz-card nzTitle="專案資訊">
+        <div class="info-list">
+          <div class="info-item">
+            <span class="info-label">專案 ID：</span>
+            <span class="info-value">{{ project()!.id }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">擁有者類型：</span>
+            <span class="info-value">{{ getOwnerTypeText(project()!.ownerType) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">可見性：</span>
+            <span class="info-value">{{ getVisibilityText(project()!.visibility) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">狀態：</span>
+            <span class="info-value">{{ project()!.status === 'active' ? '活躍' : '已歸檔' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">創建時間：</span>
+            <span class="info-value">{{ formatDate(project()!.createdAt) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">最後更新：</span>
+            <span class="info-value">{{ formatDate(project()!.updatedAt) }}</span>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+
+    <!-- 最近檔案 -->
+    <div nz-col [nzXs]="24" [nzMd]="12">
+      <nz-card nzTitle="最近檔案">
+        @if (recentFiles().length === 0) {
+        <nz-empty nzNotFoundContent="暫無檔案"></nz-empty>
+        } @else {
+        <nz-list [nzDataSource]="recentFiles()" [nzRenderItem]="fileItem">
+          <ng-template #fileItem let-file>
+            <nz-list-item>
+              <nz-list-item-meta [nzAvatar]="fileAvatar" [nzTitle]="file.name"
+                [nzDescription]="formatFileSize(file.size) + ' · ' + formatDate(file.uploadedAt)">
+                <ng-template #fileAvatar>
+                  <nz-avatar [nzIcon]="getFileIcon(file)" [nzSize]="32"></nz-avatar>
+                </ng-template>
+              </nz-list-item-meta>
+            </nz-list-item>
+          </ng-template>
+        </nz-list>
+        }
+      </nz-card>
+    </div>
+  </div>
+
+  <!-- 專案成員 -->
+  <div nz-row [nzGutter]="[16, 16]" class="mt-md">
+    <div nz-col [nzSpan]="24">
+      <nz-card nzTitle="專案成員">
+        @if (members().length === 0) {
+        <nz-empty nzNotFoundContent="暫無成員"></nz-empty>
+        } @else {
+        <div class="members-grid">
+          @for (member of members(); track member.id) {
+          <div class="member-item">
+            <nz-avatar [nzSize]="48" [nzIcon]="'user'"></nz-avatar>
+            <div class="member-info">
+              <div class="member-name">成員 {{ member.userId }}</div>
+              <div class="member-role">{{ member.role }}</div>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </nz-card>
+    </div>
+  </div>
+</div>
+}
