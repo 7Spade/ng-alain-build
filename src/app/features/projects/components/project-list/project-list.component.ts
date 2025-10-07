@@ -16,14 +16,18 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 
 // @delon
 import { PageHeaderComponent } from '@shared';
 import { format } from 'date-fns';
 
-// Services
+// Services & Models
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
+import { PROJECT_STATUS_COLORS, PROJECT_DEFAULT_COLOR } from '../../models/project.constants';
+import { formatStorage } from '@shared';
+import { ProjectFormComponent } from '../project-form/project-form.component';
 
 /**
  * 專案列表組件
@@ -56,7 +60,8 @@ import { Project } from '../../models/project.model';
     NzStatisticModule,
     NzEmptyModule,
     NzSpinModule,
-    NzAvatarModule
+    NzAvatarModule,
+    NzModalModule
   ],
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.less'],
@@ -65,6 +70,7 @@ import { Project } from '../../models/project.model';
 export class ProjectListComponent implements OnInit {
   private readonly projectService = inject(ProjectService);
   private readonly router = inject(Router);
+  private readonly modal = inject(NzModalService);
 
   // 狀態管理（Signals）
   projects = signal<Project[]>([]);
@@ -182,10 +188,24 @@ export class ProjectListComponent implements OnInit {
 
   /**
    * 新建專案
+   * 打開 Modal 表單
    */
   createProject(): void {
-    // TODO: 打開新建專案 Modal
-    console.log('新建專案');
+    const modalRef = this.modal.create({
+      nzTitle: '新建專案',
+      nzContent: ProjectFormComponent,
+      nzWidth: 600,
+      nzFooter: null, // 使用組件內的自定義 footer
+      nzMaskClosable: false
+    });
+
+    // 監聽 Modal 關閉事件
+    modalRef.afterClose.subscribe(result => {
+      if (result) {
+        // 如果返回了專案資料，重新載入列表
+        this.loadProjects();
+      }
+    });
   }
 
   /**
@@ -205,35 +225,22 @@ export class ProjectListComponent implements OnInit {
   /**
    * 格式化儲存空間
    */
-  // TODO: [OPTIMIZATION] Code Duplication - formatStorage 工具函數重複（第3次）
-  // 建議：使用共享的 src/app/shared/utils/file-size.util.ts
   formatStorage(bytes: number): string {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return formatStorage(bytes);
   }
 
   /**
    * 獲取專案圖標顏色
    */
   getProjectColor(project: Project): string {
-    return project.color || '#1890ff';
+    return project.color || PROJECT_DEFAULT_COLOR;
   }
 
   /**
    * 獲取狀態標籤顏色
    */
   getStatusColor(status: string): string {
-    switch (status) {
-      case 'active':
-        return 'success';
-      case 'archived':
-        return 'default';
-      default:
-        return 'default';
-    }
+    return PROJECT_STATUS_COLORS[status as keyof typeof PROJECT_STATUS_COLORS] || 'default';
   }
 
   /**

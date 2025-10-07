@@ -19,6 +19,7 @@ export * from './pipes/html.pipe';
 export * from './utils/yuan';
 export * from './utils/tree-table-tools';
 export * from './utils/tools';
+export * from './utils/file-size.util';
 
 // Module
 export * from './shared-imports';

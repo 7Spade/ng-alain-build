@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { forkJoin } from 'rxjs';
 
 // ng-zorro
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -13,13 +15,18 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
-// Services
+// Services & Models
 import { ProjectService } from '../../services/project.service';
 import { ProjectFileService } from '../../services/project-file.service';
 import { ProjectMemberService } from '../../services/project-member.service';
 import { Project } from '../../models/project.model';
 import { ProjectFile } from '../../models/project-file.model';
 import { ProjectMember } from '../../models/project-member.model';
+import { 
+  PROJECT_VISIBILITY_LABELS, 
+  PROJECT_OWNER_TYPE_LABELS 
+} from '../../models/project.constants';
+import { formatStorage } from '@shared';
 import { format } from 'date-fns';
 
 /**
@@ -60,6 +67,7 @@ export class ProjectDashboardComponent implements OnInit {
   private readonly fileService = inject(ProjectFileService);
   private readonly memberService = inject(ProjectMemberService);
   private readonly route = inject(ActivatedRoute);
+  private readonly destroyRef = inject(DestroyRef);
 
   // 狀態管理
   project = signal<Project | null>(null);
@@ -77,30 +85,30 @@ export class ProjectDashboardComponent implements OnInit {
 
   /**
    * 載入所有資料
+   * 使用 forkJoin 並行載入，比 Promise.all 更好的類型支援
    */
   loadData(projectId: string): void {
     this.loading.set(true);
 
-    // TODO: [OPTIMIZATION] Anti-pattern - toPromise() 已廢棄，應使用 forkJoin + takeUntilDestroyed
-    // 建議：import { forkJoin } from 'rxjs';
-    //      forkJoin({ project: this.projectService.getProject(projectId), ... })
-    //        .pipe(takeUntilDestroyed())
-    //        .subscribe(({ project, fileResponse, memberResponse }) => { ... });
-    // 參考：https://rxjs.dev/deprecations/to-promise
-    // 並行載入專案資訊、檔案、成員
-    Promise.all([
-      this.projectService.getProject(projectId).toPromise(),
-      this.fileService.getFiles({ projectId }).toPromise(),
-      this.memberService.getMembers({ projectId }).toPromise()
-    ]).then(([project, fileResponse, memberResponse]) => {
-      if (project) this.project.set(project);
-      if (fileResponse) this.recentFiles.set(fileResponse.files.slice(0, 5)); // 只顯示最近 5 個
-      if (memberResponse) this.members.set(memberResponse.members.slice(0, 8)); // 只顯示前 8 個
-      this.loading.set(false);
-    }).catch(err => {
-      console.error('載入資料失敗', err);
-      this.loading.set(false);
-    });
+    // 使用 forkJoin 並行載入專案資訊、檔案、成員
+    forkJoin({
+      project: this.projectService.getProject(projectId),
+      files: this.fileService.getFiles({ projectId }),
+      members: this.memberService.getMembers({ projectId })
+    })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ project, files, members }) => {
+          this.project.set(project);
+          this.recentFiles.set(files.files.slice(0, 5)); // 只顯示最近 5 個
+          this.members.set(members.members.slice(0, 8)); // 只顯示前 8 個
+          this.loading.set(false);
+        },
+        error: err => {
+          console.error('載入資料失敗', err);
+          this.loading.set(false);
+        }
+      });
   }
 
   /**
@@ -113,22 +121,15 @@ export class ProjectDashboardComponent implements OnInit {
   /**
    * 格式化儲存空間
    */
-  // TODO: [OPTIMIZATION] Code Duplication - formatStorage 在多個組件重複
-  // 建議：提取到 src/app/shared/utils/file-size.util.ts
-  // 與 project-list.component.ts、project-overview.component.ts 共用
   formatStorage(bytes: number): string {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return formatStorage(bytes);
   }
 
   /**
    * 格式化檔案大小
    */
   formatFileSize(bytes: number): string {
-    return this.formatStorage(bytes);
+    return formatStorage(bytes);
   }
 
   /**
@@ -146,22 +147,13 @@ export class ProjectDashboardComponent implements OnInit {
    * 獲取擁有者類型文字
    */
   getOwnerTypeText(ownerType: string): string {
-    return ownerType === 'personal' ? '個人' : '組織';
+    return PROJECT_OWNER_TYPE_LABELS[ownerType as keyof typeof PROJECT_OWNER_TYPE_LABELS] || ownerType;
   }
 
   /**
    * 獲取可見性文字
    */
   getVisibilityText(visibility: string): string {
-    switch (visibility) {
-      case 'public':
-        return '公開';
-      case 'private':
-        return '私有';
-      case 'internal':
-        return '內部';
-      default:
-        return visibility;
-    }
+    return PROJECT_VISIBILITY_LABELS[visibility as keyof typeof PROJECT_VISIBILITY_LABELS] || visibility;
   }
 }

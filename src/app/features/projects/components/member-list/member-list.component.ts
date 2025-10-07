@@ -16,7 +16,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 // Services & Models
 import { ProjectMemberService } from '../../services/project-member.service';
-import { ProjectMember } from '../../models/project-member.model';
+import { 
+  ProjectMember, 
+  PROJECT_ROLE_COLORS, 
+  PROJECT_ROLE_LABELS 
+} from '../../models/project-member.model';
 import { format } from 'date-fns';
 
 /**
@@ -127,41 +131,15 @@ export class MemberListComponent implements OnInit {
   /**
    * 獲取角色標籤顏色
    */
-  // TODO: [OPTIMIZATION] Code Duplication - 專案成員角色邏輯重複
-  // 建議：提取到 src/app/features/projects/models/project-member.constants.ts
-  // 包含：PROJECT_MEMBER_ROLE_COLORS, PROJECT_MEMBER_ROLE_LABELS
   getRoleColor(role: string): string {
-    switch (role) {
-      case 'owner':
-        return 'red';
-      case 'admin':
-        return 'orange';
-      case 'member':
-        return 'blue';
-      case 'viewer':
-        return 'default';
-      default:
-        return 'default';
-    }
+    return PROJECT_ROLE_COLORS[role as keyof typeof PROJECT_ROLE_COLORS] || 'default';
   }
 
   /**
    * 獲取角色文字
    */
-  // TODO: [OPTIMIZATION] Code Duplication - 與 getRoleColor 應一起提取為常數
   getRoleText(role: string): string {
-    switch (role) {
-      case 'owner':
-        return '擁有者';
-      case 'admin':
-        return '管理員';
-      case 'member':
-        return '成員';
-      case 'viewer':
-        return '查看者';
-      default:
-        return role;
-    }
+    return PROJECT_ROLE_LABELS[role as keyof typeof PROJECT_ROLE_LABELS] || role;
   }
 
   /**

@@ -14,9 +14,15 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
-// Services
+// Services & Models
 import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
+import { 
+  PROJECT_VISIBILITY_LABELS, 
+  PROJECT_OWNER_TYPE_LABELS,
+  PROJECT_DEFAULT_COLOR 
+} from '../../models/project.constants';
+import { formatStorage } from '@shared';
 import { format } from 'date-fns';
 
 /**
@@ -115,47 +121,28 @@ export class ProjectOverviewComponent implements OnInit {
   /**
    * 格式化儲存空間
    */
-  // TODO: [OPTIMIZATION] Code Duplication - formatStorage 工具函數重複
-  // 建議：使用共享的 src/app/shared/utils/file-size.util.ts
   formatStorage(bytes: number): string {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return formatStorage(bytes);
   }
 
   /**
    * 獲取專案圖標顏色
    */
   getProjectColor(project: Project): string {
-    return project.color || '#1890ff';
+    return project.color || PROJECT_DEFAULT_COLOR;
   }
 
   /**
    * 獲取可見性文字
    */
-  // TODO: [OPTIMIZATION] Code Duplication - 專案屬性映射邏輯重複
-  // 建議：提取到 src/app/features/projects/models/project.constants.ts
-  // 包含：PROJECT_VISIBILITY_LABELS, PROJECT_OWNER_TYPE_LABELS
   getVisibilityText(visibility: string): string {
-    switch (visibility) {
-      case 'public':
-        return '公開';
-      case 'private':
-        return '私有';
-      case 'internal':
-        return '內部';
-      default:
-        return visibility;
-    }
+    return PROJECT_VISIBILITY_LABELS[visibility as keyof typeof PROJECT_VISIBILITY_LABELS] || visibility;
   }
 
   /**
    * 獲取擁有者類型文字
    */
-  // TODO: [OPTIMIZATION] Code Duplication - 與 getVisibilityText 一起提取為常數
   getOwnerTypeText(ownerType: string): string {
-    return ownerType === 'personal' ? '個人' : '組織';
+    return PROJECT_OWNER_TYPE_LABELS[ownerType as keyof typeof PROJECT_OWNER_TYPE_LABELS] || ownerType;
   }
 }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { Observable, zip, catchError, map } from 'rxjs';
+import { Observable, zip, catchError, map, switchMap, from } from 'rxjs';
 
 import { I18NService } from '../i18n/i18n.service';
 import { ModeService, ModeType } from '../services/mode/mode.service';
@@ -52,7 +52,7 @@ export class StartupService {
         setTimeout(() => this.router.navigateByUrl(`/exception/500`));
         return [];
       }),
-      map(([langData, appData]: [Record<string, string>, NzSafeAny]) => {
+      switchMap(async ([langData, appData]: [Record<string, string>, NzSafeAny]) => {
         // setting language data
         this.i18n.use(defaultLang, langData);
 
@@ -68,7 +68,7 @@ export class StartupService {
         // 初始化組織上下文（多組織切換功能）
         // 注意：這會覆蓋 ModeService 的菜單，所以只在有 userOrganizations 時才初始化
         if (appData.userOrganizations) {
-          this.orgContextService.initialize();
+          await this.orgContextService.initialize();
         } else {
           // 回退到原有的模式切換機制
           const initialMode: ModeType = this.modeService.getCurrentMode();
