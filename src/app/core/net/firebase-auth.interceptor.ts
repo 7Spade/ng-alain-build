@@ -26,6 +26,11 @@ export function firebaseAuthInterceptor(req: HttpRequest<any>, next: HttpHandler
     return next(req);
   }
 
+  // 3. 檢查是否為靜態資源（允許匿名訪問）
+  if (isStaticAsset(req.url)) {
+    return next(req);
+  }
+
   // 3. 獲取 Firebase ID Token
   const currentUser = auth.currentUser;
 
@@ -80,4 +85,17 @@ function isExternalApi(url: string): boolean {
   ];
 
   return externalApiPatterns.some(pattern => pattern.test(url));
+}
+
+/**
+ * 判斷是否為靜態資源
+ * 靜態資源允許匿名訪問
+ */
+function isStaticAsset(url: string): boolean {
+  const staticAssetPatterns = [
+    /^\.?\/assets\//i, // ./assets/ 或 /assets/
+    /\.(json|png|jpg|jpeg|gif|svg|ico|css|less)$/i // 常見靜態資源副檔名
+  ];
+
+  return staticAssetPatterns.some(pattern => pattern.test(url));
 }

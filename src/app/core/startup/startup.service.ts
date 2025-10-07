@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { EnvironmentProviders, Injectable, Provider, inject, provideAppInitializer } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
+import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { Observable, zip, catchError, switchMap } from 'rxjs';
@@ -43,9 +44,13 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
-    // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
-    // this.httpClient.get('/app', { context: new HttpContext().set(ALLOW_ANONYMOUS, this.tokenService.get()?.token ? false : true) })
-    return zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('./assets/tmp/app-data.json')).pipe(
+    // Firebase: 允許匿名訪問應用初始化資料
+    return zip(
+      this.i18n.loadLangData(defaultLang),
+      this.httpClient.get('./assets/tmp/app-data.json', {
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      })
+    ).pipe(
       // 接收其他拦截器后产生的异常消息
       catchError(res => {
         console.warn(`StartupService.load: Network request failed`, res);
