@@ -7,7 +7,7 @@
 ## 📊 統計資訊
 
 - **目錄總數**: 154
-- **文件總數**: 517
+- **文件總數**: 519
 
 ## 📂 目錄結構
 
@@ -26,7 +26,9 @@
 └── docs/
     ├── FIREBASE_AUTHENTICATION_DESIGN_PART2.md
     ├── FIREBASE_AUTHENTICATION_DESIGN.md
+    ├── FIREBASE_FILES_INDEX.md
     ├── FIREBASE_IMPLEMENTATION_SUMMARY.md
+    ├── FIREBASE_QUICK_START.md
     ├── README_FIREBASE_DESIGN.md
 └── memory-bank/
     ├── active-context/

@@ -2,13 +2,13 @@
 
 > 自動生成的程式碼品質檢查報告
 
-**生成時間**: 2025-10-07 17:20:44
+**生成時間**: 2025-10-07 17:22:28
 
 ## 📊 檢查摘要
 
 | 檢查類型 | 狀態 | 結果 |
 |---------|------|------|
-| TypeScript (ESLint) | ❌ 發現問題 | ✖ 2699 problem |
+| TypeScript (ESLint) | ❌ 發現問題 | ✖ 2700 problem |
 | Style (Stylelint) | ❌ 發現問題 | 無錯誤 |
 
 ## 🔍 詳細報告
@@ -651,6 +651,7 @@ C:\Users\user\Downloads\ng-alain-build\src\app\core\net\default.interceptor.ts
    9:1    error    `./firebase-refresh-token` import should occur before import of `./helper`  import/order
   11:80   warning  Unexpected any. Specify a different type                                    @typescript-eslint/no-explicit-any
   11:119  warning  Unexpected any. Specify a different type                                    @typescript-eslint/no-explicit-any
+  41:49   warning  Unexpected any. Specify a different type                                    @typescript-eslint/no-explicit-any
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\net\firebase-auth.interceptor.ts
     1:49  error    'HttpContext' is defined but never used. Allowed unused vars must match /^_/u                                                                                                   @typescript-eslint/no-unused-vars
@@ -2838,7 +2839,7 @@ C:\Users\user\Downloads\ng-alain-build\src\environments\environment.ts
   21:20  error  Delete `···············`  prettier/prettier
   22:21  error  Delete `·············`    prettier/prettier
 
-✖ 2699 problems (2584 errors, 115 warnings)
+✖ 2700 problems (2584 errors, 116 warnings)
   2569 errors and 0 warnings potentially fixable with the `--fix` option.
 ```
 
