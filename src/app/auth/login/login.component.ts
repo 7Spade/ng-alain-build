@@ -34,7 +34,7 @@ import { finalize } from 'rxjs';
     NzIconModule
   ]
 })
-export class UserLoginComponent {
+export class UserLoginComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
   private readonly tokenService = inject(DA_SERVICE_TOKEN);
@@ -56,6 +56,107 @@ export class UserLoginComponent {
   useFirebase = true; // 設為 true 使用 Firebase，false 使用傳統 Mock API
 
   submit(): void {
+    if (this.useFirebase) {
+      this.loginWithFirebase();
+    } else {
+      this.loginWithMockAPI();
+    }
+  }
+
+  /**
+   * Firebase Email/Password 登入
+   */
+  loginWithFirebase(): void {
+    if (!this.useFirebase) {
+      this.message.warning('Firebase 登入未啟用');
+      return;
+    }
+
+    const email = `${this.form.value.userName}@example.com`;
+    const password = this.form.value.password || '';
+
+    this.loading = true;
+    this.error = '';
+    this.cdr.detectChanges();
+
+    this.firebaseAuth.loginWithEmailPassword(email, password).subscribe({
+      next: () => {
+        this.message.success('登入成功');
+        this.loading = false;
+        this.cdr.detectChanges();
+
+        this.reuseTabService?.clear();
+
+        this.startupSrv.load().subscribe(() => {
+          let url = this.tokenService.referrer!.url || '/dashboard';
+          if (url.includes('/passport') || url.includes('/auth')) {
+            url = '/dashboard';
+          }
+          this.router.navigateByUrl(url);
+        });
+      },
+      error: (err: Error) => {
+        this.error = err.message || '登入失敗';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  /**
+   * Google 登入
+   */
+  loginWithGoogle(): void {
+    if (!this.useFirebase) {
+      this.message.warning('Firebase 登入未啟用');
+      return;
+    }
+
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    this.firebaseAuth.loginWithGoogle().subscribe({
+      next: () => {
+        this.message.success('Google 登入成功');
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (err: Error) => {
+        this.message.error(err.message || 'Google 登入失敗');
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  /**
+   * GitHub 登入
+   */
+  loginWithGitHub(): void {
+    if (!this.useFirebase) {
+      this.message.warning('Firebase 登入未啟用');
+      return;
+    }
+
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    this.firebaseAuth.loginWithGitHub().subscribe({
+      next: () => {
+        this.message.success('GitHub 登入成功');
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (err: Error) => {
+        this.message.error(err.message || 'GitHub 登入失敗');
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  /**
+   * 傳統 Mock API 登入
+   */
+  private loginWithMockAPI(): void {
     this.error = '';
     const { userName, password } = this.form.controls;
     userName.markAsDirty();
@@ -111,5 +212,9 @@ export class UserLoginComponent {
           this.router.navigateByUrl(url);
         });
       });
+  }
+
+  ngOnDestroy(): void {
+    // 組件銷毀時的清理工作
   }
 }

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { StartupService } from '@core';
-import { FirebaseAuthService } from '@core/services/firebase-auth.service';
+import { User } from '@angular/fire/auth';
+import { StartupService, FirebaseAuthService } from '@core';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzResultModule } from 'ng-zorro-antd/result';
@@ -77,7 +77,7 @@ export class CallbackComponent implements OnInit {
     // Firebase 使用 Redirect 方式時，會自動處理回調
     // 我們只需要檢查認證狀態
     this.firebaseAuth.user$.pipe(take(1)).subscribe({
-      next: user => {
+      next: (user: User | null) => {
         if (user) {
           console.log('[Callback] 認證成功:', user.email);
           this.onCallbackSuccess();
@@ -90,7 +90,7 @@ export class CallbackComponent implements OnInit {
           setTimeout(() => this.goToLogin(), 2000);
         }
       },
-      error: err => {
+      error: (err: Error) => {
         console.error('[Callback] 認證過程發生錯誤:', err);
         this.error = err.message || '認證過程發生錯誤';
         this.loading = false;

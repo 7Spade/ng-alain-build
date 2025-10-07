@@ -122,11 +122,9 @@ const providers: Array<Provider | EnvironmentProviders> = [
   // Firebase Auto Refresh Service (初始化)
   provideAppInitializer(() => {
     const autoRefresh = inject(AutoRefreshService);
-    return () => {
-      // 啟動自動 Token 刷新
-      autoRefresh.start();
-      console.log('[App Init] Firebase Auto Refresh 已啟動');
-    };
+    // 啟動自動 Token 刷新
+    autoRefresh.start();
+    console.log('[App Init] Firebase Auto Refresh 已啟動');
   }),
 
   // Environment Providers
