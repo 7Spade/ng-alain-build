@@ -6,7 +6,6 @@
 import { Component, inject, ChangeDetectionStrategy, OnInit, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { PageHeaderComponent, PageHeaderType, AntTableConfig } from '@shared';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -43,8 +42,7 @@ import type { UserOrganization } from '../../features/organization/models';
     NzDescriptionsModule,
     NzDividerModule,
     NzSpaceModule,
-    FormsModule,
-    RouterLink
+    FormsModule
   ]
 })
 export class OrganizationSettingsComponent implements OnInit {

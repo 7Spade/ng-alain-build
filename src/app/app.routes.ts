@@ -30,6 +30,11 @@ export const routes: Routes = [
         loadChildren: () => import('./features/organization/routes').then(m => m.routes),
         data: { title: '組織管理' }
       },
+      {
+        path: 'projects',
+        loadChildren: () => import('./features/projects/routes').then(m => m.routes),
+        data: { title: '專案' }
+      },
       // Examples - 示範代碼
       {
         path: 'examples/widgets',
