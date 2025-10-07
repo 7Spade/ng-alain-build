@@ -19,6 +19,7 @@ export const routes: Routes = [
     data: {},
     children: [
       // Features - 業務功能模組
+      { path: 'dashboard', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
         loadChildren: () => import('./features/dashboard/routes').then(m => m.routes),

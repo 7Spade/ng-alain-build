@@ -6,8 +6,8 @@
 
 ## 📊 統計資訊
 
-- **目錄總數**: 134
-- **文件總數**: 413
+- **目錄總數**: 135
+- **文件總數**: 405
 
 ## 📂 目錄結構
 
@@ -26,14 +26,10 @@
 └── memory-bank/
     ├── active-context/
     │   ├── changes/
-    │   │   ├── 2025-10-07-consolidated-changes.md
-    │   │   ├── complete-route-configuration-fix-2025-10-07.md
     │   │   ├── component-migration-2025-10-07.md
     │   │   ├── cursor-rules-optimization-2025-10-07.md
     │   │   ├── folder-structure-refactoring-2025-10-07.md
-    │   │   ├── README.md
     │   │   ├── recentChanges.md
-    │   │   ├── route-reuse-strategy-fix-2025-10-07.md
     │   ├── context/
     │   │   ├── currentFocus.md
     │   │   ├── enhancement-opportunities.md
@@ -41,10 +37,6 @@
     │   │   ├── implementation-plan.md
     │   │   ├── migration-summary.md
     │   │   ├── ng-antd-admin-analysis-summary.md
-    │   │   ├── org-switcher-file-checklist.md
-    │   │   ├── org-switcher-implementation-plan.md
-    │   │   ├── org-switcher-quick-guide.md
-    │   │   ├── org-switcher-summary.md
     │   │   ├── refactoring-summary.md
     │   │   ├── tab-system-guide.md
     │   ├── status/
@@ -64,7 +56,6 @@
     │   │   ├── alternativeSolutions.md
     │   ├── design-decisions/
     │   │   ├── designDecisions.md
-    │   │   ├── org-switcher-design.md
     │   ├── exploration/
     │   │   ├── feature-comparison-table.md
     │   │   ├── ng-antd-admin-analysis.md
@@ -166,79 +157,79 @@
     │   │   ├── start-page.guard.ts
     │   ├── examples/
     │   │   ├── delon-features/
-    │   │   │   ├── acl-demo/
+    │   │   │   ├── acl/
     │   │   │   │   ├── acl.component.html
     │   │   │   │   ├── acl.component.ts
-    │   │   │   ├── cache-demo/
+    │   │   │   ├── cache/
     │   │   │   │   ├── cache.component.html
     │   │   │   │   ├── cache.component.ts
-    │   │   │   ├── downfile-demo/
+    │   │   │   ├── downfile/
     │   │   │   │   ├── downfile.component.html
     │   │   │   │   ├── downfile.component.ts
-    │   │   │   ├── form-demo/
+    │   │   │   ├── form/
     │   │   │   │   ├── form.component.html
     │   │   │   │   ├── form.component.ts
-    │   │   │   ├── guard-demo/
+    │   │   │   ├── guard/
     │   │   │   │   ├── admin.component.ts
     │   │   │   │   ├── auth.component.ts
     │   │   │   │   ├── can-leave.ts
     │   │   │   │   ├── guard.component.html
     │   │   │   │   ├── guard.component.ts
     │   │   │   │   ├── leave.component.ts
-    │   │   │   ├── print-demo/
+    │   │   │   ├── print/
     │   │   │   │   ├── print.component.html
     │   │   │   │   ├── print.component.ts
-    │   │   │   ├── qr-demo/
+    │   │   │   ├── qr/
     │   │   │   │   ├── qr.component.html
     │   │   │   │   ├── qr.component.ts
-    │   │   │   ├── st-demo/
+    │   │   │   ├── st/
     │   │   │   │   ├── st.component.html
     │   │   │   │   ├── st.component.ts
-    │   │   │   ├── util-demo/
+    │   │   │   ├── util/
     │   │   │   │   ├── util.component.html
     │   │   │   │   ├── util.component.ts
-    │   │   │   ├── xlsx-demo/
+    │   │   │   ├── xlsx/
     │   │   │   │   ├── xlsx.component.html
     │   │   │   │   ├── xlsx.component.ts
-    │   │   │   ├── zip-demo/
+    │   │   │   ├── zip/
     │   │   │   │   ├── zip.component.html
     │   │   │   │   ├── zip.component.ts
     │   │   │   ├── routes.ts
     │   │   ├── pro-templates/
     │   │   │   ├── account/
-    │   │   │   │   ├── account-center/
-    │   │   │   │   │   ├── my-applications-tab/
+    │   │   │   │   ├── center/
+    │   │   │   │   │   ├── applications/
     │   │   │   │   │   │   ├── applications.component.html
     │   │   │   │   │   │   ├── applications.component.less
     │   │   │   │   │   │   ├── applications.component.ts
-    │   │   │   │   │   ├── my-articles-tab/
+    │   │   │   │   │   ├── articles/
     │   │   │   │   │   │   ├── articles.component.html
     │   │   │   │   │   │   ├── articles.component.ts
-    │   │   │   │   │   ├── my-projects-tab/
+    │   │   │   │   │   ├── projects/
     │   │   │   │   │   │   ├── projects.component.html
     │   │   │   │   │   │   ├── projects.component.less
     │   │   │   │   │   │   ├── projects.component.ts
     │   │   │   │   │   ├── center.component.html
     │   │   │   │   │   ├── center.component.less
     │   │   │   │   │   ├── center.component.ts
-    │   │   │   │   ├── account-settings/
-    │   │   │   │   │   └── base-settings/
+    │   │   │   │   ├── settings/
+    │   │   │   │   │   └── base/
     │   │   │   │   │       ├── base.component.html
     │   │   │   │   │       ├── base.component.less
     │   │   │   │   │       ├── base.component.ts
-    │   │   │   │   │   └── binding-settings/
+    │   │   │   │   │   └── binding/
     │   │   │   │   │       ├── binding.component.html
     │   │   │   │   │       ├── binding.component.ts
-    │   │   │   │   │   └── notification-settings/
+    │   │   │   │   │   └── notification/
     │   │   │   │   │       ├── notification.component.html
     │   │   │   │   │       ├── notification.component.ts
-    │   │   │   │   │   └── security-settings/
+    │   │   │   │   │   └── security/
     │   │   │   │   │       ├── security.component.html
     │   │   │   │   │       ├── security.component.ts
     │   │   │   │   │   └── settings.component.html
     │   │   │   │   │   └── settings.component.less
     │   │   │   │   │   └── settings.component.ts
-    │   │   │   ├── form-templates/
+    │   │   │   ├── form/
     │   │   │   │   ├── advanced-form/
     │   │   │   │   │   ├── advanced-form.component.html
     │   │   │   │   │   ├── advanced-form.component.ts
@@ -256,12 +247,12 @@
     │   │   │   │   │   └── step3.component.html
     │   │   │   │   │   └── step3.component.ts
     │   │   │   │   │   └── transfer.service.ts
-    │   │   │   ├── list-templates/
-    │   │   │   │   ├── application-list/
+    │   │   │   ├── list/
+    │   │   │   │   ├── applications/
     │   │   │   │   │   ├── applications.component.html
     │   │   │   │   │   ├── applications.component.less
     │   │   │   │   │   ├── applications.component.ts
-    │   │   │   │   ├── article-list/
+    │   │   │   │   ├── articles/
     │   │   │   │   │   ├── articles.component.html
     │   │   │   │   │   ├── articles.component.ts
     │   │   │   │   ├── basic-list/
@@ -277,39 +268,39 @@
     │   │   │   │   ├── list/
     │   │   │   │   │   ├── list.component.html
     │   │   │   │   │   ├── list.component.ts
-    │   │   │   │   ├── project-list/
+    │   │   │   │   ├── projects/
     │   │   │   │   │   ├── projects.component.html
     │   │   │   │   │   ├── projects.component.less
     │   │   │   │   │   ├── projects.component.ts
     │   │   │   │   ├── table-list/
     │   │   │   │   │   └── table-list.component.html
     │   │   │   │   │   └── table-list.component.ts
-    │   │   │   ├── profile-pages/
-    │   │   │   │   ├── advanced-profile/
+    │   │   │   ├── profile/
+    │   │   │   │   ├── advanced/
     │   │   │   │   │   ├── advanced.component.html
     │   │   │   │   │   ├── advanced.component.less
     │   │   │   │   │   ├── advanced.component.ts
-    │   │   │   │   ├── basic-profile/
+    │   │   │   │   ├── basic/
     │   │   │   │   │   └── basic.component.html
     │   │   │   │   │   └── basic.component.ts
-    │   │   │   ├── result-pages/
-    │   │   │   │   ├── fail-result/
+    │   │   │   ├── result/
+    │   │   │   │   ├── fail/
     │   │   │   │   │   ├── fail.component.html
     │   │   │   │   │   ├── fail.component.ts
-    │   │   │   │   ├── success-result/
+    │   │   │   │   ├── success/
     │   │   │   │   │   └── success.component.html
     │   │   │   │   │   └── success.component.ts
     │   │   │   ├── routes.ts
     │   │   ├── style-guide/
-    │   │   │   ├── colors-demo/
+    │   │   │   ├── colors/
     │   │   │   │   ├── colors.component.html
     │   │   │   │   ├── colors.component.less
     │   │   │   │   ├── colors.component.ts
-    │   │   │   ├── grid-demo/
+    │   │   │   ├── gridmasonry/
     │   │   │   │   ├── gridmasonry.component.html
     │   │   │   │   ├── gridmasonry.component.less
     │   │   │   │   ├── gridmasonry.component.ts
-    │   │   │   ├── typography-demo/
+    │   │   │   ├── typography/
     │   │   │   │   ├── typography.component.html
     │   │   │   │   ├── typography.component.ts
     │   │   │   ├── color.service.ts
@@ -322,18 +313,18 @@
     │   │   ├── README.md
     │   ├── features/
     │   │   ├── dashboard/
-    │   │   │   ├── dashboard-analysis/
+    │   │   │   ├── analysis/
     │   │   │   │   ├── analysis.component.html
     │   │   │   │   ├── analysis.component.less
     │   │   │   │   ├── analysis.component.ts
-    │   │   │   ├── dashboard-monitor/
+    │   │   │   ├── monitor/
     │   │   │   │   ├── monitor.component.html
     │   │   │   │   ├── monitor.component.less
     │   │   │   │   ├── monitor.component.ts
-    │   │   │   ├── dashboard-v1/
+    │   │   │   ├── v1/
     │   │   │   │   ├── v1.component.html
     │   │   │   │   ├── v1.component.ts
-    │   │   │   ├── dashboard-workplace/
+    │   │   │   ├── workplace/
     │   │   │   │   ├── workplace.component.html
     │   │   │   │   ├── workplace.component.less
     │   │   │   │   ├── workplace.component.ts
@@ -404,6 +395,8 @@
     │   │   │   │   └── tab.component.ts
     │   │   ├── index.ts
     │   │   ├── README.md
+    │   ├── routes/
+    │   │   ├── routes.ts
     │   ├── shared/
     │   │   ├── components/
     │   │   │   ├── cell-widget/
@@ -449,7 +442,7 @@
     │   │   ├── shared-zorro.module.ts
     │   ├── system/
     │   │   ├── data-visualization/
-    │   │   │   ├── relation-chart/
+    │   │   │   ├── relation/
     │   │   │   │   ├── relation.component.html
     │   │   │   │   ├── relation.component.ts
     │   │   │   ├── routes.ts

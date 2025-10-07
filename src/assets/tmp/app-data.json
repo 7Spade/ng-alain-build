@@ -52,7 +52,7 @@
         {
           "text": "小部件",
           "i18n": "menu.widgets",
-          "link": "/examples/widgets",
+          "link": "/widgets",
           "icon": "anticon-appstore",
           "badge": 2
         }
@@ -71,18 +71,18 @@
           "children": [
             {
               "text": "Typography",
-              "link": "/examples/style/typography",
+              "link": "/style/typography",
               "i18n": "menu.style.typography",
               "shortcut": true
             },
             {
               "text": "Grid Masonry",
-              "link": "/examples/style/gridmasonry",
+              "link": "/style/gridmasonry",
               "i18n": "menu.style.gridmasonry"
             },
             {
               "text": "Colors",
-              "link": "/examples/style/colors",
+              "link": "/style/colors",
               "i18n": "menu.style.colors"
             }
           ]
@@ -94,59 +94,59 @@
           "children": [
             {
               "text": "Dynamic Form",
-              "link": "/examples/delon/form",
+              "link": "/delon/form",
               "i18n": "menu.delon.form"
             },
             {
               "text": "Simple Table",
-              "link": "/examples/delon/st",
+              "link": "/delon/st",
               "i18n": "menu.delon.table"
             },
             {
               "text": "Util",
-              "link": "/examples/delon/util",
+              "link": "/delon/util",
               "i18n": "menu.delon.util",
               "acl": "role-a"
             },
             {
               "text": "Print",
-              "link": "/examples/delon/print",
+              "link": "/delon/print",
               "i18n": "menu.delon.print",
               "acl": "role-b"
             },
             {
               "text": "QR",
-              "link": "/examples/delon/qr",
+              "link": "/delon/qr",
               "i18n": "menu.delon.qr"
             },
             {
               "text": "ACL",
-              "link": "/examples/delon/acl",
+              "link": "/delon/acl",
               "i18n": "menu.delon.acl"
             },
             {
               "text": "Route Guard",
-              "link": "/examples/delon/guard",
+              "link": "/delon/guard",
               "i18n": "menu.delon.guard"
             },
             {
               "text": "Cache",
-              "link": "/examples/delon/cache",
+              "link": "/delon/cache",
               "i18n": "menu.delon.cache"
             },
             {
               "text": "Down File",
-              "link": "/examples/delon/downfile",
+              "link": "/delon/downfile",
               "i18n": "menu.delon.downfile"
             },
             {
               "text": "Xlsx",
-              "link": "/examples/delon/xlsx",
+              "link": "/delon/xlsx",
               "i18n": "menu.delon.xlsx"
             },
             {
               "text": "Zip",
-              "link": "/examples/delon/zip",
+              "link": "/delon/zip",
               "i18n": "menu.delon.zip"
             }
           ]
@@ -162,23 +162,23 @@
         {
           "text": "Form Page",
           "i18n": "menu.form",
-          "link": "/examples/pro/form",
+          "link": "/pro/form",
           "icon": "anticon-edit",
           "children": [
             {
               "text": "Basic Form",
-              "link": "/examples/pro/form/basic-form",
+              "link": "/pro/form/basic-form",
               "i18n": "menu.form.basicform",
               "shortcut": true
             },
             {
               "text": "Step Form",
-              "link": "/examples/pro/form/step-form",
+              "link": "/pro/form/step-form",
               "i18n": "menu.form.stepform"
             },
             {
               "text": "Advanced Form",
-              "link": "/examples/pro/form/advanced-form",
+              "link": "/pro/form/advanced-form",
               "i18n": "menu.form.advancedform"
             }
           ]
@@ -190,18 +190,18 @@
           "children": [
             {
               "text": "Table List",
-              "link": "/examples/pro/list/table-list",
+              "link": "/pro/list/table-list",
               "i18n": "menu.list.searchtable",
               "shortcut": true
             },
             {
               "text": "Basic List",
-              "link": "/examples/pro/list/basic-list",
+              "link": "/pro/list/basic-list",
               "i18n": "menu.list.basiclist"
             },
             {
               "text": "Card List",
-              "link": "/examples/pro/list/card-list",
+              "link": "/pro/list/card-list",
               "i18n": "menu.list.cardlist"
             },
             {
@@ -209,16 +209,16 @@
               "i18n": "menu.list.searchlist",
               "children": [
                 {
-                  "link": "/examples/pro/list/articles",
+                  "link": "/pro/list/articles",
                   "i18n": "menu.list.searchlist.articles"
                 },
                 {
-                  "link": "/examples/pro/list/projects",
+                  "link": "/pro/list/projects",
                   "i18n": "menu.list.searchlist.projects",
                   "shortcut": true
                 },
                 {
-                  "link": "/examples/pro/list/applications",
+                  "link": "/pro/list/applications",
                   "i18n": "menu.list.searchlist.applications"
                 }
               ]
@@ -232,12 +232,12 @@
           "children": [
             {
               "text": "Basic",
-              "link": "/examples/pro/profile/basic",
+              "link": "/pro/profile/basic",
               "i18n": "menu.profile.basic"
             },
             {
               "text": "Advanced",
-              "link": "/examples/pro/profile/advanced",
+              "link": "/pro/profile/advanced",
               "i18n": "menu.profile.advanced",
               "shortcut": true
             }
@@ -250,12 +250,12 @@
           "children": [
             {
               "text": "Success",
-              "link": "/examples/pro/result/success",
+              "link": "/pro/result/success",
               "i18n": "menu.result.success"
             },
             {
               "text": "Fail",
-              "link": "/examples/pro/result/fail",
+              "link": "/pro/result/fail",
               "i18n": "menu.result.fail"
             }
           ]
@@ -293,12 +293,12 @@
           "children": [
             {
               "text": "center",
-              "link": "/examples/pro/account/center",
+              "link": "/pro/account/center",
               "i18n": "menu.account.center"
             },
             {
               "text": "settings",
-              "link": "/examples/pro/account/settings",
+              "link": "/pro/account/settings",
               "i18n": "menu.account.settings"
             }
           ]
@@ -327,22 +327,22 @@
         {
           "text": "Extras",
           "i18n": "menu.extras",
-          "link": "/system/extras",
+          "link": "/extras",
           "icon": "anticon-link",
           "children": [
             {
               "text": "Help Center",
-              "link": "/system/extras/helpcenter",
+              "link": "/extras/helpcenter",
               "i18n": "menu.extras.helpcenter"
             },
             {
               "text": "Settings",
-              "link": "/system/extras/settings",
+              "link": "/extras/settings",
               "i18n": "menu.extras.settings"
             },
             {
               "text": "Poi",
-              "link": "/system/extras/poi",
+              "link": "/extras/poi",
               "i18n": "menu.extras.poi"
             }
           ]
