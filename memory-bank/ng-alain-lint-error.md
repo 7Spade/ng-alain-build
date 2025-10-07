@@ -2,13 +2,13 @@
 
 > 自動生成的程式碼品質檢查報告
 
-**生成時間**: 2025-10-07 17:55:03
+**生成時間**: 2025-10-07 17:56:37
 
 ## 📊 檢查摘要
 
 | 檢查類型 | 狀態 | 結果 |
 |---------|------|------|
-| TypeScript (ESLint) | ❌ 發現問題 | ✖ 210 problem |
+| TypeScript (ESLint) | ❌ 發現問題 | ✖ 196 problem |
 | Style (Stylelint) | ❌ 發現問題 | 無錯誤 |
 
 ## 🔍 詳細報告
@@ -207,24 +207,10 @@ C:\Users\user\Downloads\ng-alain-build\src\app\auth\callback\callback.component.
   4:1  error  `@angular/fire/auth` import should occur before import of `@angular/router`  import/order
 
 C:\Users\user\Downloads\ng-alain-build\src\app\auth\login\login.component.ts
-   85:1   error  Delete `········`                      prettier/prettier
-   94:1   error  Delete `············`                  prettier/prettier
-  100:1   error  Delete `············`                  prettier/prettier
-  104:18  error  Replace `(err)` with `err`             prettier/prettier
-  136:1   error  Delete `········`                      prettier/prettier
-  145:1   error  Delete `············`                  prettier/prettier
-  151:1   error  Delete `············`                  prettier/prettier
-  155:18  error  Replace `(err)` with `err`             prettier/prettier
-  187:1   error  Delete `········`                      prettier/prettier
-  196:1   error  Delete `············`                  prettier/prettier
-  202:1   error  Delete `············`                  prettier/prettier
-  206:18  error  Replace `(err)` with `err`             prettier/prettier
-  284:3   error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
+  217:3  error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
 
 C:\Users\user\Downloads\ng-alain-build\src\app\auth\register\register.component.ts
-    5:10  error  'FirebaseAuthService' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
-   14:10  error  'NzMessageService' is defined but never used. Allowed unused vars must match /^_/u     @typescript-eslint/no-unused-vars
-  115:3   error  Lifecycle methods should not be empty                                                  @angular-eslint/no-empty-lifecycle-method
+  113:3  error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\models\firebase-token.model.ts
    66:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -405,8 +391,8 @@ C:\Users\user\Downloads\ng-alain-build\src\environments\environment.prod.ts
 C:\Users\user\Downloads\ng-alain-build\src\environments\environment.ts
   15:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-✖ 210 problems (17 errors, 193 warnings)
-  13 errors and 1 warning potentially fixable with the `--fix` option.
+✖ 196 problems (3 errors, 193 warnings)
+  1 error and 1 warning potentially fixable with the `--fix` option.
 ```
 
 ### Style Lint (Stylelint)
