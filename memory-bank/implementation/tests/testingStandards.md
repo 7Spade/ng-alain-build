@@ -1,64 +1,78 @@
-# Testing Standards
+# 測試標準
 
-## Test Coverage Requirements
-| 類型 | 覆蓋率 | 說明 |
+## 測試哲學
+
+### 測試金字塔
+- **單元測試**: 70% - 快速、隔離的組件與服務測試
+- **整合測試**: 20% - 組件互動與服務整合
+- **E2E 測試**: 10% - 完整應用流程測試
+
+### 覆蓋率要求
+| 類型 | 覆蓋率 | 理由 |
 |------|--------|------|
-| Services | 80% | 業務邏輯測試 |
-| Components | 60% | UI 組件測試 |
-| Guards | 100% | 安全邏輯測試 |
+| **Services** | 80% | 業務邏輯核心 |
+| **Components** | 60% | UI 邏輯測試 |
+| **Guards** | 100% | 安全關鍵邏輯 |
 
-## Testing Strategy
-- **Unit Tests**: 70% - 快速、隔離的組件和服務測試
-- **Integration Tests**: 20% - 組件交互和服務整合
-- **E2E Tests**: 10% - 完整應用工作流程測試
+## 單元測試標準
 
-## Unit Testing Standards
-
-### Test Structure (AAA Pattern)
+### AAA 模式測試
 ```typescript
-describe('FeatureService', () => {
-  let service: FeatureService;
+describe('UserService', () => {
+  let service: UserService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [FeatureService]
+      providers: [UserService]
     });
-    service = TestBed.inject(FeatureService);
+    service = TestBed.inject(UserService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  it('should return data when API call is successful', () => {
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('should get users', () => {
     // Arrange
-    const mockData = { id: 1, name: 'Test' };
-    
+    const mockUsers = [{ id: 1, name: 'Test' }];
+
     // Act
-    service.getData().subscribe(data => {
+    service.getUsers().subscribe(result => {
       // Assert
-      expect(data).toEqual(mockData);
+      expect(result.data).toEqual(mockUsers);
+      expect(result.total).toBe(1);
     });
-    
-    const req = httpMock.expectOne('/api/data');
+
+    const req = httpMock.expectOne('/api/users');
     expect(req.request.method).toBe('GET');
-    req.flush(mockData);
+    req.flush({ data: mockUsers, total: 1 });
   });
 });
 ```
 
-### Component Testing
+### 組件測試模板
 ```typescript
 describe('FeatureComponent', () => {
   let component: FeatureComponent;
   let fixture: ComponentFixture<FeatureComponent>;
+  let mockService: jasmine.SpyObj<FeatureService>;
 
   beforeEach(async () => {
+    const spy = jasmine.createSpyObj('FeatureService', ['getData']);
+
     await TestBed.configureTestingModule({
-      imports: [FeatureComponent]
+      imports: [FeatureComponent],
+      providers: [
+        { provide: FeatureService, useValue: spy }
+      ]
     }).compileComponents();
-    
+
     fixture = TestBed.createComponent(FeatureComponent);
     component = fixture.componentInstance;
+    mockService = TestBed.inject(FeatureService) as jasmine.SpyObj<FeatureService>;
   });
 
   it('should create', () => {
@@ -66,18 +80,70 @@ describe('FeatureComponent', () => {
   });
 
   it('should display data when loaded', () => {
-    component.data = [{ id: 1, name: 'Test' }];
+    // Arrange
+    const mockData = [{ id: 1, name: 'Test' }];
+    mockService.getData.and.returnValue(of(mockData));
+
+    // Act
+    component.ngOnInit();
     fixture.detectChanges();
-    
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.data-item')).toBeTruthy();
+
+    // Assert
+    const element = fixture.nativeElement.querySelector('.data-item');
+    expect(element).toBeTruthy();
+    expect(element.textContent).toContain('Test');
   });
 });
 ```
 
-## ng-alain Testing Standards
+### 守衛測試模板
+```typescript
+describe('AuthGuard', () => {
+  let guard: CanActivateFn;
+  let mockAuthService: jasmine.SpyObj<AuthService>;
+  let mockRouter: jasmine.SpyObj<Router>;
 
-### ST (Simple Table) Testing
+  beforeEach(() => {
+    const authSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated']);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: AuthService, useValue: authSpy },
+        { provide: Router, useValue: routerSpy }
+      ]
+    });
+
+    mockAuthService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
+    mockRouter = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    guard = authGuard;
+  });
+
+  it('should allow access when authenticated', () => {
+    mockAuthService.isAuthenticated.and.returnValue(true);
+    
+    const result = guard({} as any, {} as any);
+    
+    expect(result).toBe(true);
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should deny access when not authenticated', () => {
+    mockAuthService.isAuthenticated.and.returnValue(false);
+    
+    const result = guard({} as any, { url: '/dashboard' } as any);
+    
+    expect(result).toBe(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/login'], {
+      queryParams: { returnUrl: '/dashboard' }
+    });
+  });
+});
+```
+
+## ng-alain 測試
+
+### ST (Simple Table) 測試
 ```typescript
 describe('DataTableComponent', () => {
   let component: DataTableComponent;
@@ -85,9 +151,9 @@ describe('DataTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataTableComponent, STModule]
+      imports: [DataTableComponent, STModule, NoopAnimationsModule]
     }).compileComponents();
-    
+
     fixture = TestBed.createComponent(DataTableComponent);
     component = fixture.componentInstance;
   });
@@ -95,14 +161,15 @@ describe('DataTableComponent', () => {
   it('should display table with data', () => {
     component.data = [{ id: 1, name: 'Test User' }];
     fixture.detectChanges();
-    
-    const table = fixture.nativeElement.querySelector('st');
-    expect(table).toBeTruthy();
+
+    const rows = fixture.nativeElement.querySelectorAll('tbody tr');
+    expect(rows.length).toBe(1);
+    expect(rows[0].textContent).toContain('Test User');
   });
 });
 ```
 
-### ACL Testing
+### ACL 測試
 ```typescript
 describe('ProtectedComponent', () => {
   let component: ProtectedComponent;
@@ -113,36 +180,35 @@ describe('ProtectedComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProtectedComponent, ACLModule.forRoot()]
     }).compileComponents();
-    
+
     fixture = TestBed.createComponent(ProtectedComponent);
     component = fixture.componentInstance;
     aclService = TestBed.inject(ACLService);
   });
 
-  it('should show content when user has permission', () => {
+  it('should show content with permission', () => {
     aclService.setRole(['admin']);
     component.permission = 'admin';
     fixture.detectChanges();
-    
+
     const content = fixture.nativeElement.querySelector('.protected-content');
     expect(content).toBeTruthy();
+  });
+
+  it('should hide content without permission', () => {
+    aclService.setRole(['user']);
+    component.permission = 'admin';
+    fixture.detectChanges();
+
+    const content = fixture.nativeElement.querySelector('.protected-content');
+    expect(content).toBeFalsy();
   });
 });
 ```
 
-## E2E Testing Standards
+## E2E 測試
 
-### Protractor Configuration
-```typescript
-// e2e/protractor.conf.js
-exports.config = {
-  framework: 'jasmine',
-  capabilities: { browserName: 'chrome' },
-  specs: ['src/**/*.e2e-spec.ts']
-};
-```
-
-### E2E Test Structure
+### E2E 測試模板
 ```typescript
 describe('Application E2E', () => {
   beforeEach(() => {
@@ -159,46 +225,61 @@ describe('Application E2E', () => {
     const usernameInput = element(by.css('[data-testid="username-input"]'));
     const passwordInput = element(by.css('[data-testid="password-input"]'));
     const loginButton = element(by.css('[data-testid="login-button"]'));
-    
+
     usernameInput.sendKeys('testuser');
     passwordInput.sendKeys('testpassword');
     loginButton.click();
-    
+
     const welcomeMessage = element(by.css('[data-testid="welcome-message"]'));
     expect(welcomeMessage.isDisplayed()).toBeTruthy();
   });
 });
 ```
 
-## Mock Data Standards
+### Test Data Attributes
+```html
+<button data-testid="create-button">{{ 'common.create' | i18n }}</button>
+<input data-testid="search-input" [(ngModel)]="searchTerm">
+<div data-testid="results-list">
+  @for (item of items; track item.id) {
+    <div data-testid="result-item">{{ item.name }}</div>
+  }
+</div>
+```
+
+## Mock Data 標準
 
 ### Service Mocking
 ```typescript
-export class MockFeatureService {
+export class MockUserService {
   private mockData = [
-    { id: 1, name: 'Test Item 1' },
-    { id: 2, name: 'Test Item 2' }
+    { id: 1, name: 'User 1', email: 'user1@example.com' },
+    { id: 2, name: 'User 2', email: 'user2@example.com' }
   ];
 
-  getData(): Observable<any[]> {
+  getUsers(): Observable<User[]> {
     return of(this.mockData);
   }
 
-  createItem(item: any): Observable<any> {
-    const newItem = { ...item, id: Date.now() };
-    this.mockData.push(newItem);
-    return of(newItem);
+  createUser(user: CreateUserRequest): Observable<User> {
+    const newUser = { ...user, id: Date.now() };
+    this.mockData.push(newUser);
+    return of(newUser);
   }
 }
 ```
 
-### @delon/mock Integration
+### @delon/mock 集成
 ```typescript
+// _mock/_api.ts
 export const API = {
-  'GET /api/users': { users: [
-    { id: 1, name: 'John Doe', email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-  ]},
+  'GET /api/users': {
+    data: [
+      { id: 1, name: 'John', email: 'john@example.com' },
+      { id: 2, name: 'Jane', email: 'jane@example.com' }
+    ],
+    total: 2
+  },
   'POST /api/users': (req: any) => ({
     id: Date.now(),
     ...req.body
@@ -206,9 +287,9 @@ export const API = {
 };
 ```
 
-## Performance Testing
+## 性能測試
 
-### Component Performance
+### 渲染性能測試
 ```typescript
 describe('Performance Tests', () => {
   it('should render large dataset efficiently', () => {
@@ -222,46 +303,46 @@ describe('Performance Tests', () => {
     fixture.detectChanges();
     const endTime = performance.now();
 
-    expect(endTime - startTime).toBeLessThan(100);
+    expect(endTime - startTime).toBeLessThan(100); // 100ms threshold
   });
 });
 ```
 
-## Test Data Attributes
-```html
-<button data-testid="create-button">{{ 'common.create' | i18n }}</button>
-<input data-testid="search-input" [(ngModel)]="searchTerm">
-<div data-testid="results-list">
-  @for (item of items; track item.id) {
-    <div data-testid="result-item">{{ item.name }}</div>
-  }
-</div>
-```
+## Coverage 配置
 
-## Coverage Configuration
-```json
-{
-  "coverageReporter": {
-    "dir": "coverage/",
-    "reporters": [
-      { "type": "html" },
-      { "type": "text-summary" },
-      { "type": "lcov" }
-    ]
-  },
-  "thresholds": {
-    "global": {
-      "statements": 80,
-      "branches": 75,
-      "functions": 80,
-      "lines": 80
+### Karma 配置
+```javascript
+// karma.conf.js
+module.exports = function (config) {
+  config.set({
+    coverageReporter: {
+      dir: 'coverage/',
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' },
+        { type: 'lcov' }
+      ]
+    },
+    thresholds: {
+      global: {
+        statements: 80,
+        branches: 75,
+        functions: 80,
+        lines: 80
+      }
     }
-  }
-}
+  });
+};
 ```
 
-## Test Maintenance
-- **Monthly**: 審查和更新測試覆蓋率
-- **Release**: 運行完整測試套件
-- **Feature**: 為新功能添加測試
-- **Bug Fix**: 添加回歸測試
+## 測試檢查清單
+
+### 必檢項目
+- [ ] 遵循 AAA 模式
+- [ ] 使用描述性測試名稱
+- [ ] 適當模擬依賴
+- [ ] 達到覆蓋率要求
+- [ ] 測試邊界情況
+- [ ] 測試錯誤情況
+- [ ] 使用 data-testid 進行 E2E 測試
+- [ ] 正確清理測試環境

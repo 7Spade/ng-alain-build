@@ -1,340 +1,141 @@
-# Design Decisions
+# 設計決策
 
-## UI/UX Design Decisions
+## UI/UX 決策
 
-### Theme System
-- **Decision**: Use ng-alain-plugin-theme for dynamic theming
-- **Rationale**: Provides comprehensive theme management with color generation
-- **Alternatives Considered**: Custom CSS variables, SCSS theming
-- **Impact**: Enables dynamic theme switching and customization
+### 主題系統
+- **決策**: ng-alain-plugin-theme 動態主題
+- **理由**: 完整主題管理與顏色生成
+- **影響**: 動態主題切換與自訂
 
-### Component Library
-- **Decision**: ng-zorro-antd as primary UI component library
-- **Rationale**: Comprehensive component set with Material Design principles
-- **Alternatives Considered**: Angular Material, PrimeNG, custom components
-- **Impact**: Consistent UI patterns and reduced development time
+### 組件庫
+- **決策**: ng-zorro-antd 作為主要 UI 組件庫
+- **理由**: 完整組件集與 Material Design 原則
+- **影響**: 一致的 UI 模式，減少開發時間
 
-### Layout System
-- **Decision**: ng-alain layout components (basic, blank, passport)
-- **Rationale**: Pre-built admin panel layouts with responsive design
-- **Alternatives Considered**: Custom layout components, third-party layouts
-- **Impact**: Rapid admin panel development with consistent navigation
+### 佈局系統
+- **決策**: ng-alain 佈局組件 (basic, blank, passport)
+- **理由**: 預建後台佈局與響應式設計
+- **影響**: 快速開發與一致導航
 
-### Empty States Design
-- **Decision**: Universal empty state handling for all lists
-- **Rationale**: Better user experience with descriptive messages and CTAs
-- **Alternatives Considered**: No empty states, basic empty messages
-- **Impact**: Improved user guidance and engagement
+### 空狀態設計
+- **決策**: 全域空狀態處理
+- **理由**: 更好的用戶體驗與引導
+- **影響**: 改善用戶參與度
 
-### Loading States Design
-- **Decision**: Comprehensive loading state implementation
-- **Rationale**: Clear feedback during async operations
-- **Alternatives Considered**: No loading states, basic spinners
-- **Impact**: Better perceived performance and user experience
+### 響應式設計
+- **決策**: Mobile-first + CSS Grid
+- **理由**: 現代 CSS 方法，優秀響應能力
+- **影響**: 更好的響應式設計與性能
 
-### Responsive Design
-- **Decision**: Mobile-first responsive design with CSS Grid
-- **Rationale**: Modern CSS approach with excellent responsive capabilities
-- **Alternatives Considered**: Flexbox, CSS frameworks, custom grid systems
-- **Impact**: Better responsive design, cleaner CSS, improved performance
+## 技術決策
 
-## Technical Design Decisions
+### 狀態管理
+- **決策**: Service + RxJS
+- **理由**: Angular 內建模式，簡單易維護
+- **影響**: 無外部依賴，簡化狀態管理
 
-### State Management
-- **Decision**: Service-based state management with RxJS
-- **Rationale**: Angular's built-in dependency injection and reactive patterns
-- **Alternatives Considered**: NgRx, Akita, custom state management
-- **Impact**: Simpler state management without external dependencies
+### 表單處理
+- **決策**: @delon/form 複雜場景
+- **理由**: Schema-driven 表單與驗證
+- **影響**: 減少樣板代碼
 
-### Form Handling
-- **Decision**: @delon/form for complex form scenarios
-- **Rationale**: Schema-driven forms with validation and dynamic generation
-- **Alternatives Considered**: Angular Reactive Forms only, third-party form libraries
-- **Impact**: Enhanced form capabilities with less boilerplate code
+### 緩存策略
+- **決策**: @delon/cache 應用級緩存
+- **理由**: 內建緩存管理與過期機制
+- **影響**: 改善性能與離線能力
 
-### Caching Strategy
-- **Decision**: @delon/cache for application-level caching
-- **Rationale**: Built-in cache management with expiration and storage options
-- **Alternatives Considered**: Browser localStorage, sessionStorage, custom caching
-- **Impact**: Improved performance and offline capabilities
+### Mock 開發
+- **決策**: Mock-first 開發方式
+- **理由**: 前後端並行開發
+- **影響**: 更快的開發週期
 
-### Mock Development
-- **Decision**: Mock-first development approach
-- **Rationale**: Parallel frontend/backend development with realistic data
-- **Alternatives Considered**: Backend-dependent development, static mock data
-- **Impact**: Faster development cycles and better testing
+## 架構決策
 
-## Architecture Decisions
+### 模組組織
+- **決策**: Feature-based 模組結構
+- **理由**: 清晰的關注點分離與懶載入支援
+- **影響**: 更好的可維護性
 
-### Module Organization
-- **Decision**: Feature-based module structure
-- **Rationale**: Clear separation of concerns and lazy loading support
-- **Alternatives Considered**: Domain-based, layer-based organization
-- **Impact**: Better maintainability and code organization
+### 建置配置
+- **決策**: 8GB 記憶體建置
+- **理由**: 大型 Angular 專案需求
+- **影響**: 成功建置大型代碼庫
 
-### Build Configuration
-- **Decision**: High memory allocation (8GB) for builds
-- **Rationale**: Large Angular applications require more memory for compilation
-- **Alternatives Considered**: Default memory allocation, incremental builds
-- **Impact**: Successful builds for large codebases
+### 測試策略
+- **決策**: Jasmine + Karma + Protractor
+- **理由**: Angular 推薦測試堆疊
+- **影響**: 完整測試覆蓋
 
-### Testing Strategy
-- **Decision**: Jasmine + Karma for unit tests, Protractor for E2E
-- **Rationale**: Angular's recommended testing stack
-- **Alternatives Considered**: Jest, Cypress, Playwright
-- **Impact**: Comprehensive testing coverage with Angular integration
+### 路由策略
+- **決策**: Hash-based routing
+- **理由**: 簡化部署，無需服務器配置
+- **影響**: 簡化部署與託管
 
-### Routing Strategy
-- **Decision**: Hash-based routing for simplified deployment
-- **Rationale**: No server configuration required for Angular routing
-- **Alternatives Considered**: Path-based routing, custom routing
-- **Impact**: Simplified deployment and hosting
+## 性能決策
 
-## Performance Decisions
+### 懶載入
+- **決策**: 路由級懶載入
+- **理由**: 減少初始 bundle，改善載入時間
+- **影響**: 更好的用戶體驗
 
-### Lazy Loading
-- **Decision**: Route-based lazy loading for feature modules
-- **Rationale**: Reduces initial bundle size and improves load times
-- **Alternatives Considered**: Eager loading, component-level lazy loading
-- **Impact**: Better user experience with faster initial load
+### Bundle 優化
+- **決策**: source-map-explorer 分析
+- **理由**: 識別優化機會
+- **影響**: 數據驅動的優化決策
 
-### Bundle Optimization
-- **Decision**: Source map analysis with source-map-explorer
-- **Rationale**: Identifies optimization opportunities in bundle size
-- **Alternatives Considered**: Webpack Bundle Analyzer, custom analysis
-- **Impact**: Data-driven bundle optimization decisions
+### 變更檢測
+- **決策**: OnPush 策略
+- **理由**: 最佳性能與明確控制
+- **影響**: 40-60% 性能提升
 
-### Change Detection
-- **Decision**: OnPush change detection strategy for all components
-- **Rationale**: Optimal performance with explicit change detection control
-- **Alternatives Considered**: Default change detection, selective OnPush
-- **Impact**: Significant performance improvement, especially for large lists
+## 現代 Angular 決策
 
-### Memory Management
-- **Decision**: Proper subscription cleanup and memory leak prevention
-- **Rationale**: Prevents memory leaks and improves application stability
-- **Alternatives Considered**: No cleanup, manual memory management
-- **Impact**: Better application stability and performance
+### 組件架構
+- **決策**: 100% Standalone Components
+- **理由**: Angular 未來方向，更好 tree-shaking
+- **影響**: 減少 bundle 大小，更清晰代碼
 
-## Modern Angular Design Decisions
+### 守衛實現
+- **決策**: Functional Guards (CanActivateFn)
+- **理由**: 現代 Angular 模式，inject() 函數
+- **影響**: 減少樣板代碼，更好類型安全
 
-### Component Architecture
-- **Decision**: Standalone components for all new components
-- **Rationale**: Angular's future direction with simplified architecture and better tree-shaking
-- **Alternatives Considered**: NgModule-based components, hybrid approach
-- **Impact**: Reduced bundle size, cleaner code, easier testing
+### 依賴注入
+- **決策**: inject() 函數優先
+- **理由**: 現代 Angular 方法，更清晰語法
+- **影響**: 更清晰代碼，更好函數式編程
 
-### Guard Implementation
-- **Decision**: Functional guards (CanActivateFn) over class-based guards
-- **Rationale**: Modern Angular patterns with inject() function and cleaner syntax
-- **Alternatives Considered**: Class-based guards, hybrid approach
-- **Impact**: Reduced boilerplate code, better type safety, easier composition
+### 模板控制流
+- **決策**: Native Control Flow (@if, @for, @switch)
+- **理由**: 更好性能，更清晰語法
+- **影響**: 更好性能與開發體驗
 
-### Dependency Injection
-- **Decision**: Prefer inject() function over constructor DI
-- **Rationale**: Modern Angular approach with cleaner syntax and better readability
-- **Alternatives Considered**: Constructor DI, hybrid approach
-- **Impact**: Cleaner code, better functional programming patterns
+## ng-alain 特定決策
 
-### Template Control Flow
-- **Decision**: Native Angular control flow (@if, @for, @switch) over structural directives
-- **Rationale**: Better performance, cleaner syntax, improved type safety
-- **Alternatives Considered**: Structural directives (*ngIf, *ngFor), hybrid approach
-- **Impact**: Better performance, cleaner templates, improved developer experience
+### 專案定位
+- **決策**: Angular 20 + ng-zorro-antd + @delon
+- **理由**: 完整 admin scaffold 與企業級功能
+- **影響**: 快速開發企業級後台
 
-### Change Detection Strategy
-- **Decision**: OnPush change detection strategy for all components
-- **Rationale**: Optimal performance with explicit change detection control
-- **Alternatives Considered**: Default change detection, selective OnPush
-- **Impact**: Significant performance improvement, especially for large lists
+### 核心技術堆疊
+- **決策**: 最新穩定版本
+- **影響**: 現代開發體驗與未來保證
 
-### State Management Approach
-- **Decision**: URL as primary state source with service-based state management
-- **Rationale**: Leverages Angular router for shareable state and simplified state management
-- **Alternatives Considered**: NgRx, Akita, pure service-based state
-- **Impact**: Better user experience with shareable URLs, simplified state management
+### 權限系統
+- **決策**: 階層權限 (Owner→Admin→Member→Viewer)
+- **理由**: 清晰的權限階層
+- **影響**: 明確的安全模型
 
-### Template Organization
-- **Decision**: Inline templates for components <150 lines, external for complex components
-- **Rationale**: Balance between code organization and development efficiency
-- **Alternatives Considered**: All inline, all external, different thresholds
-- **Impact**: Better code organization while maintaining development efficiency
+### 性能基準
+| 指標 | 目標值 |
+|------|--------|
+| Initial Bundle | 1.8 MB |
+| Time to Interactive | 1.2s |
+| OnPush 提升 | 40-60% |
+| Lazy vs Eager | 57% 縮減 |
 
-### Layout System
-- **Decision**: CSS Grid for card-based layouts with responsive auto-fill patterns
-- **Rationale**: Modern CSS approach with excellent responsive capabilities
-- **Alternatives Considered**: Flexbox, CSS frameworks, custom grid systems
-- **Impact**: Better responsive design, cleaner CSS, improved performance
-
-## ng-alain Design Decisions
-
-### Project Positioning
-- **Decision**: Angular 20 + ng-zorro-antd + @delon enterprise admin panel
-- **Rationale**: Complete admin panel scaffold with comprehensive component library
-- **Alternatives Considered**: React + Ant Design Pro, Vue.js + Element Plus
-- **Impact**: Rapid development with enterprise-grade features
-
-### Core Technology Stack
-- **Decision**: Angular 20.3.0 (Standalone) + ng-alain 20.0.2 + ng-zorro-antd 20.3.1
-- **Rationale**: Latest stable versions with modern Angular features
-- **Alternatives Considered**: Older Angular versions, different UI libraries
-- **Impact**: Modern development experience with future-proof architecture
-
-### State Management Approach
-- **Decision**: Service + RxJS instead of NgRx
-- **Rationale**: Built-in Angular patterns with simpler implementation
-- **Alternatives Considered**: NgRx, Akita, custom state management
-- **Impact**: Reduced complexity, easier maintenance, better team adoption
-
-### Routing Strategy
-- **Decision**: Hash Routing + Lazy Loading everywhere
-- **Rationale**: Simplified deployment without server configuration
-- **Alternatives Considered**: History API routing, eager loading
-- **Impact**: Better user experience with faster initial load
-
-### Styling Approach
-- **Decision**: Less preprocessor with ng-zorro-antd theming
-- **Rationale**: Seamless integration with Ant Design system
-- **Alternatives Considered**: SCSS, CSS-in-JS, styled-components
-- **Impact**: Consistent design system with dynamic theming
-
-### Permission System
-- **Decision**: Hierarchical permission levels (Owner → Admin → Member → Viewer)
-- **Rationale**: Clear permission hierarchy for enterprise applications
-- **Alternatives Considered**: Role-based access control, attribute-based access control
-- **Impact**: Clear security model with granular access control
-
-### Performance Benchmarks
-- **Decision**: Specific performance targets and optimization strategies
-- **Rationale**: Data-driven performance optimization
-- **Targets**:
-  - Initial Bundle: 1.8 MB (with lazy loading)
-  - Time to Interactive: 1.2s
-  - Change Detection: OnPush (40-60% faster)
-  - Bundle Reduction: 57% (lazy vs eager)
-- **Impact**: Measurable performance improvements
-
-### Development Commands
-- **Decision**: Standardized npm scripts for common operations
-- **Rationale**: Consistent development workflow across team
-- **Scripts**:
-  - `npm start`: Development server
-  - `npm run hmr`: HMR mode
-  - `npm run build`: Production build
-  - `npm run analyze`: Bundle analysis
-  - `npm run lint`: Code quality checks
-  - `npm run test`: Unit tests
-  - `npm run e2e`: E2E tests
-- **Impact**: Streamlined development process
-
-### Path Alias System
-- **Decision**: TypeScript path mapping for cleaner imports
-- **Rationale**: Improved code organization and maintainability
-- **Aliases**:
-  - `@shared` → `src/app/shared/`
-  - `@core` → `src/app/core/`
-  - `@organization` → `src/organization/`
-  - `@env/*` → `src/environments/*`
-  - `@_mock` → `_mock/`
-- **Impact**: Cleaner imports, better code organization
-
-### Component Library Usage
-- **Decision**: Comprehensive ng-zorro-antd component usage
-- **Rationale**: Consistent UI patterns with Material Design principles
-- **Component Categories**:
-  - Layout: NzCardModule, NzGridModule, NzDividerModule, NzSpaceModule
-  - Navigation: NzMenuModule, NzDropDownModule, NzTabsModule, NzBreadCrumbModule
-  - Input: NzInputModule, NzSelectModule, NzDatePickerModule, NzCheckboxModule
-  - Display: NzAvatarModule, NzTagModule, NzBadgeModule, NzTooltipModule
-  - Feedback: NzSpinModule, NzEmptyModule, NzNotificationModule, NzModalModule
-  - Table: NzTableModule, NzPaginationModule
-- **Impact**: Consistent UI/UX with reduced development time
-
-### Internationalization Strategy
-- **Decision**: i18n pipe for all user-facing text with namespace organization
-- **Rationale**: Comprehensive internationalization support
-- **Key Structure**: `feature.component.element`
-- **Examples**:
-  - `organization.list.title`: 組織列表標題
-  - `organization.form.submit`: 組織表單提交按鈕
-  - `common.cancel`: 通用取消按鈕
-  - `validation.required`: 通用必填驗證
-- **Impact**: Better user experience for global users
-
-### Mock Data Strategy
-- **Decision**: Mock-first development with complete CRUD operations
-- **Rationale**: Parallel frontend/backend development
-- **Features**:
-  - Complete CRUD operations support
-  - Realistic data relationships
-  - Query parameter support (pagination, search, filtering)
-  - Memory persistence during session
-- **Impact**: Faster development cycle with realistic data
-
-### Dependency Management
-- **Decision**: Lock major versions with regular updates
-- **Rationale**: Stability with security updates
-- **Strategy**:
-  - Use `^` for patch updates
-  - Lock major versions
-  - Monthly dependency updates
-  - Careful testing before updates
-- **Impact**: Stable development environment with security patches
-
-## VAN Analysis Design Decisions
-
-### Performance Optimization Decisions
-- **Decision**: Specific performance benchmarks and optimization strategies
-- **Rationale**: Data-driven performance optimization
-- **Targets**:
-  - Initial Bundle: 1.8 MB (with lazy loading)
-  - Time to Interactive: 1.2s
-  - Change Detection: OnPush (40-60% faster)
-  - Bundle Reduction: 57% (lazy vs eager)
-  - List Rendering: 40-60% performance improvement with trackBy
-- **Impact**: Measurable performance improvements
-
-### Development Experience Decisions
-- **Decision**: Mock-First Development with complete CRUD operations
-- **Rationale**: Parallel frontend/backend development
-- **Features**:
-  - Complete CRUD operations support
-  - Realistic data relationships
-  - Query parameter support (pagination, search, filtering)
-  - Memory persistence during session
-- **Impact**: Faster development cycle with realistic data
-
-### Testing Strategy Decisions
-- **Decision**: Comprehensive testing pyramid approach
-- **Rationale**: Balanced testing coverage with performance focus
-- **Strategy**:
-  - Unit Tests: 70% - Fast, isolated component and service tests
-  - Integration Tests: 20% - Component interaction and service integration
-  - E2E Tests: 10% - Full application workflow tests
-- **Coverage Requirements**:
-  - Services: 80% coverage
-  - Components: 60% coverage
-  - Guards: 100% coverage (critical security logic)
-- **Impact**: Reliable code quality with efficient testing
-
-### Code Quality Decisions
-- **Decision**: Comprehensive linting and formatting tools
-- **Rationale**: Consistent code quality and team collaboration
-- **Tools**:
-  - ESLint: TypeScript and Angular specific rules
-  - Stylelint: Less file linting
-  - Prettier: Consistent code formatting
-  - Husky: Pre-commit validation
-  - lint-staged: Staged file linting
-- **Impact**: Consistent code quality across team
-
-### Internationalization Decisions
-- **Decision**: i18n pipe for all user-facing text with namespace organization
-- **Rationale**: Comprehensive internationalization support
-- **Key Structure**: `feature.component.element`
-- **Examples**:
-  - `organization.list.title`: 組織列表標題
-  - `organization.form.submit`: 組織表單提交按鈕
-  - `common.cancel`: 通用取消按鈕
-  - `validation.required`: 通用必填驗證
-- **Impact**: Better user experience for global users
+### 國際化策略
+- **決策**: i18n pipe + namespace 組織
+- **理由**: 完整國際化支援
+- **結構**: `feature.component.element`
+- **影響**: 更好的全球用戶體驗

@@ -1,370 +1,282 @@
-# Documentation Standards
+# 文檔標準
 
-## Documentation Structure
+## JSDoc 標準
 
-### README Template
-```markdown
-# Project Name
-
-## Overview
-簡潔的專案描述和目標
-
-## Installation
-```bash
-npm install
-npm start
-```
-
-## Usage
-基本使用範例
-
-## API Documentation
-公開 API 說明
-
-## Contributing
-貢獻指南
-```
-
-## Code Documentation
-
-### JSDoc Standards
+### 服務文檔
 ```typescript
 /**
- * 獲取用戶列表
- * @param params 查詢參數
- * @returns Observable<用戶列表>
+ * 用戶服務
+ * @description 提供用戶相關的 CRUD 操作
  * @example
  * ```typescript
- * this.userService.getUsers({ page: 1 }).subscribe(users => {
+ * constructor(private userService: UserService) {}
+ * 
+ * this.userService.getUsers().subscribe(users => {
  *   console.log(users);
  * });
  * ```
  */
-getUsers(params?: QueryParams): Observable<User[]> {
-  return this.http.get('/api/users', params);
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  /**
+   * 獲取用戶列表
+   * @param params 查詢參數（分頁、搜索、排序）
+   * @returns Observable<PagedResult<User>> 分頁用戶列表
+   * @throws {HttpErrorResponse} API 請求失敗時
+   */
+  getUsers(params?: QueryParams): Observable<PagedResult<User>> {
+    return this.http.get('/api/users', params);
+  }
 }
 ```
 
-### Component Documentation
+### Interface 文檔
 ```typescript
 /**
- * 用戶列表組件
- * 
- * 功能：
- * - 顯示用戶列表
- * - 支持搜索和分頁
- * - 提供編輯和刪除操作
- * 
- * @example
- * ```html
- * <app-user-list 
- *   [users]="users" 
- *   (edit)="onEdit($event)"
- *   (delete)="onDelete($event)">
- * </app-user-list>
- * ```
+ * 用戶實體介面
+ * @interface User
  */
-@Component({
-  selector: 'app-user-list',
-  template: `...`
-})
-export class UserListComponent {
-  /** 用戶列表數據 */
-  @Input() users: User[] = [];
-  
-  /** 編輯用戶事件 */
-  @Output() edit = new EventEmitter<User>();
-  
-  /** 刪除用戶事件 */
-  @Output() delete = new EventEmitter<User>();
+export interface User {
+  /** 用戶唯一識別碼 */
+  id: string;
+  /** 用戶姓名 */
+  name: string;
+  /** 用戶電子郵件 */
+  email: string;
+  /** 用戶角色 */
+  role: UserRole;
+  /** 創建時間 */
+  createdAt: Date;
+  /** 更新時間 */
+  updatedAt: Date;
 }
 ```
 
-## Git Documentation
+## 組件文檔
 
-### Commit Standards
+### README 模板
+```markdown
+# ComponentName
+
+簡短描述組件功能
+
+## 使用方式
+\`\`\`html
+<app-component-name
+  [inputProperty]="value"
+  (outputEvent)="handler($event)">
+</app-component-name>
+\`\`\`
+
+## 屬性
+| 屬性 | 類型 | 默認值 | 說明 |
+|------|------|--------|------|
+| inputProperty | string | '' | 輸入屬性說明 |
+
+## 事件
+| 事件 | 類型 | 說明 |
+|------|------|------|
+| outputEvent | EventEmitter<T> | 輸出事件說明 |
+
+## 範例
+### 基本使用
+\`\`\`html
+<app-component-name></app-component-name>
+\`\`\`
+
+### 帶屬性使用
+\`\`\`html
+<app-component-name
+  [inputProperty]="'custom value'"
+  (outputEvent)="handleEvent($event)">
+</app-component-name>
+\`\`\`
+```
+
+## 模組文檔
+
+### 模組 README 模板
+```markdown
+# [Feature] 模組
+
+## 功能概述
+[描述模組主要功能]
+
+## 目錄結構
+\`\`\`
+src/app/routes/[feature]/
+├── components/
+│   ├── [feature]-list/
+│   ├── [feature]-form/
+│   └── [feature]-detail/
+├── services/
+│   └── [feature].service.ts
+├── models/
+│   └── [feature].model.ts
+├── routes.ts
+└── README.md
+\`\`\`
+
+## 使用方式
+[代碼示例和基本使用方法]
+
+## API 文檔
+[API 說明和參數]
+
+## 開發指南
+[開發注意事項和最佳實踐]
+```
+
+## 樣式文檔
+
+### Less 文檔標準
+```less
+/**
+ * FeatureComponent 樣式
+ * 使用 BEM 命名方法
+ */
+
+// 變數定義
+@component-padding: 16px;
+@component-border-radius: 4px;
+
+// 組件樣式
+.feature-component {
+  padding: @component-padding;
+  border-radius: @component-border-radius;
+
+  // Element
+  &__header {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  // Modifier
+  &--large {
+    padding: @component-padding * 2;
+  }
+}
+```
+
+## Git 提交標準
+
+### 提交訊息格式
 ```
 <type>(<scope>): <subject>
 
 <body>
 
 <footer>
-
-類型: feat, fix, docs, style, refactor, perf, test, build, ci
-範例: feat(user): add user management module
 ```
 
-### Pull Request Template
-```markdown
-## 變更描述
-簡潔描述變更內容
+### 類型說明
+- **feat**: 新功能
+- **fix**: 錯誤修復
+- **docs**: 文檔變更
+- **style**: 代碼格式
+- **refactor**: 重構
+- **test**: 測試相關
+- **chore**: 建置工具
 
-## 變更類型
-- [ ] Bug 修復
-- [ ] 新功能
-- [ ] 文檔更新
-- [ ] 代碼重構
+### 提交範例
+```
+feat(user): add user profile editing
 
-## 測試
-- [ ] 單元測試
-- [ ] 整合測試
-- [ ] E2E 測試
+Implement user profile editing functionality with:
+- Form validation
+- Avatar upload
+- Real-time preview
 
-## 檢查清單
-- [ ] 代碼符合專案標準
-- [ ] 通過所有測試
-- [ ] 更新相關文檔
+Closes #123
 ```
 
-## API Documentation
+## 架構文檔
 
-### Interface Documentation
-```typescript
-/**
- * 用戶介面定義
- */
-export interface User {
-  /** 用戶唯一標識 */
-  id: string;
-  
-  /** 用戶姓名 */
-  name: string;
-  
-  /** 用戶郵箱 */
-  email: string;
-  
-  /** 用戶狀態 */
-  status: UserStatus;
-  
-  /** 創建時間 */
-  createdAt: Date;
-  
-  /** 更新時間 */
-  updatedAt: Date;
-}
-
-/**
- * 用戶狀態枚舉
- */
-export enum UserStatus {
-  /** 啟用 */
-  ACTIVE = 'active',
-  /** 禁用 */
-  INACTIVE = 'inactive',
-  /** 待審核 */
-  PENDING = 'pending'
-}
-```
-
-### Service Documentation
-```typescript
-/**
- * 用戶服務
- * 
- * 提供用戶相關的業務邏輯操作
- */
-@Injectable({ providedIn: 'root' })
-export class UserService {
-  private readonly http = inject(_HttpClient);
-  private readonly API_BASE = '/api/users';
-  
-  /**
-   * 獲取用戶列表
-   * @param params 查詢參數
-   * @returns 用戶列表 Observable
-   */
-  getUsers(params?: QueryParams): Observable<User[]> {
-    return this.http.get(this.API_BASE, params);
-  }
-  
-  /**
-   * 創建新用戶
-   * @param userData 用戶數據
-   * @returns 創建的用戶 Observable
-   */
-  createUser(userData: CreateUserRequest): Observable<User> {
-    return this.http.post(this.API_BASE, userData);
-  }
-}
-```
-
-## Style Guide Documentation
-
-### CSS/Less Documentation
-```less
-/**
- * 用戶卡片組件樣式
- * 
- * 使用 BEM 命名規範
- * 支持響應式設計
- */
-.user-card {
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
-  &__header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  &__content {
-    color: #666;
-    line-height: 1.5;
-  }
-  
-  &--large {
-    padding: 24px;
-  }
-  
-  // 響應式設計
-  @media (max-width: 768px) {
-    padding: 12px;
-  }
-}
-```
-
-## Architecture Documentation
-
-### System Overview
+### 系統架構圖
 ```markdown
 # 系統架構
 
-## 技術棧
-- Angular 20+
+## 總覽
+[高層系統架構描述]
+
+## 組件
+### 核心組件
+- Component 1: 說明
+- Component 2: 說明
+
+### 功能組件
+- Feature 1: 說明
+- Feature 2: 說明
+
+## 資料流
+\`\`\`mermaid
+graph TD
+    A[User Input] --> B[Component]
+    B --> C[Service]
+    C --> D[API]
+    D --> E[Response]
+    E --> F[Update UI]
+\`\`\`
+
+## 依賴關係
+- Angular 20.3.0
 - ng-alain 20.0.2
 - ng-zorro-antd 20.3.1
-- TypeScript 5.0+
-
-## 目錄結構
-```
-src/
-├── app/
-│   ├── core/           # 核心服務
-│   ├── shared/         # 共享組件
-│   ├── routes/         # 路由模組
-│   └── layout/         # 佈局組件
-├── assets/             # 靜態資源
-└── environments/       # 環境配置
 ```
 
-## 設計原則
-- 組件化開發
-- 響應式設計
-- 模組化架構
-- 類型安全
-```
+## 工具配置文檔
 
-## Deployment Documentation
-
-### Build Process
-```bash
-# 開發環境
-npm run start
-
-# 生產環境
-npm run build
-
-# 測試
-npm run test
-
-# 代碼檢查
-npm run lint
-```
-
-### Environment Configuration
-```typescript
-// environments/environment.ts
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api',
-  version: '1.0.0'
-};
-
-// environments/environment.prod.ts
-export const environment = {
-  production: true,
-  apiUrl: 'https://api.example.com',
-  version: '1.0.0'
-};
-```
-
-## Update Procedures
-
-### Version Update
-```markdown
-# 版本更新流程
-
-## 1. 準備階段
-- 備份當前版本
-- 檢查依賴更新
-- 準備回滾方案
-
-## 2. 更新步驟
-1. 更新依賴包
-2. 運行測試套件
-3. 檢查構建過程
-4. 部署到測試環境
-
-## 3. 驗證階段
-- 功能測試
-- 性能測試
-- 用戶驗收測試
-
-## 4. 發布階段
-- 部署到生產環境
-- 監控系統狀態
-- 記錄更新日誌
-```
-
-## Code Review Checklist
-
-### 代碼審查清單
-- [ ] 代碼符合專案標準
-- [ ] 通過所有測試
-- [ ] 文檔完整且準確
-- [ ] 性能考慮適當
-- [ ] 安全性檢查通過
-- [ ] 錯誤處理完善
-- [ ] 代碼可讀性良好
-- [ ] 無重複代碼
-- [ ] 適當的註釋
-- [ ] 提交信息清晰
-
-## Development Tools
-
-### ESLint Configuration
-```json
-{
-  "extends": [
-    "@angular-eslint/recommended",
-    "@typescript-eslint/recommended"
-  ],
-  "rules": {
-    "@typescript-eslint/no-unused-vars": "error",
-    "@angular-eslint/no-empty-lifecycle-method": "error"
+### ESLint 配置
+```javascript
+// eslint.config.mjs
+export default [
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@angular-eslint/prefer-standalone': 'error'
+    }
   }
-}
+];
 ```
 
-### Stylelint Configuration
-```json
-{
-  "extends": ["stylelint-config-standard"],
-  "rules": {
-    "color-no-invalid-hex": true,
-    "font-family-no-duplicate-names": true
-  }
-}
-```
-
-### Prettier Configuration
+### Prettier 配置
 ```json
 {
   "singleQuote": true,
   "trailingComma": "es5",
   "tabWidth": 2,
-  "semi": true
+  "semi": true,
+  "printWidth": 100
 }
 ```
+
+## 維護文檔
+
+### 更新程序
+```markdown
+# 更新程序
+
+## 依賴更新
+1. 檢查更新: `npm outdated`
+2. 更新套件: `npm update`
+3. 測試應用: `npm test`
+4. 建置應用: `npm run build`
+
+## Angular 更新
+1. 查閱 Angular 更新指南
+2. 執行更新命令
+3. 修復 breaking changes
+4. 更新依賴
+5. 完整測試
+```
+
+## 文檔維護週期
+
+| 頻率 | 任務 |
+|------|------|
+| **每月** | 審查並更新 README |
+| **每次發布** | 更新 CHANGELOG |
+| **新功能** | 更新 API 文檔 |
+| **錯誤修復** | 更新已知問題 |

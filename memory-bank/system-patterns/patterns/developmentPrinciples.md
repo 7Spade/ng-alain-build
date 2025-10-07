@@ -1,13 +1,36 @@
-# 開發原則
+# 開發原則快速參考
 
-## 組件開發
+> 核心開發標準與最佳實踐
 
-### 標準結構
+## 🎯 核心原則
+
+| 原則 | 說明 | 實踐 |
+|------|------|------|
+| **Standalone First** | 100% standalone 組件 | standalone: true |
+| **OnPush Strategy** | 強制 OnPush 變更檢測 | ChangeDetectionStrategy.OnPush |
+| **inject() DI** | 函數式依賴注入 | inject(Service) |
+| **Native Control Flow** | 原生控制流語法 | @if, @for, @switch |
+| **Type Safety** | TypeScript 嚴格模式 | strict: true |
+
+## 📐 組件開發
+
+### 標準模板
 ```typescript
 @Component({
   selector: 'app-feature',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NzButtonModule],
+  template: `
+    <div class="container">
+      @if (loading) {
+        <nz-spin nzSize="large" />
+      } @else {
+        @for (item of items; track item.id) {
+          <nz-card>{{ item.name }}</nz-card>
+        }
+      }
+    </div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeatureComponent {
@@ -16,42 +39,49 @@ export class FeatureComponent {
 }
 ```
 
-### 核心原則
-1. **單一職責**: 一個組件一個功能
-2. **OnPush 策略**: 強制 OnPush 變更檢測
-3. **明確導入**: 使用明確 imports
-4. **原生控制流**: @if, @for, @switch
-5. **大小限制**: <100 行內聯，>300 行必須分離
+### 組件檢查清單
+- [ ] 使用 standalone: true
+- [ ] 使用 OnPush 變更檢測
+- [ ] @for 循環有 track
+- [ ] 使用 inject() 函數
+- [ ] 避免在模板中調用函數
+- [ ] 有載入狀態和空狀態處理
 
-## 服務開發
+## 🔧 服務開發
 
-### RESTful 標準
+### RESTful 模式
 ```typescript
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class FeatureService {
   private readonly http = inject(_HttpClient);
+  private readonly API_BASE = '/api/feature';
   
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/users');
+  getAll(): Observable<Item[]> {
+    return this.http.get(this.API_BASE);
   }
   
-  createUser(user: CreateUserRequest): Observable<User> {
-    return this.http.post<User>('/api/users', user);
+  create(item: Partial<Item>): Observable<Item> {
+    return this.http.post(this.API_BASE, item);
+  }
+  
+  update(id: string, item: Partial<Item>): Observable<Item> {
+    return this.http.put(`${this.API_BASE}/${id}`, item);
   }
 }
 ```
 
-### 核心原則
-1. **Injectable Root**: providedIn: 'root'
-2. **Observable**: 返回 Observable 而非 Promise
-3. **錯誤處理**: 統一錯誤處理
-4. **類型安全**: 完整類型定義
+### 服務檢查清單
+- [ ] 使用 providedIn: 'root'
+- [ ] 使用 inject() 函數
+- [ ] 正確處理錯誤
+- [ ] 使用 RxJS 操作符
+- [ ] 強類型接口定義
 
-## 守衛開發
+## 🛡️ 守衛開發
 
-### 函數式守衛
+### 函數式守衛模板
 ```typescript
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = (route) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   
@@ -64,134 +94,179 @@ export const authGuard: CanActivateFn = (route, state) => {
 };
 ```
 
-### 核心原則
-1. **函數式**: 使用 CanActivateFn
-2. **inject()**: 使用 inject() 注入
-3. **類型安全**: 完整參數類型
-4. **錯誤處理**: 適當錯誤反饋
+## 🛣️ 路由配置
 
-## 路由開發
-
-### 路由配置
+### 懶加載模式
 ```typescript
 export const routes: Routes = [
   {
-    path: 'users',
-    loadChildren: () => import('./users/users.routes').then(m => m.routes),
-    canActivate: [authGuard],
-    data: { title: '用戶管理', permission: 'user.read' }
+    path: 'feature',
+    loadComponent: () => import('./feature.component').then(m => m.FeatureComponent),
+    canActivate: [authGuard]
   }
 ];
 ```
 
-### 核心原則
-1. **Lazy Loading**: 所有功能模組懶載入
-2. **守衛保護**: 適當的路由守衛
-3. **Data 元數據**: 使用 data 傳遞資訊
-4. **嵌套路由**: 合理的路由結構
+## 🎨 樣式開發
 
-## 樣式開發
-
-### BEM 規範
+### Less 標準
 ```less
-.user-card {
-  padding: 16px;
+// 變數定義
+@primary-color: #1890ff;
+@spacing-unit: 8px;
+
+// BEM 命名
+.feature {
+  padding: @spacing-unit * 2;
   
   &__header {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: bold;
   }
   
-  &__content {
-    color: @text-color-secondary;
-  }
-  
-  &--highlighted {
-    background-color: @primary-color;
+  &--large {
+    padding: @spacing-unit * 3;
   }
 }
 ```
 
-### 核心原則
-1. **BEM 方法論**: Block__Element--Modifier
-2. **Less 變數**: 使用主題變數
-3. **嵌套限制**: 最多 3 層
-4. **Mobile-First**: 移動優先響應式
+## 🧪 測試標準
 
-## 測試原則
-
-### 單元測試 (AAA 模式)
+### AAA 模式
 ```typescript
-it('should get users', () => {
-  // Arrange
-  const mockUsers = [{ id: 1, name: 'Test' }];
-  
-  // Act
-  service.getUsers().subscribe(users => {
-    // Assert
-    expect(users).toEqual(mockUsers);
+describe('FeatureService', () => {
+  it('should get data', () => {
+    // Arrange
+    const mockData = [{ id: 1, name: 'Test' }];
+    
+    // Act
+    service.getData().subscribe(data => {
+      // Assert
+      expect(data).toEqual(mockData);
+    });
   });
-  
-  const req = httpMock.expectOne('/api/users');
-  req.flush(mockUsers);
 });
 ```
 
-### 測試標準
-- **Services**: 80% 覆蓋率
-- **Components**: 60% 覆蓋率
-- **Guards**: 100% 覆蓋率
-- **AAA Pattern**: Arrange, Act, Assert
-- **Mock Strategy**: 適當依賴模擬
+### 測試覆蓋率
+| 類型 | 覆蓋率 | 說明 |
+|------|--------|------|
+| Services | 80% | 業務邏輯測試 |
+| Components | 60% | UI 組件測試 |
+| Guards | 100% | 安全邏輯測試 |
 
-## Git Workflow
+## 📚 文檔標準
 
-### 提交格式
+### JSDoc 模板
+```typescript
+/**
+ * 獲取用戶列表
+ * @param params 查詢參數
+ * @returns Observable<用戶列表>
+ */
+getUsers(params?: QueryParams): Observable<User[]> {
+  return this.http.get('/api/users', params);
+}
+```
+
+## 🔄 Git Workflow
+
+### Commit 格式
 ```
 <type>(<scope>): <subject>
 
-<body>
-
-<footer>
+類型: feat, fix, docs, style, refactor, perf, test
+範例: feat(user): add user management feature
 ```
 
-### 提交類型
-- **feat**: 新功能
-- **fix**: 錯誤修復
-- **docs**: 文檔變更
-- **style**: 代碼格式
-- **refactor**: 重構
-- **test**: 測試相關
-- **chore**: 建置與工具
+## 🚀 性能優化
 
-## 性能優化
+### 優化檢查清單
+- [ ] OnPush 變更檢測
+- [ ] TrackBy 函數
+- [ ] 懶加載路由
+- [ ] 正確清理訂閱
+- [ ] 避免記憶體洩漏
 
-### 組件優化
-```typescript
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    @for (item of items; track item.id) {
-      <div>{{ item.name }}</div>
-    }
-  `
-})
-```
+### 性能基準
+| 指標 | 目標值 | 說明 |
+|------|--------|------|
+| Initial Bundle | 1.8 MB | 懶加載後 |
+| Time to Interactive | 1.2s | 首次互動時間 |
+| Change Detection | OnPush | 40-60% 提升 |
 
-### 優化原則
-1. **OnPush Strategy**: 強制 OnPush
-2. **trackBy Function**: @for 必須使用 track
-3. **Lazy Loading**: 重量級依賴按需載入
-4. **Subscription Cleanup**: 正確清理訂閱
+## 🔒 安全原則
 
-## 代碼審查清單
+### 安全檢查清單
+- [ ] 驗證用戶輸入
+- [ ] 防止 XSS 攻擊
+- [ ] 實現適當的認證
+- [ ] 保護敏感數據
+- [ ] 使用 HTTPS
 
-### 必檢項目
-- [ ] OnPush 變更檢測策略
+## 📋 代碼審查清單
+
+### 通用檢查
+- [ ] 代碼符合專案標準
+- [ ] 通過所有測試
+- [ ] 文檔完整且準確
+- [ ] 性能考慮適當
+- [ ] 安全性檢查通過
+- [ ] 無重複代碼
+
+### Angular 特定檢查
+- [ ] 組件是 standalone
+- [ ] 使用 OnPush 變更檢測
+- [ ] @for 循環有 track
 - [ ] 使用 inject() 函數
-- [ ] @for 使用 track
-- [ ] 類型安全（無 any）
-- [ ] Observable 返回類型
-- [ ] 錯誤處理完整
-- [ ] Loading 和 Empty States
-- [ ] ESLint 和 Stylelint 通過
+- [ ] 使用原生控制流
+- [ ] 通過 ESLint 和 Stylelint
+
+## 🎯 ng-alain 特定原則
+
+### 組件使用
+| 組件 | 用途 | 關鍵配置 |
+|------|------|----------|
+| ST | 數據表格 | 列定義, 操作, 分頁 |
+| SE | 搜索引擎 | Schema 定義, 驗證 |
+| ACL | 權限控制 | 角色定義, 守衛 |
+
+### 路徑別名
+| 別名 | 路徑 | 用途 |
+|------|------|------|
+| @shared | src/app/shared/ | 共享組件 |
+| @core | src/app/core/ | 核心服務 |
+| @env/* | src/environments/* | 環境配置 |
+
+### 國際化
+```html
+<!-- 使用 i18n 管道 -->
+<h2>{{ 'feature.title' | i18n }}</h2>
+<button>{{ 'common.save' | i18n }}</button>
+```
+
+## 🔑 快速參考
+
+### 常用命令
+```bash
+npm start          # 開發服務器
+npm run build      # 生產建置
+npm run test       # 運行測試
+npm run lint       # 代碼檢查
+npm run analyze    # Bundle 分析
+```
+
+### 常用導入
+```typescript
+// Angular 核心
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+// ng-alain
+import { _HttpClient } from '@delon/theme';
+import { STColumn } from '@delon/abc/st';
+
+// ng-zorro
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+```

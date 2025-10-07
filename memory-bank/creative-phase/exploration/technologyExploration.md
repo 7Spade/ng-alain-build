@@ -1,99 +1,102 @@
-# Technology Exploration
+# 技術探索
 
-## Framework Exploration
+## 框架評估
 
-### Angular 20.3.0 Analysis
-- **Strengths**: 
-  - Standalone components for simplified architecture
-  - Improved performance with OnPush change detection
-  - Comprehensive CLI tooling
-  - Strong TypeScript integration
-  - Excellent ecosystem with ng-alain
-- **Considerations**:
-  - Learning curve for complex applications
-  - Bundle size considerations
-  - Version compatibility requirements
+### Angular 20.3.0
+**優勢**:
+- Standalone 組件簡化架構
+- OnPush 性能優化
+- 完整 CLI 工具
+- 強大 TypeScript 整合
+- ng-alain 生態系統
 
-### ng-alain 20.0.2 Evaluation
-- **Strengths**:
-  - Complete admin panel scaffold
-  - Rich component library (@delon/* modules)
-  - Built-in authentication and authorization
-  - Dynamic theming system
-  - Mock data integration
-- **Considerations**:
-  - Framework-specific patterns
-  - Learning curve for team adoption
-  - Version alignment with Angular
+**考量**:
+- 學習曲線
+- Bundle 大小考量
+- 版本兼容要求
 
-### ng-zorro-antd 20.3.1 Assessment
-- **Strengths**:
-  - Comprehensive component library
-  - Material Design principles
-  - Accessibility features
-  - Internationalization support
-  - Consistent API design
-- **Considerations**:
-  - Bundle size impact
-  - Customization complexity
-  - Theme customization requirements
+### ng-alain 20.0.2
+**優勢**:
+- 完整 admin scaffold
+- 豐富 @delon/* 模組
+- 內建認證授權
+- 動態主題系統
+- Mock 資料整合
 
-## Alternative Technology Stacks
+**考量**:
+- 框架特定模式
+- 團隊採用學習曲線
+- 版本對齊 Angular
 
-### React + Ant Design Alternative
-- **Pros**: Larger community, more flexible architecture
-- **Cons**: No direct ng-alain equivalent, more setup required
-- **Decision**: Not chosen due to team expertise and ng-alain benefits
+### ng-zorro-antd 20.3.1
+**優勢**:
+- 完整組件庫
+- Material Design 原則
+- 無障礙功能
+- 國際化支援
+- 一致 API 設計
 
-### Vue.js + Element Plus Alternative
-- **Pros**: Simpler learning curve, good performance
-- **Cons**: Smaller ecosystem for admin panels, less enterprise features
-- **Decision**: Not chosen due to enterprise requirements
+**考量**:
+- Bundle 大小影響
+- 自訂複雜度
+- 主題自訂需求
 
-### Custom Component Library Alternative
-- **Pros**: Complete control over design and functionality
-- **Cons**: Significant development overhead, maintenance burden
-- **Decision**: Not chosen due to time constraints and ng-alain completeness
+## 替代技術堆疊
 
-## Performance Exploration
+### React + Ant Design
+| 優點 | 缺點 | 決策 |
+|------|------|------|
+| 更大社群，更靈活 | 無直接 ng-alain 等價物 | ❌ 未選擇（團隊專長） |
 
-### Bundle Size Analysis
-- **Initial Bundle**: ~2-6MB (production build)
-- **Optimization Strategies**:
-  - Tree shaking for unused code elimination
-  - Lazy loading for feature modules
-  - Dynamic imports for large libraries
-  - Component-level code splitting
+### Vue.js + Element Plus
+| 優點 | 缺點 | 決策 |
+|------|------|------|
+| 更簡單學習曲線 | 較小企業生態系統 | ❌ 未選擇（企業需求） |
 
-### Runtime Performance
-- **Change Detection**: OnPush strategy for optimal performance
-- **Memory Management**: Proper subscription cleanup
-- **Virtual Scrolling**: For large data sets
-- **Caching**: @delon/cache for data persistence
+### Angular + Material
+| 優點 | 缺點 | 決策 |
+|------|------|------|
+| 原生整合，Google 支援 | 無內建 admin 功能 | ❌ 未選擇（ng-alain 功能） |
 
-## Development Experience Exploration
+## 性能探索
 
-### Developer Tools
-- **Angular DevTools**: Component debugging and profiling
-- **Source Maps**: Debugging support in development
-- **Hot Module Replacement**: Faster development cycles
-- **ESLint Integration**: Code quality enforcement
+### Bundle 大小分析
+- **Initial Bundle**: ~2-6MB (production)
+- **優化策略**:
+  - Tree shaking: 未使用代碼消除
+  - Lazy loading: 功能模組懶載入
+  - Dynamic imports: 大型庫動態導入
+  - Code splitting: 組件級代碼分割
 
-### Testing Experience
-- **Unit Testing**: Jasmine + Karma setup
-- **Component Testing**: Angular Testing Utilities
-- **E2E Testing**: Protractor integration
-- **Mock Data**: @delon/mock for realistic testing
+### 運行時性能
+- **OnPush**: 40-60% 性能提升
+- **Memory**: 適當訂閱清理
+- **Virtual Scrolling**: 大資料集處理
+- **Caching**: @delon/cache 資料持久化
 
-## Deployment Exploration
+## 開發體驗
 
-### Build Optimization
-- **Production Build**: Angular CLI optimization
-- **Bundle Analysis**: Source map explorer
-- **Asset Optimization**: Image and font optimization
-- **CDN Integration**: Static asset delivery
+### 開發工具
+- Angular DevTools: 組件調試與分析
+- Source Maps: 開發調試支援
+- HMR: 快速開發週期
+- ESLint: 代碼品質強制
 
-### Environment Configuration
-- **Development**: Hot reload and debugging
-- **Staging**: Production-like testing
-- **Production**: Optimized builds and monitoring
+### 測試體驗
+- Jasmine + Karma: 單元測試
+- Angular Testing Utilities: 組件測試
+- Protractor: E2E 測試
+- @delon/mock: 真實測試資料
+
+## 部署探索
+
+### 建置優化
+- Production Build: Angular CLI 優化
+- Bundle Analysis: Source map explorer
+- Asset Optimization: 圖片與字體優化
+- CDN Integration: 靜態資源交付
+
+### 環境配置
+- Development: 熱重載與調試
+- Staging: 類生產環境測試
+- Production: 優化建置與監控
