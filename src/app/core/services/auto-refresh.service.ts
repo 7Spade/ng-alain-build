@@ -87,7 +87,7 @@ export class AutoRefreshService implements OnDestroy {
           return EMPTY;
         })
       )
-      .subscribe(async token => {
+      .subscribe(async _token => {
         console.log('[Auto Refresh] Firebase Token 已更新');
 
         try {
@@ -152,7 +152,7 @@ export class AutoRefreshService implements OnDestroy {
     }
 
     try {
-      const newToken = await user.getIdToken(true);
+      await user.getIdToken(true);
       await this.syncToken();
       console.log('[Auto Refresh] Token 刷新成功');
     } catch (error) {

@@ -12,28 +12,6 @@ let refreshToking = false;
 let refreshToken$ = new BehaviorSubject<string | null>(null);
 
 /**
- * 重新附加新 Firebase Token
- */
-function reAttachFirebaseToken(injector: Injector, req: HttpRequest<any>): Observable<HttpRequest<any>> {
-  const auth = injector.get(Auth);
-
-  if (!auth.currentUser) {
-    return throwError(() => new Error('未登入'));
-  }
-
-  return from(auth.currentUser.getIdToken()).pipe(
-    switchMap(token => {
-      const newReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      return from([newReq]);
-    })
-  );
-}
-
-/**
  * Firebase Token 刷新請求
  */
 function refreshFirebaseToken(injector: Injector): Observable<string> {

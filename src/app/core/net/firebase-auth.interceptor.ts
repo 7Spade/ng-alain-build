@@ -81,4 +81,3 @@ function isExternalApi(url: string): boolean {
 
   return externalApiPatterns.some(pattern => pattern.test(url));
 }
-

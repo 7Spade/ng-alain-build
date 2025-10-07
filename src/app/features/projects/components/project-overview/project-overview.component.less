@@ -3,18 +3,13 @@
   .project-header-card {
     .project-header {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
       gap: 24px;
-
-      @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      align-items: flex-start;
+      justify-content: space-between;
 
       .project-info {
-        flex: 1;
         display: flex;
+        flex: 1;
         gap: 16px;
         align-items: flex-start;
 
@@ -22,29 +17,34 @@
           flex: 1;
 
           .project-name {
-            margin: 0 0 8px 0;
+            margin: 0 0 8px;
             font-size: 24px;
             font-weight: 600;
-            color: rgba(0, 0, 0, 0.85);
+            color: rgb(0 0 0 / 85%);
           }
 
           .project-description {
             margin: 0;
-            color: rgba(0, 0, 0, 0.65);
             font-size: 14px;
             line-height: 1.5;
+            color: rgb(0 0 0 / 65%);
           }
         }
       }
 
       .project-actions {
         display: flex;
-        gap: 8px;
         flex-shrink: 0;
+        gap: 8px;
 
         @media (max-width: 768px) {
           justify-content: flex-end;
         }
+      }
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: stretch;
       }
     }
   }

@@ -130,7 +130,7 @@ export class DelonFirebaseTokenService {
 
     try {
       // 強制從 Firebase 獲取新 Token
-      const newToken = await user.getIdToken(true);
+      await user.getIdToken(true);
 
       // 同步到 @delon/auth
       await this.syncFromFirebase();

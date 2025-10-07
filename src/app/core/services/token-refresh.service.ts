@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
-import { BehaviorSubject, Observable, from, throwError, EMPTY } from 'rxjs';
-import { switchMap, catchError, filter, take, retry, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
+import { switchMap, catchError, filter, take, retry } from 'rxjs/operators';
 
 import { FirebaseTokenModel, TokenRefreshOptions } from '../models/firebase-token.model';
 

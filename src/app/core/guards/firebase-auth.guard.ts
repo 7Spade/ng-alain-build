@@ -19,7 +19,7 @@ import { map, take, tap } from 'rxjs/operators';
  * ];
  * ```
  */
-export const firebaseAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
+export const firebaseAuthGuard: CanActivateFn = (_route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
   const auth = inject(Auth);
   const router = inject(Router);
 
@@ -54,7 +54,7 @@ export const firebaseAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, 
  * ];
  * ```
  */
-export const firebaseGuestGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
+export const firebaseGuestGuard: CanActivateFn = (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<boolean> => {
   const auth = inject(Auth);
   const router = inject(Router);
 
