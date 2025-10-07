@@ -6,8 +6,8 @@
 
 ## 📊 統計資訊
 
-- **目錄總數**: 120
-- **文件總數**: 345
+- **目錄總數**: 122
+- **文件總數**: 351
 
 ## 📂 目錄結構
 
@@ -89,9 +89,10 @@
     │   ├── workflows/
     │   │   └── developmentWorkflow.md
     ├── memory.json
+    ├── ng-alain-structure-blueprint.md
+    ├── ng-alain-structure-final.md
     ├── ng-alain-structure-folders.md
     ├── ng-alain-structure-full.md
-    ├── ng-alain-structure.md
     ├── progress.md
     ├── projectbrief.md
     ├── README.md
@@ -100,6 +101,28 @@
     ├── favicon.ico
 └── src/
     ├── app/
+    │   ├── auth/
+    │   │   ├── landing/
+    │   │   │   ├── landing.component.html
+    │   │   │   ├── landing.component.less
+    │   │   │   ├── landing.component.ts
+    │   │   ├── lock/
+    │   │   │   ├── lock.component.html
+    │   │   │   ├── lock.component.less
+    │   │   │   ├── lock.component.ts
+    │   │   ├── login/
+    │   │   │   ├── login.component.html
+    │   │   │   ├── login.component.less
+    │   │   │   ├── login.component.ts
+    │   │   ├── register/
+    │   │   │   ├── register.component.html
+    │   │   │   ├── register.component.less
+    │   │   │   ├── register.component.ts
+    │   │   ├── register-result/
+    │   │   │   ├── register-result.component.html
+    │   │   │   ├── register-result.component.ts
+    │   │   ├── README.md
+    │   │   ├── routes.ts
     │   ├── core/
     │   │   ├── i18n/
     │   │   │   ├── i18n.service.spec.ts
@@ -114,51 +137,8 @@
     │   │   ├── index.ts
     │   │   ├── README.md
     │   │   ├── start-page.guard.ts
-    │   ├── layout/
-    │   │   ├── basic/
-    │   │   │   ├── widgets/
-    │   │   │   │   ├── clear-storage.component.ts
-    │   │   │   │   ├── fullscreen.component.ts
-    │   │   │   │   ├── i18n.component.ts
-    │   │   │   │   ├── icon.component.ts
-    │   │   │   │   ├── notify.component.ts
-    │   │   │   │   ├── rtl.component.ts
-    │   │   │   │   ├── search.component.ts
-    │   │   │   │   ├── task.component.ts
-    │   │   │   │   ├── user.component.ts
-    │   │   │   ├── basic.component.ts
-    │   │   │   ├── README.md
-    │   │   ├── blank/
-    │   │   │   ├── blank.component.ts
-    │   │   │   ├── README.md
-    │   │   ├── passport/
-    │   │   │   ├── passport.component.less
-    │   │   │   ├── passport.component.ts
-    │   │   ├── index.ts
-    │   ├── routes/
-    │   │   ├── dashboard/
-    │   │   │   ├── analysis/
-    │   │   │   │   ├── analysis.component.html
-    │   │   │   │   ├── analysis.component.less
-    │   │   │   │   ├── analysis.component.ts
-    │   │   │   ├── monitor/
-    │   │   │   │   ├── monitor.component.html
-    │   │   │   │   ├── monitor.component.less
-    │   │   │   │   ├── monitor.component.ts
-    │   │   │   ├── v1/
-    │   │   │   │   ├── v1.component.html
-    │   │   │   │   ├── v1.component.ts
-    │   │   │   ├── workplace/
-    │   │   │   │   ├── workplace.component.html
-    │   │   │   │   ├── workplace.component.less
-    │   │   │   │   ├── workplace.component.ts
-    │   │   │   ├── routes.ts
-    │   │   ├── data-v/
-    │   │   │   ├── relation/
-    │   │   │   │   ├── relation.component.html
-    │   │   │   │   ├── relation.component.ts
-    │   │   │   ├── routes.ts
-    │   │   ├── delon/
+    │   ├── examples/
+    │   │   ├── delon-features/
     │   │   │   ├── acl/
     │   │   │   │   ├── acl.component.html
     │   │   │   │   ├── acl.component.ts
@@ -197,66 +177,7 @@
     │   │   │   │   ├── zip.component.html
     │   │   │   │   ├── zip.component.ts
     │   │   │   ├── routes.ts
-    │   │   ├── exception/
-    │   │   │   ├── exception.component.ts
-    │   │   │   ├── routes.ts
-    │   │   │   ├── trigger.component.ts
-    │   │   ├── extras/
-    │   │   │   ├── helpcenter/
-    │   │   │   │   ├── helpcenter.component.html
-    │   │   │   │   ├── helpcenter.component.ts
-    │   │   │   ├── poi/
-    │   │   │   │   ├── edit/
-    │   │   │   │   │   ├── edit.component.html
-    │   │   │   │   │   ├── edit.component.ts
-    │   │   │   │   ├── poi.component.html
-    │   │   │   │   ├── poi.component.ts
-    │   │   │   ├── settings/
-    │   │   │   │   ├── settings.component.html
-    │   │   │   │   ├── settings.component.ts
-    │   │   │   ├── routes.ts
-    │   │   ├── organization/
-    │   │   │   ├── guards/
-    │   │   │   │   ├── organization.guard.ts
-    │   │   │   ├── models/
-    │   │   │   │   ├── common.model.ts
-    │   │   │   │   ├── department.model.ts
-    │   │   │   │   ├── employee.model.ts
-    │   │   │   │   ├── index.ts
-    │   │   │   │   ├── organization.model.ts
-    │   │   │   │   ├── role.model.ts
-    │   │   │   ├── services/
-    │   │   │   │   ├── department.service.ts
-    │   │   │   │   ├── employee.service.ts
-    │   │   │   │   ├── organization.service.ts
-    │   │   │   │   ├── role.service.ts
-    │   │   │   ├── COMPONENTS.md
-    │   │   │   ├── DESIGN.md
-    │   │   │   ├── README.md
-    │   │   │   ├── routes.ts
-    │   │   ├── passport/
-    │   │   │   ├── landing/
-    │   │   │   │   ├── landing.component.html
-    │   │   │   │   ├── landing.component.less
-    │   │   │   │   ├── landing.component.ts
-    │   │   │   ├── lock/
-    │   │   │   │   ├── lock.component.html
-    │   │   │   │   ├── lock.component.less
-    │   │   │   │   ├── lock.component.ts
-    │   │   │   ├── login/
-    │   │   │   │   ├── login.component.html
-    │   │   │   │   ├── login.component.less
-    │   │   │   │   ├── login.component.ts
-    │   │   │   ├── register/
-    │   │   │   │   ├── register.component.html
-    │   │   │   │   ├── register.component.less
-    │   │   │   │   ├── register.component.ts
-    │   │   │   ├── register-result/
-    │   │   │   │   ├── register-result.component.html
-    │   │   │   │   ├── register-result.component.ts
-    │   │   │   ├── callback.component.ts
-    │   │   │   ├── routes.ts
-    │   │   ├── pro/
+    │   │   ├── pro-templates/
     │   │   │   ├── account/
     │   │   │   │   ├── center/
     │   │   │   │   │   ├── applications/
@@ -352,7 +273,7 @@
     │   │   │   │   │   └── success.component.html
     │   │   │   │   │   └── success.component.ts
     │   │   │   ├── routes.ts
-    │   │   ├── style/
+    │   │   ├── style-guide/
     │   │   │   ├── colors/
     │   │   │   │   ├── colors.component.html
     │   │   │   │   ├── colors.component.less
@@ -366,22 +287,83 @@
     │   │   │   │   ├── typography.component.ts
     │   │   │   ├── color.service.ts
     │   │   │   ├── routes.ts
-    │   │   ├── widgets/
-    │   │   │   ├── widgets/
-    │   │   │   │   ├── widgets.component.html
-    │   │   │   │   ├── widgets.component.less
-    │   │   │   │   ├── widgets.component.ts
+    │   │   ├── widgets-showcase/
     │   │   │   ├── routes.ts
-    │   │   ├── routes.ts
+    │   │   │   ├── widgets.component.html
+    │   │   │   ├── widgets.component.less
+    │   │   │   ├── widgets.component.ts
+    │   │   ├── README.md
+    │   ├── features/
+    │   │   ├── dashboard/
+    │   │   │   ├── analysis/
+    │   │   │   │   ├── analysis.component.html
+    │   │   │   │   ├── analysis.component.less
+    │   │   │   │   ├── analysis.component.ts
+    │   │   │   ├── monitor/
+    │   │   │   │   ├── monitor.component.html
+    │   │   │   │   ├── monitor.component.less
+    │   │   │   │   ├── monitor.component.ts
+    │   │   │   ├── v1/
+    │   │   │   │   ├── v1.component.html
+    │   │   │   │   ├── v1.component.ts
+    │   │   │   ├── workplace/
+    │   │   │   │   ├── workplace.component.html
+    │   │   │   │   ├── workplace.component.less
+    │   │   │   │   ├── workplace.component.ts
+    │   │   │   ├── README.md
+    │   │   │   ├── routes.ts
+    │   │   ├── organization/
+    │   │   │   ├── guards/
+    │   │   │   │   ├── organization.guard.ts
+    │   │   │   ├── models/
+    │   │   │   │   ├── common.model.ts
+    │   │   │   │   ├── department.model.ts
+    │   │   │   │   ├── employee.model.ts
+    │   │   │   │   ├── index.ts
+    │   │   │   │   ├── organization.model.ts
+    │   │   │   │   ├── role.model.ts
+    │   │   │   ├── services/
+    │   │   │   │   ├── department.service.ts
+    │   │   │   │   ├── employee.service.ts
+    │   │   │   │   ├── organization.service.ts
+    │   │   │   │   ├── role.service.ts
+    │   │   │   ├── COMPONENTS.md
+    │   │   │   ├── DESIGN.md
+    │   │   │   ├── README.md
+    │   │   │   ├── routes.ts
+    │   │   ├── README.md
+    │   ├── layout/
+    │   │   ├── basic-layout/
+    │   │   │   ├── widgets/
+    │   │   │   │   ├── clear-storage.component.ts
+    │   │   │   │   ├── fullscreen.component.ts
+    │   │   │   │   ├── i18n.component.ts
+    │   │   │   │   ├── icon.component.ts
+    │   │   │   │   ├── notify.component.ts
+    │   │   │   │   ├── rtl.component.ts
+    │   │   │   │   ├── search.component.ts
+    │   │   │   │   ├── task.component.ts
+    │   │   │   │   ├── user.component.ts
+    │   │   │   ├── basic.component.ts
+    │   │   │   ├── README.md
+    │   │   ├── blank-layout/
+    │   │   │   ├── blank.component.ts
+    │   │   │   ├── README.md
+    │   │   ├── passport-layout/
+    │   │   │   ├── passport.component.less
+    │   │   │   ├── passport.component.ts
+    │   │   ├── index.ts
+    │   │   ├── README.md
     │   ├── shared/
-    │   │   ├── cell-widget/
-    │   │   │   ├── index.ts
+    │   │   ├── components/
+    │   │   │   ├── cell-widget/
+    │   │   │   │   ├── index.ts
+    │   │   │   ├── st-widget/
+    │   │   │   │   └── index.ts
+    │   │   │   │   └── README.md
     │   │   ├── json-schema/
     │   │   │   ├── test/
     │   │   │   │   ├── test.widget.ts
-    │   │   │   ├── index.ts
-    │   │   │   ├── README.md
-    │   │   ├── st-widget/
     │   │   │   ├── index.ts
     │   │   │   ├── README.md
     │   │   ├── utils/
@@ -391,8 +373,34 @@
     │   │   ├── shared-delon.module.ts
     │   │   ├── shared-imports.ts
     │   │   ├── shared-zorro.module.ts
+    │   ├── system/
+    │   │   ├── data-visualization/
+    │   │   │   ├── relation/
+    │   │   │   │   ├── relation.component.html
+    │   │   │   │   ├── relation.component.ts
+    │   │   │   ├── routes.ts
+    │   │   ├── exception/
+    │   │   │   ├── exception.component.ts
+    │   │   │   ├── routes.ts
+    │   │   │   ├── trigger.component.ts
+    │   │   ├── extras/
+    │   │   │   └── helpcenter/
+    │   │   │       ├── helpcenter.component.html
+    │   │   │       ├── helpcenter.component.ts
+    │   │   │   └── poi/
+    │   │   │       ├── edit/
+    │   │   │       │   ├── edit.component.html
+    │   │   │       │   ├── edit.component.ts
+    │   │   │       ├── poi.component.html
+    │   │   │       ├── poi.component.ts
+    │   │   │   └── settings/
+    │   │   │       ├── settings.component.html
+    │   │   │       ├── settings.component.ts
+    │   │   │   └── routes.ts
     │   ├── app.component.ts
     │   ├── app.config.ts
+    │   ├── app.routes.ts
+    │   ├── README.md
     ├── assets/
     │   ├── tmp/
     │   │   ├── i18n/

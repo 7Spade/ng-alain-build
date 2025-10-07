@@ -25,7 +25,7 @@ import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
 
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
-import { routes } from './routes/routes';
+import { routes } from './app.routes';
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -42,7 +42,7 @@ const alainConfig: AlainConfig = {
     license: `A59B099A586B3851E0F0D7FDBF37B603`,
     licenseA: `C94CEE276DB2187AE6B65D56B3FC2848`
   },
-  auth: { login_url: '/passport/login' }
+  auth: { login_url: '/auth/login' }
 };
 
 const ngZorroConfig: NzConfig = {};

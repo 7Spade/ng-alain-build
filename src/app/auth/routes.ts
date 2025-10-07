@@ -8,9 +8,9 @@ import { UserRegisterResultComponent } from './register-result/register-result.c
 import { LayoutPassportComponent } from '../layout';
 
 export const routes: Routes = [
-  // passport
+  // auth - 認證頁面
   {
-    path: 'passport',
+    path: 'auth',
     component: LayoutPassportComponent,
     children: [
       {
@@ -39,5 +39,11 @@ export const routes: Routes = [
         data: { title: '锁屏', titleI18n: 'app.lock' }
       }
     ]
+  },
+  // 保留舊路徑兼容性（重定向到新路徑）
+  {
+    path: 'passport',
+    redirectTo: 'auth',
+    pathMatch: 'prefix'
   }
 ];
