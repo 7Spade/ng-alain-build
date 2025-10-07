@@ -6,8 +6,8 @@
 
 ## 📊 統計資訊
 
-- **目錄總數**: 154
-- **文件總數**: 518
+- **目錄總數**: 248
+- **文件總數**: 795
 
 ## 📂 目錄結構
 
@@ -23,10 +23,380 @@
     ├── _user.ts
     ├── index.ts
     ├── README.md
+└── .playwright-mcp/
+    ├── firebase-500-error.png
 └── docs/
+    ├── ng-alain-master/
+    │   ├── _mock/
+    │   │   ├── _api.ts
+    │   │   ├── _chart.ts
+    │   │   ├── _geo.ts
+    │   │   ├── _pois.ts
+    │   │   ├── _profile.ts
+    │   │   ├── _rule.ts
+    │   │   ├── _user.ts
+    │   │   ├── index.ts
+    │   │   ├── README.md
+    │   ├── public/
+    │   │   ├── favicon.ico
+    │   ├── src/
+    │   │   ├── app/
+    │   │   │   ├── core/
+    │   │   │   │   ├── i18n/
+    │   │   │   │   │   ├── i18n.service.spec.ts
+    │   │   │   │   │   ├── i18n.service.ts
+    │   │   │   │   ├── net/
+    │   │   │   │   │   ├── default.interceptor.ts
+    │   │   │   │   │   ├── helper.ts
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   │   ├── refresh-token.ts
+    │   │   │   │   ├── startup/
+    │   │   │   │   │   ├── startup.service.ts
+    │   │   │   │   ├── index.ts
+    │   │   │   │   ├── README.md
+    │   │   │   │   ├── start-page.guard.ts
+    │   │   │   ├── layout/
+    │   │   │   │   ├── basic/
+    │   │   │   │   │   ├── widgets/
+    │   │   │   │   │   │   ├── clear-storage.component.ts
+    │   │   │   │   │   │   ├── fullscreen.component.ts
+    │   │   │   │   │   │   ├── i18n.component.ts
+    │   │   │   │   │   │   ├── icon.component.ts
+    │   │   │   │   │   │   ├── notify.component.ts
+    │   │   │   │   │   │   ├── rtl.component.ts
+    │   │   │   │   │   │   ├── search.component.ts
+    │   │   │   │   │   │   ├── task.component.ts
+    │   │   │   │   │   │   ├── user.component.ts
+    │   │   │   │   │   ├── basic.component.ts
+    │   │   │   │   │   ├── README.md
+    │   │   │   │   ├── blank/
+    │   │   │   │   │   ├── blank.component.ts
+    │   │   │   │   │   ├── README.md
+    │   │   │   │   ├── passport/
+    │   │   │   │   │   ├── passport.component.less
+    │   │   │   │   │   ├── passport.component.ts
+    │   │   │   │   ├── index.ts
+    │   │   │   ├── routes/
+    │   │   │   │   ├── dashboard/
+    │   │   │   │   │   ├── analysis/
+    │   │   │   │   │   │   ├── analysis.component.html
+    │   │   │   │   │   │   ├── analysis.component.less
+    │   │   │   │   │   │   ├── analysis.component.ts
+    │   │   │   │   │   ├── monitor/
+    │   │   │   │   │   │   ├── monitor.component.html
+    │   │   │   │   │   │   ├── monitor.component.less
+    │   │   │   │   │   │   ├── monitor.component.ts
+    │   │   │   │   │   ├── v1/
+    │   │   │   │   │   │   ├── v1.component.html
+    │   │   │   │   │   │   ├── v1.component.ts
+    │   │   │   │   │   ├── workplace/
+    │   │   │   │   │   │   ├── workplace.component.html
+    │   │   │   │   │   │   ├── workplace.component.less
+    │   │   │   │   │   │   ├── workplace.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── data-v/
+    │   │   │   │   │   ├── relation/
+    │   │   │   │   │   │   ├── relation.component.html
+    │   │   │   │   │   │   ├── relation.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── delon/
+    │   │   │   │   │   ├── acl/
+    │   │   │   │   │   │   ├── acl.component.html
+    │   │   │   │   │   │   ├── acl.component.ts
+    │   │   │   │   │   ├── cache/
+    │   │   │   │   │   │   ├── cache.component.html
+    │   │   │   │   │   │   ├── cache.component.ts
+    │   │   │   │   │   ├── downfile/
+    │   │   │   │   │   │   ├── downfile.component.html
+    │   │   │   │   │   │   ├── downfile.component.ts
+    │   │   │   │   │   ├── form/
+    │   │   │   │   │   │   ├── form.component.html
+    │   │   │   │   │   │   ├── form.component.ts
+    │   │   │   │   │   ├── guard/
+    │   │   │   │   │   │   ├── admin.component.ts
+    │   │   │   │   │   │   ├── auth.component.ts
+    │   │   │   │   │   │   ├── can-leave.ts
+    │   │   │   │   │   │   ├── guard.component.html
+    │   │   │   │   │   │   ├── guard.component.ts
+    │   │   │   │   │   │   ├── leave.component.ts
+    │   │   │   │   │   ├── print/
+    │   │   │   │   │   │   ├── print.component.html
+    │   │   │   │   │   │   ├── print.component.ts
+    │   │   │   │   │   ├── qr/
+    │   │   │   │   │   │   ├── qr.component.html
+    │   │   │   │   │   │   ├── qr.component.ts
+    │   │   │   │   │   ├── st/
+    │   │   │   │   │   │   ├── st.component.html
+    │   │   │   │   │   │   ├── st.component.ts
+    │   │   │   │   │   ├── util/
+    │   │   │   │   │   │   ├── util.component.html
+    │   │   │   │   │   │   ├── util.component.ts
+    │   │   │   │   │   ├── xlsx/
+    │   │   │   │   │   │   ├── xlsx.component.html
+    │   │   │   │   │   │   ├── xlsx.component.ts
+    │   │   │   │   │   ├── zip/
+    │   │   │   │   │   │   ├── zip.component.html
+    │   │   │   │   │   │   ├── zip.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── exception/
+    │   │   │   │   │   ├── exception.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   │   ├── trigger.component.ts
+    │   │   │   │   ├── extras/
+    │   │   │   │   │   ├── helpcenter/
+    │   │   │   │   │   │   ├── helpcenter.component.html
+    │   │   │   │   │   │   ├── helpcenter.component.ts
+    │   │   │   │   │   ├── poi/
+    │   │   │   │   │   │   ├── edit/
+    │   │   │   │   │   │   │   ├── edit.component.html
+    │   │   │   │   │   │   │   ├── edit.component.ts
+    │   │   │   │   │   │   ├── poi.component.html
+    │   │   │   │   │   │   ├── poi.component.ts
+    │   │   │   │   │   ├── settings/
+    │   │   │   │   │   │   ├── settings.component.html
+    │   │   │   │   │   │   ├── settings.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── passport/
+    │   │   │   │   │   ├── lock/
+    │   │   │   │   │   │   ├── lock.component.html
+    │   │   │   │   │   │   ├── lock.component.less
+    │   │   │   │   │   │   ├── lock.component.ts
+    │   │   │   │   │   ├── login/
+    │   │   │   │   │   │   ├── login.component.html
+    │   │   │   │   │   │   ├── login.component.less
+    │   │   │   │   │   │   ├── login.component.ts
+    │   │   │   │   │   ├── register/
+    │   │   │   │   │   │   ├── register.component.html
+    │   │   │   │   │   │   ├── register.component.less
+    │   │   │   │   │   │   ├── register.component.ts
+    │   │   │   │   │   ├── register-result/
+    │   │   │   │   │   │   ├── register-result.component.html
+    │   │   │   │   │   │   ├── register-result.component.ts
+    │   │   │   │   │   ├── callback.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── pro/
+    │   │   │   │   │   ├── account/
+    │   │   │   │   │   │   ├── center/
+    │   │   │   │   │   │   │   ├── applications/
+    │   │   │   │   │   │   │   │   ├── applications.component.html
+    │   │   │   │   │   │   │   │   ├── applications.component.less
+    │   │   │   │   │   │   │   │   ├── applications.component.ts
+    │   │   │   │   │   │   │   ├── articles/
+    │   │   │   │   │   │   │   │   ├── articles.component.html
+    │   │   │   │   │   │   │   │   ├── articles.component.ts
+    │   │   │   │   │   │   │   ├── projects/
+    │   │   │   │   │   │   │   │   ├── projects.component.html
+    │   │   │   │   │   │   │   │   ├── projects.component.less
+    │   │   │   │   │   │   │   │   ├── projects.component.ts
+    │   │   │   │   │   │   │   ├── center.component.html
+    │   │   │   │   │   │   │   ├── center.component.less
+    │   │   │   │   │   │   │   ├── center.component.ts
+    │   │   │   │   │   │   ├── settings/
+    │   │   │   │   │   │   │   └── base/
+    │   │   │   │   │   │   │       ├── base.component.html
+    │   │   │   │   │   │   │       ├── base.component.less
+    │   │   │   │   │   │   │       ├── base.component.ts
+    │   │   │   │   │   │   │   └── binding/
+    │   │   │   │   │   │   │       ├── binding.component.html
+    │   │   │   │   │   │   │       ├── binding.component.ts
+    │   │   │   │   │   │   │   └── notification/
+    │   │   │   │   │   │   │       ├── notification.component.html
+    │   │   │   │   │   │   │       ├── notification.component.ts
+    │   │   │   │   │   │   │   └── security/
+    │   │   │   │   │   │   │       ├── security.component.html
+    │   │   │   │   │   │   │       ├── security.component.ts
+    │   │   │   │   │   │   │   └── settings.component.html
+    │   │   │   │   │   │   │   └── settings.component.less
+    │   │   │   │   │   │   │   └── settings.component.ts
+    │   │   │   │   │   ├── form/
+    │   │   │   │   │   │   ├── advanced-form/
+    │   │   │   │   │   │   │   ├── advanced-form.component.html
+    │   │   │   │   │   │   │   ├── advanced-form.component.ts
+    │   │   │   │   │   │   ├── basic-form/
+    │   │   │   │   │   │   │   ├── basic-form.component.html
+    │   │   │   │   │   │   │   ├── basic-form.component.ts
+    │   │   │   │   │   │   ├── step-form/
+    │   │   │   │   │   │   │   └── step-form.component.html
+    │   │   │   │   │   │   │   └── step-form.component.less
+    │   │   │   │   │   │   │   └── step-form.component.ts
+    │   │   │   │   │   │   │   └── step1.component.html
+    │   │   │   │   │   │   │   └── step1.component.ts
+    │   │   │   │   │   │   │   └── step2.component.html
+    │   │   │   │   │   │   │   └── step2.component.ts
+    │   │   │   │   │   │   │   └── step3.component.html
+    │   │   │   │   │   │   │   └── step3.component.ts
+    │   │   │   │   │   │   │   └── transfer.service.ts
+    │   │   │   │   │   ├── list/
+    │   │   │   │   │   │   ├── applications/
+    │   │   │   │   │   │   │   ├── applications.component.html
+    │   │   │   │   │   │   │   ├── applications.component.less
+    │   │   │   │   │   │   │   ├── applications.component.ts
+    │   │   │   │   │   │   ├── articles/
+    │   │   │   │   │   │   │   ├── articles.component.html
+    │   │   │   │   │   │   │   ├── articles.component.ts
+    │   │   │   │   │   │   ├── basic-list/
+    │   │   │   │   │   │   │   ├── edit/
+    │   │   │   │   │   │   │   │   ├── edit.component.html
+    │   │   │   │   │   │   │   │   ├── edit.component.ts
+    │   │   │   │   │   │   │   ├── basic-list.component.html
+    │   │   │   │   │   │   │   ├── basic-list.component.less
+    │   │   │   │   │   │   │   ├── basic-list.component.ts
+    │   │   │   │   │   │   ├── card-list/
+    │   │   │   │   │   │   │   ├── card-list.component.html
+    │   │   │   │   │   │   │   ├── card-list.component.ts
+    │   │   │   │   │   │   ├── list/
+    │   │   │   │   │   │   │   ├── list.component.html
+    │   │   │   │   │   │   │   ├── list.component.ts
+    │   │   │   │   │   │   ├── projects/
+    │   │   │   │   │   │   │   ├── projects.component.html
+    │   │   │   │   │   │   │   ├── projects.component.less
+    │   │   │   │   │   │   │   ├── projects.component.ts
+    │   │   │   │   │   │   ├── table-list/
+    │   │   │   │   │   │   │   └── table-list.component.html
+    │   │   │   │   │   │   │   └── table-list.component.ts
+    │   │   │   │   │   ├── profile/
+    │   │   │   │   │   │   ├── advanced/
+    │   │   │   │   │   │   │   ├── advanced.component.html
+    │   │   │   │   │   │   │   ├── advanced.component.less
+    │   │   │   │   │   │   │   ├── advanced.component.ts
+    │   │   │   │   │   │   ├── basic/
+    │   │   │   │   │   │   │   └── basic.component.html
+    │   │   │   │   │   │   │   └── basic.component.ts
+    │   │   │   │   │   ├── result/
+    │   │   │   │   │   │   ├── fail/
+    │   │   │   │   │   │   │   ├── fail.component.html
+    │   │   │   │   │   │   │   ├── fail.component.ts
+    │   │   │   │   │   │   ├── success/
+    │   │   │   │   │   │   │   └── success.component.html
+    │   │   │   │   │   │   │   └── success.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── style/
+    │   │   │   │   │   ├── colors/
+    │   │   │   │   │   │   ├── colors.component.html
+    │   │   │   │   │   │   ├── colors.component.less
+    │   │   │   │   │   │   ├── colors.component.ts
+    │   │   │   │   │   ├── gridmasonry/
+    │   │   │   │   │   │   ├── gridmasonry.component.html
+    │   │   │   │   │   │   ├── gridmasonry.component.less
+    │   │   │   │   │   │   ├── gridmasonry.component.ts
+    │   │   │   │   │   ├── typography/
+    │   │   │   │   │   │   ├── typography.component.html
+    │   │   │   │   │   │   ├── typography.component.ts
+    │   │   │   │   │   ├── color.service.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── widgets/
+    │   │   │   │   │   ├── widgets/
+    │   │   │   │   │   │   ├── widgets.component.html
+    │   │   │   │   │   │   ├── widgets.component.less
+    │   │   │   │   │   │   ├── widgets.component.ts
+    │   │   │   │   │   ├── routes.ts
+    │   │   │   │   ├── routes.ts
+    │   │   │   ├── shared/
+    │   │   │   │   ├── cell-widget/
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   ├── json-schema/
+    │   │   │   │   │   ├── test/
+    │   │   │   │   │   │   ├── test.widget.ts
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   │   ├── README.md
+    │   │   │   │   ├── st-widget/
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   │   ├── README.md
+    │   │   │   │   ├── utils/
+    │   │   │   │   │   ├── yuan.ts
+    │   │   │   │   ├── index.ts
+    │   │   │   │   ├── README.md
+    │   │   │   │   ├── shared-delon.module.ts
+    │   │   │   │   ├── shared-imports.ts
+    │   │   │   │   ├── shared-zorro.module.ts
+    │   │   │   ├── app.component.ts
+    │   │   │   ├── app.config.ts
+    │   │   ├── assets/
+    │   │   │   ├── tmp/
+    │   │   │   │   ├── i18n/
+    │   │   │   │   │   ├── el-GR.json
+    │   │   │   │   │   ├── en-US.json
+    │   │   │   │   │   ├── es-ES.json
+    │   │   │   │   │   ├── fr-FR.json
+    │   │   │   │   │   ├── hr-HR.json
+    │   │   │   │   │   ├── it-IT.json
+    │   │   │   │   │   ├── ko-KR.json
+    │   │   │   │   │   ├── pl-PL.json
+    │   │   │   │   │   ├── sl-SI.json
+    │   │   │   │   │   ├── tr-TR.json
+    │   │   │   │   │   ├── zh-CN.json
+    │   │   │   │   │   ├── zh-TW.json
+    │   │   │   │   ├── img/
+    │   │   │   │   │   ├── 1.png
+    │   │   │   │   │   ├── 2.png
+    │   │   │   │   │   ├── 3.png
+    │   │   │   │   │   ├── 4.png
+    │   │   │   │   │   ├── 5.png
+    │   │   │   │   │   ├── 6.png
+    │   │   │   │   │   ├── avatar.jpg
+    │   │   │   │   │   ├── bg1.jpg
+    │   │   │   │   │   ├── bg10.jpg
+    │   │   │   │   │   ├── bg2.jpg
+    │   │   │   │   │   ├── bg3.jpg
+    │   │   │   │   │   ├── bg4.jpg
+    │   │   │   │   │   ├── bg5.jpg
+    │   │   │   │   │   ├── bg6.jpg
+    │   │   │   │   │   ├── bg7.jpg
+    │   │   │   │   │   ├── bg8.jpg
+    │   │   │   │   │   ├── bg9.jpg
+    │   │   │   │   │   ├── half-float-bg-1.jpg
+    │   │   │   │   ├── app-data.json
+    │   │   │   │   ├── demo.docx
+    │   │   │   │   ├── demo.pdf
+    │   │   │   │   ├── demo.pptx
+    │   │   │   │   ├── demo.xlsx
+    │   │   │   │   ├── demo.zip
+    │   │   │   │   ├── on-boarding.json
+    │   │   │   ├── .gitkeep
+    │   │   │   ├── color.less
+    │   │   │   ├── logo-color.svg
+    │   │   │   ├── logo-full.svg
+    │   │   │   ├── logo.svg
+    │   │   │   ├── style.compact.css
+    │   │   │   ├── style.dark.css
+    │   │   │   ├── zorro.svg
+    │   │   ├── environments/
+    │   │   │   ├── environment.prod.ts
+    │   │   │   ├── environment.ts
+    │   │   ├── styles/
+    │   │   │   ├── index.less
+    │   │   │   ├── theme.less
+    │   │   ├── index.html
+    │   │   ├── main.ts
+    │   │   ├── style-icons-auto.ts
+    │   │   ├── style-icons.ts
+    │   │   ├── styles.less
+    │   │   ├── typings.d.ts
+    │   ├── .editorconfig
+    │   ├── .gitignore
+    │   ├── .npmignore
+    │   ├── .npmrc
+    │   ├── .nvmrc
+    │   ├── .prettierignore
+    │   ├── .prettierrc.js
+    │   ├── .yarnrc.yml
+    │   ├── angular.json
+    │   ├── CONTRIBUTING.md
+    │   ├── eslint.config.mjs
+    │   ├── LICENSE
+    │   ├── ng-alain.json
+    │   ├── package.json
+    │   ├── proxy.conf.js
+    │   ├── README-zh_CN.md
+    │   ├── README.md
+    │   ├── stylelint.config.mjs
+    │   ├── tsconfig.app.json
+    │   ├── tsconfig.json
+    │   ├── tsconfig.spec.json
     ├── FIREBASE_AUTHENTICATION_DESIGN_PART2.md
     ├── FIREBASE_AUTHENTICATION_DESIGN.md
     ├── FIREBASE_FILES_INDEX.md
+    ├── FIREBASE_IMPLEMENTATION_COMPLETE.md
     ├── FIREBASE_IMPLEMENTATION_SUMMARY.md
     ├── FIREBASE_QUICK_START.md
     ├── README_FIREBASE_DESIGN.md
@@ -136,6 +506,7 @@
     ├── ng-alain-lint-error-style.md
     ├── ng-alain-lint-error.md
     ├── ng-alain-structure-folders.md
+    ├── ng-alain-structure-full.md
     ├── ng-alain-structure.md
     ├── progress.md
     ├── projectbrief.md
