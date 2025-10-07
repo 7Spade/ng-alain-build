@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
 import { ColorService } from './color.service';
-import { ColorsComponent } from './colors/colors.component';
-import { GridMasonryComponent } from './gridmasonry/gridmasonry.component';
-import { TypographyComponent } from './typography/typography.component';
+import { ColorsComponent } from './colors-demo/colors.component';
+import { GridMasonryComponent } from './grid-demo/gridmasonry.component';
+import { TypographyComponent } from './typography-demo/typography.component';
 
 export const routes: Routes = [
   {
