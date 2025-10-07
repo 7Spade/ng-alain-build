@@ -12,7 +12,7 @@ export const environment = {
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
-    refreshTokenType: 'firebase' // 'firebase' | 're-request' | 'auth-refresh'
+    refreshTokenType: 'firebase' as any // 'firebase' | 're-request' | 'auth-refresh'
   },
   // Firebase Token 配置
   token: {
