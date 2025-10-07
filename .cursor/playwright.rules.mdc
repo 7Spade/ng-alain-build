@@ -1,12 +1,66 @@
 ---
 alwaysApply: true
 server: playwright
-summary: 文件導覽/截圖輔助；非正式 E2E 測試替代
+summary: 瀏覽器自動化：文件導覽、截圖、元素查詢（輔助性質）
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Playwright MCP（頂層入口）
-- 目的：文件瀏覽、自動化互動與截圖輔助。
-- 推薦：navigate_to_url → wait_for → take_screenshot；get_by_* 查詢元素。
-- 注意：僅作輔助，不取代正式 E2E 測試流程。
+# Playwright MCP
+
+## 核心用途
+🌐 瀏覽文件網站  
+📸 截圖輔助（視覺驗證）  
+🎯 自動化元素互動  
+⚪ **非正式** E2E 測試替代品
+
+## 標準工作流程
+```
+1. navigate_to_url(url)           # 導覽到目標網址
+2. wait_for(selector, timeout)    # 等待元素載入
+3. take_screenshot()              # 截圖驗證
+```
+
+## 常用工具
+
+| 工具 | 用途 | 範例 |
+|------|------|------|
+| `navigate_to_url` | 導覽至 URL | `navigate_to_url("https://ng-alain.com")` |
+| `take_screenshot` | 頁面截圖 | 視覺驗證 UI 是否正確 |
+| `click_element` | 點擊元素 | 測試按鈕互動 |
+| `fill_input` | 填寫表單 | 測試表單輸入 |
+| `get_by_text` | 用文字查詢 | `get_by_text("登入")` |
+| `get_by_role` | 用角色查詢 | `get_by_role("button")` |
+| `get_by_test_id` | 用 test-id 查詢 | `get_by_test_id("submit-btn")` |
+| `wait_for` | 等待元素 | 確保頁面載入完成 |
+| `snapshot` | 狀態快照 | 記錄當前頁面狀態 |
+
+## 自動核准工具
+✅ navigate_to_url, take_screenshot, snapshot, wait_for
+
+## 使用場景
+
+### 文件瀏覽
+```
+# 查看 ng-zorro-antd 官方範例
+navigate_to_url("https://ng.ant.design/components/table")
+wait_for("nz-table")
+take_screenshot()
+```
+
+### 視覺驗證
+```
+# 驗證開發中的 UI
+navigate_to_url("http://localhost:4200")
+wait_for(".dashboard")
+take_screenshot()  # 比對設計稿
+```
+
+## ⚠️ 注意事項
+- **僅作輔助**，不取代專案的正式 E2E 測試（Protractor）
+- 截圖用於視覺驗證和文件記錄，非自動化測試
+- 互動操作應該簡單、可重現
+
+---
+
+配置：`.cursor/mcp.json` | 用途：輔助開發，非生產測試

@@ -1,11 +1,58 @@
 ---
 alwaysApply: true
 server: context7
-summary: 僅在涉及第三方庫/API 時先 resolve-library-id → get-library-docs（一般任務不強制）
+summary: 涉及第三方庫時必先查詢官方文件，避免幻覺產生
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Context7 MCP（頂層入口）
-- 建議：當涉及第三方代碼時，先 resolve-library-id → get-library-docs；一般任務不強制。
-- 策略：文件為準產碼；版本不明先詢問；避免臆測。
+# Context7 MCP
+
+## 核心原則
+🎯 **使用第三方套件前必先查詢官方文件**  
+📚 以官方文件為準，避免憑記憶產生程式碼  
+❓ 版本不明時先詢問使用者，不要猜測
+
+## 標準工作流程
+```
+1. resolve-library-id("套件名稱")        # 解析 Context7 相容的 library ID
+2. get-library-docs("/org/project")      # 取得官方文件
+   - topic: "特定主題"（選用）
+   - tokens: 3000-5000（預設 5000）
+3. 基於取得的文件產生程式碼
+```
+
+## 使用範例
+
+### Angular 相關
+```
+resolve-library-id("angular") 
+→ /angular/angular
+→ get-library-docs("/angular/angular", "components")
+```
+
+### ng-zorro-antd
+```
+resolve-library-id("ng-zorro-antd")
+→ /ng-zorro/ng-zorro-antd  
+→ get-library-docs("/ng-zorro/ng-zorro-antd", "table component")
+```
+
+### @delon 套件
+```
+resolve-library-id("delon abc")
+→ 取得 @delon/abc 的 library ID
+→ get-library-docs 查詢元件用法
+```
+
+## 自動核准
+✅ resolve-library-id, get-library-docs
+
+## 重要提醒
+⚠️ 套件版本不明確時，必須先詢問使用者確認  
+⚠️ 避免混用不同版本的 API  
+⚠️ 優先使用專案已安裝的套件版本
+
+---
+
+預設平台：Node 22.18.0 | 參考：[Context7 文件](https://context7.com)

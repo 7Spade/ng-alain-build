@@ -1,0 +1,166 @@
+---
+description: .cursor 規範系統總覽與導航中心
+alwaysApply: true
+summary: 快速導航所有 MCP servers 和開發規範
+---
+
+# 📚 Cursor 規範索引中心
+
+> **快速導航：** [MCP Servers](#mcp-servers) · [開發流程](#開發流程規範) · [工具使用](#工具使用指南)
+
+---
+
+## 🚀 MCP Servers 配置
+
+所有 MCP servers 配置在 `.cursor/mcp.json`
+
+| Server | 用途 | 規範檔案 | 自動載入 |
+|--------|------|---------|----------|
+| **angular-cli** | Angular 最佳實踐查詢 | [angular-cli.rules.mdc](mdc:../.cursor/angular-cli.rules.mdc) | ✅ |
+| **context7** | 第三方文件自動查詢 | [context7.rules.mdc](mdc:../.cursor/context7.rules.mdc) | ✅ |
+| **filesystem** | 檔案系統操作 | [filesystem.rules.mdc](mdc:../.cursor/filesystem.rules.mdc) | ✅ |
+| **sequential-thinking** | 多步驟任務規劃 | [sequential-thinking.rules.mdc](mdc:../.cursor/sequential-thinking.rules.mdc) | ✅ |
+| **memory** | 專案知識管理 | [memory.rules.mdc](mdc:../.cursor/memory.rules.mdc) | ✅ |
+| **playwright** | 瀏覽器自動化輔助 | [playwright.rules.mdc](mdc:../.cursor/playwright.rules.mdc) | ✅ |
+| **fetch** | 網頁內容抓取 | [fetch.rules.mdc](mdc:../.cursor/fetch.rules.mdc) | ✅ |
+| **everything** | 示範/教學工具 | [everything.rules.mdc](mdc:../.cursor/everything.rules.mdc) | ⚪ 按需 |
+| **github** | GitHub 儲存庫操作 | [github.rules.mdc](mdc:../.cursor/github.rules.mdc) | ⚪ 按需 |
+
+---
+
+## 🔄 開發流程規範
+
+### Memory Bank 系統（隔離模式）
+
+**核心入口：** [main.mdc](mdc:./isolation_rules/main.mdc) · [main-optimized.mdc](mdc:./isolation_rules/main-optimized.mdc)
+
+#### 🎯 開發模式
+
+| 模式 | 用途 | 規範檔案 | 使用時機 |
+|------|------|---------|----------|
+| **VAN** | 初始化與分析 | [van-mode-map.mdc](mdc:./isolation_rules/visual-maps/van_mode_split/van-mode-map.mdc) | 每個任務開始 |
+| **PLAN** | 任務規劃 | [plan-mode-map.mdc](mdc:./isolation_rules/visual-maps/plan-mode-map.mdc) | Level 2+ 任務 |
+| **CREATIVE** | 設計決策 | [creative-mode-map.mdc](mdc:./isolation_rules/visual-maps/creative-mode-map.mdc) | Level 3+ 任務 |
+| **IMPLEMENT** | 程式碼實作 | [implement-mode-map.mdc](mdc:./isolation_rules/visual-maps/implement-mode-map.mdc) | 所有任務 |
+| **QA** | 品質驗證 | [qa-mode-map.mdc](mdc:./isolation_rules/visual-maps/qa-mode-map.mdc) | 任何階段 |
+| **REFLECT** | 任務回顧 | [reflect-mode-map.mdc](mdc:./isolation_rules/visual-maps/reflect-mode-map.mdc) | 完成後 |
+| **ARCHIVE** | 文件歸檔 | [archive-mode-map.mdc](mdc:./isolation_rules/visual-maps/archive-mode-map.mdc) | Level 3+ 完成 |
+
+#### 📊 任務複雜度
+
+| Level | 類型 | 工作流程 | 規範檔案 |
+|-------|------|---------|----------|
+| **1** | 快速修復 | VAN → IMPLEMENT → REFLECT | [workflow-level1.mdc](mdc:./isolation_rules/Level1/workflow-level1.mdc) |
+| **2** | 簡單增強 | VAN → PLAN → IMPLEMENT → REFLECT | [workflow-level2.mdc](mdc:./isolation_rules/Level2/workflow-level2.mdc) |
+| **3** | 中型功能 | VAN → PLAN → CREATIVE → IMPLEMENT → REFLECT | [planning-comprehensive.mdc](mdc:./isolation_rules/Level3/planning-comprehensive.mdc) |
+| **4** | 複雜系統 | VAN → PLAN → CREATIVE → IMPLEMENT → REFLECT → ARCHIVE | [workflow-level4.mdc](mdc:./isolation_rules/Level4/workflow-level4.mdc) |
+
+---
+
+## 🛠️ 工具使用指南
+
+### Context7 工作流程
+```
+1. resolve-library-id（解析套件 ID）
+2. get-library-docs（取得官方文件）
+3. 基於文件產生程式碼
+```
+
+### Sequential Thinking 使用時機
+- ✅ 多步驟任務（3+ 步驟）
+- ✅ 複雜問題需要規劃
+- ✅ 需要修正假設的任務
+- ⚪ 簡單單一任務不需要
+
+### Memory Bank 同步
+- 規劃階段 → add_observations（決策記錄）
+- 文件引用 → add_observations（文件記錄）
+- 檔案編輯 → add_observations（變更記錄）
+- Git 操作 → create_entities + create_relations
+
+---
+
+## 📋 核心原則
+
+### ✅ 做什麼
+- 優先使用專用工具（read_file, write, search_replace）
+- Angular 任務前先 `get_best_practices`
+- 第三方套件前先 `resolve-library-id → get-library-docs`
+- 複雜任務使用 `sequential-thinking` 規劃
+- 最小變更原則，保留原始縮排
+
+### ❌ 避免什麼
+- 不用 cat/sed/awk 等終端指令處理檔案
+- 不用 echo 顯示訊息（直接回應使用者）
+- 不手動配置應該自動化的流程
+- 不重新格式化無關的程式碼
+- 不儲存敏感資訊到 Memory
+
+---
+
+## 🔍 快速參考
+
+### 檔案操作
+- 讀取：`read_file`
+- 寫入：`write` (新檔/覆寫)
+- 編輯：`search_replace` (精確替換)
+- 搜尋：`grep` (內容搜尋)
+- 列表：`list_dir`
+
+### Angular 開發
+- 最佳實踐：`get_best_practices`（Angular CLI MCP）
+- 文件搜尋：`search_documentation`
+- 專案列表：`list_projects`
+
+### 第三方套件
+- 套件 ID：`resolve-library-id`（Context7）
+- 文件查詢：`get-library-docs`（Context7）
+
+---
+
+## 📖 進階主題
+
+### Memory Bank 系統
+- [主要規範](mdc:./isolation_rules/main.mdc) - 完整 Memory Bank 系統
+- [優化版本](mdc:./isolation_rules/main-optimized.mdc) - Token 優化版本
+- [複雜度決策樹](mdc:./isolation_rules/Core/complexity-decision-tree.mdc)
+
+### 核心概念
+- [平台感知](mdc:./isolation_rules/Core/platform-awareness.mdc) - 跨平台指令適配
+- [檔案驗證](mdc:./isolation_rules/Core/file-verification.mdc) - 檔案結構驗證
+- [指令執行](mdc:./isolation_rules/Core/command-execution.mdc) - 高效指令執行
+
+### 創意階段
+- [架構設計](mdc:./isolation_rules/Phases/CreativePhase/creative-phase-architecture.mdc)
+- [優化模板](mdc:./isolation_rules/Phases/CreativePhase/optimized-creative-template.mdc)
+
+---
+
+## 💡 使用範例
+
+### 開始新任務
+```
+1. 使用者：VAN
+2. AI：分析任務 → 確定複雜度 → 建議下一步
+3. 使用者：根據建議切換模式（PLAN/IMPLEMENT 等）
+```
+
+### Angular 開發
+```
+1. 先執行：get_best_practices
+2. 查詢文件：search_documentation("特定主題")
+3. 產生程式碼：基於最佳實踐
+```
+
+### 使用第三方套件
+```
+1. resolve-library-id("套件名稱")
+2. get-library-docs("/org/project", "主題")
+3. 基於官方文件產生程式碼
+```
+
+---
+
+**版本：** 1.0.0  
+**最後更新：** 2025-10-07  
+**維護者：** Memory Bank System

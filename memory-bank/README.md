@@ -1,3 +1,19 @@
+---
+type: guide
+category: constitution-index
+complexity: basic
+target_audience: [beginner, intermediate, advanced, architect]
+reading_time: 10min
+tags: [memory-bank, guide, quick-start, navigation, constitution]
+summary: Memory Bank主入口文檔，提供快速開始指南和完整導航
+related_files:
+  - memory.json
+  - projectbrief.md
+  - techContext.md
+  - progress.md
+last_updated: 2025-10-07
+---
+
 # Memory Bank - 專案知識憲法
 
 > ng-alain 專案的結構化知識管理系統

@@ -1,3 +1,17 @@
+---
+type: reference
+category: project-info
+complexity: basic
+target_audience: [beginner, intermediate]
+reading_time: 5min
+tags: [environment, build, tools, development, scripts]
+summary: 開發環境配置、建置配置與開發工具
+related_files:
+  - projectbrief.md
+  - implementation/code/codeStandards.md
+last_updated: 2025-10-07
+---
+
 # 技術環境
 
 ## 開發環境

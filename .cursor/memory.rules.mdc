@@ -1,30 +1,100 @@
 ---
 alwaysApply: true
 server: memory
-summary: 只存高價值可重用知識；不存 secrets
+summary: 高價值知識管理：實體-關係圖譜，自動同步 memory.json
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Memory MCP（頂層入口）
-- 原則：不存 secrets；只存高價值、可重用知識。
-- 用法：create_entities / add_observations / create_relations / read_graph。
+# Memory MCP
 
-## 自動同步到 memory-bank/memory.json（建議流程）
-- 建立/更新知識時，同步在 `memory-bank/memory.json` 維護：
-  - `entities`: 節點（name, type, observations[]）
-  - `relations`: 關係（from, to, type）
-- 最小變更：只新增/更新必要欄位，不重寫整檔。
-- 嚴禁 secrets：若內容具敏感性，改存為 placeholder 並以環境變數或 secrets 管理。
+## 核心原則
+✅ 只存**高價值、可重用**的知識  
+❌ **嚴禁儲存** secrets、密碼、token  
+🔄 自動同步至 `memory-bank/memory.json`
 
-## Auto‑Sync Hooks（事件矩陣）
-- 觸發時機：
-  - 規劃（Sequential‑Thinking）：決策完成 → add_observations
-  - 文件引用（Context7）：resolve-library-id/get-library-docs 成功 → add_observations
-  - 檔案編輯（Filesystem）：成功寫入/編輯 → add_observations
-  - Git 動作（GitHub）：PR/Issue 建立 → create_entities + create_relations
-- 實作原則：
-  - 單事件單觀測：一次只寫入一個觀測，避免干擾。
-  - 以實體為中心：優先更新既有 entity，再考慮新建。
-  - 關聯最小：僅建立必要 from→to 關係。
-- API 對應：create_entities / add_observations / create_relations / read_graph
+## 知識圖譜結構
+```json
+{
+  "entities": [
+    {
+      "name": "實體名稱",
+      "type": "實體類型",
+      "observations": ["觀測1", "觀測2"]
+    }
+  ],
+  "relations": [
+    {
+      "from": "實體A",
+      "to": "實體B", 
+      "type": "關係類型"
+    }
+  ]
+}
+```
+
+## 可用工具
+- `create_entities` - 建立多個實體
+- `add_observations` - 新增觀測到現有實體
+- `create_relations` - 建立實體間關係
+- `delete_entities` - 刪除實體
+- `delete_observations` - 刪除觀測
+- `delete_relations` - 刪除關係
+- `read_graph` - 讀取完整知識圖譜
+- `search_nodes` - 搜尋節點
+- `open_nodes` - 開啟特定節點
+
+## 自動同步觸發時機
+
+| 事件 | 觸發器 | 操作 |
+|------|--------|------|
+| **決策完成** | Sequential Thinking 結束 | `add_observations` |
+| **文件引用** | Context7 成功查詢 | `add_observations` |
+| **檔案編輯** | Filesystem 寫入成功 | `add_observations` |
+| **Git 操作** | GitHub PR/Issue 建立 | `create_entities` + `create_relations` |
+
+## 實作原則
+1️⃣ **單事件單觀測** - 一次只寫一個，避免干擾  
+2️⃣ **實體為中心** - 優先更新現有實體  
+3️⃣ **最小關聯** - 只建立必要的關係
+
+## 使用範例
+
+### 記錄設計決策
+```typescript
+add_observations({
+  observations: [{
+    entityName: "ng-alain專案",
+    contents: [
+      "決定使用 ng-zorro-antd Table 元件實現列表",
+      "選擇 @delon/abc STComponent 處理複雜表格邏輯"
+    ]
+  }]
+})
+```
+
+### 建立專案實體
+```typescript
+create_entities({
+  entities: [{
+    name: "使用者管理模組",
+    entityType: "功能模組",
+    observations: [
+      "使用 @delon/auth 處理認證",
+      "使用 @delon/acl 處理權限控制"
+    ]
+  }]
+})
+```
+
+## 自動核准
+✅ read_graph
+
+## ⚠️ 注意事項
+- 敏感資訊改用 placeholder + 環境變數
+- 觀測內容應簡潔，避免冗長描述
+- 定期檢查 memory.json 一致性
+
+---
+
+Memory 檔案：`memory-bank/memory.json` | 環境變數：`MEMORY_FILE_PATH`

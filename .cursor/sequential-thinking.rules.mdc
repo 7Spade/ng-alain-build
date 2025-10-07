@@ -1,11 +1,95 @@
 ---
 alwaysApply: true
 server: sequential-thinking
-summary: 多步/複雜任務先規劃；與 Context7 同步引用文件
+summary: 複雜任務必用：可修正的思考鏈規劃，與 Context7 協作
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Sequential‑Thinking MCP（頂層入口）
-- 目的：多步/複雜任務前的可修正規劃。
-- 策略：估步數→修正→驗證假設→完成；與 Context7 同步引用文件。
+# Sequential Thinking MCP
+
+## 核心原則
+🧠 **複雜任務前必先規劃**：分步思考、可修正、驗證假設  
+🔄 **動態調整**：可增減步數、修正方向、分支探索  
+🤝 **與 Context7 協作**：規劃時同步引用官方文件
+
+## 使用時機
+
+### ✅ 應該使用
+- 多步驟任務（3+ 步驟）
+- 複雜問題需要拆解
+- 需要權衡多個方案
+- 可能需要修正方向的任務
+- 需要驗證假設的問題
+
+### ❌ 不需要使用
+- 單一步驟的簡單任務
+- 明確直接的操作
+- 純粹資訊查詢
+
+## 工作流程
+```
+1. thought: "分析問題，估計需要 X 個步驟"
+   thoughtNumber: 1
+   totalThoughts: X（可動態調整）
+   
+2. thought: "執行第一步，發現需要修正"
+   thoughtNumber: 2
+   isRevision: true（如果修正前面的想法）
+   
+3. thought: "驗證假設，調整總步數"
+   thoughtNumber: 3
+   totalThoughts: Y（調整後的步數）
+   needsMoreThoughts: true（如果需要更多步驟）
+   
+...
+
+N. thought: "完成分析，提供最終方案"
+   thoughtNumber: N
+   nextThoughtNeeded: false
+```
+
+## 與 Context7 協作模式
+```
+每個思考步驟中，如遇到第三方套件：
+→ 立即呼叫 resolve-library-id
+→ 取得 get-library-docs
+→ 基於官方文件繼續思考
+```
+
+## 參數說明
+- `thought` - 當前思考步驟（完整問句或分析）
+- `thoughtNumber` - 當前步驟編號
+- `totalThoughts` - 預估總步數（可動態調整）
+- `nextThoughtNeeded` - 是否需要下一步（false = 完成）
+- `isRevision` - 是否修正前面的想法
+- `revisesThought` - 修正哪個步驟
+- `branchFromThought` - 從哪個步驟分支
+- `needsMoreThoughts` - 需要增加更多步驟
+
+## 自動核准
+✅ sequentialthinking
+
+## 使用範例
+
+```typescript
+// 範例：分析如何優化 .cursor 目錄結構
+sequentialthinking({
+  thought: "分析目前結構：發現 40+ 檔案，層級深，認知負擔重",
+  thoughtNumber: 1,
+  totalThoughts: 5,
+  nextThoughtNeeded: true
+})
+
+// 下一步
+sequentialthinking({
+  thought: "查詢 Cursor 官方最佳實踐 → 發現應該簡化、使用 INDEX",
+  thoughtNumber: 2,
+  totalThoughts: 6, // 發現需要多一步，調整總數
+  nextThoughtNeeded: true
+})
+```
+
+---
+
+配置：`.cursor/mcp.json` | 記憶體：`--max-old-space-size=1024`

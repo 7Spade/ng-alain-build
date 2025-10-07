@@ -4,8 +4,29 @@ server: angular-cli
 summary: Angular 任務前優先 get_best_practices（非 Angular 任務不強制）
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Angular CLI MCP（頂層入口）
-- 建議：Angular 代碼建立/修改/分析前先 get_best_practices；非 Angular 任務不強制。
-- 用法：get_best_practices → search_documentation(query) → list_projects（視需要）。
+# Angular CLI MCP
+
+## 核心原則
+✅ Angular 程式碼建立/修改/分析前**必先**執行 `get_best_practices`  
+⚪ 非 Angular 任務可略過
+
+## 標準工作流程
+```
+1. get_best_practices          # 取得 Angular 最佳實踐
+2. search_documentation(query) # 搜尋特定主題文件
+3. list_projects               # （選用）列出專案結構
+```
+
+## 可用工具
+- `get_best_practices` - 取得 Angular 開發最佳實踐
+- `search_documentation` - 搜尋 Angular API 文件
+- `list_projects` - 列出工作區專案
+
+## 自動核准
+✅ get_best_practices, list_projects, search_documentation
+
+---
+
+詳細說明參考：[Angular 官方文件](https://angular.dev) | [ng-alain 文件](https://ng-alain.com)

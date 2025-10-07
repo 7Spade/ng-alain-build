@@ -1,3 +1,18 @@
+---
+type: development-standard
+category: constitution-core
+complexity: intermediate
+target_audience: [beginner, intermediate, advanced]
+reading_time: 15min
+tags: [documentation, jsdoc, readme, git-commit, api-docs]
+summary: JSDoc、README、Git 提交等完整文檔標準
+related_files:
+  - ../code/codeStandards.md
+  - ../tests/testingStandards.md
+  - ../../system-patterns/patterns/developmentPrinciples.md
+last_updated: 2025-10-07
+---
+
 # 文檔標準
 
 ## JSDoc 標準

@@ -1,3 +1,18 @@
+---
+type: development-standard
+category: constitution-core
+complexity: intermediate
+target_audience: [intermediate, advanced]
+reading_time: 20min
+tags: [testing, jasmine, karma, protractor, unit-test, e2e, coverage]
+summary: 完整的測試策略、測試金字塔與測試模板
+related_files:
+  - ../code/codeStandards.md
+  - ../documentation/documentationStandards.md
+  - ../../system-patterns/patterns/technicalPatterns.md
+last_updated: 2025-10-07
+---
+
 # 測試標準
 
 ## 測試哲學

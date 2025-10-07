@@ -1,18 +1,51 @@
 ---
 alwaysApply: false
 server: everything
-summary: 示範/教學工具；避免干擾正式流程
+summary: 示範/教學工具（按需）：echo、範例、debug 輔助
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Everything MCP 規則
+# Everything MCP
 
-- 目的：展示/教學用工具、非生產工作流核心。
-- 何時用：僅需範例、echo、示意、或 debug 輔助。
+## 核心用途
+📚 **示範和教學** - 展示 MCP 功能  
+🔍 **Debug 輔助** - 簡單的測試工具  
+⚪ **非生產核心** - 避免干擾正式工作流程
 
-## 推薦用法
-- echo/add/longRunningOperation/printEnv 等示範性操作
+## 可用工具
+- `echo` - 回顯訊息（測試用）
+- `add` - 數字相加（範例用）
+- `longRunningOperation` - 模擬長時間操作
+- `printEnv` - 顯示環境變數
+- `getTinyImage` - 取得小圖片
+- `annotatedMessage` - 註解訊息
+- `sampleLLM` - LLM 範例
+- `getResourceReference` - 資源參考
+- `startElicitation` - 啟動詢問流程
+- `structuredContent` - 結構化內容
 
-## 注意
-- 非必要不使用；避免汙染正式工作流。
+## 使用時機
+
+### ✅ 適合使用
+- 測試 MCP 連線是否正常
+- 示範 MCP 功能給團隊
+- Debug 時簡單驗證
+- 教學和文件範例
+
+### ❌ 避免使用
+- 正式開發流程
+- 生產環境程式碼
+- 關鍵業務邏輯
+
+## 自動核准
+✅ echo, add, longRunningOperation, printEnv, getTinyImage, annotatedMessage, sampleLLM, getResourceReference, startElicitation, structuredContent
+
+## ⚠️ 注意事項
+- **按需載入**（alwaysApply: false）
+- 僅用於示範和測試
+- 不應出現在正式程式碼中
+
+---
+
+配置：`.cursor/mcp.json` | 套件：`@modelcontextprotocol/server-everything`

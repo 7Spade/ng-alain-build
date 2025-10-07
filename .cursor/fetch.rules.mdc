@@ -1,11 +1,56 @@
 ---
 alwaysApply: true
 server: fetch
-summary: 補充非官方內容；Context7 優先；遵守 robots
+summary: 網頁內容抓取（補充用）：Context7 優先，遵守 robots.txt
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Fetch MCP（頂層入口）
-- 原則：文件來源以 Context7 優先，fetch 僅作補充。
-- 用法：抓取非官方頁面文字/資源；遵守 robots 規範。
+# Fetch MCP
+
+## 核心原則
+1️⃣ **Context7 優先** - 官方文件優先使用 Context7  
+2️⃣ **Fetch 為補充** - 僅用於非官方內容、部落格、範例  
+3️⃣ **遵守規範** - 尊重 robots.txt、使用限制
+
+## 使用時機
+
+### ✅ 適合使用
+- 抓取技術部落格文章
+- 取得 GitHub README 內容
+- 抓取範例程式碼片段
+- 取得社群討論內容
+
+### ❌ 不適合使用
+- 官方套件文件（改用 Context7）
+- 需要認證的內容
+- 違反 robots.txt 的網站
+- 動態載入的 SPA 內容（改用 Playwright）
+
+## 可用工具
+- `fetch_url` - 抓取網頁 URL 內容
+- `fetch_content` - 抓取特定內容
+
+## 自動核准
+✅ fetch_url, fetch_content
+
+## 使用範例
+
+### 抓取技術文章
+```
+fetch_url("https://blog.angular.dev/some-article")
+```
+
+### 抓取 GitHub README
+```
+fetch_url("https://raw.githubusercontent.com/ng-alain/delon/master/README.md")
+```
+
+## ⚠️ 注意事項
+- 優先使用 Context7 取得官方文件
+- 遵守網站的使用條款和 robots.txt
+- 抓取的內容僅供參考，以官方文件為準
+
+---
+
+配置：`.cursor/mcp.json` | 套件：`@kazuph/mcp-fetch`

@@ -1,11 +1,48 @@
 ---
 alwaysApply: false
 server: github
-summary: 需授權；PR/Issue/同步；最小變更、可追溯
+summary: GitHub 儲存庫操作（按需）：PR/Issue 管理，需授權使用
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# GitHub MCP（頂層入口）
-- 原則：需授權才使用；避免大量寫入與敏感操作。
-- 用法：PR/Issue/內容同步；遵守最小變更與可追溯性。
+# GitHub MCP
+
+## 核心原則
+🔐 **需要授權** - 使用前確認已設定 GitHub token  
+📝 **最小變更** - 避免大量寫入操作  
+📊 **可追溯性** - 所有操作應可追蹤
+
+## 使用時機
+
+### ✅ 適合使用
+- 建立 Pull Request
+- 管理 Issues
+- 同步儲存庫內容
+- 檢視 commit 歷史
+- 管理分支
+
+### ❌ 避免使用
+- 大量自動化提交
+- 敏感資料操作
+- 未經使用者確認的破壞性操作
+
+## 可用工具
+（具體工具清單依 MCP server 實作而定）
+- 儲存庫查詢
+- Issue 管理
+- PR 操作
+- 分支管理
+
+## 授權設定
+Token 透過環境變數提供（已設定在 mcp.json）
+
+## ⚠️ 注意事項
+- 按需載入（alwaysApply: false）
+- 避免儲存 token 到程式碼
+- 破壞性操作前先確認
+- 遵守最小變更原則
+
+---
+
+配置：`.cursor/mcp.json` | 授權：環境變數中的 GitHub Token

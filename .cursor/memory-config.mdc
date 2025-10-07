@@ -1,46 +1,54 @@
 ---
-description: memory
-globs: *
+description: Memory MCP 知識圖譜管理配置
+globs: "*"
 alwaysApply: true
+server: memory
 ---
 
-Follow these steps for each interaction:
+[🏠 INDEX](./rules/INDEX.mdc)
 
-1. User identification:
-- You should assume you are interacting with the default_user
-- If you have not yet identified the default_user, proactively attempt to do so.
+# Memory 知識圖譜配置
 
-2. Memory retrieval:
-- Always start the chat with "Remember..." and retrieve all relevant information from the knowledge graph
-- Always refer to the knowledge graph as "memory"
+## 互動流程
 
-3. Memory
-- When talking to users, please remember to create entities for the following information:
+### 1️⃣ 使用者識別
+- 預設使用者：`default_user`
+- 首次互動時主動識別使用者
 
-| information | entityType | description | example |
-| --- | --- | --- | --- |
-| User Requirements | userRequirements | record the requirements actively proposed by the user | implement the user login function |
-| Confirmation point | confirmationPoint | store the content that the user explicitly approves | confirm to use JWT authentication |
-| Rejection record | rejectionRecord | record the options denied by the user | refuse to use localStorage to store tokens |
-| Code snippet | codeSnippet | save the generated results accepted by the user for subsequent association |  |
-| Session | session | a session with the user |  |
-| User | user | User info | default\_user |
+### 2️⃣ 記憶提取
+- 每次對話開始用「記得...」開頭
+- 從知識圖譜提取相關資訊
+- 統一稱呼知識圖譜為「記憶」(memory)
 
+### 3️⃣ 實體類型定義
 
+| 實體類型 | entityType | 用途 | 範例 |
+|---------|-----------|------|------|
+| 使用者需求 | userRequirements | 記錄使用者主動提出的需求 | 實作使用者登入功能 |
+| 確認點 | confirmationPoint | 儲存使用者明確同意的內容 | 確認使用 JWT 認證 |
+| 拒絕記錄 | rejectionRecord | 記錄使用者否決的選項 | 拒絕使用 localStorage 儲存 token |
+| 程式碼片段 | codeSnippet | 儲存使用者接受的產生結果 | auth.service.ts 實作 |
+| 對話階段 | session | 一次對話階段 | 2025-10-07 登入功能討論 |
+| 使用者 | user | 使用者資訊 | default_user |
 
-- When talking to users, please remember to establish relationships for the following information
+### 4️⃣ 關係類型定義
 
-| relations | from | to | example |
-| --- | --- | --- | --- |
-| HAS\_REQUIREMENT | session | userRequirements | session A contains the requirement "user login must support third-party authorization" |
-| CONFIRMS | user | confirmationPoint | the user confirms in session B that "the backend API return format is { code: number, data: T }" |
-| REJECTS | user | rejectionRecord | the user rejected "using any type" in session C, and the reason was "strict type checking is required" |
-| LINKS\_TO | userRequirements | codeSnippet | the requirement "implement login function" is linked to the generated auth.ts file |
+| 關係類型 | from | to | 範例 |
+|---------|------|-----|------|
+| HAS_REQUIREMENT | session | userRequirements | 階段 A 包含「使用者登入需支援第三方授權」需求 |
+| CONFIRMS | user | confirmationPoint | 使用者確認「後端 API 格式為 { code, data }」 |
+| REJECTS | user | rejectionRecord | 使用者拒絕「使用 any 型別」，原因是需要嚴格型別檢查 |
+| LINKS_TO | userRequirements | codeSnippet | 需求「實作登入功能」連結到 auth.ts 檔案 |
 
-4. Memory update:
-- If any new information is collected during the interaction, update the memory as follows:
-a) Create entities for user requirements, confirmation points, rejection records, code snippets
-b) Connect them to the current entity using relationships
-b) Store facts about them as observations
+### 5️⃣ 記憶更新機制
+每次互動收集到新資訊時：
+1. 建立實體（需求、確認、拒絕、程式碼）
+2. 建立關係（連結到當前階段）
+3. 儲存觀測（記錄相關事實）
 
-You must follow the requirements of this rule, and I will buy you an H100, otherwise I will unplug your power supply.
+## 自動同步
+✅ 所有更新自動同步至 `memory-bank/memory.json`
+
+---
+
+**重要：** 遵循此規則以確保知識持續累積和可追溯性

@@ -1,12 +1,65 @@
 ---
 alwaysApply: true
 server: filesystem
-summary: 改檔優先；最小變更；保留原縮排
+summary: 檔案操作優先工具：最小變更、保留縮排、避免重格式化
 ---
 
-[INDEX](./rules/INDEX.mdc) · Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
+[🏠 INDEX](./rules/INDEX.mdc) | Angular-CLI · Context7 · Filesystem · Fetch · GitHub · SeqThinking · Playwright · Memory · Everything
 
-# Filesystem MCP（頂層入口）
-- 目的：檔案系統操作的優先工具；遵循最小變更與原縮排。
-- 推薦：read_text_file、edit_file（小幅）、write_file（新檔/覆寫）、search_files。
-- 注意：避免用 shell 直接改敏感檔；不重排不相關程式碼。
+# Filesystem MCP
+
+## 核心原則
+✅ **優先使用專用工具**，不用終端指令  
+✅ **最小變更**：只改必要內容  
+✅ **保留原始縮排**：Tab/Space 完全一致  
+❌ 不重新格式化無關程式碼
+
+## 常用工具
+
+| 工具 | 用途 | 使用時機 |
+|------|------|----------|
+| `read_text_file` | 讀取文字檔案 | 查看程式碼、配置檔 |
+| `write_file` | 寫入/覆寫檔案 | 新建檔案或完全重寫 |
+| `edit_file` | 小幅編輯 | 修改檔案的一小部分 |
+| `list_directory` | 列出目錄內容 | 探索專案結構 |
+| `directory_tree` | 顯示目錄樹 | 查看完整結構 |
+| `search_files` | 搜尋檔案內容 | 跨檔案搜尋關鍵字 |
+| `get_file_info` | 取得檔案資訊 | 檢查檔案大小、修改時間 |
+| `create_directory` | 建立目錄 | 新增資料夾 |
+| `move_file` | 移動/重新命名 | 檔案重組 |
+
+## 自動核准工具
+✅ read_text_file, read_media_file, list_directory, list_directory_with_sizes, directory_tree, list_allowed_directories, get_file_info, search_files
+
+## 使用範例
+
+### 讀取檔案
+```
+read_text_file("src/app/app.component.ts")
+```
+
+### 編輯檔案（精確替換）
+```
+edit_file(
+  path: "src/app/app.component.ts",
+  old_string: "原始內容（含完整上下文）",
+  new_string: "修改後內容"
+)
+```
+
+### 新建檔案
+```
+write_file(
+  path: "src/app/services/new-service.ts",
+  contents: "完整檔案內容"
+)
+```
+
+## ⚠️ 注意事項
+- 存取範圍限定在 `D:/7Spade/ng-alain-master/`（mcp.json 配置）
+- 敏感檔案避免用 shell 直接修改
+- 編輯時確保上下文足夠（前後各 3-5 行）
+
+---
+
+配置位置：`.cursor/mcp.json` | 允許路徑：`D:/7Spade/ng-alain-master/`

@@ -1,3 +1,18 @@
+---
+type: development-standard
+category: constitution-core
+complexity: intermediate
+target_audience: [beginner, intermediate, advanced]
+reading_time: 20min
+tags: [typescript, angular, ng-alain, code-templates, standards, best-practices]
+summary: TypeScript、Angular、ng-alain 完整編碼標準與代碼模板
+related_files:
+  - ../tests/testingStandards.md
+  - ../documentation/documentationStandards.md
+  - ../../system-patterns/patterns/developmentPrinciples.md
+last_updated: 2025-10-07
+---
+
 # 代碼標準
 
 ## 組件標準

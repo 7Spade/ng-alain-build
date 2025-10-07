@@ -1,0 +1,202 @@
+---
+description: isolation_rules 系統簡化導覽指南
+alwaysApply: false
+summary: Memory Bank 開發流程快速導覽：VAN→PLAN→CREATIVE→IMPLEMENT→REFLECT→ARCHIVE
+---
+
+[🏠 INDEX](../INDEX.mdc)
+
+# Memory Bank 開發流程指南
+
+> **極簡總覽：** 根據任務複雜度（Level 1-4）選擇對應流程，每個模式專注單一職責
+
+---
+
+## 🎯 快速決策樹
+
+```
+你的任務是什麼？
+├─ 修 Bug / 小錯誤？ → Level 1（VAN → IMPLEMENT → REFLECT）
+├─ 加功能 / 改進？   → Level 2（VAN → PLAN → IMPLEMENT → REFLECT）  
+├─ 新功能模組？      → Level 3（VAN → PLAN → CREATIVE → IMPLEMENT → REFLECT）
+└─ 系統級變更？      → Level 4（完整 6 階段流程）
+```
+
+---
+
+## 📊 四個複雜度等級
+
+| Level | 類型 | 工作流程 | 時間 |
+|-------|------|---------|------|
+| **1** | 快速修復 | VAN → IMPLEMENT → REFLECT | 分鐘-小時 |
+| **2** | 簡單增強 | VAN → PLAN → IMPLEMENT → REFLECT | 小時-天 |
+| **3** | 中型功能 | VAN → PLAN → CREATIVE → IMPLEMENT → REFLECT | 天-週 |
+| **4** | 複雜系統 | VAN → PLAN → CREATIVE → IMPLEMENT → REFLECT → ARCHIVE | 週-月 |
+
+---
+
+## 🔄 六個開發模式
+
+### 1️⃣ VAN 模式（初始化）
+**用途：** 分析任務、確定複雜度、建立 Memory Bank  
+**核心檔案：** [van-mode-map.mdc](./isolation_rules/visual-maps/van_mode_split/van-mode-map.mdc)
+
+**流程：**
+```
+1. 偵測平台（Windows/Mac/Linux）
+2. 驗證 Memory Bank 結構
+3. 分析任務複雜度
+4. Level 1 → 直接進行
+   Level 2+ → 強制切換到 PLAN 模式
+```
+
+### 2️⃣ PLAN 模式（規劃）
+**用途：** 建立實作計畫、識別需要創意設計的元件  
+**核心檔案：** [plan-mode-map.mdc](./isolation_rules/visual-maps/plan-mode-map.mdc)
+
+**流程：**
+```
+1. 分析需求
+2. 識別影響元件
+3. 建立實作計畫
+4. 標記需要 CREATIVE 的元件（Level 3+）
+5. 技術驗證（Hello World）
+```
+
+### 3️⃣ CREATIVE 模式（設計）
+**用途：** 設計決策、多方案比較、架構設計  
+**核心檔案：** [creative-mode-map.mdc](./isolation_rules/visual-maps/creative-mode-map.mdc)  
+**模板：** [optimized-creative-template.mdc](./isolation_rules/Phases/CreativePhase/optimized-creative-template.mdc)
+
+**設計類型：**
+- 🎨 UI/UX 設計
+- 🏗️ 架構設計
+- 📊 資料模型設計
+- ⚙️ 演算法設計
+
+**流程：**
+```
+1️⃣ PROBLEM - 定義問題
+2️⃣ OPTIONS - 列出方案（3+ 個）
+3️⃣ ANALYSIS - 比較評估
+4️⃣ DECISION - 做出決策
+5️⃣ IMPLEMENTATION - 實作指南
+```
+
+### 4️⃣ IMPLEMENT 模式（實作）
+**用途：** 撰寫程式碼、執行測試  
+**核心檔案：** [implement-mode-map.mdc](./isolation_rules/visual-maps/implement-mode-map.mdc)
+
+**流程：**
+```
+1. 檢查 PLAN 和 CREATIVE 是否完成
+2. 建立目錄結構
+3. 逐步實作元件
+4. 驗證檔案建立成功
+5. 執行測試
+6. 更新 progress.md
+```
+
+### 5️⃣ QA 模式（品質驗證）
+**用途：** 任何階段的技術驗證  
+**核心檔案：** [qa-mode-map.mdc](./isolation_rules/visual-maps/qa-mode-map.mdc)
+
+**驗證項目：**
+```
+1️⃣ 依賴驗證 - 套件是否正確安裝
+2️⃣ 配置驗證 - 設定檔格式是否正確
+3️⃣ 環境驗證 - 建置環境是否就緒
+4️⃣ 建置測試 - 最小化建置是否成功
+```
+
+### 6️⃣ REFLECT 模式（回顧）
+**用途：** 檢討實作、記錄經驗教訓  
+**核心檔案：** [reflect-mode-map.mdc](./isolation_rules/visual-maps/reflect-mode-map.mdc)
+
+**流程：**
+```
+1. 回顧實作結果
+2. 記錄成功之處
+3. 記錄遇到的挑戰
+4. 萃取經驗教訓
+5. 建立改進行動項目
+```
+
+### 7️⃣ ARCHIVE 模式（歸檔）
+**用途：** Level 3-4 任務完成後的文件歸檔  
+**核心檔案：** [archive-mode-map.mdc](./isolation_rules/visual-maps/archive-mode-map.mdc)
+
+**歸檔內容：**
+```
+- 任務摘要
+- 需求清單
+- 實作細節
+- 測試結果
+- 經驗教訓
+- 未來考量
+```
+
+---
+
+## 🧠 核心概念（按需參考）
+
+### 平台感知
+[platform-awareness.mdc](./isolation_rules/Core/platform-awareness.mdc) - 跨平台指令適配
+
+### 檔案驗證
+[file-verification.mdc](./isolation_rules/Core/file-verification.mdc) - Memory Bank 結構驗證
+
+### 指令執行
+[command-execution.mdc](./isolation_rules/Core/command-execution.mdc) - 高效指令執行策略
+
+### 複雜度決策
+[complexity-decision-tree.mdc](./isolation_rules/Core/complexity-decision-tree.mdc) - 如何判斷 Level 1-4
+
+---
+
+## 💡 使用建議
+
+### 對 AI Agent
+1. 從 INDEX.mdc 開始，快速找到需要的規範
+2. 只載入當前模式需要的檔案
+3. 使用 TL;DR 快速理解核心概念
+4. 詳細規範按需參考（@reference）
+
+### 對開發者
+1. VAN 模式確定複雜度
+2. 按照建議的工作流程執行
+3. 不要跳過 QA 驗證
+4. Level 3+ 完成後記得 ARCHIVE
+
+---
+
+## 📁 檔案組織
+
+```
+.cursor/rules/
+├── INDEX.mdc                    # 總覽索引（從這裡開始）
+├── ISOLATION_RULES_GUIDE.mdc    # 本檔案：簡化導覽
+└── isolation_rules/
+    ├── main.mdc                 # 完整規範
+    ├── main-optimized.mdc       # Token 優化版本
+    ├── Core/                    # 核心概念（9 個檔案）
+    ├── Level1-4/                # 各級別工作流程
+    ├── Phases/CreativePhase/    # 創意階段模板
+    └── visual-maps/             # 視覺化流程圖
+```
+
+---
+
+## ⚡ Token 優化策略
+
+根據 [hierarchical-rule-loading.mdc](./isolation_rules/Core/hierarchical-rule-loading.mdc)：
+
+1. **核心規則** - 始終載入（main.mdc）
+2. **模式規則** - 當前模式才載入
+3. **專業規則** - 按需延遲載入（lazy loading）
+
+**預期效果：** 初始載入減少 60-70% token
+
+---
+
+**建議起點：** [INDEX.mdc](../INDEX.mdc) → 選擇 VAN 模式 → 開始任務

@@ -1,3 +1,17 @@
+---
+type: reference
+category: project-info
+complexity: basic
+target_audience: [beginner, intermediate, advanced]
+reading_time: 5min
+tags: [project-overview, tech-stack, ng-alain, angular]
+summary: ng-alain 專案基本資訊與技術堆疊
+related_files:
+  - techContext.md
+  - ng-alain-structure.md
+last_updated: 2025-10-07
+---
+
 # 專案概覽
 
 ## 基本資訊
