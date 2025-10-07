@@ -264,6 +264,31 @@ import type { UserOrganization, CreateOrganizationRequest, ORGANIZATION_ROLE_LAB
       color: #1890ff;
       background-color: rgba(24, 144, 255, 0.1);
     }
+    
+    /* 響應式：側邊欄收起時的樣式 */
+    @media (min-width: 768px) {
+      :host-context(.alain-default__collapsed) .org-switcher-wrapper {
+        width: 64px;
+        margin-left: 0;
+        padding: 12px 0;
+      }
+      
+      :host-context(.alain-default__collapsed) .org-info {
+        display: none;
+      }
+      
+      :host-context(.alain-default__collapsed) .swap-icon {
+        display: none;
+      }
+      
+      :host-context(.alain-default__collapsed) .org-avatar {
+        margin: 0 auto;
+      }
+      
+      :host-context(.alain-default__collapsed) .org-switcher-trigger {
+        justify-content: center;
+      }
+    }
   `]
 })
 export class OrgSwitcherComponent {
