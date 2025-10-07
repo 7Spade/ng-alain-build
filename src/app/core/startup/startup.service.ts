@@ -8,6 +8,7 @@ import { Observable, zip, catchError, map } from 'rxjs';
 
 import { I18NService } from '../i18n/i18n.service';
 import { ModeService, ModeType } from '../services/mode/mode.service';
+import { OrganizationContextService } from '../services/organization-context/organization-context.service';
 
 /**
  * Used for application startup
@@ -36,6 +37,7 @@ export class StartupService {
   private router = inject(Router);
   private i18n = inject<I18NService>(ALAIN_I18N_TOKEN);
   private modeService = inject(ModeService);
+  private orgContextService = inject(OrganizationContextService);
 
   private appData: NzSafeAny | null = null;
 
@@ -62,11 +64,19 @@ export class StartupService {
         this.aclService.setFull(true);
         // 保存 appData 供後續模式切換使用
         this.appData = appData;
-        // 初始化選單（依模式）
-        const initialMode: ModeType = this.modeService.getCurrentMode();
-        this.applyMenuByMode(initialMode);
-        // 監聽模式變更，動態切換選單
-        this.modeService.mode$.subscribe(mode => this.applyMenuByMode(mode));
+        
+        // 初始化組織上下文（多組織切換功能）
+        // 注意：這會覆蓋 ModeService 的菜單，所以只在有 userOrganizations 時才初始化
+        if (appData.userOrganizations) {
+          this.orgContextService.initialize();
+        } else {
+          // 回退到原有的模式切換機制
+          const initialMode: ModeType = this.modeService.getCurrentMode();
+          this.applyMenuByMode(initialMode);
+          // 監聽模式變更，動態切換選單
+          this.modeService.mode$.subscribe(mode => this.applyMenuByMode(mode));
+        }
+        
         // 设置页面标题的后缀
         this.titleService.default = '';
         this.titleService.suffix = appData.app.name;

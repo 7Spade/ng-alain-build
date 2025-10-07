@@ -5,6 +5,9 @@
 
 // 組織相關
 export * from './organization.model';
+export * from './user-organization.model';
+export * from './organization-context.model';
+export * from './organization-membership.model';
 
 // 部門相關
 export * from './department.model';

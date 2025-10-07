@@ -8,6 +8,160 @@
     "avatar": "./assets/tmp/img/avatar.svg",
     "email": "cipchk@qq.com"
   },
+  "userOrganizations": [
+    {
+      "id": null,
+      "name": "個人空間",
+      "type": "personal",
+      "role": "owner",
+      "joinedAt": "2025-01-01T00:00:00Z"
+    },
+    {
+      "id": "org-001",
+      "name": "技術部",
+      "type": "organization",
+      "logo": "./assets/tmp/img/2.png",
+      "role": "owner",
+      "joinedAt": "2025-01-15T00:00:00Z",
+      "description": "負責技術研發與創新"
+    },
+    {
+      "id": "org-002",
+      "name": "業務部",
+      "type": "organization",
+      "logo": "./assets/tmp/img/3.png",
+      "role": "admin",
+      "joinedAt": "2025-02-01T00:00:00Z",
+      "description": "負責業務拓展"
+    },
+    {
+      "id": "org-003",
+      "name": "產品部",
+      "type": "organization",
+      "logo": "./assets/logo.svg",
+      "role": "member",
+      "joinedAt": "2025-03-01T00:00:00Z",
+      "description": "負責產品規劃"
+    }
+  ],
+  "personalMenu": [
+    {
+      "text": "個人導航",
+      "i18n": "menu.personal",
+      "group": true,
+      "hideInBreadcrumb": true,
+      "children": [
+        {
+          "text": "快捷菜單",
+          "i18n": "menu.shortcut",
+          "icon": "anticon-rocket",
+          "shortcutRoot": true,
+          "hideInBreadcrumb": true,
+          "children": []
+        },
+        {
+          "text": "儀表板",
+          "i18n": "menu.dashboard",
+          "icon": "anticon-dashboard",
+          "link": "/dashboard/v1",
+          "shortcut": true
+        }
+      ]
+    }
+  ],
+  "organizationMenus": {
+    "org-001": [
+      {
+        "text": "組織導航",
+        "i18n": "menu.org.main",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+          {
+            "text": "快捷菜單",
+            "i18n": "menu.shortcut",
+            "icon": "anticon-rocket",
+            "shortcutRoot": true,
+            "hideInBreadcrumb": true,
+            "children": []
+          },
+          {
+            "text": "儀表板",
+            "i18n": "menu.dashboard",
+            "icon": "anticon-dashboard",
+            "link": "/dashboard/workplace",
+            "shortcut": true
+          },
+          {
+            "text": "組織管理",
+            "icon": "anticon-team",
+            "children": [
+              { "text": "部門管理", "link": "/organization/departments", "shortcut": true },
+              { "text": "員工管理", "link": "/organization/employees", "shortcut": true },
+              { "text": "角色管理", "link": "/organization/roles" }
+            ]
+          }
+        ]
+      }
+    ],
+    "org-002": [
+      {
+        "text": "業務導航",
+        "i18n": "menu.org.business",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+          {
+            "text": "快捷菜單",
+            "i18n": "menu.shortcut",
+            "icon": "anticon-rocket",
+            "shortcutRoot": true,
+            "hideInBreadcrumb": true,
+            "children": []
+          },
+          {
+            "text": "儀表板",
+            "i18n": "menu.dashboard",
+            "icon": "anticon-dashboard",
+            "link": "/dashboard/analysis",
+            "shortcut": true
+          },
+          {
+            "text": "組織管理",
+            "icon": "anticon-team",
+            "children": [
+              { "text": "員工管理", "link": "/organization/employees", "shortcut": true }
+            ]
+          }
+        ]
+      }
+    ],
+    "org-003": [
+      {
+        "text": "產品導航",
+        "i18n": "menu.org.product",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+          {
+            "text": "快捷菜單",
+            "i18n": "menu.shortcut",
+            "icon": "anticon-rocket",
+            "shortcutRoot": true,
+            "hideInBreadcrumb": true,
+            "children": []
+          },
+          {
+            "text": "儀表板",
+            "i18n": "menu.dashboard",
+            "icon": "anticon-dashboard",
+            "link": "/dashboard/monitor",
+            "shortcut": true
+          }
+        ]
+      }
+    ]
+  },
   "menus": {
     "user": [
       {
@@ -17,22 +171,23 @@
         "hideInBreadcrumb": true,
         "children": [
           {
-            "text": "仪表盘",
-            "i18n": "menu.dashboard",
-            "icon": "anticon-dashboard",
-            "children": [
-              { "text": "仪表盘V1", "link": "/dashboard/v1", "i18n": "menu.dashboard.v1" },
-              { "text": "分析页", "link": "/dashboard/analysis", "i18n": "menu.dashboard.analysis" },
-              { "text": "监控页", "link": "/dashboard/monitor", "i18n": "menu.dashboard.monitor" },
-              { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace" }
-            ]
-          },
-          {
             "text": "快捷菜单",
             "i18n": "menu.shortcut",
             "icon": "anticon-rocket",
             "shortcutRoot": true,
+            "hideInBreadcrumb": true,
             "children": []
+          },
+          {
+            "text": "仪表盘",
+            "i18n": "menu.dashboard",
+            "icon": "anticon-dashboard",
+            "children": [
+              { "text": "仪表盘V1", "link": "/dashboard/v1", "i18n": "menu.dashboard.v1", "shortcut": true },
+              { "text": "分析页", "link": "/dashboard/analysis", "i18n": "menu.dashboard.analysis" },
+              { "text": "监控页", "link": "/dashboard/monitor", "i18n": "menu.dashboard.monitor" },
+              { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace", "shortcut": true }
+            ]
           }
         ]
       },
@@ -76,14 +231,15 @@
             "i18n": "menu.shortcut",
             "icon": "anticon-rocket",
             "shortcutRoot": true,
+            "hideInBreadcrumb": true,
             "children": []
           },
           {
             "text": "组织管理",
             "icon": "anticon-team",
             "children": [
-              { "text": "部门管理", "link": "/organization/departments" },
-              { "text": "员工管理", "link": "/organization/employees" },
+              { "text": "部门管理", "link": "/organization/departments", "shortcut": true },
+              { "text": "员工管理", "link": "/organization/employees", "shortcut": true },
               { "text": "角色管理", "link": "/organization/roles" }
             ]
           },
@@ -92,7 +248,7 @@
             "i18n": "menu.dashboard",
             "icon": "anticon-dashboard",
             "children": [
-              { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace" }
+              { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace", "shortcut": true }
             ]
           }
         ]
@@ -109,6 +265,7 @@
             "i18n": "menu.shortcut",
             "icon": "anticon-rocket",
             "shortcutRoot": true,
+            "hideInBreadcrumb": true,
             "children": []
           },
           {

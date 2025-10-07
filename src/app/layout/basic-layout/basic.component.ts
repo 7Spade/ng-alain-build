@@ -21,6 +21,7 @@ import { HeaderRTLComponent } from './widgets/rtl.component';
 import { HeaderSearchComponent } from './widgets/search.component';
 import { HeaderTaskComponent } from './widgets/task.component';
 import { HeaderUserComponent } from './widgets/user.component';
+import { OrgSwitcherComponent } from './widgets/org-switcher.component';
 import { TabComponent } from '../widgets/tab/tab.component';
 import { TabService } from '@core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
@@ -82,6 +83,12 @@ import { ModeService, ModeType } from '@core';
         <header-user [user]="user" />
       </layout-default-header-item>
       <ng-template #asideUserTpl>
+        <!-- 組織切換器 -->
+        <org-switcher />
+        
+        <li nz-menu-divider style="margin: 8px 0;"></li>
+        
+        <!-- 用戶信息 -->
         <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" class="alain-default__aside-user">
       <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="asideAvatarSrc" />
           <div class="alain-default__aside-user-info">
@@ -128,6 +135,7 @@ import { ModeService, ModeType } from '@core';
     HeaderClearStorageComponent,
     HeaderFullScreenComponent,
     HeaderUserComponent,
+    OrgSwitcherComponent,
     TabComponent
   ]
 })

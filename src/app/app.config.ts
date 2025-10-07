@@ -12,6 +12,7 @@ import {
   RouteReuseStrategy
 } from '@angular/router';
 import { I18NService, defaultInterceptor, provideBindAuthRefresh, provideStartup } from '@core';
+import { organizationInterceptor } from './core/net/organization.interceptor';
 import { provideCellWidgets } from '@delon/abc/cell';
 import { provideSTWidgets } from '@delon/abc/st';
 import { authSimpleInterceptor, provideAuth } from '@delon/auth';
@@ -57,7 +58,7 @@ const routerFeatures: RouterFeatures[] = [
 if (environment.useHash) routerFeatures.push(withHashLocation());
 
 const providers: Array<Provider | EnvironmentProviders> = [
-  provideHttpClient(withInterceptors([...(environment.interceptorFns ?? []), authSimpleInterceptor, defaultInterceptor])),
+  provideHttpClient(withInterceptors([...(environment.interceptorFns ?? []), authSimpleInterceptor, organizationInterceptor, defaultInterceptor])),
   provideAnimations(),
   provideRouter(routes, ...routerFeatures),
   // 路由復用策略（支持多頁簽）
