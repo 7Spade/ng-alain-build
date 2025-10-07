@@ -1194,7 +1194,7 @@
     │   │   │   ├── 4.png
     │   │   │   ├── 5.png
     │   │   │   ├── 6.png
-    │   │   │   ├── avatar.jpg
+    │   │   │   ├── avatar.svg
     │   │   │   ├── bg1.jpg
     │   │   │   ├── bg10.jpg
     │   │   │   ├── bg2.jpg
