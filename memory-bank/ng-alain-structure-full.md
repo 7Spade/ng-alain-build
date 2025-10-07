@@ -7,7 +7,7 @@
 ## 📊 統計資訊
 
 - **目錄總數**: 154
-- **文件總數**: 519
+- **文件總數**: 518
 
 ## 📂 目錄結構
 
@@ -136,7 +136,6 @@
     ├── ng-alain-lint-error-style.md
     ├── ng-alain-lint-error.md
     ├── ng-alain-structure-folders.md
-    ├── ng-alain-structure-full.md
     ├── ng-alain-structure.md
     ├── progress.md
     ├── projectbrief.md
