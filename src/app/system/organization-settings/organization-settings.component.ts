@@ -130,6 +130,8 @@ export class OrganizationSettingsComponent implements OnInit {
     this.loading = true;
     this.tableConfig.loading = true;
     
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未在 ngOnDestroy 中取消訂閱
+    // 建議：使用 async pipe 或 takeUntilDestroyed() 自動管理訂閱
     this.userOrgService.getUserOrganizations(false).subscribe({
       next: (orgs) => {
         // 過濾掉個人空間
@@ -255,6 +257,9 @@ export class OrganizationSettingsComponent implements OnInit {
   /**
    * 獲取角色標籤
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 與 org-switcher.component.ts 重複
+  // 建議：將 ORGANIZATION_ROLE_LABELS 和 ORGANIZATION_ROLE_COLORS 提取到共享常數檔案
+  // 位置：src/app/features/organization/models/organization.constants.ts
   getRoleLabel(role: string): string {
     const labels: Record<string, string> = {
       owner: '擁有者',
@@ -268,6 +273,8 @@ export class OrganizationSettingsComponent implements OnInit {
   /**
    * 獲取角色顏色
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 與 org-switcher.component.ts 重複
+  // 建議：將 ORGANIZATION_ROLE_COLORS 提取到共享常數檔案
   getRoleColor(role: string): string {
     const colors: Record<string, string> = {
       owner: 'purple',

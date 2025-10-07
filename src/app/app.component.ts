@@ -25,6 +25,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     let configLoad = false;
+    // TODO: [OPTIMIZATION] Memory Leak Risk - router.events 訂閱未在 ngOnDestroy 中取消訂閱
+    // 建議：使用 takeUntilDestroyed() 或在 ngOnDestroy 中 unsubscribe
+    // 參考：https://angular.dev/best-practices/runtime-performance
     this.router.events.subscribe(ev => {
       if (ev instanceof RouteConfigLoadStart) {
         configLoad = true;

@@ -92,6 +92,8 @@ export class UserLoginComponent implements OnDestroy {
         res.user.expired = +new Date() + 1000 * 60 * 5;
         this.tokenService.set(res.user);
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
+        // TODO: [OPTIMIZATION] Memory Leak Risk - 嵌套訂閱未正確管理
+        // 建議：使用 switchMap 操作符避免嵌套訂閱，或確保在組件銷毀時取消訂閱
         this.startupSrv.load().subscribe(() => {
           let url = this.tokenService.referrer!.url || '/dashboard';
           if (url.includes('/passport') || url.includes('/auth')) {

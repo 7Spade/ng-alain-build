@@ -382,6 +382,9 @@ export class OrgSwitcherComponent {
    * @param role 組織角色
    * @returns 中文標籤
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 與 organization-settings.component.ts 重複
+  // 建議：將 ORGANIZATION_ROLE_LABELS 和 ORGANIZATION_ROLE_COLORS 提取到共享常數檔案
+  // 位置：src/app/features/organization/models/organization.constants.ts
   getRoleLabel(role: string): string {
     const labels: Record<string, string> = {
       owner: '擁有者',
@@ -397,6 +400,8 @@ export class OrgSwitcherComponent {
    * @param role 組織角色
    * @returns nz-tag 顏色
    */
+  // TODO: [OPTIMIZATION] Code Duplication - 與 organization-settings.component.ts 重複
+  // 建議：將 ORGANIZATION_ROLE_COLORS 提取到共享常數檔案
   getRoleColor(role: string): string {
     const colors: Record<string, string> = {
       owner: 'purple',
