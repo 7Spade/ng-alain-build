@@ -1,4 +1,28 @@
 .project-dashboard {
+  // 專案資訊列表
+  .info-list {
+    .info-item {
+      display: flex;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .info-label {
+        min-width: 100px;
+        color: rgba(0, 0, 0, 0.65);
+        font-weight: 500;
+      }
+
+      .info-value {
+        flex: 1;
+        color: rgba(0, 0, 0, 0.85);
+      }
+    }
+  }
+
   // 成員網格
   .members-grid {
     display: grid;
