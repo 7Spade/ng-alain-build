@@ -72,6 +72,13 @@
         "hideInBreadcrumb": true,
         "children": [
           {
+            "text": "快捷菜单",
+            "i18n": "menu.shortcut",
+            "icon": "anticon-rocket",
+            "shortcutRoot": true,
+            "children": []
+          },
+          {
             "text": "组织管理",
             "icon": "anticon-team",
             "children": [
@@ -97,6 +104,13 @@
         "group": true,
         "hideInBreadcrumb": true,
         "children": [
+          {
+            "text": "快捷菜单",
+            "i18n": "menu.shortcut",
+            "icon": "anticon-rocket",
+            "shortcutRoot": true,
+            "children": []
+          },
           {
             "text": "Widgets",
             "link": "/examples/widgets",
