@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { CallbackComponent } from './callback.component';
 import { LandingComponent } from './landing/landing.component';
 import { UserLockComponent } from './lock/lock.component';
 import { UserLoginComponent } from './login/login.component';
@@ -40,7 +39,5 @@ export const routes: Routes = [
         data: { title: '锁屏', titleI18n: 'app.lock' }
       }
     ]
-  },
-  // 单页不包裹Layout
-  { path: 'passport/callback/:type', component: CallbackComponent }
+  }
 ];

@@ -30,8 +30,6 @@ import { finalize } from 'rxjs';
     NzInputModule,
     NzPopoverModule,
     NzProgressModule,
-    NzSelectModule,
-    NzGridModule,
     NzButtonModule
   ]
 })
@@ -46,17 +44,13 @@ export class UserRegisterComponent implements OnDestroy {
     {
       mail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
-      confirm: ['', [Validators.required, Validators.minLength(6)]],
-      mobilePrefix: ['+86'],
-      mobile: ['', [Validators.required, Validators.pattern(/^1\d{10}$/)]],
-      captcha: ['', [Validators.required]]
+      confirm: ['', [Validators.required, Validators.minLength(6)]]
     },
     {
       validators: MatchControl('password', 'confirm')
     }
   );
   error = '';
-  type = 0;
   loading = false;
   visible = false;
   status = 'pool';
@@ -68,11 +62,6 @@ export class UserRegisterComponent implements OnDestroy {
   };
 
   // #endregion
-
-  // #region get captcha
-
-  count = 0;
-  interval$: NzSafeAny;
 
   static checkPassword(control: FormControl): NzSafeAny {
     if (!control) {
@@ -93,26 +82,6 @@ export class UserRegisterComponent implements OnDestroy {
       self.progress = control.value.length * 10 > 100 ? 100 : control.value.length * 10;
     }
   }
-
-  getCaptcha(): void {
-    const { mobile } = this.form.controls;
-    if (mobile.invalid) {
-      mobile.markAsDirty({ onlySelf: true });
-      mobile.updateValueAndValidity({ onlySelf: true });
-      return;
-    }
-    this.count = 59;
-    this.cdr.detectChanges();
-    this.interval$ = setInterval(() => {
-      this.count -= 1;
-      this.cdr.detectChanges();
-      if (this.count <= 0) {
-        clearInterval(this.interval$);
-      }
-    }, 1000);
-  }
-
-  // #endregion
 
   submit(): void {
     this.error = '';
@@ -143,9 +112,5 @@ export class UserRegisterComponent implements OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    if (this.interval$) {
-      clearInterval(this.interval$);
-    }
-  }
+  ngOnDestroy(): void {}
 }

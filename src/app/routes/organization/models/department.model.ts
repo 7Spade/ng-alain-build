@@ -39,9 +39,6 @@ export interface Department {
   /** 部門類型 */
   type?: string;
   
-  /** 聯絡電話 */
-  phone?: string;
-  
   /** 電子郵件 */
   email?: string;
   
@@ -87,7 +84,6 @@ export interface CreateDepartmentRequest {
   managerId: string;
   description?: string;
   type?: string;
-  phone?: string;
   email?: string;
   location?: string;
 }
@@ -101,7 +97,6 @@ export interface UpdateDepartmentRequest {
   description?: string;
   status?: DepartmentStatus;
   type?: string;
-  phone?: string;
   email?: string;
   location?: string;
 }

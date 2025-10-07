@@ -233,7 +233,6 @@ export class DepartmentFormComponent {
     organizationId: ['', Validators.required],
     managerId: ['', Validators.required],
     description: [''],
-    phone: ['', Validators.pattern(/^[\d-]+$/)],
     email: ['', Validators.email],
     location: ['']
   });

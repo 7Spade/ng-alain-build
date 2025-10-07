@@ -11,6 +11,21 @@
 - **複雜度**: Level 2
 
 ## 最新完成（2025-10-07）
+- ✅ **移除所有社交登入功能**
+  - 完全移除社交登入（Auth0、GitHub、Weibo）
+  - 移除 SocialService 和 CallbackComponent
+  - 移除 callback 路由配置
+  - 刪除 1 個文件，修改 3 個文件
+  - 移除約 60-70 行代碼，通過 Linter 驗證
+
+- ✅ **移除手機號碼功能**
+  - 移除 login/register 的手機號碼登入/註冊功能
+  - 移除 employee/department 模型的電話欄位
+  - 移除 settings 頁面的電話相關功能
+  - 更新相關文檔
+  - 影響 11 個文件，通過 Linter 驗證
+
+## 過往完成（2025-10-07）
 - ✅ **.cursor 規範系統全面優化**
   - 建立 INDEX.mdc 總覽索引
   - 優化 8 個 MCP server 規範檔案

@@ -43,12 +43,6 @@ export interface Employee {
   /** 頭像 URL */
   avatar?: string;
   
-  /** 聯絡電話 */
-  phone?: string;
-  
-  /** 行動電話 */
-  mobile?: string;
-  
   /** 入職日期 */
   joinDate: Date;
   
@@ -107,9 +101,6 @@ export interface EmergencyContact {
   /** 聯絡人姓名 */
   name: string;
   
-  /** 聯絡電話 */
-  phone: string;
-  
   /** 與員工關係 */
   relationship: string;
 }
@@ -124,8 +115,6 @@ export interface CreateEmployeeRequest {
   roleIds: string[];
   position: string;
   employeeNumber?: string;
-  phone?: string;
-  mobile?: string;
   joinDate: Date;
   supervisorId?: string;
   workLocation?: string;
@@ -142,8 +131,6 @@ export interface UpdateEmployeeRequest {
   roleIds?: string[];
   position?: string;
   status?: EmployeeStatus;
-  phone?: string;
-  mobile?: string;
   supervisorId?: string;
   workLocation?: string;
   emergencyContact?: EmergencyContact;

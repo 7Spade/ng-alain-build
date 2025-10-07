@@ -21,6 +21,25 @@ last_updated: 2025-10-07
 
 ## 已完成任務 ✅
 
+### 移除所有社交登入功能 (2025-10-07 深夜)
+- ✅ 移除 login.component.ts 的 open() 方法和 SocialService
+- ✅ 移除所有社交登入圖標（Auth0、GitHub、Weibo）
+- ✅ 刪除 callback.component.ts 文件
+- ✅ 移除 routes.ts 的 callback 路由
+- ✅ 清理所有相關導入和依賴
+- ✅ 移除約 60-70 行代碼
+- ✅ Linter 驗證通過
+
+### 移除手機號碼功能 (2025-10-07 深夜)
+- ✅ 移除 login 組件手機號碼登入標籤頁
+- ✅ 移除 register 組件手機號碼註冊欄位
+- ✅ 移除 employee.model.ts 電話欄位（phone, mobile）
+- ✅ 移除 department.model.ts 電話欄位
+- ✅ 移除 settings/base 聯絡電話
+- ✅ 移除 settings/security 密保手機
+- ✅ 更新 COMPONENTS.md 和 DESIGN.md 文檔
+- ✅ Linter 驗證通過
+
 ### VAN 模式初始化
 - ✅ 平台檢測 (Windows PowerShell)
 - ✅ 工作目錄確認

@@ -211,9 +211,6 @@ export interface Department {
   /** 部門類型 */
   type?: string;
   
-  /** 聯絡電話 */
-  phone?: string;
-  
   /** 電子郵件 */
   email?: string;
   
@@ -284,12 +281,6 @@ export interface Employee {
   /** 頭像 URL */
   avatar?: string;
   
-  /** 聯絡電話 */
-  phone?: string;
-  
-  /** 行動電話 */
-  mobile?: string;
-  
   /** 入職日期 */
   joinDate: Date;
   
@@ -305,7 +296,6 @@ export interface Employee {
   /** 緊急聯絡人 */
   emergencyContact?: {
     name: string;
-    phone: string;
     relationship: string;
   };
   

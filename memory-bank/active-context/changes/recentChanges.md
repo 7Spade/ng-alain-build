@@ -1,5 +1,142 @@
 # 最近變更
 
+## 2025-10-07 深夜 - 移除所有社交登入功能
+### 變更內容
+- **passport/login** - 完全移除社交登入功能:
+  - 移除 open() 方法（處理 Auth0、GitHub、Weibo）
+  - 移除 SocialService 導入和 provider
+  - 移除 SocialOpenType 類型導入
+  - 移除 SettingsService 注入（社交登入用）
+  - 移除 environment 導入（callback URL 配置用）
+  - 移除 NzToolTipModule 和 NzIconModule 導入
+  - 移除 HTML 中的所有社交登入圖標（Auth0、GitHub、Weibo）
+  - 移除"Sign in with"文字，只保留"Sign up"註冊連結
+
+- **passport/callback.component.ts** - 完全刪除:
+  - 刪除整個 CallbackComponent 文件（專門處理社交登入回調）
+  - 此組件不再需要
+
+- **passport/routes.ts** - 移除回調路由:
+  - 移除 CallbackComponent 導入
+  - 移除 `/passport/callback/:type` 路由配置
+
+### 檔案清單
+- 修改：3 個文件
+  - src/app/routes/passport/login/login.component.ts
+  - src/app/routes/passport/login/login.component.html
+  - src/app/routes/passport/routes.ts
+- 刪除：1 個文件
+  - src/app/routes/passport/callback.component.ts
+
+### 影響評估
+- **範圍**: 認證系統 - 社交登入功能
+- **風險**: 低（移除非核心功能，主要帳密登入不受影響）
+- **效益**: 大幅簡化認證流程，移除所有第三方 OAuth 依賴
+- **測試**: Linter 驗證通過，無錯誤
+
+### 移除成效
+- ✅ 完全移除社交登入功能（Auth0 + GitHub + Weibo）
+- ✅ 移除 SocialService 依賴
+- ✅ 刪除 CallbackComponent 組件
+- ✅ 移除 callback 路由配置
+- ✅ 清理所有相關導入和依賴
+- ✅ 通過 Linter 驗證，無錯誤
+- ✅ 登入頁面只保留帳號密碼登入和註冊連結
+- ✅ 移除約 60-70 行代碼
+
+---
+
+## 2025-10-07 深夜 - 移除 Auth0 社交登入功能（已合併到上方）
+### 變更內容
+- **passport/login** - 移除 Auth0 社交登入:
+  - 移除 open() 方法中的 `case 'auth0'` 邏輯區塊
+  - 移除 Auth0 登入 URL 配置（cipchk.auth0.com）
+  - 移除 HTML 中的 Auth0 社交登入圖標（alipay-circle）
+  - 保留 GitHub 和 Weibo 社交登入功能
+  - 保留 SocialService（供其他社交登入使用）
+
+### 檔案清單
+- 修改：2 個文件
+  - src/app/routes/passport/login/login.component.ts
+  - src/app/routes/passport/login/login.component.html
+
+### 影響評估
+- **範圍**: 社交登入功能
+- **風險**: 極低（僅移除單一社交登入提供者）
+- **效益**: 減少第三方依賴，簡化認證選項
+- **測試**: Linter 驗證通過，無錯誤
+
+### 移除成效
+- ✅ 移除 Auth0 社交登入選項
+- ✅ 保留 GitHub 和 Weibo 社交登入
+- ✅ 通過 Linter 驗證，無錯誤
+- ✅ 不影響其他認證功能
+- ✅ 簡化社交登入選項（3 個 → 2 個）
+
+---
+
+## 2025-10-07 深夜 - 移除手機號碼功能
+### 變更內容
+- **passport/login** - 移除手機號碼登入功能:
+  - 移除手機號碼登入標籤頁（整個第二個 tab）
+  - 移除 mobile 和 captcha 表單欄位
+  - 移除 getCaptcha() 驗證碼方法
+  - 移除 switch() 標籤切換方法
+  - 移除 type 登入類型判斷
+  - 移除 NzTabsModule 導入
+  - 修正錯誤訊息（mobile number → username）
+
+- **passport/register** - 移除註冊頁手機號碼:
+  - 移除 mobilePrefix（+86/+87）國碼選擇
+  - 移除 mobile 手機號碼欄位
+  - 移除 captcha 驗證碼欄位
+  - 移除 getCaptcha() 獲取驗證碼方法
+  - 移除 count 倒計時和 interval$ 計時器
+  - 移除 NzSelectModule, NzGridModule 導入
+
+- **organization/models** - 移除數據模型電話欄位:
+  - employee.model.ts: 移除 phone, mobile (Employee, CreateEmployeeRequest, UpdateEmployeeRequest)
+  - employee.model.ts: 移除 EmergencyContact.phone
+  - department.model.ts: 移除 phone (Department, CreateDepartmentRequest, UpdateDepartmentRequest)
+
+- **pro/account/settings** - 移除個人設定電話:
+  - base.component: 移除 user.phone 欄位和聯絡電話輸入框
+  - security.component: 移除"密保手機"安全設定項
+
+- **文檔更新**:
+  - COMPONENTS.md: 移除部門表單範例中的 phone 欄位
+  - DESIGN.md: 移除所有介面定義中的 phone 和 mobile 欄位說明
+
+### 檔案清單
+- 修改：8 個文件
+  - src/app/routes/passport/login/login.component.ts
+  - src/app/routes/passport/login/login.component.html
+  - src/app/routes/passport/register/register.component.ts
+  - src/app/routes/passport/register/register.component.html
+  - src/app/routes/organization/models/employee.model.ts
+  - src/app/routes/organization/models/department.model.ts
+  - src/app/routes/pro/account/settings/base/base.component.ts
+  - src/app/routes/pro/account/settings/base/base.component.html
+  - src/app/routes/pro/account/settings/security/security.component.html
+  - src/app/routes/organization/COMPONENTS.md
+  - src/app/routes/organization/DESIGN.md
+
+### 影響評估
+- **範圍**: 認證流程、用戶註冊、組織管理、個人設定
+- **風險**: 低（移除非核心功能，不影響主要業務流程）
+- **效益**: 簡化認證流程，減少不必要的用戶資料收集
+- **測試**: Linter 驗證通過，無編譯錯誤
+
+### 移除成效
+- ✅ 移除 2 個登入/註冊組件的手機號碼功能
+- ✅ 移除 2 個數據模型的電話欄位（員工、部門）
+- ✅ 移除 2 個設定頁面的電話相關功能
+- ✅ 更新 2 個文檔移除電話欄位說明
+- ✅ 通過 Linter 驗證，無錯誤
+- ✅ 簡化用戶註冊流程，提升用戶體驗
+
+---
+
 ## 2025-10-07 深夜 - AI Agent 友好性優化
 ### 變更內容
 - **ng-alain-structure.md 精簡**:

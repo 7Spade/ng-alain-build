@@ -11,7 +11,6 @@ interface ProAccountSettingsUser {
   profile: string;
   country: string;
   address: string;
-  phone: string;
   avatar: string;
   geographic: {
     province: {
