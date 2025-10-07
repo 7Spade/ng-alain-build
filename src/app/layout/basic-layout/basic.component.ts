@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { I18nPipe, SettingsService, User } from '@delon/theme';
 import { LayoutDefaultModule, LayoutDefaultOptions } from '@delon/theme/layout-default';
 import { SettingDrawerModule } from '@delon/theme/setting-drawer';
@@ -19,6 +21,9 @@ import { HeaderRTLComponent } from './widgets/rtl.component';
 import { HeaderSearchComponent } from './widgets/search.component';
 import { HeaderTaskComponent } from './widgets/task.component';
 import { HeaderUserComponent } from './widgets/user.component';
+import { TabComponent } from '../widgets/tab/tab.component';
+import { TabService } from '@core';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'layout-basic',
@@ -91,6 +96,7 @@ import { HeaderUserComponent } from './widgets/user.component';
         </nz-dropdown-menu>
       </ng-template>
       <ng-template #contentTpl>
+        <app-tab />
         <router-outlet />
       </ng-template>
     </layout-default>
@@ -118,18 +124,80 @@ import { HeaderUserComponent } from './widgets/user.component';
     HeaderI18nComponent,
     HeaderClearStorageComponent,
     HeaderFullScreenComponent,
-    HeaderUserComponent
+    HeaderUserComponent,
+    TabComponent
   ]
 })
-export class LayoutBasicComponent {
+export class LayoutBasicComponent implements OnInit {
   private readonly settings = inject(SettingsService);
+  private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly tabService = inject(TabService);
+  private readonly destroyRef = inject(DestroyRef);
+  
   options: LayoutDefaultOptions = {
     logoExpanded: `./assets/logo-full.svg`,
     logoCollapsed: `./assets/logo.svg`
   };
   searchToggleStatus = false;
   showSettingDrawer = !environment.production;
+  
   get user(): User {
     return this.settings.user;
+  }
+
+  ngOnInit(): void {
+    // 監聽路由導航，自動添加 Tab
+    this.router.events
+      .pipe(
+        filter((event: NzSafeAny) => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        this.addTabFromRoute();
+      });
+
+    // 初始路由添加 Tab
+    setTimeout(() => {
+      this.addTabFromRoute();
+    });
+  }
+
+  /**
+   * 從當前路由添加 Tab
+   */
+  private addTabFromRoute(): void {
+    let snapshot = this.activatedRoute.snapshot;
+    
+    // 下鑽到最深層路由
+    while (snapshot.firstChild) {
+      snapshot = snapshot.firstChild;
+    }
+
+    // 獲取路由標題
+    const title = snapshot.data['title'] || snapshot.data['titleI18n'] || '未命名';
+    
+    // 如果沒有配置 key，則不添加 Tab
+    if (!snapshot.data['key']) {
+      return;
+    }
+
+    // 收集路由快照
+    const snapshotArray: ActivatedRouteSnapshot[] = [];
+    let temp: ActivatedRouteSnapshot | null = snapshot;
+    while (temp) {
+      snapshotArray.push(temp);
+      temp = temp.parent;
+    }
+
+    // 添加 Tab
+    this.tabService.addTab({
+      title,
+      path: this.router.url,
+      snapshotArray: snapshotArray.reverse()
+    });
+
+    // 更新當前 Tab 索引
+    this.tabService.findIndex(this.router.url);
   }
 }

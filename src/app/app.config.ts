@@ -8,7 +8,8 @@ import {
   withInMemoryScrolling,
   withHashLocation,
   RouterFeatures,
-  withViewTransitions
+  withViewTransitions,
+  RouteReuseStrategy
 } from '@angular/router';
 import { I18NService, defaultInterceptor, provideBindAuthRefresh, provideStartup } from '@core';
 import { provideCellWidgets } from '@delon/abc/cell';
@@ -26,6 +27,7 @@ import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './app.routes';
+import { SimpleReuseStrategy } from './core/services/tab/simple-reuse-strategy';
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -58,6 +60,8 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideHttpClient(withInterceptors([...(environment.interceptorFns ?? []), authSimpleInterceptor, defaultInterceptor])),
   provideAnimations(),
   provideRouter(routes, ...routerFeatures),
+  // 路由復用策略（支持多頁簽）
+  { provide: RouteReuseStrategy, useClass: SimpleReuseStrategy },
   provideAlain({ config: alainConfig, defaultLang, i18nClass: I18NService, icons: [...ICONS_AUTO, ...ICONS] }),
   provideNzConfig(ngZorroConfig),
   provideAuth(),

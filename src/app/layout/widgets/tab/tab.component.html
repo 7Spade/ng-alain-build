@@ -1,0 +1,47 @@
+<!-- Tab 頁簽 UI -->
+<nz-card class="m-t-10" style="height: 40px" [nzBodyStyle]="{ padding: 0 }" [nzBordered]="false">
+    <nz-tabset [nzHideAdd]="true" [nzSelectedIndex]="currentIndex" [nzTabBarStyle]="{ height: '40px' }"
+        [nzTabPosition]="'top'" [nzType]="'editable-card'" (nzClose)="clickCloseIcon($event)">
+
+        @for (tab of tabsSourceData$ | async; track trackByTab(i, tab); let i = $index) {
+        <nz-tab nzClosable [nzTitle]="titleTemplate" (nzClick)="goPage(tab)"
+            (nzContextmenu)="contextMenu($event, menu)">
+
+            <!-- Tab 標題模板 -->
+            <ng-template #titleTemplate>
+                <span class="tab-title" appMouseHoverShow>
+                    {{ tab.title }}
+                    <i class="tab-close-icon" nz-icon [nzType]="'close'" (click)="clickCloseIcon({ index: i })"></i>
+                </span>
+            </ng-template>
+
+            <!-- 右鍵功能表 -->
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item [nzDisabled]="router.url !== tab.path" (click)="refresh()">
+                        <span nz-icon nzType="reload"></span>
+                        刷新
+                    </li>
+                    <li nz-menu-item [nzDisabled]="tabsSourceData.length === 1" (click)="closeTab(tab, $event, i)">
+                        <span nz-icon nzType="close"></span>
+                        關閉標籤
+                    </li>
+                    <li nz-menu-item [nzDisabled]="tabsSourceData.length === 1" (click)="closeOtherTab(tab, $event, i)">
+                        <span nz-icon nzType="close-circle"></span>
+                        關閉其他標籤
+                    </li>
+                    <li nz-menu-item [nzDisabled]="tabsSourceData.length - 1 === i"
+                        (click)="closeRightTab(tab, $event, i)">
+                        <span nz-icon nzType="arrow-right"></span>
+                        關閉右側標籤
+                    </li>
+                    <li nz-menu-item [nzDisabled]="i === 0" (click)="closeLeftTab(tab, $event, i)">
+                        <span nz-icon nzType="arrow-left"></span>
+                        關閉左側標籤
+                    </li>
+                </ul>
+            </nz-dropdown-menu>
+        </nz-tab>
+        }
+    </nz-tabset>
+</nz-card>
