@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { LayoutPassportComponent } from '../layout';
+import { CallbackComponent } from './callback/callback.component';
 import { LandingComponent } from './landing/landing.component';
 import { UserLockComponent } from './lock/lock.component';
 import { UserLoginComponent } from './login/login.component';
@@ -37,6 +38,11 @@ export const routes: Routes = [
         path: 'lock',
         component: UserLockComponent,
         data: { title: '锁屏', titleI18n: 'app.lock', shouldDetach: 'no' }
+      },
+      {
+        path: 'callback',
+        component: CallbackComponent,
+        data: { title: '登入處理中', titleI18n: 'app.callback', shouldDetach: 'no' }
       }
     ]
   },

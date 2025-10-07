@@ -6,3 +6,8 @@ export * from './services/tab';
 export * from './start-page.guard';
 export * from './services/mode/mode.service';
 export * from './services/organization-context';
+export * from './services/firebase-auth.service';
+export * from './services/rbac.service';
+export * from './services/delon-firebase-token.service';
+export * from './guards/firebase-auth.guard';
+export * from './guards/permission.guard';

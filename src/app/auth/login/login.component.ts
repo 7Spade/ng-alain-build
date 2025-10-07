@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { StartupService } from '@core';
-import { FirebaseAuthService } from '@core/services/firebase-auth.service';
+import { FirebaseAuthService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN } from '@delon/auth';
 import { I18nPipe, _HttpClient } from '@delon/theme';
@@ -52,6 +52,9 @@ export class UserLoginComponent implements OnDestroy {
   });
   error = '';
   loading = false;
+  
+  // Firebase 登入模式
+  useFirebase = true; // 設為 true 使用 Firebase，false 使用傳統 Mock API
 
   submit(): void {
     this.error = '';
