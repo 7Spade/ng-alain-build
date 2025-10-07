@@ -182,6 +182,81 @@
 - **Translation Keys**: Consistent translation key structure
 - **Fallback Handling**: Proper fallback for missing translations
 
+## Development Principles Integration
+
+### Component Development Principles
+- **Standalone Component Template**: Complete standalone component with inject() DI
+- **Component Size Limits**: <100 lines inline, 100-300 lines consider separation, >300 lines must separate
+- **Single Responsibility**: Each component handles one specific responsibility
+- **OnPush Strategy**: All components use OnPush change detection for optimal performance
+
+### Service Development Principles
+- **Injectable providedIn root**: All services use providedIn: 'root' for tree-shaking
+- **@delon/theme _HttpClient**: Use @delon's _HttpClient wrapper for unified error handling
+- **RESTful API Convention**: Strict adherence to REST standards with proper HTTP methods
+- **Observable Return Types**: All service methods return Observable, not Promise
+
+### Guard Development Principles
+- **Functional Guard Template**: Use CanActivateFn instead of class-based guards
+- **Guard Naming Convention**: Feature + Permission Level + Guard (e.g., orgOwnerGuard)
+- **Error Handling**: Complete error handling with user notifications
+- **Permission Validation**: Always validate input parameters before processing
+
+### Routing Development Principles
+- **Layered Route Structure**: Layout → Feature Module → Sub-features
+- **Route Data for Metadata**: All routes should have data properties (title, permission)
+- **Lazy Loading**: Use loadComponent for optimal bundle splitting
+- **Route Guards**: Implement appropriate guards for route protection
+
+### Styling Development Principles
+- **BEM Naming Convention**: Block__Element--Modifier pattern
+- **CSS Grid for Layouts**: Prefer CSS Grid over Flexbox for responsive layouts
+- **Design Tokens**: Use Less variables for consistent design system
+- **Mobile-First**: Responsive design with mobile-first approach
+
+### Performance Optimization Principles
+- **trackBy in @for Loops**: All @for loops must use track for performance
+- **OnPush + Manual detectChanges**: Explicit change detection control
+- **Lazy Load Heavy Dependencies**: Load heavy dependencies on-demand
+- **Bundle Optimization**: Tree shaking, code splitting, bundle analysis
+
+### Security Principles
+- **Input Validation**: Always validate user inputs
+- **Complete Error Handling**: Comprehensive error handling with user feedback
+- **Avoid Function Calls in Templates**: Use pipes or pre-computed values
+- **Safe Navigation**: Use safe navigation operators and null checks
+
+### Data Model Principles
+- **Interface for Data**: Use interfaces for data structures, enums for constants
+- **Separate Request/Response Types**: Different interfaces for different operations
+- **Type Safety**: Strict TypeScript configuration with no any types
+- **Immutable Updates**: Use spread operator for immutable state updates
+
+### Mock Data Principles
+- **Complete CRUD Operations**: Mock must support full CRUD operations
+- **Realistic Data Relationships**: Mock data should simulate real business logic
+- **Query Parameter Support**: Support for pagination, search, and filtering
+- **Memory Persistence**: Mock data should persist in memory during session
+
+### Dependency Management Principles
+- **Lock Major Versions**: Use ^ for patch updates, lock major versions
+- **Regular Updates**: Monthly dependency updates with careful testing
+- **Version Compatibility**: Ensure Angular and ng-alain version compatibility
+- **Tree Shaking**: Use providedIn: 'root' for optimal tree shaking
+
+### Internationalization Principles
+- **i18n for All Text**: Use i18n pipe for all user-facing text
+- **Namespace Organization**: Feature.component.element naming structure
+- **Translation Keys**: Consistent translation key structure
+- **Fallback Handling**: Proper fallback for missing translations
+
+### Code Review Checklist
+- **Architecture**: Standalone components, lazy loading, proper guards, providedIn: 'root'
+- **Performance**: OnPush strategy, trackBy in loops, avoid function calls in templates
+- **Type Safety**: All parameters typed, avoid any, Observable return types
+- **User Experience**: Loading states, empty states, error notifications, responsive design
+- **Code Quality**: ESLint compliance, Stylelint compliance, proper comments, README files
+  
 ### Performance Patterns
 - **OnPush Strategy**: Change detection optimization
 - **TrackBy Functions**: Optimized list rendering with trackBy
