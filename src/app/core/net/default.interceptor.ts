@@ -6,6 +6,7 @@ import { Observable, of, throwError, mergeMap } from 'rxjs';
 
 import { ReThrowHttpError, checkStatus, getAdditionalHeaders, toLogin } from './helper';
 import { tryRefreshToken } from './refresh-token';
+import { tryRefreshFirebaseToken } from './firebase-refresh-token';
 
 function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> {
   checkStatus(injector, ev);
@@ -36,8 +37,15 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
       // }
       break;
     case 401:
-      if (environment.api.refreshTokenEnabled && environment.api.refreshTokenType === 're-request') {
-        return tryRefreshToken(injector, ev, req, next);
+      if (environment.api.refreshTokenEnabled) {
+        // Firebase Token 刷新模式
+        if (environment.api.refreshTokenType === 'firebase') {
+          return tryRefreshFirebaseToken(injector, ev, req, next);
+        }
+        // 傳統 HTTP 刷新模式
+        if (environment.api.refreshTokenType === 're-request') {
+          return tryRefreshToken(injector, ev, req, next);
+        }
       }
       toLogin(injector);
       break;
