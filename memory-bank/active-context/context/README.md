@@ -21,20 +21,16 @@ _已完成的任務記錄已移至 [archive/completed-tasks/2025-10-07/](../../a
 cat currentFocus.md
 ```
 
-### 查看特定功能設計
+### 查看功能指南
 ```bash
-# 組織切換器相關
-cat org-switcher-summary.md
-cat org-switcher-quick-guide.md
-
 # Tab 系統
 cat tab-system-guide.md
 ```
 
-### 查看技術分析
+### 查看歷史記錄
 ```bash
-cat ng-antd-admin-analysis-summary.md
-cat migration-summary.md
+# 已歸檔的文檔
+ls ../../archive/completed-tasks/2025-10-07/
 ```
 
 ## 📊 文檔分類
