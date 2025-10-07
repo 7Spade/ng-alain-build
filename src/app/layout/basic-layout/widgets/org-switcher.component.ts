@@ -298,15 +298,27 @@ export class OrgSwitcherComponent {
             }
             
             return componentInstance.submit().then((formValue: CreateOrganizationRequest) => {
-              // 提交到後端
-              return this.orgService.createOrganization(formValue).toPromise().then(() => {
-                this.message.success('組織創建成功');
-                
-                // 重新加載組織列表
-                this.contextService.reloadOrganizations();
-                
-                modal.destroy();
-              });
+              // 本地測試：直接添加組織到上下文
+              const newOrg: UserOrganization = {
+                id: `org-${Date.now()}`,
+                name: formValue.name,
+                type: 'organization' as const,
+                role: 'owner' as const,
+                joinedAt: new Date(),
+                description: formValue.description,
+                logo: './assets/logo.svg'
+              };
+              
+              // 添加到組織上下文
+              this.contextService.addOrganizationLocally(newOrg);
+              
+              this.message.success(`組織「${newOrg.name}」創建成功`);
+              modal.destroy();
+              
+              // TODO: 生產環境使用真實 API
+              // return this.orgService.createOrganization(formValue).toPromise().then(() => {
+              //   this.contextService.reloadOrganizations();
+              // });
             }).catch((error: Error) => {
               console.error('表單驗證失敗', error);
             });

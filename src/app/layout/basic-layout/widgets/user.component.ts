@@ -13,7 +13,8 @@ import { ModeService, ModeType } from '@core';
 import { SimpleReuseStrategy } from '@core';
 import { OrganizationFormComponent } from '../../../features/organization/components/organization-form';
 import { OrganizationService } from '../../../features/organization/services/organization.service';
-import { CreateOrganizationRequest } from '../../../features/organization/models';
+import { OrganizationContextService } from '../../../core/services/organization-context/organization-context.service';
+import type { CreateOrganizationRequest, UserOrganization } from '../../../features/organization/models';
 
 @Component({
   selector: 'header-user',
@@ -91,6 +92,7 @@ export class HeaderUserComponent implements OnInit {
   }
   private readonly modalSrv = inject(NzModalService);
   private readonly orgService = inject(OrganizationService);
+  private readonly orgContextService = inject(OrganizationContextService);
   private readonly message = inject(NzMessageService);
 
   logout(): void {
@@ -131,12 +133,26 @@ export class HeaderUserComponent implements OnInit {
               return Promise.reject(new Error('組件實例不存在'));
             }
             return componentInstance.submit().then((formValue: CreateOrganizationRequest) => {
-              // 提交到後端
-              return this.orgService.createOrganization(formValue).toPromise().then(() => {
-                this.message.success('組織創建成功');
-                modal.destroy();
-                // 可選：重新加載組織列表或切換到新組織
-              });
+              // 本地測試：直接添加組織到上下文
+              const newOrg: UserOrganization = {
+                id: `org-${Date.now()}`,
+                name: formValue.name,
+                type: 'organization' as const,
+                role: 'owner' as const,
+                joinedAt: new Date(),
+                description: formValue.description
+              };
+              
+              // 添加到組織上下文
+              this.orgContextService.addOrganizationLocally(newOrg);
+              
+              this.message.success(`組織「${newOrg.name}」創建成功`);
+              modal.destroy();
+              
+              // TODO: 生產環境使用真實 API
+              // return this.orgService.createOrganization(formValue).toPromise().then(() => {
+              //   this.orgContextService.reloadOrganizations();
+              // });
             }).catch((error: Error) => {
               // 驗證失敗時不關閉 Modal
               console.error('表單驗證失敗', error);

@@ -183,6 +183,15 @@ export class OrganizationContextService {
   }
   
   /**
+   * 本地添加組織（用於測試）
+   * @param org 新組織
+   */
+  addOrganizationLocally(org: UserOrganization): void {
+    const current = this._availableOrgs();
+    this._availableOrgs.set([...current, org]);
+  }
+  
+  /**
    * 加載組織菜單
    * @param orgId 組織 ID
    */

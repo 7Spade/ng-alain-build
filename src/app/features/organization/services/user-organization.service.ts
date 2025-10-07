@@ -41,7 +41,17 @@ export class UserOrganizationService {
       }
     }
     
-    return this.http.get<UserOrganization[]>(this.API_BASE).pipe(
+    // 優先從本地 app-data.json 讀取（用於測試）
+    // 生產環境替換為真實 API
+    return this.http.get<any>('./assets/tmp/app-data.json').pipe(
+      map(appData => {
+        const userOrgs = appData.userOrganizations || [];
+        // 轉換日期字符串為 Date 對象
+        return userOrgs.map((org: any) => ({
+          ...org,
+          joinedAt: typeof org.joinedAt === 'string' ? new Date(org.joinedAt) : org.joinedAt
+        }));
+      }),
       tap(data => this.cache.set(this.CACHE_KEY_USER_ORGS, data, { expire: this.CACHE_EXPIRE })),
       catchError(err => {
         console.error('獲取用戶組織列表失敗', err);
@@ -56,6 +66,12 @@ export class UserOrganizationService {
         return of(defaultPersonal);
       })
     );
+    
+    // TODO: 生產環境使用真實 API
+    // return this.http.get<UserOrganization[]>(this.API_BASE).pipe(
+    //   tap(data => this.cache.set(this.CACHE_KEY_USER_ORGS, data, { expire: this.CACHE_EXPIRE })),
+    //   catchError(err => { ... })
+    // );
   }
 
   /**
@@ -76,13 +92,21 @@ export class UserOrganizationService {
       return of(cached);
     }
     
-    return this.http.get<any[]>(`/api/organizations/${orgId}/menu`).pipe(
+    // 優先從本地 app-data.json 讀取（用於測試）
+    return this.http.get<any>('./assets/tmp/app-data.json').pipe(
+      map(appData => appData.organizationMenus?.[orgId] || []),
       tap(data => this.cache.set(cacheKey, data, { expire: this.CACHE_EXPIRE })),
       catchError(err => {
         console.error(`獲取組織菜單失敗 (ID: ${orgId})`, err);
         return of([]);
       })
     );
+    
+    // TODO: 生產環境使用真實 API
+    // return this.http.get<any[]>(`/api/organizations/${orgId}/menu`).pipe(
+    //   tap(data => this.cache.set(cacheKey, data, { expire: this.CACHE_EXPIRE })),
+    //   catchError(err => { ... })
+    // );
   }
 
   /**
