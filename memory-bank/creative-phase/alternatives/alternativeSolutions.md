@@ -1,177 +1,69 @@
-# Alternative Solutions
+# 替代方案
 
-## Framework Alternatives
+## 框架替代方案
 
 ### 1. React + Ant Design Pro
-**Description**: React-based admin panel with Ant Design components
-- **Pros**:
-  - Large community and ecosystem
-  - Flexible architecture
-  - Extensive third-party libraries
-  - Strong TypeScript support
-- **Cons**:
-  - No direct ng-alain equivalent
-  - More complex setup and configuration
-  - Learning curve for team
-  - Manual integration required
-- **Decision**: Not chosen due to team expertise and ng-alain completeness
+**優點**: 大社群、靈活架構、豐富第三方庫
+**缺點**: 無直接 ng-alain 等價物、複雜設置
+**決策**: ❌ 未選擇（團隊專長與 ng-alain 完整性）
 
 ### 2. Vue.js + Element Plus
-**Description**: Vue.js framework with Element Plus UI library
-- **Pros**:
-  - Simpler learning curve
-  - Good performance characteristics
-  - Reactive data binding
-  - Component-based architecture
-- **Cons**:
-  - Smaller ecosystem for enterprise applications
-  - Less comprehensive admin panel solutions
-  - Limited enterprise features
-  - Smaller community compared to Angular/React
-- **Decision**: Not chosen due to enterprise requirements and ecosystem
+**優點**: 簡單學習曲線、良好性能
+**缺點**: 較小企業生態系統、有限企業功能
+**決策**: ❌ 未選擇（企業需求與生態系統）
 
 ### 3. Angular + Angular Material
-**Description**: Pure Angular with Material Design components
-- **Pros**:
-  - Native Angular integration
-  - Material Design consistency
-  - Google-backed framework
-  - Comprehensive component library
-- **Cons**:
-  - No built-in admin panel features
-  - Requires custom layout development
-  - Less enterprise-focused features
-  - More development overhead
-- **Decision**: Not chosen due to ng-alain's admin-specific features
+**優點**: 原生整合、Material Design、Google 支援
+**缺點**: 無內建 admin 功能、需自訂佈局
+**決策**: ❌ 未選擇（ng-alain admin 特定功能）
 
-## Architecture Alternatives
+## 架構替代方案
 
-### 1. Microservices Architecture
-**Description**: Distributed system with separate services
-- **Pros**:
-  - Scalability and flexibility
-  - Technology diversity
-  - Independent deployments
-  - Fault isolation
-- **Cons**:
-  - Increased complexity
-  - Network latency
-  - Distributed system challenges
-  - Overkill for current requirements
-- **Decision**: Not chosen due to project scope and complexity
+### 1. 微服務架構
+**優點**: 可擴展性、技術多樣性、獨立部署
+**缺點**: 增加複雜性、網絡延遲、分散式挑戰
+**決策**: ❌ 未選擇（專案範圍與複雜度）
 
-### 2. Monolithic Architecture
-**Description**: Single deployable application
-- **Pros**:
-  - Simpler development and deployment
-  - Easier debugging and testing
-  - Consistent data management
-  - Lower operational overhead
-- **Cons**:
-  - Scalability limitations
-  - Technology lock-in
-  - Deployment risks
-  - Team coordination challenges
-- **Decision**: Chosen as appropriate for current project scope
+### 2. 單體架構
+**優點**: 簡單開發與部署、易於調試
+**缺點**: 可擴展性限制、技術鎖定
+**決策**: ✅ 選擇（適合當前專案範圍）
 
-### 3. Server-Side Rendering (SSR)
-**Description**: Server-rendered Angular application
-- **Pros**:
-  - Better SEO and initial load performance
-  - Improved accessibility
-  - Social media sharing optimization
-  - Better perceived performance
-- **Cons**:
-  - Increased server complexity
-  - Higher hosting costs
-  - Development complexity
-  - Not required for admin panels
-- **Decision**: Not chosen as admin panels don't require SEO
+### 3. 服務端渲染 (SSR)
+**優點**: 更好 SEO、初始載入性能
+**缺點**: 增加服務器複雜性、更高託管成本
+**決策**: ❌ 未選擇（admin 面板不需要 SEO）
 
-## State Management Alternatives
+## 狀態管理替代方案
 
 ### 1. NgRx
-**Description**: Redux-inspired state management for Angular
-- **Pros**:
-  - Predictable state management
-  - Time-travel debugging
-  - Strong TypeScript integration
-  - Extensive ecosystem
-- **Cons**:
-  - Steep learning curve
-  - Boilerplate code
-  - Overkill for simple applications
-  - Complex setup
-- **Decision**: Not chosen due to complexity and project needs
+**優點**: 可預測狀態、時間旅行調試
+**缺點**: 陡峭學習曲線、樣板代碼
+**決策**: ❌ 未選擇（複雜度與專案需求）
 
 ### 2. Akita
-**Description**: State management library for Angular
-- **Pros**:
-  - Simpler than NgRx
-  - TypeScript-first approach
-  - Good performance
-  - Less boilerplate
-- **Cons**:
-  - Smaller community
-  - Less documentation
-  - Learning curve still present
-  - Not necessary for current scope
-- **Decision**: Not chosen due to service-based approach being sufficient
+**優點**: 比 NgRx 簡單、TypeScript 優先
+**缺點**: 較小社群、較少文檔
+**決策**: ❌ 未選擇（service-based 已足夠）
 
-### 3. Service-Based State Management
-**Description**: Angular services with RxJS for state management
-- **Pros**:
-  - Built-in Angular patterns
-  - Simpler implementation
-  - Less external dependencies
-  - Easier to understand
-- **Cons**:
-  - Less structured than Redux patterns
-  - Potential for inconsistent patterns
-  - Manual state synchronization
-  - Limited debugging tools
-- **Decision**: Chosen as appropriate for project complexity
+### 3. Service-Based
+**優點**: Angular 內建模式、簡單實現
+**缺點**: 較少結構化、手動同步
+**決策**: ✅ 選擇（適合專案複雜度）
 
-## Testing Alternatives
+## 測試替代方案
 
 ### 1. Jest
-**Description**: JavaScript testing framework
-- **Pros**:
-  - Fast test execution
-  - Built-in mocking
-  - Snapshot testing
-  - Popular in React ecosystem
-- **Cons**:
-  - Requires additional setup for Angular
-  - Less Angular-specific features
-  - Learning curve for team
-  - Not Angular's recommended approach
-- **Decision**: Not chosen due to Angular's Jasmine integration
+**優點**: 快速執行、內建 mocking、快照測試
+**缺點**: Angular 需額外設置
+**決策**: ❌ 未選擇（Jasmine 是 Angular 標準）
 
 ### 2. Cypress
-**Description**: End-to-end testing framework
-- **Pros**:
-  - Modern testing approach
-  - Great developer experience
-  - Real browser testing
-  - Excellent debugging tools
-- **Cons**:
-  - Different paradigm from Protractor
-  - Learning curve for team
-  - Migration effort required
-  - Protractor is Angular's standard
-- **Decision**: Not chosen due to Protractor being Angular's standard
+**優點**: 現代測試方法、優秀開發體驗
+**缺點**: 不同範式、學習曲線
+**決策**: ❌ 未選擇（Protractor 是 Angular 標準）
 
 ### 3. Playwright
-**Description**: Cross-browser testing framework
-- **Pros**:
-  - Multi-browser support
-  - Modern architecture
-  - Good performance
-  - Excellent debugging
-- **Cons**:
-  - Newer framework with less maturity
-  - Learning curve
-  - Migration effort
-  - Protractor integration is proven
-- **Decision**: Not chosen due to Protractor being established
+**優點**: 多瀏覽器支援、現代架構
+**缺點**: 較新框架、遷移成本
+**決策**: ❌ 未選擇（Protractor 已建立）

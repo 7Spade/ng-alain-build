@@ -1,47 +1,42 @@
-# Memory Bank: Project Brief
+# 專案概覽
 
-## Project Overview
-**ng-alain** - A comprehensive admin panel front-end framework based on Angular and ng-zorro-antd.
+## 基本資訊
+- **名稱**: ng-alain
+- **版本**: 20.0.2
+- **描述**: ng-zorro-antd admin panel 前端框架
+- **授權**: MIT
+- **官網**: https://ng-alain.com
 
-## Project Details
-- **Name**: ng-alain
-- **Version**: 20.0.2
-- **Description**: ng-zorro-antd admin panel front-end framework
-- **Author**: cipchk <cipchk@qq.com>
-- **License**: MIT
-- **Repository**: https://github.com/ng-alain/ng-alain
-- **Homepage**: https://ng-alain.com
+## 技術堆疊
+| 層級 | 技術 | 版本 |
+|------|------|------|
+| 前端框架 | Angular | 20.3.0 |
+| Admin 框架 | ng-alain | 20.0.2 |
+| UI 組件 | ng-zorro-antd | 20.3.1 |
+| 套件管理 | Yarn | 4.9.2 |
+| 建置工具 | Angular CLI | 20.3.1 |
+| 樣式處理 | Less | - |
+| 測試框架 | Jasmine + Karma + Protractor | - |
+| 代碼品質 | ESLint + Stylelint + Prettier | - |
 
-## Technology Stack
-- **Frontend Framework**: Angular 20.3.0
-- **Admin Framework**: ng-alain 20.0.2
-- **UI Library**: ng-zorro-antd 20.3.1
-- **Package Manager**: Yarn 4.9.2
-- **Build Tool**: Angular CLI
-- **Styling**: Less with dynamic theme support
-- **Testing**: Jasmine, Karma, Protractor
-- **Code Quality**: ESLint, Stylelint, Prettier
+## 核心功能
+- 完整 admin panel scaffold
+- 豐富 @delon/* 組件庫
+- 身份驗證與授權系統
+- 動態主題支援
+- 國際化 (i18n)
+- Mock 資料系統
+- 圖表整合
+- 表單處理工具
+- 緩存系統
 
-## Key Features
-- Complete admin panel scaffold
-- Rich component library (@delon/* modules)
-- Authentication and authorization system
-- Dynamic theming support
-- Internationalization ready
-- Mock data system
-- Chart integration
-- Form handling utilities
-- Caching system
-- Print and QR code utilities
+## 開發環境
+- **平台**: Windows PowerShell
+- **Node.js**: 22.18.0 (建議)
+- **記憶體**: 8GB 建置配置
+- **Proxy**: 開發代理配置
+- **HMR**: 熱模組替換支援
 
-## Development Environment
-- **Platform**: Windows PowerShell
-- **Node.js**: Compatible with Node 22.18.0
-- **Memory**: High memory allocation for builds (8GB)
-- **Proxy**: Development proxy configuration
-- **HMR**: Hot module replacement support
-
-## Project Status
-- **Current Phase**: VAN Mode Initialization
-- **Memory Bank**: Being initialized
-- **Next Steps**: Complete Memory Bank setup and technical validation
+## 專案狀態
+- **當前階段**: Memory Bank 精煉與維護
+- **下一步**: 持續文檔優化與專案開發
