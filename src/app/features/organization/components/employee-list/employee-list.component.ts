@@ -150,7 +150,7 @@ export class EmployeeListComponent implements OnInit {
       nzOnOk: () => {
         this.tableLoading(true);
         this.employeeService
-          .deleteEmployee(id)
+          .deleteEmployee(_id)
           .pipe(
             finalize(() => {
               this.tableLoading(false);
