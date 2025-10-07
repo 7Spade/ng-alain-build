@@ -25,14 +25,6 @@
       "hideInBreadcrumb": true,
       "children": [
         {
-          "text": "快捷菜單",
-          "i18n": "menu.shortcut",
-          "icon": "anticon-rocket",
-          "shortcutRoot": true,
-          "hideInBreadcrumb": true,
-          "children": []
-        },
-        {
           "text": "儀表板",
           "i18n": "menu.dashboard",
           "icon": "anticon-dashboard",
@@ -48,71 +40,5 @@
         }
       ]
     }
-  ],
-  "menus": {
-    "user": [
-      {
-        "text": "主导航",
-        "i18n": "menu.main",
-        "group": true,
-        "hideInBreadcrumb": true,
-        "children": [
-          {
-            "text": "快捷菜单",
-            "i18n": "menu.shortcut",
-            "icon": "anticon-rocket",
-            "shortcutRoot": true,
-            "hideInBreadcrumb": true,
-            "children": []
-          },
-          {
-            "text": "仪表盘",
-            "i18n": "menu.dashboard",
-            "icon": "anticon-dashboard",
-            "children": [
-              { "text": "仪表盘V1", "link": "/dashboard/v1", "i18n": "menu.dashboard.v1", "shortcut": true },
-              { "text": "分析页", "link": "/dashboard/analysis", "i18n": "menu.dashboard.analysis" },
-              { "text": "监控页", "link": "/dashboard/monitor", "i18n": "menu.dashboard.monitor" },
-              { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace", "shortcut": true }
-            ]
-          },
-          {
-            "text": "专项",
-            "i18n": "menu.projects",
-            "icon": "anticon-folder",
-            "link": "/projects",
-            "shortcut": true
-          }
-        ]
-      },
-      {
-        "text": "More",
-        "i18n": "menu.more",
-        "group": true,
-        "hideInBreadcrumb": true,
-        "children": [
-          {
-            "text": "Report",
-            "i18n": "menu.report",
-            "icon": "anticon-cloud",
-            "children": [
-              { "text": "Relation", "link": "/data-v/relation", "i18n": "menu.report.relation", "reuse": false }
-            ]
-          },
-          {
-            "text": "Extras",
-            "i18n": "menu.extras",
-            "link": "/extras",
-            "icon": "anticon-link",
-            "children": [
-              { "text": "Help Center", "link": "/system/extras/helpcenter", "i18n": "menu.extras.helpcenter" },
-              { "text": "Settings", "link": "/system/extras/settings", "i18n": "menu.extras.settings" },
-              { "text": "Poi", "link": "/system/extras/poi", "i18n": "menu.extras.poi" }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "organizationMenus": {}
+  ]
 }
