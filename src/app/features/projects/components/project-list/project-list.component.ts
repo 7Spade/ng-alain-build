@@ -136,11 +136,10 @@ export class ProjectListComponent implements OnInit {
 
   /**
    * 載入專案列表
+   * @note HTTP 請求是一次性操作，完成後自動清理，無需手動取消訂閱
    */
   loadProjects(): void {
     this.loading.set(true);
-    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未在 ngOnDestroy 中取消訂閱
-    // 建議：使用 takeUntilDestroyed() 或實作 ngOnDestroy 管理訂閱生命週期
     this.projectService.getProjects().subscribe({
       next: response => {
         this.projects.set(response.list);

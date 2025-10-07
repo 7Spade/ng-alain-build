@@ -82,6 +82,7 @@ export class ProjectFilesComponent implements OnInit {
 
   /**
    * 載入檔案列表
+   * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadFiles(): void {
     this.loading.set(true);
@@ -169,6 +170,7 @@ export class ProjectFilesComponent implements OnInit {
 
   /**
    * 下載檔案
+   * @note HTTP 請求完成後自動清理
    */
   downloadFile(file: ProjectFile): void {
     this.fileService.downloadFile(this.projectId(), file.id).subscribe({
@@ -191,6 +193,7 @@ export class ProjectFilesComponent implements OnInit {
 
   /**
    * 刪除檔案
+   * @note HTTP 請求完成後自動清理
    */
   deleteFile(file: ProjectFile): void {
     this.fileService.deleteFile(this.projectId(), file.id).subscribe({

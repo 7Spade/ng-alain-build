@@ -2,7 +2,7 @@ import { Component, inject, OnInit, DestroyRef, ChangeDetectorRef } from '@angul
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { I18nPipe, SettingsService, User } from '@delon/theme';
+import { SettingsService, User } from '@delon/theme';
 import { LayoutDefaultModule, LayoutDefaultOptions } from '@delon/theme/layout-default';
 import { SettingDrawerModule } from '@delon/theme/setting-drawer';
 import { ThemeBtnComponent } from '@delon/theme/theme-btn';
@@ -85,25 +85,6 @@ import { ModeService, ModeType } from '@core';
       <ng-template #asideUserTpl>
         <!-- 組織切換器 -->
         <org-switcher />
-        
-        <li nz-menu-divider style="margin: 8px 0;"></li>
-        
-        <!-- 用戶信息 -->
-        <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" class="alain-default__aside-user">
-      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="asideAvatarSrc" />
-          <div class="alain-default__aside-user-info">
-            <strong>{{ user.name }}</strong>
-            <p class="mb0">{{ user.email }}</p>
-          </div>
-        </div>
-        <nz-dropdown-menu #userMenu="nzDropdownMenu">
-          <ul nz-menu>
-            <li nz-menu-group [nzTitle]="'menu.switcher' | i18n"></li>
-            <li nz-menu-item (click)="switchMode('user')">{{ 'menu.switcher.user' | i18n }}</li>
-            <li nz-menu-item (click)="switchMode('org')">{{ 'menu.switcher.org' | i18n }}</li>
-            <li nz-menu-item (click)="switchMode('demo')">{{ 'menu.switcher.demo' | i18n }}</li>
-          </ul>
-        </nz-dropdown-menu>
       </ng-template>
       <ng-template #contentTpl>
         <app-tab />
@@ -118,7 +99,6 @@ import { ModeService, ModeType } from '@core';
   imports: [
     RouterOutlet,
     RouterLink,
-    I18nPipe,
     LayoutDefaultModule,
     NzIconModule,
     NzMenuModule,
@@ -158,17 +138,6 @@ export class LayoutBasicComponent implements OnInit {
   
   get user(): User {
     return this.settings.user;
-  }
-
-  get asideAvatarSrc(): string {
-    switch (this.currentMode) {
-      case 'org':
-        return './assets/tmp/img/2.png';
-      case 'demo':
-        return './assets/tmp/img/3.png';
-      default:
-        return this.user?.avatar ?? './assets/tmp/img/avatar.svg';
-    }
   }
 
   switchMode(mode: ModeType): void {

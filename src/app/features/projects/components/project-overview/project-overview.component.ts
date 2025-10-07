@@ -81,6 +81,7 @@ export class ProjectOverviewComponent implements OnInit {
 
   /**
    * 載入專案資料
+   * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadProject(id: string): void {
     this.loading.set(true);

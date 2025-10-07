@@ -73,9 +73,11 @@ export class MemberListComponent implements OnInit {
 
   /**
    * 載入成員列表
+   * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadMembers(): void {
     this.loading.set(true);
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未管理（雖是一次性，建議統一使用 takeUntilDestroyed）
     this.memberService.getMembers({ projectId: this.projectId() }).subscribe({
       next: response => {
         this.members.set(response.members);
@@ -99,6 +101,7 @@ export class MemberListComponent implements OnInit {
 
   /**
    * 移除成員
+   * @note HTTP 請求完成後自動清理
    */
   removeMember(member: ProjectMember): void {
     this.memberService.removeMember(this.projectId(), member.id).subscribe({
