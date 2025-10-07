@@ -26,6 +26,9 @@
     ],
     "baseUrl": "./",
     "paths": {
+      "@config": [
+        "src/app/config/index"
+      ],
       "@shared": [
         "src/app/shared/index"
       ],
