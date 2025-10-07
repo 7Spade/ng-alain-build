@@ -18,37 +18,79 @@ import { XlsxComponent } from './xlsx-demo/xlsx.component';
 import { ZipComponent } from './zip-demo/zip.component';
 
 export const routes: Routes = [
-  { path: 'st', component: STDemoComponent },
-  { path: 'util', component: UtilComponent },
-  { path: 'print', component: PrintComponent },
-  { path: 'acl', component: ACLComponent },
+  { 
+    path: 'st', 
+    component: STDemoComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'util', 
+    component: UtilComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'print', 
+    component: PrintComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'acl', 
+    component: ACLComponent,
+    data: { shouldDetach: 'no' }
+  },
   {
     path: 'guard',
     component: GuardComponent,
+    data: { shouldDetach: 'no' },
     children: [
       {
         path: 'leave',
         component: GuardLeaveComponent,
-        canDeactivate: [canLeave]
+        canDeactivate: [canLeave],
+        data: { shouldDetach: 'no' }
       },
       {
         path: 'auth',
         component: GuardAuthComponent,
         canActivate: [aclCanActivate],
-        data: { guard: 'user1' }
+        data: { guard: 'user1', shouldDetach: 'no' }
       },
       {
         path: 'admin',
         component: GuardAdminComponent,
         canActivate: [aclCanActivate],
-        data: { guard: 'admin' }
+        data: { guard: 'admin', shouldDetach: 'no' }
       }
     ]
   },
-  { path: 'cache', component: CacheComponent },
-  { path: 'qr', component: QRComponent },
-  { path: 'downfile', component: DownFileComponent },
-  { path: 'xlsx', component: XlsxComponent },
-  { path: 'zip', component: ZipComponent },
-  { path: 'form', component: DelonFormComponent }
+  { 
+    path: 'cache', 
+    component: CacheComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'qr', 
+    component: QRComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'downfile', 
+    component: DownFileComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'xlsx', 
+    component: XlsxComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'zip', 
+    component: ZipComponent,
+    data: { shouldDetach: 'no' }
+  },
+  { 
+    path: 'form', 
+    component: DelonFormComponent,
+    data: { shouldDetach: 'no' }
+  }
 ];

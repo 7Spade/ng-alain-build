@@ -28,24 +28,61 @@ export const routes: Routes = [
   {
     path: 'form',
     children: [
-      { path: 'basic-form', component: BasicFormComponent },
-      { path: 'step-form', component: StepFormComponent },
-      { path: 'advanced-form', component: AdvancedFormComponent }
+      { 
+        path: 'basic-form', 
+        component: BasicFormComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'step-form', 
+        component: StepFormComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'advanced-form', 
+        component: AdvancedFormComponent,
+        data: { shouldDetach: 'no' }
+      }
     ]
   },
   {
     path: 'list',
     children: [
-      { path: 'table-list', component: ProTableListComponent },
-      { path: 'basic-list', component: ProBasicListComponent },
-      { path: 'card-list', component: ProCardListComponent },
+      { 
+        path: 'table-list', 
+        component: ProTableListComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'basic-list', 
+        component: ProBasicListComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'card-list', 
+        component: ProCardListComponent,
+        data: { shouldDetach: 'no' }
+      },
       {
         path: '',
         component: ProListLayoutComponent,
+        data: { shouldDetach: 'no' },
         children: [
-          { path: 'articles', component: ProListArticlesComponent },
-          { path: 'projects', component: ProListProjectsComponent },
-          { path: 'applications', component: ProListApplicationsComponent }
+          { 
+            path: 'articles', 
+            component: ProListArticlesComponent,
+            data: { shouldDetach: 'no' }
+          },
+          { 
+            path: 'projects', 
+            component: ProListProjectsComponent,
+            data: { shouldDetach: 'no' }
+          },
+          { 
+            path: 'applications', 
+            component: ProListApplicationsComponent,
+            data: { shouldDetach: 'no' }
+          }
         ]
       }
     ]
@@ -53,15 +90,31 @@ export const routes: Routes = [
   {
     path: 'profile',
     children: [
-      { path: 'basic', component: ProProfileBaseComponent },
-      { path: 'advanced', component: ProProfileAdvancedComponent }
+      { 
+        path: 'basic', 
+        component: ProProfileBaseComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'advanced', 
+        component: ProProfileAdvancedComponent,
+        data: { shouldDetach: 'no' }
+      }
     ]
   },
   {
     path: 'result',
     children: [
-      { path: 'success', component: ProResultSuccessComponent },
-      { path: 'fail', component: ProResultFailComponent }
+      { 
+        path: 'success', 
+        component: ProResultSuccessComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'fail', 
+        component: ProResultFailComponent,
+        data: { shouldDetach: 'no' }
+      }
     ]
   },
   {
@@ -70,49 +123,51 @@ export const routes: Routes = [
       {
         path: 'center',
         component: ProAccountCenterComponent,
+        data: { shouldDetach: 'no' },
         children: [
           { path: '', redirectTo: 'articles', pathMatch: 'full' },
           {
             path: 'articles',
             component: ProAccountCenterArticlesComponent,
-            data: { titleI18n: 'pro-account-center' }
+            data: { titleI18n: 'pro-account-center', shouldDetach: 'no' }
           },
           {
             path: 'projects',
             component: ProAccountCenterProjectsComponent,
-            data: { titleI18n: 'pro-account-center' }
+            data: { titleI18n: 'pro-account-center', shouldDetach: 'no' }
           },
           {
             path: 'applications',
             component: ProAccountCenterApplicationsComponent,
-            data: { titleI18n: 'pro-account-center' }
+            data: { titleI18n: 'pro-account-center', shouldDetach: 'no' }
           }
         ]
       },
       {
         path: 'settings',
         component: ProAccountSettingsComponent,
+        data: { shouldDetach: 'no' },
         children: [
           { path: '', redirectTo: 'base', pathMatch: 'full' },
           {
             path: 'base',
             component: ProAccountSettingsBaseComponent,
-            data: { titleI18n: 'pro-account-settings' }
+            data: { titleI18n: 'pro-account-settings', shouldDetach: 'no' }
           },
           {
             path: 'security',
             component: ProAccountSettingsSecurityComponent,
-            data: { titleI18n: 'pro-account-settings' }
+            data: { titleI18n: 'pro-account-settings', shouldDetach: 'no' }
           },
           {
             path: 'binding',
             component: ProAccountSettingsBindingComponent,
-            data: { titleI18n: 'pro-account-settings' }
+            data: { titleI18n: 'pro-account-settings', shouldDetach: 'no' }
           },
           {
             path: 'notification',
             component: ProAccountSettingsNotificationComponent,
-            data: { titleI18n: 'pro-account-settings' }
+            data: { titleI18n: 'pro-account-settings', shouldDetach: 'no' }
           }
         ]
       }

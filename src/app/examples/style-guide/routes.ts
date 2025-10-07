@@ -10,9 +10,21 @@ export const routes: Routes = [
     path: '',
     providers: [ColorService],
     children: [
-      { path: 'gridmasonry', component: GridMasonryComponent },
-      { path: 'typography', component: TypographyComponent },
-      { path: 'colors', component: ColorsComponent }
+      { 
+        path: 'gridmasonry', 
+        component: GridMasonryComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'typography', 
+        component: TypographyComponent,
+        data: { shouldDetach: 'no' }
+      },
+      { 
+        path: 'colors', 
+        component: ColorsComponent,
+        data: { shouldDetach: 'no' }
+      }
     ]
   }
 ];
