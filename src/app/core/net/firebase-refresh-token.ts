@@ -4,6 +4,7 @@ import { Auth } from '@angular/fire/auth';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { BehaviorSubject, Observable, from, throwError } from 'rxjs';
 import { filter, switchMap, take, catchError } from 'rxjs/operators';
+
 import { toLogin } from './helper';
 
 // 全域刷新狀態
@@ -13,21 +14,18 @@ let refreshToken$ = new BehaviorSubject<string | null>(null);
 /**
  * 重新附加新 Firebase Token
  */
-function reAttachFirebaseToken(
-  injector: Injector,
-  req: HttpRequest<any>
-): Observable<HttpRequest<any>> {
+function reAttachFirebaseToken(injector: Injector, req: HttpRequest<any>): Observable<HttpRequest<any>> {
   const auth = injector.get(Auth);
-  
+
   if (!auth.currentUser) {
     return throwError(() => new Error('未登入'));
   }
-  
+
   return from(auth.currentUser.getIdToken()).pipe(
     switchMap(token => {
       const newReq = req.clone({
         setHeaders: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       });
       return from([newReq]);
@@ -40,18 +38,18 @@ function reAttachFirebaseToken(
  */
 function refreshFirebaseToken(injector: Injector): Observable<string> {
   const auth = injector.get(Auth);
-  
+
   if (!auth.currentUser) {
     return throwError(() => new Error('未登入'));
   }
-  
+
   // 強制刷新 Firebase Token
   return from(auth.currentUser.getIdToken(true));
 }
 
 /**
  * 嘗試刷新 Firebase Token（401 錯誤觸發）
- * 
+ *
  * @param injector Angular Injector
  * @param ev HTTP 回應
  * @param req 原始請求
@@ -76,14 +74,14 @@ export function tryRefreshFirebaseToken(
   // 2. 如果已經在刷新中，加入等待佇列
   if (refreshToking) {
     console.log('[Firebase Refresh] 等待進行中的刷新...');
-    
+
     return refreshToken$.pipe(
       filter(v => !!v),
       take(1),
       switchMap(token => {
         // 重新附加新 Token 並重試請求
         const clonedReq = req.clone({
-          setHeaders: { 'Authorization': `Bearer ${token}` }
+          setHeaders: { Authorization: `Bearer ${token}` }
         });
         return next(clonedReq);
       })
@@ -96,7 +94,7 @@ export function tryRefreshFirebaseToken(
   refreshToken$.next(null);
 
   return refreshFirebaseToken(injector).pipe(
-    switchMap(async (newToken) => {
+    switchMap(async newToken => {
       // 獲取完整的 Token Result（包含 Claims）
       const result = await auth.currentUser!.getIdTokenResult();
 
@@ -115,9 +113,9 @@ export function tryRefreshFirebaseToken(
 
       // 重新發起原始請求
       const clonedReq = req.clone({
-        setHeaders: { 'Authorization': `Bearer ${newToken}` }
+        setHeaders: { Authorization: `Bearer ${newToken}` }
       });
-      
+
       return next(clonedReq);
     }),
     switchMap(obs => obs),
@@ -125,10 +123,10 @@ export function tryRefreshFirebaseToken(
       // 刷新失敗
       refreshToking = false;
       refreshToken$.next(null);
-      
+
       console.error('[Firebase Refresh] Token 刷新失敗:', error);
       toLogin(injector);
-      
+
       return throwError(() => error);
     })
   );
@@ -142,4 +140,3 @@ export function resetFirebaseRefreshState(): void {
   refreshToken$.next(null);
   console.log('[Firebase Refresh] 刷新狀態已重置');
 }
-

@@ -1,13 +1,13 @@
 import { inject } from '@angular/core';
-import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Auth, user } from '@angular/fire/auth';
-import { map, take, tap } from 'rxjs/operators';
+import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 
 /**
  * Firebase 認證守衛
  * 保護路由，確保只有已登入使用者才能訪問
- * 
+ *
  * @example
  * ```typescript
  * const routes: Routes = [
@@ -19,10 +19,7 @@ import { Observable } from 'rxjs';
  * ];
  * ```
  */
-export const firebaseAuthGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-): Observable<boolean> => {
+export const firebaseAuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
   const auth = inject(Auth);
   const router = inject(Router);
 
@@ -32,7 +29,7 @@ export const firebaseAuthGuard: CanActivateFn = (
     tap(isAuthenticated => {
       if (!isAuthenticated) {
         console.warn('[Firebase Auth Guard] 未登入，重定向至登入頁');
-        
+
         // 儲存原始 URL，登入後返回
         router.navigate(['/auth/login'], {
           queryParams: { redirect: state.url }
@@ -45,7 +42,7 @@ export const firebaseAuthGuard: CanActivateFn = (
 /**
  * Firebase 匿名守衛
  * 確保只有未登入使用者才能訪問（如登入頁、註冊頁）
- * 
+ *
  * @example
  * ```typescript
  * const routes: Routes = [
@@ -57,10 +54,7 @@ export const firebaseAuthGuard: CanActivateFn = (
  * ];
  * ```
  */
-export const firebaseGuestGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-): Observable<boolean> => {
+export const firebaseGuestGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
   const auth = inject(Auth);
   const router = inject(Router);
 
@@ -75,4 +69,3 @@ export const firebaseGuestGuard: CanActivateFn = (
     })
   );
 };
-

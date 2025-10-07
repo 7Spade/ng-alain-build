@@ -3,6 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { BehaviorSubject, Observable, from, throwError, EMPTY } from 'rxjs';
 import { switchMap, catchError, filter, take, retry, tap } from 'rxjs/operators';
+
 import { FirebaseTokenModel, TokenRefreshOptions } from '../models/firebase-token.model';
 
 // 全域刷新狀態（防止重複刷新）
@@ -20,6 +21,7 @@ export class TokenRefreshService {
 
   /**
    * 刷新 Firebase Token
+   *
    * @param options 刷新選項
    */
   refresh(options?: TokenRefreshOptions): Observable<string> {
@@ -55,7 +57,7 @@ export class TokenRefreshService {
 
     return from(user.getIdToken(opts.forceRefresh)).pipe(
       retry({ count: opts.maxRetries!, delay: opts.retryDelay }),
-      switchMap(async (newToken) => {
+      switchMap(async newToken => {
         // 獲取完整的 Token Result（包含 Claims）
         const result = await user.getIdTokenResult();
 
@@ -87,11 +89,11 @@ export class TokenRefreshService {
       catchError(error => {
         refreshToking = false;
         refreshToken$.next(null);
-        
+
         if (!opts.silent) {
           console.error('[Token Refresh] Token 刷新失敗:', error);
         }
-        
+
         return throwError(() => error);
       })
     );
@@ -102,7 +104,7 @@ export class TokenRefreshService {
    */
   shouldRefresh(): boolean {
     const token = this.tokenService.get() as FirebaseTokenModel;
-    
+
     if (!token || !token.expired) {
       return true;
     }
@@ -140,4 +142,3 @@ export class TokenRefreshService {
     console.log('[Token Refresh] 刷新狀態已重置');
   }
 }
-

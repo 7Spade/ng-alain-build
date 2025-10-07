@@ -1,10 +1,11 @@
 import { Injectable, inject, OnDestroy } from '@angular/core';
 import { Auth, idToken } from '@angular/fire/auth';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
-import { interval, Subscription, switchMap, filter, catchError, EMPTY } from 'rxjs';
 import { environment } from '@env/environment';
-import { FirebaseTokenModel } from '../models/firebase-token.model';
+import { interval, Subscription, switchMap, filter, catchError, EMPTY } from 'rxjs';
+
 import { DelonFirebaseTokenService } from './delon-firebase-token.service';
+import { FirebaseTokenModel } from '../models/firebase-token.model';
 
 /**
  * 自動 Token 刷新服務
@@ -78,22 +79,24 @@ export class AutoRefreshService implements OnDestroy {
    * 監聽 Firebase idToken 變化
    */
   private startIdTokenMonitor(): void {
-    this.idTokenSubscription = idToken(this.auth).pipe(
-      filter(token => !!token),
-      catchError(err => {
-        console.error('[Auto Refresh] idToken 監聽錯誤:', err);
-        return EMPTY;
-      })
-    ).subscribe(async (token) => {
-      console.log('[Auto Refresh] Firebase Token 已更新');
+    this.idTokenSubscription = idToken(this.auth)
+      .pipe(
+        filter(token => !!token),
+        catchError(err => {
+          console.error('[Auto Refresh] idToken 監聽錯誤:', err);
+          return EMPTY;
+        })
+      )
+      .subscribe(async token => {
+        console.log('[Auto Refresh] Firebase Token 已更新');
 
-      try {
-        // 同步到 @delon/auth
-        await this.syncToken();
-      } catch (error) {
-        console.error('[Auto Refresh] Token 同步失敗:', error);
-      }
-    });
+        try {
+          // 同步到 @delon/auth
+          await this.syncToken();
+        } catch (error) {
+          console.error('[Auto Refresh] Token 同步失敗:', error);
+        }
+      });
   }
 
   /**
@@ -103,13 +106,15 @@ export class AutoRefreshService implements OnDestroy {
     // 每分鐘檢查一次
     const checkInterval = 60 * 1000;
 
-    this.periodicCheckSubscription = interval(checkInterval).pipe(
-      switchMap(() => this.checkAndRefresh()),
-      catchError(err => {
-        console.error('[Auto Refresh] 定期檢查錯誤:', err);
-        return EMPTY;
-      })
-    ).subscribe();
+    this.periodicCheckSubscription = interval(checkInterval)
+      .pipe(
+        switchMap(() => this.checkAndRefresh()),
+        catchError(err => {
+          console.error('[Auto Refresh] 定期檢查錯誤:', err);
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
   /**
@@ -117,7 +122,7 @@ export class AutoRefreshService implements OnDestroy {
    */
   private async checkAndRefresh(): Promise<void> {
     const token = this.tokenService.get() as FirebaseTokenModel;
-    
+
     if (!token || !token.expired) {
       return;
     }
@@ -129,7 +134,7 @@ export class AutoRefreshService implements OnDestroy {
     if (expiresIn <= threshold && expiresIn > 0) {
       const remainingSeconds = Math.floor(expiresIn / 1000);
       console.log(`[Auto Refresh] Token 即將過期，剩餘 ${remainingSeconds} 秒，開始刷新...`);
-      
+
       await this.forceRefresh();
     } else if (expiresIn <= 0) {
       console.warn('[Auto Refresh] Token 已過期，需要重新登入');
@@ -174,4 +179,3 @@ export class AutoRefreshService implements OnDestroy {
     this.stop();
   }
 }
-

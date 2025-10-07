@@ -1,12 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FirebaseAuthService } from '@core/services/firebase-auth.service';
 import { StartupService } from '@core';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { FirebaseAuthService } from '@core/services/firebase-auth.service';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { take } from 'rxjs/operators';
 
 /**
@@ -22,47 +22,38 @@ import { take } from 'rxjs/operators';
           <div class="spin-content"></div>
         </nz-spin>
       }
-      
+
       @if (error) {
-        <nz-result
-          nzStatus="error"
-          nzTitle="登入失敗"
-          [nzSubTitle]="error">
+        <nz-result nzStatus="error" nzTitle="登入失敗" [nzSubTitle]="error">
           <div nz-result-extra>
-            <button nz-button nzType="primary" (click)="goToLogin()">
-              返回登入頁
-            </button>
+            <button nz-button nzType="primary" (click)="goToLogin()"> 返回登入頁 </button>
           </div>
         </nz-result>
       }
     </div>
   `,
-  styles: [`
-    .callback-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #f0f2f5;
-    }
-    
-    .spin-content {
-      min-height: 200px;
-      min-width: 200px;
-    }
-    
-    :host ::ng-deep .ant-result {
-      padding: 48px 32px;
-    }
-  `],
+  styles: [
+    `
+      .callback-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: #f0f2f5;
+      }
+
+      .spin-content {
+        min-height: 200px;
+        min-width: 200px;
+      }
+
+      :host ::ng-deep .ant-result {
+        padding: 48px 32px;
+      }
+    `
+  ],
   standalone: true,
-  imports: [
-    CommonModule,
-    NzSpinModule,
-    NzAlertModule,
-    NzResultModule,
-    NzButtonModule
-  ]
+  imports: [CommonModule, NzSpinModule, NzAlertModule, NzResultModule, NzButtonModule]
 })
 export class CallbackComponent implements OnInit {
   private router = inject(Router);
@@ -85,10 +76,8 @@ export class CallbackComponent implements OnInit {
 
     // Firebase 使用 Redirect 方式時，會自動處理回調
     // 我們只需要檢查認證狀態
-    this.firebaseAuth.user$.pipe(
-      take(1)
-    ).subscribe({
-      next: (user) => {
+    this.firebaseAuth.user$.pipe(take(1)).subscribe({
+      next: user => {
         if (user) {
           console.log('[Callback] 認證成功:', user.email);
           this.onCallbackSuccess();
@@ -96,16 +85,16 @@ export class CallbackComponent implements OnInit {
           console.error('[Callback] 認證失敗：無使用者');
           this.error = '認證失敗，請重新登入';
           this.loading = false;
-          
+
           // 2 秒後自動跳轉回登入頁
           setTimeout(() => this.goToLogin(), 2000);
         }
       },
-      error: (err) => {
+      error: err => {
         console.error('[Callback] 認證過程發生錯誤:', err);
         this.error = err.message || '認證過程發生錯誤';
         this.loading = false;
-        
+
         // 2 秒後自動跳轉回登入頁
         setTimeout(() => this.goToLogin(), 2000);
       }
@@ -125,7 +114,7 @@ export class CallbackComponent implements OnInit {
         console.log('[Callback] 應用資料載入完成，導航至:', redirect);
         this.router.navigateByUrl(redirect);
       },
-      error: (err) => {
+      error: err => {
         console.error('[Callback] 應用資料載入失敗:', err);
         // 即使載入失敗也導航至首頁
         this.router.navigateByUrl('/dashboard');
@@ -140,4 +129,3 @@ export class CallbackComponent implements OnInit {
     this.router.navigateByUrl('/auth/login');
   }
 }
-

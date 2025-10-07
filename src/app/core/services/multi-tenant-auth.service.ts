@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
+
 import { OrganizationContextService } from './organization-context/organization-context.service';
 import { FirebaseTokenModel } from '../models/firebase-token.model';
 
@@ -16,6 +17,7 @@ export class MultiTenantAuthService {
 
   /**
    * 登入並設定租戶上下文
+   *
    * @param email 使用者 Email
    * @param password 密碼
    */
@@ -62,6 +64,7 @@ export class MultiTenantAuthService {
 
   /**
    * 切換租戶
+   *
    * @param tenantId 目標租戶 ID
    */
   async switchTenant(tenantId: string): Promise<void> {
@@ -74,13 +77,11 @@ export class MultiTenantAuthService {
 
     // 1. 驗證使用者是否有權訪問該租戶
     const result = await user.getIdTokenResult();
-    const allowedTenants = result.claims['tenants'] as string[] || [];
+    const allowedTenants = (result.claims['tenants'] as string[]) || [];
     const currentTenantId = result.claims['tenantId'] as string;
 
     // 允許的租戶包含當前租戶和所有可訪問的租戶
-    const allAllowedTenants = currentTenantId 
-      ? [currentTenantId, ...allowedTenants] 
-      : allowedTenants;
+    const allAllowedTenants = currentTenantId ? [currentTenantId, ...allowedTenants] : allowedTenants;
 
     if (!allAllowedTenants.includes(tenantId)) {
       throw new Error(`您沒有權限訪問租戶: ${tenantId}`);
@@ -129,9 +130,7 @@ export class MultiTenantAuthService {
     const tenants = token?.tenants || [];
 
     // 合併當前租戶和可訪問租戶，去重
-    const allTenants = currentTenantId 
-      ? Array.from(new Set([currentTenantId, ...tenants]))
-      : tenants;
+    const allTenants = currentTenantId ? Array.from(new Set([currentTenantId, ...tenants])) : tenants;
 
     return allTenants;
   }
@@ -143,4 +142,3 @@ export class MultiTenantAuthService {
     return this.getAllowedTenants().includes(tenantId);
   }
 }
-

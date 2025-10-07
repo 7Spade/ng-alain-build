@@ -7,16 +7,16 @@ import { FirebaseError } from '@angular/fire/app';
 export interface FirebaseErrorInfo {
   /** 錯誤代碼 */
   code: string;
-  
+
   /** 原始錯誤訊息 */
   message: string;
-  
+
   /** 使用者友好的錯誤訊息 */
   userMessage: string;
-  
+
   /** 嚴重程度 */
   severity: 'info' | 'warning' | 'error';
-  
+
   /** 建議的操作 */
   suggestedAction?: string;
 }
@@ -239,9 +239,7 @@ export class FirebaseErrorHandler {
    */
   getFullMessage(error: any): string {
     const info = this.handle(error);
-    return info.suggestedAction 
-      ? `${info.userMessage}\n${info.suggestedAction}`
-      : info.userMessage;
+    return info.suggestedAction ? `${info.userMessage}\n${info.suggestedAction}` : info.userMessage;
   }
 
   /**
@@ -249,10 +247,8 @@ export class FirebaseErrorHandler {
    */
   logError(error: any): void {
     const info = this.handle(error);
-    
-    const logMethod = info.severity === 'error' ? console.error : 
-                      info.severity === 'warning' ? console.warn : 
-                      console.info;
+
+    const logMethod = info.severity === 'error' ? console.error : info.severity === 'warning' ? console.warn : console.info;
 
     logMethod('[Firebase Error]', {
       code: info.code,
@@ -263,4 +259,3 @@ export class FirebaseErrorHandler {
     });
   }
 }
-

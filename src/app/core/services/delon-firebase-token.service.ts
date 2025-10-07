@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
+
 import { FirebaseTokenModel } from '../models/firebase-token.model';
 
 /**
@@ -17,7 +18,7 @@ export class DelonFirebaseTokenService {
    */
   async syncFromFirebase(): Promise<void> {
     const user = this.auth.currentUser;
-    
+
     if (!user) {
       console.log('[Delon Token] 無使用者，清除 Token');
       this.tokenService.clear();
@@ -26,7 +27,7 @@ export class DelonFirebaseTokenService {
 
     try {
       const result = await user.getIdTokenResult();
-      
+
       const tokenModel: FirebaseTokenModel = {
         token: result.token,
         expired: new Date(result.expirationTime).getTime(),
@@ -88,9 +89,10 @@ export class DelonFirebaseTokenService {
 
   /**
    * 檢查 Token 是否即將過期
+   *
    * @param minutesBefore 過期前幾分鐘視為即將過期
    */
-  isTokenExpiringSoon(minutesBefore: number = 5): boolean {
+  isTokenExpiringSoon(minutesBefore = 5): boolean {
     const token = this.getToken();
     if (!token || !token.expired) {
       return true;
@@ -129,7 +131,7 @@ export class DelonFirebaseTokenService {
     try {
       // 強制從 Firebase 獲取新 Token
       const newToken = await user.getIdToken(true);
-      
+
       // 同步到 @delon/auth
       await this.syncFromFirebase();
 
@@ -177,9 +179,7 @@ export class DelonFirebaseTokenService {
    */
   hasAnyPermission(permissions: string[]): boolean {
     const token = this.getToken();
-    return permissions.some(permission => 
-      token?.permissions?.includes(permission)
-    );
+    return permissions.some(permission => token?.permissions?.includes(permission));
   }
 
   /**
@@ -187,9 +187,7 @@ export class DelonFirebaseTokenService {
    */
   hasAllPermissions(permissions: string[]): boolean {
     const token = this.getToken();
-    return permissions.every(permission => 
-      token?.permissions?.includes(permission)
-    );
+    return permissions.every(permission => token?.permissions?.includes(permission));
   }
 
   /**
@@ -205,9 +203,6 @@ export class DelonFirebaseTokenService {
    */
   belongsToTenant(tenantId: string): boolean {
     const token = this.getToken();
-    return token?.tenantId === tenantId || 
-           token?.tenants?.includes(tenantId) || 
-           false;
+    return token?.tenantId === tenantId || token?.tenants?.includes(tenantId) || false;
   }
 }
-

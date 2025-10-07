@@ -1,17 +1,17 @@
 import { inject } from '@angular/core';
-import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
-import { map, take, tap, switchMap } from 'rxjs/operators';
-import { Observable, from, of } from 'rxjs';
+import { Router, CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Observable, from, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 /**
  * 權限守衛工廠函數
  * 創建基於 Custom Claims 的權限守衛
- * 
+ *
  * @param requiredPermissions 所需權限列表
  * @param requireAll 是否需要所有權限（true）或任一權限（false）
- * 
+ *
  * @example
  * ```typescript
  * const routes: Routes = [
@@ -28,10 +28,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
  * ];
  * ```
  */
-export function createPermissionGuard(
-  requiredPermissions: string[],
-  requireAll: boolean = false
-): CanActivateFn {
+export function createPermissionGuard(requiredPermissions: string[], requireAll = false): CanActivateFn {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
     const auth = inject(Auth);
     const router = inject(Router);
@@ -50,12 +47,12 @@ export function createPermissionGuard(
     return from(auth.currentUser.getIdTokenResult()).pipe(
       map(result => {
         const userPermissions = (result.claims['permissions'] as string[]) || [];
-        
+
         // 檢查是否有所需權限
         const hasPermission = requireAll
           ? requiredPermissions.every(p => userPermissions.includes(p))
           : requiredPermissions.some(p => userPermissions.includes(p));
-        
+
         return hasPermission;
       }),
       tap(hasPermission => {
@@ -72,10 +69,10 @@ export function createPermissionGuard(
 /**
  * 角色守衛工廠函數
  * 創建基於角色的路由守衛
- * 
+ *
  * @param requiredRoles 所需角色列表
  * @param requireAll 是否需要所有角色（true）或任一角色（false）
- * 
+ *
  * @example
  * ```typescript
  * const routes: Routes = [
@@ -92,10 +89,7 @@ export function createPermissionGuard(
  * ];
  * ```
  */
-export function createRoleGuard(
-  requiredRoles: string[],
-  requireAll: boolean = false
-): CanActivateFn {
+export function createRoleGuard(requiredRoles: string[], requireAll = false): CanActivateFn {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> => {
     const auth = inject(Auth);
     const router = inject(Router);
@@ -114,19 +108,14 @@ export function createRoleGuard(
     return from(auth.currentUser.getIdTokenResult()).pipe(
       map(result => {
         const userRole = result.claims['role'] as string;
-        const userRoles = result.claims['roles'] as string[];  // 支援多角色
-        
+        const userRoles = result.claims['roles'] as string[]; // 支援多角色
+
         // 整合單一角色和多角色
-        const allRoles = [
-          ...(userRole ? [userRole] : []),
-          ...(userRoles || [])
-        ];
-        
+        const allRoles = [...(userRole ? [userRole] : []), ...(userRoles || [])];
+
         // 檢查是否有所需角色
-        const hasRole = requireAll
-          ? requiredRoles.every(r => allRoles.includes(r))
-          : requiredRoles.some(r => allRoles.includes(r));
-        
+        const hasRole = requireAll ? requiredRoles.every(r => allRoles.includes(r)) : requiredRoles.some(r => allRoles.includes(r));
+
         return hasRole;
       }),
       tap(hasRole => {
@@ -143,9 +132,9 @@ export function createRoleGuard(
 /**
  * 租戶守衛工廠函數
  * 確保使用者屬於特定租戶
- * 
+ *
  * @param tenantId 租戶 ID（可從路由參數獲取）
- * 
+ *
  * @example
  * ```typescript
  * const routes: Routes = [
@@ -165,7 +154,7 @@ export function createTenantGuard(): CanActivateFn {
 
     // 從路由參數獲取租戶 ID
     const routeTenantId = route.paramMap.get('tenantId');
-    
+
     if (!routeTenantId) {
       console.error('[Tenant Guard] 路由未包含 tenantId 參數');
       return of(false);
@@ -184,12 +173,10 @@ export function createTenantGuard(): CanActivateFn {
       map(result => {
         const userTenantId = result.claims['tenantId'] as string;
         const userTenants = (result.claims['tenants'] as string[]) || [];
-        
+
         // 檢查使用者是否屬於該租戶
-        const belongsToTenant = 
-          userTenantId === routeTenantId ||
-          userTenants.includes(routeTenantId);
-        
+        const belongsToTenant = userTenantId === routeTenantId || userTenants.includes(routeTenantId);
+
         return belongsToTenant;
       }),
       tap(belongsToTenant => {
@@ -202,4 +189,3 @@ export function createTenantGuard(): CanActivateFn {
     );
   };
 }
-

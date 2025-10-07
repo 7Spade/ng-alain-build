@@ -12,14 +12,14 @@ export const environment = {
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
-    refreshTokenType: 'firebase'  // 'firebase' | 're-request' | 'auth-refresh'
+    refreshTokenType: 'firebase' // 'firebase' | 're-request' | 'auth-refresh'
   },
   // Firebase Token 配置
   token: {
-    expiresIn: 60 * 60,          // 1 小時
-    refreshBefore: 5 * 60,        // 過期前 5 分鐘刷新
-    maxRetries: 3,                // 最大重試次數
-    retryDelay: 1000              // 重試延遲（毫秒）
+    expiresIn: 60 * 60, // 1 小時
+    refreshBefore: 5 * 60, // 過期前 5 分鐘刷新
+    maxRetries: 3, // 最大重試次數
+    retryDelay: 1000 // 重試延遲（毫秒）
   },
   providers: [provideMockConfig({ data: MOCKDATA })],
   interceptorFns: [mockInterceptor]

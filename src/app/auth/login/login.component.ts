@@ -1,9 +1,8 @@
 import { HttpContext } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { StartupService } from '@core';
-import { FirebaseAuthService } from '@core';
+import { StartupService, FirebaseAuthService } from '@core';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN } from '@delon/auth';
 import { I18nPipe, _HttpClient } from '@delon/theme';
@@ -35,7 +34,7 @@ import { finalize } from 'rxjs';
     NzIconModule
   ]
 })
-export class UserLoginComponent implements OnDestroy {
+export class UserLoginComponent {
   private readonly router = inject(Router);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
   private readonly tokenService = inject(DA_SERVICE_TOKEN);
@@ -44,10 +43,6 @@ export class UserLoginComponent implements OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly firebaseAuth = inject(FirebaseAuthService);
   private readonly message = inject(NzMessageService);
-  
-  ngOnDestroy(): void {
-    // 清理資源
-  }
 
   form = inject(FormBuilder).nonNullable.group({
     userName: ['', [Validators.required, Validators.pattern(/^(admin|user)$/)]],
@@ -56,7 +51,7 @@ export class UserLoginComponent implements OnDestroy {
   });
   error = '';
   loading = false;
-  
+
   // Firebase 登入模式
   useFirebase = true; // 設為 true 使用 Firebase，false 使用傳統 Mock API
 

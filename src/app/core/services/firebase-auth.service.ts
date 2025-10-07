@@ -15,11 +15,12 @@ import {
   sendPasswordResetEmail,
   updateProfile
 } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService } from '@delon/theme';
-import { Router } from '@angular/router';
 import { Observable, from, of, BehaviorSubject, throwError } from 'rxjs';
 import { map, switchMap, tap, catchError } from 'rxjs/operators';
+
 import { FirebaseTokenModel, FirebaseAuthState, FirebaseLoginMethod, FirebaseAuthEvent } from '../models/firebase-token.model';
 
 /**
@@ -61,7 +62,7 @@ export class FirebaseAuthService {
    */
   loginWithGoogle(useRedirect = false): Observable<User> {
     this.authStateSubject.next(FirebaseAuthState.AUTHENTICATING);
-    
+
     const provider = new GoogleAuthProvider();
     provider.addScope('profile');
     provider.addScope('email');
@@ -80,7 +81,7 @@ export class FirebaseAuthService {
    */
   loginWithGitHub(useRedirect = false): Observable<User> {
     this.authStateSubject.next(FirebaseAuthState.AUTHENTICATING);
-    
+
     const provider = new GithubAuthProvider();
     provider.addScope('user:email');
 
@@ -116,9 +117,7 @@ export class FirebaseAuthService {
       switchMap(credential => {
         // 如果提供了顯示名稱，更新 profile
         if (displayName && credential.user) {
-          return from(updateProfile(credential.user, { displayName })).pipe(
-            map(() => credential.user)
-          );
+          return from(updateProfile(credential.user, { displayName })).pipe(map(() => credential.user));
         }
         return of(credential.user);
       }),
@@ -150,22 +149,22 @@ export class FirebaseAuthService {
       tap(() => {
         // 清除 @delon/auth Token
         this.tokenService.clear();
-        
+
         // 清除使用者設定
         this.settings.setUser({});
-        
+
         // 發送登出事件
         this.emitAuthEvent({
           type: 'logout',
           timestamp: Date.now()
         });
-        
+
         // 更新狀態
         this.authStateSubject.next(FirebaseAuthState.UNAUTHENTICATED);
-        
+
         // 導航至登入頁
         this.router.navigateByUrl('/auth/login');
-        
+
         console.log('[Firebase Auth] 登出成功');
       }),
       catchError(error => {
@@ -328,23 +327,25 @@ export class FirebaseAuthService {
    * 設定 Token 自動同步
    */
   private setupTokenSync(): void {
-    this.idToken$.pipe(
-      switchMap(token => {
-        if (!token) {
-          return of(null);
+    this.idToken$
+      .pipe(
+        switchMap(token => {
+          if (!token) {
+            return of(null);
+          }
+          return this.getIdTokenResult();
+        })
+      )
+      .subscribe(result => {
+        if (result) {
+          const tokenModel: FirebaseTokenModel = {
+            token: result.token,
+            expired: new Date(result.expirationTime).getTime(),
+            ...result.claims
+          };
+          this.tokenService.set(tokenModel);
         }
-        return this.getIdTokenResult();
-      })
-    ).subscribe(result => {
-      if (result) {
-        const tokenModel: FirebaseTokenModel = {
-          token: result.token,
-          expired: new Date(result.expirationTime).getTime(),
-          ...result.claims
-        };
-        this.tokenService.set(tokenModel);
-      }
-    });
+      });
   }
 
   /**
@@ -368,4 +369,3 @@ export class FirebaseAuthService {
     console.log('[Firebase Auth Event]', event);
   }
 }
-

@@ -40,8 +40,8 @@ import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './app.routes';
 import { firebaseAuthInterceptor } from './core/net/firebase-auth.interceptor';
 import { organizationInterceptor } from './core/net/organization.interceptor';
-import { SimpleReuseStrategy } from './core/services/tab/simple-reuse-strategy';
 import { AutoRefreshService } from './core/services/auto-refresh.service';
+import { SimpleReuseStrategy } from './core/services/tab/simple-reuse-strategy';
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -76,7 +76,7 @@ const providers: Array<Provider | EnvironmentProviders> = [
     withInterceptors([
       ...(environment.interceptorFns ?? []),
       authSimpleInterceptor,
-      firebaseAuthInterceptor,  // Firebase Token 附加
+      firebaseAuthInterceptor, // Firebase Token 附加
       organizationInterceptor,
       defaultInterceptor
     ])
@@ -118,7 +118,7 @@ const providers: Array<Provider | EnvironmentProviders> = [
 
   // Startup Service
   provideStartup(),
-  
+
   // Firebase Auto Refresh Service (初始化)
   provideAppInitializer(() => {
     const autoRefresh = inject(AutoRefreshService);

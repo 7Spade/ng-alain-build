@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Observable, from, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+
 import { DelonFirebaseTokenService } from './delon-firebase-token.service';
 
 /**
@@ -13,32 +14,32 @@ export enum Permission {
   READ_USERS = 'users:read',
   WRITE_USERS = 'users:write',
   DELETE_USERS = 'users:delete',
-  
+
   // 專案管理
   READ_PROJECTS = 'projects:read',
   WRITE_PROJECTS = 'projects:write',
   DELETE_PROJECTS = 'projects:delete',
-  
+
   // 組織管理
   READ_ORGANIZATIONS = 'organizations:read',
   WRITE_ORGANIZATIONS = 'organizations:write',
   DELETE_ORGANIZATIONS = 'organizations:delete',
-  
+
   // 部門管理
   READ_DEPARTMENTS = 'departments:read',
   WRITE_DEPARTMENTS = 'departments:write',
   DELETE_DEPARTMENTS = 'departments:delete',
-  
+
   // 檔案管理
   READ_FILES = 'files:read',
   WRITE_FILES = 'files:write',
   DELETE_FILES = 'files:delete',
-  
+
   // 系統管理
   ADMIN = 'admin:all',
   SYSTEM_SETTINGS = 'system:settings',
   VIEW_LOGS = 'system:logs',
-  
+
   // 報表
   VIEW_REPORTS = 'reports:view',
   EXPORT_REPORTS = 'reports:export'
@@ -50,16 +51,16 @@ export enum Permission {
 export enum Role {
   /** 系統管理員 */
   ADMIN = 'admin',
-  
+
   /** 組織擁有者 */
   OWNER = 'owner',
-  
+
   /** 組織管理員 */
   MANAGER = 'manager',
-  
+
   /** 一般使用者 */
   USER = 'user',
-  
+
   /** 訪客 */
   VIEWER = 'viewer'
 }
@@ -83,7 +84,7 @@ export class RBACService {
     if (this.delonTokenService.hasToken()) {
       return of(this.delonTokenService.hasPermission(permission));
     }
-    
+
     // 從 Firebase 即時獲取
     return from(this.getUserPermissions()).pipe(
       map(permissions => permissions.includes(permission)),
@@ -94,12 +95,12 @@ export class RBACService {
   /**
    * 檢查使用者是否有任一權限
    */
-  hasAnyPermission(permissions: (Permission | string)[]): Observable<boolean> {
+  hasAnyPermission(permissions: Array<Permission | string>): Observable<boolean> {
     // 優先使用快取
     if (this.delonTokenService.hasToken()) {
       return of(this.delonTokenService.hasAnyPermission(permissions as string[]));
     }
-    
+
     return from(this.getUserPermissions()).pipe(
       map(userPerms => permissions.some(p => userPerms.includes(p as string))),
       catchError(() => of(false))
@@ -109,12 +110,12 @@ export class RBACService {
   /**
    * 檢查使用者是否有所有權限
    */
-  hasAllPermissions(permissions: (Permission | string)[]): Observable<boolean> {
+  hasAllPermissions(permissions: Array<Permission | string>): Observable<boolean> {
     // 優先使用快取
     if (this.delonTokenService.hasToken()) {
       return of(this.delonTokenService.hasAllPermissions(permissions as string[]));
     }
-    
+
     return from(this.getUserPermissions()).pipe(
       map(userPerms => permissions.every(p => userPerms.includes(p as string))),
       catchError(() => of(false))
@@ -139,7 +140,7 @@ export class RBACService {
     if (this.delonTokenService.hasToken()) {
       return of(this.delonTokenService.hasRole(role));
     }
-    
+
     return from(this.getUserRole()).pipe(
       map(userRole => userRole === role),
       catchError(() => of(false))
@@ -149,12 +150,12 @@ export class RBACService {
   /**
    * 檢查使用者是否有任一角色
    */
-  hasAnyRole(roles: (Role | string)[]): Observable<boolean> {
+  hasAnyRole(roles: Array<Role | string>): Observable<boolean> {
     // 優先使用快取
     if (this.delonTokenService.hasToken()) {
       return of(this.delonTokenService.hasAnyRole(roles as string[]));
     }
-    
+
     return from(this.getUserRole()).pipe(
       map(userRole => roles.includes(userRole as Role)),
       catchError(() => of(false))
@@ -235,4 +236,3 @@ export class RBACService {
     }
   }
 }
-
