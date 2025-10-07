@@ -1,6 +1,6 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { default as ngLang } from '@angular/common/locales/zh';
-import { ApplicationConfig, EnvironmentProviders, Provider } from '@angular/core';
+import { ApplicationConfig, EnvironmentProviders, Provider, inject, provideAppInitializer } from '@angular/core';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { initializeAppCheck, ReCaptchaEnterpriseProvider, provideAppCheck } from '@angular/fire/app-check';
@@ -38,9 +38,10 @@ import { zh_CN as zorroLang } from 'ng-zorro-antd/i18n';
 import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './app.routes';
+import { firebaseAuthInterceptor } from './core/net/firebase-auth.interceptor';
 import { organizationInterceptor } from './core/net/organization.interceptor';
 import { SimpleReuseStrategy } from './core/services/tab/simple-reuse-strategy';
-// Firebase imports
+import { AutoRefreshService } from './core/services/auto-refresh.service';
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -72,7 +73,13 @@ if (environment.useHash) routerFeatures.push(withHashLocation());
 const providers: Array<Provider | EnvironmentProviders> = [
   // HTTP & Interceptors
   provideHttpClient(
-    withInterceptors([...(environment.interceptorFns ?? []), authSimpleInterceptor, organizationInterceptor, defaultInterceptor])
+    withInterceptors([
+      ...(environment.interceptorFns ?? []),
+      authSimpleInterceptor,
+      firebaseAuthInterceptor,  // Firebase Token 附加
+      organizationInterceptor,
+      defaultInterceptor
+    ])
   ),
   provideAnimations(),
   provideRouter(routes, ...routerFeatures),
@@ -111,6 +118,16 @@ const providers: Array<Provider | EnvironmentProviders> = [
 
   // Startup Service
   provideStartup(),
+  
+  // Firebase Auto Refresh Service (初始化)
+  provideAppInitializer(() => {
+    const autoRefresh = inject(AutoRefreshService);
+    return () => {
+      // 啟動自動 Token 刷新
+      autoRefresh.start();
+      console.log('[App Init] Firebase Auto Refresh 已啟動');
+    };
+  }),
 
   // Environment Providers
   ...(environment.providers || [])

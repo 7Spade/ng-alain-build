@@ -18,7 +18,7 @@ import {
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService } from '@delon/theme';
 import { Router } from '@angular/router';
-import { Observable, from, of, BehaviorSubject } from 'rxjs';
+import { Observable, from, of, BehaviorSubject, throwError } from 'rxjs';
 import { map, switchMap, tap, catchError } from 'rxjs/operators';
 import { FirebaseTokenModel, FirebaseAuthState, FirebaseLoginMethod, FirebaseAuthEvent } from '../models/firebase-token.model';
 

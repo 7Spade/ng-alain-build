@@ -61,7 +61,7 @@ export function createPermissionGuard(
       tap(hasPermission => {
         if (!hasPermission) {
           console.warn('[Permission Guard] 權限不足:', requiredPermissions);
-          message.error('權限不足', '您沒有權限訪問此頁面');
+          message.error('您沒有權限訪問此頁面');
           router.navigate(['/']);
         }
       })
@@ -132,7 +132,7 @@ export function createRoleGuard(
       tap(hasRole => {
         if (!hasRole) {
           console.warn('[Role Guard] 角色不符:', requiredRoles);
-          message.error('權限不足', '您的角色無法訪問此頁面');
+          message.error('您的角色無法訪問此頁面');
           router.navigate(['/']);
         }
       })
@@ -195,7 +195,7 @@ export function createTenantGuard(): CanActivateFn {
       tap(belongsToTenant => {
         if (!belongsToTenant) {
           console.warn('[Tenant Guard] 使用者不屬於租戶:', routeTenantId);
-          message.error('權限不足', '您沒有權限訪問此組織');
+          message.error('您沒有權限訪問此組織');
           router.navigate(['/']);
         }
       })
