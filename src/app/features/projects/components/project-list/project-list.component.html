@@ -1,12 +1,11 @@
 <!-- 頁面標題 -->
-<page-header [title]="'我的專案'">
-    <ng-container extra>
-        <button nz-button nzType="primary" (click)="createProject()">
-            <span nz-icon nzType="plus" nzTheme="outline"></span>
-            新建專案
-        </button>
-    </ng-container>
-</page-header>
+<div class="page-header mb-md">
+  <h2>我的專案</h2>
+  <button nz-button nzType="primary" (click)="createProject()">
+    <span nz-icon nzType="plus" nzTheme="outline"></span>
+    新建專案
+  </button>
+</div>
 
 <!-- 搜尋和篩選工具列 -->
 <nz-card class="mb-md">

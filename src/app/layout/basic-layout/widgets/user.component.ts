@@ -85,6 +85,9 @@ export class HeaderUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // TODO: [OPTIMIZATION] Memory Leak Risk - mode$ 訂閱未在 ngOnDestroy 中取消訂閱
+    // 建議：使用 takeUntilDestroyed() 或實作 ngOnDestroy 並取消訂閱
+    // 參考：https://angular.dev/api/core/rxjs-interop/takeUntilDestroyed
     this.modeService.mode$.subscribe(mode => {
       this.currentMode = mode;
       this.cdr.markForCheck();

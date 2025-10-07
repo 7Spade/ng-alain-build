@@ -68,26 +68,32 @@
       <!-- 專案資訊 -->
       <div nz-col [nzXs]="24" [nzMd]="12">
         <nz-card nzTitle="專案資訊">
-          <nz-descriptions [nzColumn]="1" [nzBordered]="false">
-            <nz-descriptions-item nzTitle="專案 ID">
-              {{ project()!.id }}
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="擁有者類型">
-              {{ getOwnerTypeText(project()!.ownerType) }}
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="可見性">
-              {{ getVisibilityText(project()!.visibility) }}
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="狀態">
-              {{ project()!.status === 'active' ? '活躍' : '已歸檔' }}
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="創建時間">
-              {{ formatDate(project()!.createdAt) }}
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="最後更新">
-              {{ formatDate(project()!.updatedAt) }}
-            </nz-descriptions-item>
-          </nz-descriptions>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">專案 ID：</span>
+              <span class="info-value">{{ project()!.id }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">擁有者類型：</span>
+              <span class="info-value">{{ getOwnerTypeText(project()!.ownerType) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">可見性：</span>
+              <span class="info-value">{{ getVisibilityText(project()!.visibility) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">狀態：</span>
+              <span class="info-value">{{ project()!.status === 'active' ? '活躍' : '已歸檔' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">創建時間：</span>
+              <span class="info-value">{{ formatDate(project()!.createdAt) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">最後更新：</span>
+              <span class="info-value">{{ formatDate(project()!.updatedAt) }}</span>
+            </div>
+          </div>
         </nz-card>
       </div>
 

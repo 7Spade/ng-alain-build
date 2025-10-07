@@ -56,8 +56,7 @@ import { Project } from '../../models/project.model';
     NzStatisticModule,
     NzEmptyModule,
     NzSpinModule,
-    NzAvatarModule,
-    PageHeaderComponent
+    NzAvatarModule
   ],
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.less'],
@@ -140,6 +139,8 @@ export class ProjectListComponent implements OnInit {
    */
   loadProjects(): void {
     this.loading.set(true);
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未在 ngOnDestroy 中取消訂閱
+    // 建議：使用 takeUntilDestroyed() 或實作 ngOnDestroy 管理訂閱生命週期
     this.projectService.getProjects().subscribe({
       next: response => {
         this.projects.set(response.list);

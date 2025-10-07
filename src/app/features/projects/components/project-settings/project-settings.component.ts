@@ -46,7 +46,6 @@ import { Project } from '../../models/project.model';
     NzButtonModule,
     NzAlertModule,
     NzModalModule,
-    NzMessageService,
     NzSpinModule,
     NzDividerModule,
     NzIconModule
@@ -105,6 +104,8 @@ export class ProjectSettingsComponent implements OnInit {
    */
   loadProject(id: string): void {
     this.loading.set(true);
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未在 ngOnDestroy 中取消訂閱
+    // 建議：使用 takeUntilDestroyed() 或實作 ngOnDestroy 管理訂閱生命週期
     this.projectService.getProject(id).subscribe({
       next: project => {
         this.project.set(project);
@@ -140,6 +141,7 @@ export class ProjectSettingsComponent implements OnInit {
     if (!projectId) return;
 
     this.saving.set(true);
+    // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未取消訂閱（雖然是一次性操作，但建議統一管理）
     this.projectService.updateProject(projectId, this.settingsForm.value).subscribe({
       next: project => {
         this.project.set(project);
@@ -168,6 +170,7 @@ export class ProjectSettingsComponent implements OnInit {
       nzOkDanger: true,
       nzOnOk: () => {
         return new Promise((resolve, reject) => {
+          // TODO: [OPTIMIZATION] Promise 內的訂閱應該妥善處理錯誤，避免未處理的 rejection
           this.projectService.archiveProject(projectId).subscribe({
             next: () => {
               this.message.success('專案已歸檔');
