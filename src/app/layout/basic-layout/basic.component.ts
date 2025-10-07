@@ -78,7 +78,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
         </nz-dropdown-menu>
       </layout-default-header-item>
       <layout-default-header-item direction="right">
-        <header-user />
+        <header-user [user]="user" />
       </layout-default-header-item>
       <ng-template #asideUserTpl>
         <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" class="alain-default__aside-user">

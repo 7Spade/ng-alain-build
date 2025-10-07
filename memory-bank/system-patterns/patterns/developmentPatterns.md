@@ -1,3 +1,18 @@
+---
+type: development-patterns
+category: coding-patterns
+complexity: intermediate
+target_audience: [developer]
+reading_time: 10min
+tags: [patterns, angular, ng-alain, components, services, state-management]
+summary: Angular 核心模式、ng-alain 特定模式和現代 Angular 最佳實踐
+related_files:
+  - developmentPrinciples.md
+  - technicalPatterns.md
+  - ../../implementation/code/codeStandards.md
+last_updated: 2025-10-07
+---
+
 # 開發模式
 
 ## Angular 核心模式

@@ -1,3 +1,17 @@
+---
+type: philosophy
+category: design-principles
+complexity: basic
+target_audience: [developer, architect, designer]
+reading_time: 5min
+tags: [philosophy, principles, design, modern-angular, enterprise]
+summary: 專案的核心設計理念和六大設計原則
+related_files:
+  - projectArchitecture.md
+  - architectureDecisions.md
+last_updated: 2025-10-07
+---
+
 # 設計哲學
 
 ## 核心原則

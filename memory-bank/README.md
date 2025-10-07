@@ -7,6 +7,7 @@ reading_time: 10min
 tags: [memory-bank, guide, quick-start, navigation, constitution]
 summary: Memory Bank主入口文檔，提供快速開始指南和完整導航
 related_files:
+  - QUICK_REFERENCE.md
   - memory.json
   - projectbrief.md
   - techContext.md
@@ -17,6 +18,12 @@ last_updated: 2025-10-07
 # Memory Bank - 專案知識憲法
 
 > ng-alain 專案的結構化知識管理系統
+
+## 🚀 快速導航
+
+- **[📖 QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - 快速參考索引，按需求/類別/標籤查找所有文檔 ⭐⭐
+- **[📊 systemStatus.md](active-context/status/systemStatus.md)** - 系統當前健康狀態
+- **[🎯 currentFocus.md](active-context/context/currentFocus.md)** - 當前工作焦點
 
 ## 🎯 快速開始
 

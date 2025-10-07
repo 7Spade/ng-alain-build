@@ -1,3 +1,18 @@
+---
+type: enhancement-opportunities
+category: project-improvement
+complexity: intermediate
+target_audience: [developer, architect, product-manager]
+reading_time: 10min
+tags: [enhancement, opportunities, features, improvements, roadmap]
+summary: 從 ng-antd-admin 識別的 30+ 可復用功能和增強機會，包含優先級和實施建議
+related_files:
+  - currentFocus.md
+  - ../changes/memory-bank-final-refinement-2025-10-07.md
+  - ../../creative-phase/exploration/ng-antd-admin-analysis.md
+last_updated: 2025-10-07
+---
+
 # ng-alain 專案增強機會
 
 **識別日期**: 2025-10-07 深夜  

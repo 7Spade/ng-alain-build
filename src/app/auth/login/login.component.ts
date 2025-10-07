@@ -85,7 +85,7 @@ export class UserLoginComponent implements OnDestroy {
           this.cdr.detectChanges();
           return;
         }
-        // 清空路由复用信息
+        // 清空路由複用與頁籤，避免殘留舊狀態
         this.reuseTabService?.clear();
         // 设置用户Token信息
         // TODO: Mock expired value

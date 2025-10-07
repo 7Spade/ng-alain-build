@@ -1,3 +1,17 @@
+---
+type: feature-guide
+category: tab-system
+complexity: intermediate
+target_audience: [developer]
+reading_time: 15min
+tags: [tab, route-reuse, multi-tab, guide, ng-antd-admin]
+summary: Tab 多頁簽系統完整使用指南，包含路由復用策略、Tab 服務 API 和最佳實踐
+related_files:
+  - ../../creative-phase/exploration/ng-antd-admin-analysis.md
+  - enhancement-opportunities.md
+last_updated: 2025-10-07
+---
+
 # Tab 系統使用指南
 
 **移植日期**: 2025-10-07 深夜  
