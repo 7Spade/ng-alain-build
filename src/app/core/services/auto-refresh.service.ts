@@ -128,7 +128,7 @@ export class AutoRefreshService implements OnDestroy {
     }
 
     const expiresIn = token.expired - Date.now();
-    const threshold = (environment.token?.refreshBefore || 5 * 60) * 1000;
+    const threshold = (environment['token']?.refreshBefore || 5 * 60) * 1000;
 
     // 如果即將過期，刷新
     if (expiresIn <= threshold && expiresIn > 0) {

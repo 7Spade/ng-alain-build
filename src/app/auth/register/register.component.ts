@@ -109,4 +109,8 @@ export class UserRegisterComponent implements OnDestroy {
         this.router.navigate(['/auth/register-result'], { queryParams: { email: data.mail } });
       });
   }
+
+  ngOnDestroy(): void {
+    // 組件銷毀時的清理工作
+  }
 }
