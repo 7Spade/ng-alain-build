@@ -647,36 +647,81 @@ ng build --configuration production
 5. Test thoroughly
 ```
 
-### Code Review Checklist Documentation
-```markdown
-# Code Review Checklist
+### Development Tools Configuration
+```json
+// package.json scripts
+{
+  "scripts": {
+    "start": "ng serve",
+    "hmr": "ng serve --hmr",
+    "build": "ng build --max_old_space_size=8000",
+    "analyze": "ng build --stats-json && npx source-map-explorer dist/ng-alain-build/stats.json",
+    "lint": "ng lint && stylelint \"src/**/*.less\"",
+    "test": "ng test --code-coverage",
+    "e2e": "ng e2e"
+  }
+}
+```
 
-## Architecture
-- [ ] 組件是 standalone
-- [ ] 使用 loadComponent 懶加載
-- [ ] 路由有適當的守衛
-- [ ] 服務使用 providedIn: 'root'
+### ESLint Configuration
+```javascript
+// eslint.config.mjs
+export default [
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        project: './tsconfig.json'
+      }
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@angular-eslint/prefer-standalone': 'error'
+    }
+  }
+];
+```
 
-## Performance
-- [ ] 組件使用 OnPush
-- [ ] @for 循環有 track
-- [ ] 避免在模板中調用函數
-- [ ] 大型列表考慮虛擬滾動
+### Stylelint Configuration
+```javascript
+// stylelint.config.mjs
+export default {
+  extends: ['stylelint-config-standard'],
+  rules: {
+    'selector-class-pattern': '^[a-z][a-zA-Z0-9]*$',
+    'custom-property-pattern': '^[a-z][a-zA-Z0-9]*$'
+  }
+};
+```
 
-## Type Safety
-- [ ] 所有參數有類型定義
-- [ ] 避免使用 any
-- [ ] Observable 返回類型明確
+### Prettier Configuration
+```json
+// .prettierrc
+{
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": true,
+  "printWidth": 100
+}
+```
 
-## User Experience
-- [ ] 有載入狀態
-- [ ] 有空狀態處理
-- [ ] 錯誤有用戶通知
-- [ ] 響應式設計（手機適配）
+### Husky Configuration
+```json
+// .husky/pre-commit
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
-## Code Quality
-- [ ] 通過 ESLint
-- [ ] 通過 Stylelint
-- [ ] 有適當的註釋
-- [ ] 功能模組有 README
+npx lint-staged
+```
+
+### Lint-staged Configuration
+```json
+// lint-staged.config.js
+module.exports = {
+  '*.ts': ['eslint --fix', 'prettier --write'],
+  '*.less': ['stylelint --fix', 'prettier --write']
+};
 ```

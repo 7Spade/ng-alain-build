@@ -1,45 +1,316 @@
-# 技術模式指南
+# 技術模式與實踐指南
 
-> 基於實際代碼分析和官方文檔查詢生成
+> 生成日期: 2025-01-07  
+> 基於: Sequential Thinking 分析 + 實際代碼模式 + 官方文檔查詢  
+> 目的: 記錄專案中使用的技術模式和實踐方法
 
-## 🎯 設計模式應用
+## 🎨 設計模式應用
 
-### 1. Smart & Dumb Components
-**描述**: 分離容器組件和展示組件
+### 1. Repository Pattern（倉儲模式）
+
+**應用場景**: Service 層數據訪問
+
+**實現**：
 ```typescript
-// Smart Component (Container)
-@Component({
-  selector: 'app-user-list',
-  template: `
-    <app-user-card 
-      *ngFor="let user of users$ | async" 
-      [user]="user"
-      (edit)="onEdit($event)">
-    </app-user-card>
-  `
-})
-export class UserListComponent {
-  users$ = this.userService.getUsers();
+@Injectable({ providedIn: 'root' })
+export class DataService {
+  private readonly http = inject(_HttpClient);
+  private readonly API_BASE = '/api/data';
   
-  constructor(private userService: UserService) {}
-}
-
-// Dumb Component (Presentation)
-@Component({
-  selector: 'app-user-card',
-  template: `
-    <div class="user-card">
-      <h3>{{ user.name }}</h3>
-      <p>{{ user.email }}</p>
-      <button (click)="edit.emit(user)">Edit</button>
-    </div>
-  `
-})
-export class UserCardComponent {
-  @Input() user!: User;
-  @Output() edit = new EventEmitter<User>();
+  // Repository 方法
+  getAll(params?: QueryParams): Observable<Data[]> {
+    return this.http.get(this.API_BASE, params);
+  }
+  
+  getById(id: string): Observable<Data> {
+    return this.http.get(`${this.API_BASE}/${id}`);
+  }
+  
+  create(entity: Partial<Data>): Observable<Data> {
+    return this.http.post(this.API_BASE, entity);
+  }
+  
+  update(id: string, entity: Partial<Data>): Observable<Data> {
+    return this.http.put(`${this.API_BASE}/${id}`, entity);
+  }
+  
+  delete(id: string): Observable<void> {
+    return this.http.delete(`${this.API_BASE}/${id}`);
+  }
 }
 ```
+
+**優勢**:
+- 業務邏輯與數據訪問分離
+- 易於測試（Mock Service）
+- 易於切換數據源
+
+---
+
+### 2. Observer Pattern（觀察者模式）
+
+**應用場景**: RxJS Observable 數據流
+
+**實現**：
+```typescript
+// Subject: 服務發布數據
+@Injectable({ providedIn: 'root' })
+export class DataService {
+  private dataSubject = new BehaviorSubject<Data[]>([]);
+  data$ = this.dataSubject.asObservable();  // Observable
+  
+  loadData(): void {
+    this.http.get('/api/data').subscribe(data => {
+      this.dataSubject.next(data);  // 發布
+    });
+  }
+}
+
+// Observer: 組件訂閱數據
+@Component({...})
+export class MyComponent implements OnInit {
+  data$ = inject(DataService).data$;  // 訂閱
+  
+  // 在模板中使用 async pipe
+  // @for (item of data$ | async; track item.id) {...}
+}
+```
+
+**優勢**:
+- 響應式數據流
+- 自動取消訂閱（使用 async pipe）
+- 多個組件可訂閱同一數據流
+
+---
+
+### 3. Strategy Pattern（策略模式）
+
+**應用場景**: Change Detection Strategy
+
+**實現**：
+```typescript
+// 策略 1: Default (默認策略)
+@Component({
+  changeDetection: ChangeDetectionStrategy.Default
+})
+export class SimpleComponent {}
+
+// 策略 2: OnPush (優化策略)
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OptimizedComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
+  
+  updateData(): void {
+    this.cdr.detectChanges();
+  }
+}
+```
+
+**何時使用哪個策略**：
+- **Default**: 簡單組件，頻繁更新，性能不敏感
+- **OnPush**: 列表組件，性能敏感，控制變更時機
+
+---
+
+### 4. Guard Pattern（守衛模式）
+
+**應用場景**: 路由權限控制
+
+**實現**：
+```typescript
+// 守衛函數
+export const authGuard: CanActivateFn = (route, state) => {
+  const service = inject(AuthService);
+  const router = inject(Router);
+  const notification = inject(NzNotificationService);
+  
+  return service.isAuthenticated().pipe(
+    map(isAuth => {
+      if (!isAuth) {
+        notification.error('權限不足', '請先登入');
+        router.navigate(['/login']);
+        return false;
+      }
+      return true;
+    }),
+    catchError(() => of(false))
+  );
+};
+
+// 路由配置
+{
+  path: 'protected',
+  canActivate: [authGuard],  // 應用守衛
+  loadComponent: () => import('./protected.component')
+}
+```
+
+**分層守衛**:
+1. **Authentication Layer**: authGuard
+2. **Authorization Layer**: roleGuard, permissionGuard
+3. **Business Logic Layer**: customBusinessGuard
+
+---
+
+### 5. Adapter Pattern（適配器模式）
+
+**應用場景**: @delon _HttpClient 包裝 Angular HttpClient
+
+**實現**：
+```typescript
+// Angular HttpClient (被適配者)
+class HttpClient {
+  get(url: string, options?: any): Observable<any> {...}
+}
+
+// @delon _HttpClient (適配器)
+class _HttpClient extends HttpClient {
+  get(url: string, params?: any, options?: HttpOptions): Observable<any> {
+    // 額外的處理邏輯
+    // - 自動錯誤處理
+    // - Loading 狀態管理
+    // - 參數處理
+    return super.get(url, { params, ...options });
+  }
+}
+```
+
+**優勢**:
+- 增強原有功能
+- 不破壞原有接口
+- 統一行為
+
+---
+
+### 6. Template Method Pattern（模板方法模式）
+
+**應用場景**: 組件生命週期
+
+**實現**：
+```typescript
+@Component({...})
+export class ListComponent implements OnInit, OnDestroy {
+  private subscription?: Subscription;
+  
+  // Template Method: ngOnInit
+  ngOnInit(): void {
+    this.loadData();      // Step 1
+    this.setupFilters();  // Step 2
+    this.subscribeEvents(); // Step 3
+  }
+  
+  // 具體步驟（可被子類覆寫）
+  protected loadData(): void {
+    this.subscription = this.service.getData().subscribe(...);
+  }
+  
+  protected setupFilters(): void {
+    // 設置篩選器
+  }
+  
+  protected subscribeEvents(): void {
+    // 訂閱事件
+  }
+  
+  // Template Method: ngOnDestroy
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
+}
+```
+
+---
+
+### 7. Factory Pattern（工廠模式）
+
+**應用場景**: 動態組件創建（Modal, Drawer）
+
+**實現**：
+```typescript
+@Component({...})
+export class MyComponent {
+  private readonly modal = inject(NzModalService);
+  
+  openEditModal(data: any): void {
+    this.modal.create({
+      nzTitle: '編輯',
+      nzContent: EditFormComponent,  // 工廠創建組件
+      nzComponentParams: { data },   // 注入數據
+      nzWidth: 600
+    });
+  }
+}
+```
+
+---
+
+## 🔧 技術實踐模式
+
+### Pattern 1: Smart & Dumb Components
+
+**Smart Component（聰明組件）**：
+- 包含業務邏輯
+- 與服務交互
+- 管理狀態
+- 處理路由
+
+```typescript
+@Component({
+  selector: 'app-data-list-page',  // Page suffix
+  template: `
+    <app-data-list
+      [data]="data"
+      (create)="handleCreate()"
+      (select)="handleSelect($event)"
+    />
+  `
+})
+export class DataListPageComponent {
+  private readonly service = inject(DataService);
+  data: Data[] = [];
+  
+  ngOnInit(): void {
+    this.service.getData().subscribe(data => {
+      this.data = data;
+    });
+  }
+  
+  handleCreate(): void {
+    this.router.navigate(['/data/create']);
+  }
+}
+```
+
+**Dumb Component（笨組件）**：
+- 僅展示
+- 通過 Input 接收數據
+- 通過 Output 發出事件
+- 無業務邏輯
+
+```typescript
+@Component({
+  selector: 'app-data-list',
+  template: `
+    @for (item of data; track item.id) {
+      <app-data-card 
+        [data]="item"
+        (click)="select.emit(item)"
+      />
+    }
+  `
+})
+export class DataListComponent {
+  @Input() data: Data[] = [];
+  @Output() create = new EventEmitter<void>();
+  @Output() select = new EventEmitter<Data>();
+}
+```
+
+**何時使用**:
+- **Smart**: 路由級別組件（Pages）
+- **Dumb**: 可重用組件（Cards, Lists, Forms）
 
 ### 2. Async Pipe Pattern
 **描述**: 使用 Async Pipe 處理異步數據

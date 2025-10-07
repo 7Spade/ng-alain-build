@@ -48,6 +48,46 @@
 - **Prettier Formatting**: Consistent code formatting
 - **Husky Hooks**: Pre-commit validation
 
+## Technical Patterns from VAN Analysis
+
+### Design Patterns
+1. **Smart & Dumb Components**: Container components handle logic, presentational components handle display
+2. **Async Pipe Pattern**: Using async pipe for Observable subscriptions in templates
+3. **RxJS Operators Pattern**: Using map, filter, switchMap, catchError for data transformation
+4. **Guard Composition Pattern**: Combining multiple guards for complex permission logic
+5. **Error Handling Pattern**: Centralized error handling with user notifications
+6. **Form Handling Pattern**: Reactive forms with validation and state management
+7. **Pagination Pattern**: Consistent pagination implementation across components
+8. **Search & Filter Pattern**: Unified search and filtering across data tables
+
+### Performance Patterns
+1. **Lazy Loading Pattern**: Route-based and component-based lazy loading
+2. **OnPush Pattern**: OnPush change detection with manual change detection
+3. **TrackBy Pattern**: TrackBy functions for *ngFor optimization
+4. **Virtual Scrolling Pattern**: For large datasets (100+ items)
+5. **Bundle Optimization Pattern**: Tree-shaking and code splitting strategies
+
+### State Management Patterns
+1. **Service-based State**: Angular services with BehaviorSubject for state management
+2. **URL as State**: Router state as primary state source
+3. **Observable Streams**: RxJS Observable patterns for data flow
+4. **Cache Pattern**: @delon/cache for application-level caching
+5. **Mock Pattern**: @delon/mock for development and testing
+
+### Testing Patterns
+1. **AAA Pattern**: Arrange, Act, Assert test structure
+2. **Mock Pattern**: Service and dependency mocking strategies
+3. **Component Testing Pattern**: TestBed configuration and component testing
+4. **E2E Pattern**: Protractor integration with data-testid attributes
+5. **Coverage Pattern**: Test coverage requirements and reporting
+
+### Development Patterns
+1. **Mock-First Pattern**: Development with mock data before backend integration
+2. **Hot Module Replacement**: HMR for faster development cycles
+3. **High Memory Build**: 8GB memory allocation for large builds
+4. **Git Workflow Pattern**: Angular commit convention with structured messages
+5. **Code Review Pattern**: Comprehensive review checklist and standards
+
 ### Testing Patterns
 - **Unit Testing**: Jasmine + Karma
 - **Component Testing**: Angular Testing Utilities

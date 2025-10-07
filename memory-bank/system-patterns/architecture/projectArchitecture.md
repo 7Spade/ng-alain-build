@@ -91,3 +91,47 @@ src/app/
 - **Runtime Optimization**: OnPush detection, trackBy functions, proper subscription cleanup
 - **Memory Management**: High memory allocation for builds, proper memory leak prevention
 - **Caching Strategy**: @delon/cache for application-level caching with expiration
+
+## Six Core Design Principles System
+
+### A. Architecture Design Principles
+1. **Standalone First**: 100% standalone components, no NgModule complexity
+2. **Lazy Loading Everywhere**: Three-level lazy loading strategy
+3. **Feature Module Organization**: Clear directory structure with feature-based modules
+4. **Path Alias System**: TypeScript path mapping for cleaner imports (@shared, @core, @organization)
+5. **Layered Routing with Guards**: Hierarchical routing with functional guards
+
+### B. Component Design Principles
+1. **OnPush Detection Strategy**: All components use OnPush change detection
+2. **Explicit Imports**: Explicit imports over shared imports for better tree-shaking
+3. **Native Control Flow**: @if, @for, @switch instead of structural directives
+4. **Inline Templates for Cohesion**: Inline templates for components <150 lines
+5. **Mobile-First Responsive**: CSS Grid with responsive design patterns
+
+### C. Data State Management Principles
+1. **Service-based State**: Service layer with RxJS for state management
+2. **Observable Streams**: Reactive data flow with Observable patterns
+3. **Type-Safe Everything**: Complete TypeScript type definitions
+4. **URL as State**: URL as primary state source for shareable state
+5. **Cache Service**: @delon/cache for caching strategy (planned)
+
+### D. Permission Security Principles
+1. **Functional Guards**: inject() function-based guards for modern patterns
+2. **Role-based Access Control**: Owner/Admin/Member/Viewer hierarchy
+3. **Observable-based Authorization**: Asynchronous permission validation
+4. **User Feedback on Denial**: Clear denial reasons with user notifications
+5. **Graceful Error Handling**: Unified error handling with proper user feedback
+
+### E. Development Experience Principles
+1. **Mock-First Development**: @delon/mock for complete CRUD simulation
+2. **Hot Module Replacement**: HMR for faster development cycles
+3. **High Memory Build**: --max_old_space_size=8000 for large builds
+4. **Linting & Formatting**: ESLint + Stylelint + Prettier integration
+5. **Git Hooks Integration**: Husky + lint-staged for pre-commit checks
+
+### F. UI/UX Principles
+1. **ng-zorro-antd Over Custom**: Prioritize ng-zorro components over custom implementations
+2. **Empty States Everywhere**: Complete empty state handling for all lists
+3. **Loading States**: Loading states for all asynchronous operations
+4. **Hover Effects**: Micro-interactions for enhanced user experience
+5. **GitHub-style Navigation**: Learning from GitHub navigation patterns

@@ -280,3 +280,61 @@
   - Monthly dependency updates
   - Careful testing before updates
 - **Impact**: Stable development environment with security patches
+
+## VAN Analysis Design Decisions
+
+### Performance Optimization Decisions
+- **Decision**: Specific performance benchmarks and optimization strategies
+- **Rationale**: Data-driven performance optimization
+- **Targets**:
+  - Initial Bundle: 1.8 MB (with lazy loading)
+  - Time to Interactive: 1.2s
+  - Change Detection: OnPush (40-60% faster)
+  - Bundle Reduction: 57% (lazy vs eager)
+  - List Rendering: 40-60% performance improvement with trackBy
+- **Impact**: Measurable performance improvements
+
+### Development Experience Decisions
+- **Decision**: Mock-First Development with complete CRUD operations
+- **Rationale**: Parallel frontend/backend development
+- **Features**:
+  - Complete CRUD operations support
+  - Realistic data relationships
+  - Query parameter support (pagination, search, filtering)
+  - Memory persistence during session
+- **Impact**: Faster development cycle with realistic data
+
+### Testing Strategy Decisions
+- **Decision**: Comprehensive testing pyramid approach
+- **Rationale**: Balanced testing coverage with performance focus
+- **Strategy**:
+  - Unit Tests: 70% - Fast, isolated component and service tests
+  - Integration Tests: 20% - Component interaction and service integration
+  - E2E Tests: 10% - Full application workflow tests
+- **Coverage Requirements**:
+  - Services: 80% coverage
+  - Components: 60% coverage
+  - Guards: 100% coverage (critical security logic)
+- **Impact**: Reliable code quality with efficient testing
+
+### Code Quality Decisions
+- **Decision**: Comprehensive linting and formatting tools
+- **Rationale**: Consistent code quality and team collaboration
+- **Tools**:
+  - ESLint: TypeScript and Angular specific rules
+  - Stylelint: Less file linting
+  - Prettier: Consistent code formatting
+  - Husky: Pre-commit validation
+  - lint-staged: Staged file linting
+- **Impact**: Consistent code quality across team
+
+### Internationalization Decisions
+- **Decision**: i18n pipe for all user-facing text with namespace organization
+- **Rationale**: Comprehensive internationalization support
+- **Key Structure**: `feature.component.element`
+- **Examples**:
+  - `organization.list.title`: 組織列表標題
+  - `organization.form.submit`: 組織表單提交按鈕
+  - `common.cancel`: 通用取消按鈕
+  - `validation.required`: 通用必填驗證
+- **Impact**: Better user experience for global users
