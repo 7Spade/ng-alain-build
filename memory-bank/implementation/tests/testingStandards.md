@@ -362,3 +362,289 @@ describe('Performance Tests', () => {
 - **Release**: Run full test suite
 - **Feature**: Add tests for new features
 - **Bug Fix**: Add regression tests
+
+## ng-alain Testing Standards
+
+### Test Coverage Requirements
+- **Services**: 80% coverage
+- **Components**: 60% coverage
+- **Guards**: 100% coverage (critical security logic)
+
+### Unit Test Template
+```typescript
+describe('OrganizationService', () => {
+  let service: OrganizationService;
+  let httpMock: HttpTestingController;
+  
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [OrganizationService]
+    });
+    service = TestBed.inject(OrganizationService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+  
+  it('should get organizations', () => {
+    const mockOrgs = [{ id: '1', name: 'Test Org' }];
+    
+    service.getOrganizations().subscribe(result => {
+      expect(result.data).toEqual(mockOrgs);
+    });
+    
+    const req = httpMock.expectOne('/api/organizations');
+    expect(req.request.method).toBe('GET');
+    req.flush({ data: mockOrgs, total: 1 });
+  });
+  
+  afterEach(() => {
+    httpMock.verify();
+  });
+});
+```
+
+### Component Test Template
+```typescript
+describe('FeatureComponent', () => {
+  let component: FeatureComponent;
+  let fixture: ComponentFixture<FeatureComponent>;
+  let mockService: jasmine.SpyObj<FeatureService>;
+
+  beforeEach(async () => {
+    const spy = jasmine.createSpyObj('FeatureService', ['getData']);
+
+    await TestBed.configureTestingModule({
+      declarations: [FeatureComponent],
+      providers: [
+        { provide: FeatureService, useValue: spy }
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(FeatureComponent);
+    component = fixture.componentInstance;
+    mockService = TestBed.inject(FeatureService) as jasmine.SpyObj<FeatureService>;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should display data when loaded', () => {
+    // Arrange
+    const mockData = [{ id: 1, name: 'Test' }];
+    mockService.getData.and.returnValue(of(mockData));
+
+    // Act
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    // Assert
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.data-item')).toBeTruthy();
+  });
+});
+```
+
+### Guard Test Template
+```typescript
+describe('PermissionGuard', () => {
+  let guard: CanActivateFn;
+  let mockService: jasmine.SpyObj<PermissionService>;
+  let mockRouter: jasmine.SpyObj<Router>;
+  let mockNotification: jasmine.SpyObj<NzNotificationService>;
+
+  beforeEach(() => {
+    const serviceSpy = jasmine.createSpyObj('PermissionService', ['checkPermission']);
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    const notificationSpy = jasmine.createSpyObj('NzNotificationService', ['error']);
+
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: PermissionService, useValue: serviceSpy },
+        { provide: Router, useValue: routerSpy },
+        { provide: NzNotificationService, useValue: notificationSpy }
+      ]
+    });
+
+    mockService = TestBed.inject(PermissionService) as jasmine.SpyObj<PermissionService>;
+    mockRouter = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    mockNotification = TestBed.inject(NzNotificationService) as jasmine.SpyObj<NzNotificationService>;
+    
+    guard = permissionGuard;
+  });
+
+  it('should allow access when user has permission', () => {
+    // Arrange
+    const route = { paramMap: { get: () => '123' } } as any;
+    mockService.checkPermission.and.returnValue(of(true));
+
+    // Act
+    const result = guard(route, {} as any);
+
+    // Assert
+    result.subscribe(hasAccess => {
+      expect(hasAccess).toBe(true);
+      expect(mockService.checkPermission).toHaveBeenCalledWith('123');
+    });
+  });
+
+  it('should deny access when user lacks permission', () => {
+    // Arrange
+    const route = { paramMap: { get: () => '123' } } as any;
+    mockService.checkPermission.and.returnValue(of(false));
+
+    // Act
+    const result = guard(route, {} as any);
+
+    // Assert
+    result.subscribe(hasAccess => {
+      expect(hasAccess).toBe(false);
+      expect(mockNotification.error).toHaveBeenCalledWith('權限不足', '無法訪問');
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['/fallback']);
+    });
+  });
+});
+```
+
+### E2E Test Template
+```typescript
+describe('Application E2E', () => {
+  beforeEach(() => {
+    browser.get('/');
+  });
+
+  describe('Navigation', () => {
+    it('should navigate to dashboard', () => {
+      // Arrange
+      const dashboardLink = element(by.css('[data-testid="dashboard-link"]'));
+
+      // Act
+      dashboardLink.click();
+
+      // Assert
+      expect(browser.getCurrentUrl()).toContain('/dashboard');
+    });
+  });
+
+  describe('User Authentication', () => {
+    it('should login successfully', () => {
+      // Arrange
+      const usernameInput = element(by.css('[data-testid="username-input"]'));
+      const passwordInput = element(by.css('[data-testid="password-input"]'));
+      const loginButton = element(by.css('[data-testid="login-button"]'));
+
+      // Act
+      usernameInput.sendKeys('testuser');
+      passwordInput.sendKeys('testpassword');
+      loginButton.click();
+
+      // Assert
+      const welcomeMessage = element(by.css('[data-testid="welcome-message"]'));
+      expect(welcomeMessage.isDisplayed()).toBeTruthy();
+    });
+  });
+});
+```
+
+### Mock Data Test Template
+```typescript
+// Mock service implementation
+export class MockFeatureService {
+  private mockData = [
+    { id: 1, name: 'Test Item 1' },
+    { id: 2, name: 'Test Item 2' }
+  ];
+
+  getData(): Observable<any[]> {
+    return of(this.mockData);
+  }
+
+  createItem(item: any): Observable<any> {
+    const newItem = { ...item, id: Date.now() };
+    this.mockData.push(newItem);
+    return of(newItem);
+  }
+}
+
+// Test configuration
+beforeEach(async () => {
+  await TestBed.configureTestingModule({
+    declarations: [FeatureComponent],
+    providers: [
+      { provide: FeatureService, useClass: MockFeatureService }
+    ]
+  }).compileComponents();
+});
+```
+
+### Performance Test Template
+```typescript
+describe('Performance Tests', () => {
+  it('should render large dataset efficiently', () => {
+    // Arrange
+    const largeDataset = Array.from({ length: 1000 }, (_, i) => ({
+      id: i,
+      name: `Item ${i}`
+    }));
+
+    // Act
+    const startTime = performance.now();
+    component.data = largeDataset;
+    fixture.detectChanges();
+    const endTime = performance.now();
+
+    // Assert
+    expect(endTime - startTime).toBeLessThan(100); // 100ms threshold
+  });
+});
+```
+
+### Test Data Attributes
+```html
+<!-- Use data-testid for E2E tests -->
+<button data-testid="create-button">{{ 'common.create' | i18n }}</button>
+<input data-testid="search-input" [(ngModel)]="searchTerm">
+<div data-testid="results-list">
+  @for (item of items; track item.id) {
+    <div data-testid="result-item">{{ item.name }}</div>
+  }
+</div>
+```
+
+### Test Environment Setup
+```typescript
+// test-setup.ts
+import 'zone.js/testing';
+import { TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+
+TestBed.initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting()
+);
+```
+
+### Coverage Configuration
+```json
+// karma.conf.js
+module.exports = function (config) {
+  config.set({
+    coverageReporter: {
+      dir: 'coverage/',
+      reporters: [
+        { type: 'html' },
+        { type: 'text-summary' },
+        { type: 'lcov' }
+      ]
+    },
+    thresholds: {
+      global: {
+        statements: 80,
+        branches: 75,
+        functions: 80,
+        lines: 80
+      }
+    }
+  });
+};
+```

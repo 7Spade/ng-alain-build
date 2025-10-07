@@ -55,3 +55,39 @@ src/app/
 - **Bundle Analysis**: Source map explorer integration
 - **Tree Shaking**: Automatic unused code elimination
 - **Lazy Loading**: On-demand module loading
+
+## Architecture Decisions
+
+### Core Architecture Decisions
+- **Standalone Components**: 100% adoption of Angular standalone components, removing NgModule complexity
+- **Service-based State Management**: Using Angular services with RxJS instead of NgRx for simpler state management
+- **Hash Routing**: Using hash-based routing for simplified deployment without server configuration
+- **Lazy Loading Strategy**: All feature modules use lazy loading for optimal bundle splitting
+- **Path Alias System**: TypeScript path mapping for cleaner imports and easier refactoring
+- **URL as State**: Leveraging router state for application state management
+- **Template Organization**: Inline templates for components <150 lines, external for complex components
+- **Grid Layout**: CSS Grid for responsive card-based layouts with auto-fill patterns
+
+### Technology Stack Decisions
+- **CSS Preprocessor**: Less chosen for seamless integration with ng-zorro-antd theming system
+- **TypeScript Configuration**: Strict mode enabled for maximum type safety
+- **HTTP Client**: Using @delon/theme _HttpClient for unified error handling and loading states
+- **Mock Development**: Mock-first development approach using @delon/mock for parallel frontend/backend development
+- **Build Configuration**: High memory allocation (8GB) for large Angular applications
+- **Theme System**: ng-alain-plugin-theme for dynamic theming support
+- **Icon System**: ng-alain:plugin icon for icon generation
+
+### Development Pattern Decisions
+- **Functional Guards**: Using CanActivateFn instead of class-based guards for modern Angular patterns
+- **Dependency Injection**: Preferring inject() function over constructor DI for cleaner code
+- **Change Detection**: OnPush strategy enforced for optimal performance
+- **Control Flow**: Native Angular control flow (@if, @for, @switch) instead of structural directives
+- **Explicit Imports**: Each component explicitly declares all dependencies for better tree-shaking
+- **Type-Safe Everything**: 100% TypeScript with complete type definitions
+- **Observable Streams**: RxJS Observable as primary data source for reactive programming
+
+### Performance Optimization Decisions
+- **Bundle Optimization**: Tree-shaking, lazy loading, source map analysis
+- **Runtime Optimization**: OnPush detection, trackBy functions, proper subscription cleanup
+- **Memory Management**: High memory allocation for builds, proper memory leak prevention
+- **Caching Strategy**: @delon/cache for application-level caching with expiration
