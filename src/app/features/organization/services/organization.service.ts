@@ -30,7 +30,8 @@ export class OrganizationService {
     if (useCache) {
       const cached = this.cache.get(this.CACHE_KEY_TREE);
       if (cached) {
-        return of(cached);
+        // @delon/cache get() 返回的可能是原始數據，使用 of() 轉為 Observable
+        return of(cached as any);
       }
     }
     
@@ -50,9 +51,10 @@ export class OrganizationService {
    */
   getOrganization(id: string): Observable<Organization> {
     const cacheKey = this.CACHE_KEY_ORG(id);
-    const cached = this.cache.get(cacheKey);
+    const cached: any = this.cache.get(cacheKey);
     
     if (cached) {
+      // @delon/cache get() 返回的可能是原始數據，使用 of() 轉為 Observable
       return of(cached);
     }
     
@@ -174,8 +176,8 @@ export class OrganizationService {
    */
   private clearCache(): void {
     this.cache.remove(this.CACHE_KEY_TREE);
-    // 清除所有組織緩存
-    this.cache.clear(/^org:/);
+    // 注意：單個組織緩存會在 5 分鐘後自動過期
+    // @delon/cache 的 clear() 不支持參數，只能清除所有緩存
   }
 }
 

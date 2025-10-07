@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef, ChangeDetectorRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -24,6 +24,7 @@ import { HeaderUserComponent } from './widgets/user.component';
 import { TabComponent } from '../widgets/tab/tab.component';
 import { TabService } from '@core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { ModeService, ModeType } from '@core';
 
 @Component({
   selector: 'layout-basic',
@@ -82,7 +83,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
       </layout-default-header-item>
       <ng-template #asideUserTpl>
         <div nz-dropdown nzTrigger="click" [nzDropdownMenu]="userMenu" class="alain-default__aside-user">
-          <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="user.avatar" />
+      <nz-avatar class="alain-default__aside-user-avatar" [nzSrc]="asideAvatarSrc" />
           <div class="alain-default__aside-user-info">
             <strong>{{ user.name }}</strong>
             <p class="mb0">{{ user.email }}</p>
@@ -92,6 +93,11 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
           <ul nz-menu>
             <li nz-menu-item routerLink="/pro/account/center">{{ 'menu.account.center' | i18n }}</li>
             <li nz-menu-item routerLink="/pro/account/settings">{{ 'menu.account.settings' | i18n }}</li>
+            <li nz-menu-divider></li>
+            <li nz-menu-group [nzTitle]="'menu.switcher' | i18n"></li>
+            <li nz-menu-item (click)="switchMode('user')">{{ 'menu.switcher.user' | i18n }}</li>
+            <li nz-menu-item (click)="switchMode('org')">{{ 'menu.switcher.org' | i18n }}</li>
+            <li nz-menu-item (click)="switchMode('demo')">{{ 'menu.switcher.demo' | i18n }}</li>
           </ul>
         </nz-dropdown-menu>
       </ng-template>
@@ -134,6 +140,8 @@ export class LayoutBasicComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly tabService = inject(TabService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly modeService = inject(ModeService);
+  private readonly cdr = inject(ChangeDetectorRef);
   
   options: LayoutDefaultOptions = {
     logoExpanded: `./assets/logo-full.svg`,
@@ -141,9 +149,25 @@ export class LayoutBasicComponent implements OnInit {
   };
   searchToggleStatus = false;
   showSettingDrawer = !environment.production;
+  private currentMode: ModeType = this.modeService.getCurrentMode();
   
   get user(): User {
     return this.settings.user;
+  }
+
+  get asideAvatarSrc(): string {
+    switch (this.currentMode) {
+      case 'org':
+        return './assets/tmp/img/2.png';
+      case 'demo':
+        return './assets/tmp/img/3.png';
+      default:
+        return this.user?.avatar ?? './assets/tmp/img/avatar.svg';
+    }
+  }
+
+  switchMode(mode: ModeType): void {
+    this.modeService.setMode(mode);
   }
 
   ngOnInit(): void {
@@ -160,6 +184,11 @@ export class LayoutBasicComponent implements OnInit {
     // 初始路由添加 Tab
     setTimeout(() => {
       this.addTabFromRoute();
+    });
+
+    this.modeService.mode$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(mode => {
+      this.currentMode = mode;
+      this.cdr.markForCheck();
     });
   }
 

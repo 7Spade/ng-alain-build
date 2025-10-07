@@ -7,6 +7,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { Observable, zip, catchError, map } from 'rxjs';
 
 import { I18NService } from '../i18n/i18n.service';
+import { ModeService, ModeType } from '../services/mode/mode.service';
 
 /**
  * Used for application startup
@@ -34,6 +35,9 @@ export class StartupService {
   private httpClient = inject(HttpClient);
   private router = inject(Router);
   private i18n = inject<I18NService>(ALAIN_I18N_TOKEN);
+  private modeService = inject(ModeService);
+
+  private appData: NzSafeAny | null = null;
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
@@ -56,12 +60,26 @@ export class StartupService {
         this.settingService.setUser(appData.user);
         // ACL：设置权限为全量
         this.aclService.setFull(true);
-        // 初始化菜单
-        this.menuService.add(appData.menu);
+        // 保存 appData 供後續模式切換使用
+        this.appData = appData;
+        // 初始化選單（依模式）
+        const initialMode: ModeType = this.modeService.getCurrentMode();
+        this.applyMenuByMode(initialMode);
+        // 監聽模式變更，動態切換選單
+        this.modeService.mode$.subscribe(mode => this.applyMenuByMode(mode));
         // 设置页面标题的后缀
         this.titleService.default = '';
         this.titleService.suffix = appData.app.name;
       })
     );
+  }
+
+  private applyMenuByMode(mode: ModeType): void {
+    if (!this.appData) return;
+    // 支援新舊結構：優先使用 appData.menus[mode]，否則回退 appData.menu
+    const menus = this.appData.menus as NzSafeAny | undefined;
+    const items = menus?.[mode] ?? this.appData.menu ?? [];
+    this.menuService.clear();
+    this.menuService.add(items);
   }
 }

@@ -1,0 +1,71 @@
+<form nz-form [formGroup]="form" nzLayout="vertical" class="org-form">
+    <!-- 組織名稱（必填） -->
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="name">組織名稱</nz-form-label>
+        <nz-form-control nzErrorTip="請輸入組織名稱（最多 50 字）" nzHasFeedback>
+            <input nz-input formControlName="name" id="name" placeholder="請輸入組織名稱" maxlength="50" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- 組織類型（必填） -->
+    <nz-form-item>
+        <nz-form-label nzRequired nzFor="type">組織類型</nz-form-label>
+        <nz-form-control nzErrorTip="請選擇組織類型">
+            <nz-select formControlName="type" id="type" nzPlaceHolder="請選擇組織類型" nzShowSearch>
+                @for (option of typeOptions; track option.value) {
+                <nz-option [nzLabel]="option.label" [nzValue]="option.value" />
+                }
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- 父組織（可選） -->
+    <nz-form-item>
+        <nz-form-label nzFor="parentId">
+            父組織
+            <span class="optional-hint">（可選）</span>
+        </nz-form-label>
+        <nz-form-control nzExtra="選擇此組織的上級組織">
+            <nz-tree-select formControlName="parentId" id="parentId" nzPlaceHolder="請選擇父組織" nzAllowClear nzShowSearch
+                [nzNodes]="parentOrgNodes" style="width: 100%;">
+            </nz-tree-select>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- 組織編碼（可選） -->
+    <nz-form-item>
+        <nz-form-label nzFor="code">
+            組織編碼
+            <span class="optional-hint">（可選）</span>
+        </nz-form-label>
+        <nz-form-control nzExtra="用於內部管理的唯一編碼">
+            <input nz-input formControlName="code" id="code" placeholder="例如：DEP-001" maxlength="20" />
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- 組織描述（可選） -->
+    <nz-form-item>
+        <nz-form-label nzFor="description">
+            組織描述
+            <span class="optional-hint">（可選）</span>
+        </nz-form-label>
+        <nz-form-control>
+            <textarea nz-input formControlName="description" id="description" placeholder="請輸入組織描述" rows="3"
+                maxlength="200">
+      </textarea>
+        </nz-form-control>
+    </nz-form-item>
+
+    <!-- 排序順序（可選） -->
+    <nz-form-item>
+        <nz-form-label nzFor="order">
+            排序順序
+            <span class="optional-hint">（可選）</span>
+        </nz-form-label>
+        <nz-form-control nzExtra="數字越小越靠前">
+            <nz-input-number formControlName="order" id="order" [nzMin]="0" [nzMax]="9999" [nzStep]="1"
+                style="width: 100%;" nzPlaceHolder="預設為 0">
+            </nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+</form>
