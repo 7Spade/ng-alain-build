@@ -6,7 +6,7 @@
 
 ## 📊 統計資訊
 
-- **目錄總數**: 135
+- **目錄總數**: 134
 
 
 ## 📂 目錄結構
@@ -53,58 +53,58 @@
         │   ├── startup/
         ├── examples/
         │   ├── delon-features/
-        │   │   ├── acl/
-        │   │   ├── cache/
-        │   │   ├── downfile/
-        │   │   ├── form/
-        │   │   ├── guard/
-        │   │   ├── print/
-        │   │   ├── qr/
-        │   │   ├── st/
-        │   │   ├── util/
-        │   │   ├── xlsx/
-        │   │   ├── zip/
+        │   │   ├── acl-demo/
+        │   │   ├── cache-demo/
+        │   │   ├── downfile-demo/
+        │   │   ├── form-demo/
+        │   │   ├── guard-demo/
+        │   │   ├── print-demo/
+        │   │   ├── qr-demo/
+        │   │   ├── st-demo/
+        │   │   ├── util-demo/
+        │   │   ├── xlsx-demo/
+        │   │   ├── zip-demo/
         │   ├── pro-templates/
         │   │   ├── account/
-        │   │   │   ├── center/
-        │   │   │   │   ├── applications/
-        │   │   │   │   ├── articles/
-        │   │   │   │   ├── projects/
-        │   │   │   ├── settings/
-        │   │   │   │   └── base/
-        │   │   │   │   └── binding/
-        │   │   │   │   └── notification/
-        │   │   │   │   └── security/
-        │   │   ├── form/
+        │   │   │   ├── account-center/
+        │   │   │   │   ├── my-applications-tab/
+        │   │   │   │   ├── my-articles-tab/
+        │   │   │   │   ├── my-projects-tab/
+        │   │   │   ├── account-settings/
+        │   │   │   │   └── base-settings/
+        │   │   │   │   └── binding-settings/
+        │   │   │   │   └── notification-settings/
+        │   │   │   │   └── security-settings/
+        │   │   ├── form-templates/
         │   │   │   ├── advanced-form/
         │   │   │   ├── basic-form/
         │   │   │   ├── step-form/
-        │   │   ├── list/
-        │   │   │   ├── applications/
-        │   │   │   ├── articles/
+        │   │   ├── list-templates/
+        │   │   │   ├── application-list/
+        │   │   │   ├── article-list/
         │   │   │   ├── basic-list/
         │   │   │   │   ├── edit/
         │   │   │   ├── card-list/
         │   │   │   ├── list/
-        │   │   │   ├── projects/
+        │   │   │   ├── project-list/
         │   │   │   ├── table-list/
-        │   │   ├── profile/
-        │   │   │   ├── advanced/
-        │   │   │   ├── basic/
-        │   │   ├── result/
-        │   │   │   └── fail/
-        │   │   │   └── success/
+        │   │   ├── profile-pages/
+        │   │   │   ├── advanced-profile/
+        │   │   │   ├── basic-profile/
+        │   │   ├── result-pages/
+        │   │   │   └── fail-result/
+        │   │   │   └── success-result/
         │   ├── style-guide/
-        │   │   ├── colors/
-        │   │   ├── gridmasonry/
-        │   │   ├── typography/
+        │   │   ├── colors-demo/
+        │   │   ├── grid-demo/
+        │   │   ├── typography-demo/
         │   ├── widgets-showcase/
         ├── features/
         │   ├── dashboard/
-        │   │   ├── analysis/
-        │   │   ├── monitor/
-        │   │   ├── v1/
-        │   │   ├── workplace/
+        │   │   ├── dashboard-analysis/
+        │   │   ├── dashboard-monitor/
+        │   │   ├── dashboard-v1/
+        │   │   ├── dashboard-workplace/
         │   ├── organization/
         │   │   └── components/
         │   │       ├── department-list/
@@ -120,7 +120,6 @@
         │   ├── passport-layout/
         │   ├── widgets/
         │   │   └── tab/
-        ├── routes/
         ├── shared/
         │   ├── components/
         │   │   ├── cell-widget/
@@ -134,7 +133,7 @@
         │   ├── utils/
         ├── system/
         │   └── data-visualization/
-        │       ├── relation/
+        │       ├── relation-chart/
         │   └── exception/
         │   └── extras/
         │       └── helpcenter/
