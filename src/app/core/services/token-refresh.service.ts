@@ -37,9 +37,9 @@ export class TokenRefreshService {
     if (refreshToking) {
       console.log('[Token Refresh] 等待進行中的刷新...');
       return refreshToken$.pipe(
-        filter(v => !!v),
+        filter((v): v is string => !!v),
         take(1)
-      ) as Observable<string>;
+      );
     }
 
     const user = this.auth.currentUser;
@@ -128,9 +128,9 @@ export class TokenRefreshService {
    */
   waitForRefresh(): Observable<string> {
     return refreshToken$.pipe(
-      filter(v => !!v),
+      filter((v): v is string => !!v),
       take(1)
-    ) as Observable<string>;
+    );
   }
 
   /**

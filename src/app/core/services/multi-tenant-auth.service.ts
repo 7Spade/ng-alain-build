@@ -41,7 +41,7 @@ export class MultiTenantAuthService {
 
     // 4. 設定租戶上下文（使用第一個租戶）
     const primaryTenantId = tenantId || tenants[0];
-    this.orgContext.setCurrentOrganization(primaryTenantId);
+    await this.orgContext.switchToOrganization(primaryTenantId, false);
 
     // 5. 同步到 @delon/auth
     const tokenModel: FirebaseTokenModel = {
@@ -88,7 +88,7 @@ export class MultiTenantAuthService {
     }
 
     // 2. 更新組織上下文
-    this.orgContext.setCurrentOrganization(tenantId);
+    await this.orgContext.switchToOrganization(tenantId, false);
 
     // 3. 強制刷新 Token（後端 Custom Claims 會根據新租戶重新生成）
     const newToken = await user.getIdToken(true);
