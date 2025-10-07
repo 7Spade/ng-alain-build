@@ -20,12 +20,7 @@ export class DepartmentService {
    * @returns Observable<PagedResult<Department>>
    */
   getDepartments(params?: QueryParams): Observable<PagedResult<Department>> {
-    return this.http.get<PagedResult<Department>>(this.API_BASE, params).pipe(
-      catchError(err => {
-        console.error('獲取部門列表失敗', err);
-        throw err;
-      })
-    );
+    return this.http.get<PagedResult<Department>>(this.API_BASE, params);
   }
 
   /**

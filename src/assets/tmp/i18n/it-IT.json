@@ -58,6 +58,8 @@
   "menu.account": "Account",
   "menu.account.center": "Centro Account",
   "menu.account.settings": "Impostazioni dell'account",
+  "menu.account.organization": "Gestisci organizzazione",
+  "menu.account.organization-new": "Crea organizzazione",
   "menu.account.trigger": "Errore all'attivazione",
   "menu.account.logout": "Esci",
   "menu.more": "Altro",

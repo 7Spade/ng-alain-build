@@ -1,0 +1,83 @@
+<!-- 頁面標題 -->
+<app-page-header [pageHeaderInfo]="pageHeaderInfo"></app-page-header>
+
+<div class="normal-table-wrap">
+  <!-- 搜索表單 -->
+  <nz-card class="m-b-10" nzHoverable [nzBodyStyle]="{ 'padding-bottom': 0 }">
+    <form nz-form>
+      <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24 }">
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXl]="8" [nzXs]="24" [nzXXl]="8">
+          <nz-form-item>
+            <nz-form-label>角色名稱</nz-form-label>
+            <nz-form-control>
+              <input name="name" nz-input placeholder="請輸入角色名稱" [(ngModel)]="searchParam.name" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        
+        <div nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXl]="8" [nzXs]="24" [nzXXl]="8">
+          <nz-form-item>
+            <nz-form-label>狀態</nz-form-label>
+            <nz-form-control>
+              <nz-select name="status" nzAllowClear nzPlaceHolder="請選擇狀態" [(ngModel)]="searchParam.status">
+                @for (item of statusOptions; track item) {
+                  <nz-option [nzLabel]="item.label" [nzValue]="item.value"></nz-option>
+                }
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div class="text-right p-0 m-b-10" nz-col [nzLg]="8" [nzMd]="12" [nzSm]="24" [nzXl]="8" [nzXs]="24" [nzXXl]="8">
+          <button nz-button [nzType]="'primary'" appDebounceClick (debounceClick)="getDataList()">
+            <span nz-icon nzType="search"></span>
+            搜索
+          </button>
+          <button class="m-l-15" nz-button (click)="resetForm()">
+            <span nz-icon nzTheme="outline" nzType="close-circle"></span>
+            重置
+          </button>
+        </div>
+      </div>
+    </form>
+  </nz-card>
+
+  <!-- 表格區域 -->
+  <nz-card nzHoverable [nzExtra]="tableToolbar" [nzTitle]="'角色列表'">
+    <app-tree-table 
+      [tableConfig]="tableConfig" 
+      [tableData]="dataList" 
+      (changePageNum)="getDataList($event)" 
+      (changePageSize)="changePageSize($event)">
+    </app-tree-table>
+    
+    <!-- 操作列模板 -->
+    <ng-template #operationTpl let-id="id">
+      <span *appAuth="'role:permission'" class="operate-text" (click)="setPermissions(id)">設置權限</span>
+      <span *appAuth="'role:edit'" class="operate-text" (click)="edit(id)">編輯</span>
+      <span *appAuth="'role:delete'" class="operate-text" (click)="delete(id)">刪除</span>
+    </ng-template>
+    
+    <!-- 狀態列模板 -->
+    <ng-template #statusTpl let-status="status">
+      @if (status === 'active') {
+        <nz-tag [nzColor]="'green'">啟用</nz-tag>
+      } @else {
+        <nz-tag [nzColor]="'red'">禁用</nz-tag>
+      }
+    </ng-template>
+  </nz-card>
+</div>
+
+<!-- 表格工具列 -->
+<ng-template #tableToolbar>
+  <button nz-button [nzType]="'primary'" *appAuth="'role:create'" appDebounceClick (debounceClick)="add()">
+    <span nz-icon nzType="plus"></span>
+    新增角色
+  </button>
+  <button class="m-l-8" nz-button (click)="reloadTable()">
+    <span nz-icon nzType="reload"></span>
+    重新整理
+  </button>
+</ng-template>
+

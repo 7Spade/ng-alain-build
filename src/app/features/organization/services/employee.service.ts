@@ -5,7 +5,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { _HttpClient } from '@delon/theme';
 import type { Employee, CreateEmployeeRequest, UpdateEmployeeRequest, QueryParams, PagedResult } from '../models';
 
@@ -153,6 +153,7 @@ export class EmployeeService {
     formData.append('avatar', file);
     
     return this.http.post<{ url: string }>(`${this.API_BASE}/${employeeId}/avatar`, formData).pipe(
+      map(response => response.url),
       catchError(err => {
         console.error(`上傳頭像失敗 (員工ID: ${employeeId})`, err);
         throw err;

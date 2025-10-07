@@ -58,6 +58,8 @@
   "menu.account": "Compte",
   "menu.account.center": "Centre de comptes",
   "menu.account.settings": "Paramètres du compte",
+  "menu.account.organization": "Gérer l'organisation",
+  "menu.account.organization-new": "Créer une organisation",
   "menu.account.trigger": "Déclenchement des erreurs",
   "menu.account.logout": "Déconnexion",
   "menu.more": "Plus",

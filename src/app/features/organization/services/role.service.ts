@@ -4,7 +4,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { _HttpClient } from '@delon/theme';
 import { ACLService } from '@delon/acl';
@@ -138,7 +138,8 @@ export class RoleService {
    * @returns Observable<boolean>
    */
   checkPermission(permission: string): Observable<boolean> {
-    return this.acl.can(permission);
+    const hasPermission = this.acl.can(permission);
+    return of(hasPermission);
   }
 
   /**
@@ -147,7 +148,8 @@ export class RoleService {
    * @returns Observable<boolean>
    */
   checkAnyPermission(permissions: string[]): Observable<boolean> {
-    return this.acl.canAbility(permissions);
+    const hasPermission = this.acl.canAbility(permissions);
+    return of(hasPermission);
   }
 
   /**

@@ -58,6 +58,8 @@
   "menu.account": "Konto",
   "menu.account.center": "Centrum konta",
   "menu.account.settings": "Ustawienia konta",
+  "menu.account.organization": "Zarządzaj organizacją",
+  "menu.account.organization-new": "Utwórz organizację",
   "menu.account.trigger": "Błąd wyzwalacza",
   "menu.account.logout": "Wyloguj",
   "menu.more": "Więcej",

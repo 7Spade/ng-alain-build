@@ -24,6 +24,16 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
           <i nz-icon nzType="setting" class="mr-sm"></i>
           {{ 'menu.account.settings' | i18n }}
         </div>
+        <li nz-menu-divider></li>
+        <div nz-menu-item routerLink="/organization">
+          <i nz-icon nzType="team" class="mr-sm"></i>
+          {{ 'menu.account.organization' | i18n }}
+        </div>
+        <div nz-menu-item routerLink="/organization/new">
+          <i nz-icon nzType="plus-circle" class="mr-sm"></i>
+          {{ 'menu.account.organization-new' | i18n }}
+        </div>
+        <li nz-menu-divider></li>
         <div nz-menu-item routerLink="/exception/trigger">
           <i nz-icon nzType="close-circle" class="mr-sm"></i>
           {{ 'menu.account.trigger' | i18n }}

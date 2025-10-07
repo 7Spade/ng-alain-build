@@ -58,6 +58,8 @@
   "menu.account": "계정",
   "menu.account.center": "계정 센터",
   "menu.account.settings": "계정 설정",
+  "menu.account.organization": "조직 관리",
+  "menu.account.organization-new": "조직 생성",
   "menu.account.trigger": "트리거 에러",
   "menu.account.logout": "로그아웃",
   "menu.more": "더 보기",

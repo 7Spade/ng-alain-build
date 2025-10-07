@@ -58,6 +58,8 @@
   "menu.account": "Λογαριασμός",
   "menu.account.center": "Κέντρο διαχείρισης λογαριασμού",
   "menu.account.settings": "Ρυθμίσεις λογαριασμού",
+  "menu.account.organization": "Διαχείριση οργανισμού",
+  "menu.account.organization-new": "Δημιουργία οργανισμού",
   "menu.account.trigger": "Πρόκληση σφάλματος",
   "menu.account.logout": "Αποσύνδεση",
   "menu.more": "Περισσότερα",

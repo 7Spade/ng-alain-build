@@ -58,6 +58,8 @@
   "menu.account": "Cuenta",
   "menu.account.center": "Cuenta",
   "menu.account.settings": "Configuraciones",
+  "menu.account.organization": "Gestionar organización",
+  "menu.account.organization-new": "Crear organización",
   "menu.account.trigger": "Lanzar Error",
   "menu.account.logout": "Cerrar sesión",
   "menu.more": "Más",

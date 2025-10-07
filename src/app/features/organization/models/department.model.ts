@@ -21,6 +21,9 @@ export interface Department {
   /** 組織名稱（關聯資料） */
   organizationName?: string;
   
+  /** 父部門 ID（用於樹狀結構） */
+  parentId?: string | null;
+  
   /** 部門負責人 ID */
   managerId: string;
   
@@ -29,6 +32,9 @@ export interface Department {
   
   /** 部門成員數量 */
   memberCount: number;
+  
+  /** 部門層級 */
+  level?: number;
   
   /** 部門描述 */
   description?: string;

@@ -58,6 +58,8 @@
   "menu.account": "Račun",
   "menu.account.center": "Upravljanje računima",
   "menu.account.settings": "Postavke računa",
+  "menu.account.organization": "Upravljanje organizacijom",
+  "menu.account.organization-new": "Stvori organizaciju",
   "menu.account.trigger": "Pozovi grešku",
   "menu.account.logout": "Odjava",
   "menu.more": "Više",

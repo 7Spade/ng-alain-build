@@ -58,6 +58,8 @@
   "menu.account": "Account",
   "menu.account.center": "Account Center",
   "menu.account.settings": "Account Settings",
+  "menu.account.organization": "Manage Organization",
+  "menu.account.organization-new": "Create Organization",
   "menu.account.trigger": "Trigger Error",
   "menu.account.logout": "Logout",
   "menu.more": "More",
