@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { DashboardAnalysisComponent } from './analysis/analysis.component';
-import { DashboardMonitorComponent } from './monitor/monitor.component';
-import { DashboardV1Component } from './v1/v1.component';
-import { DashboardWorkplaceComponent } from './workplace/workplace.component';
+import { DashboardAnalysisComponent } from './dashboard-analysis/analysis.component';
+import { DashboardMonitorComponent } from './dashboard-monitor/monitor.component';
+import { DashboardV1Component } from './dashboard-v1/v1.component';
+import { DashboardWorkplaceComponent } from './dashboard-workplace/workplace.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'v1', pathMatch: 'full' },
