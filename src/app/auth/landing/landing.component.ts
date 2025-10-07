@@ -21,6 +21,6 @@ export class LandingComponent {
   constructor(private router: Router) {}
 
   goToLogin(): void {
-    this.router.navigate(['/passport/login']);
+    this.router.navigate(['/auth/login']);
   }
 }

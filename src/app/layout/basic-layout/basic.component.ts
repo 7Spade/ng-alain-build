@@ -35,7 +35,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
         </a>
       </layout-default-header-item>
       <layout-default-header-item direction="left" hidden="mobile">
-        <a layout-default-header-item-trigger routerLink="/passport/lock">
+        <a layout-default-header-item-trigger routerLink="/auth/lock">
           <i nz-icon nzType="lock"></i>
         </a>
       </layout-default-header-item>
