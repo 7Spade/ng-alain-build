@@ -1,0 +1,111 @@
+<app-page-header [pageHeaderInfo]="pageHeaderInfo">
+    <ng-template #extra>
+        <button nz-button nzType="primary" (click)="loadOrganizations()">
+            <i nz-icon nzType="reload"></i>
+            重新整理
+        </button>
+    </ng-template>
+</app-page-header>
+
+<nz-card [nzBordered]="false" nzTitle="您的組織">
+    <nz-table #basicTable [nzData]="organizationList" [nzLoading]="tableConfig.loading" [nzShowPagination]="false"
+        [nzSize]="'middle'">
+        <thead>
+            <tr>
+                @for (header of tableConfig.headers; track header.field) {
+                <th [nzWidth]="header.width ? header.width + 'px' : null" [nzLeft]="header.fixedDir === 'left'"
+                    [nzRight]="header.fixedDir === 'right'">
+                    {{ header.title }}
+                </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (org of basicTable.data; track org.id) {
+            <tr>
+                <!-- Logo -->
+                <td>
+                    <ng-template #logoTpl let-record>
+                        <nz-avatar [nzSrc]="record.logo" [nzText]="record.name.charAt(0)" [nzSize]="32">
+                        </nz-avatar>
+                    </ng-template>
+                    <ng-container *ngTemplateOutlet="logoTpl; context: { $implicit: org }"></ng-container>
+                </td>
+
+                <!-- 組織名稱 -->
+                <td>
+                    <strong>{{ org.name }}</strong>
+                </td>
+
+                <!-- 角色 -->
+                <td>
+                    <ng-template #roleTpl let-record>
+                        <nz-tag [nzColor]="getRoleColor(record.role)">
+                            {{ getRoleLabel(record.role) }}
+                        </nz-tag>
+                    </ng-template>
+                    <ng-container *ngTemplateOutlet="roleTpl; context: { $implicit: org }"></ng-container>
+                </td>
+
+                <!-- 加入時間 -->
+                <td>{{ org.joinedAt | date:'yyyy-MM-dd HH:mm' }}</td>
+
+                <!-- 描述 -->
+                <td>
+                    <span class="text-grey">{{ org.description || '無描述' }}</span>
+                </td>
+
+                <!-- 操作 -->
+                <td>
+                    <ng-template #actionTpl let-record>
+                        <nz-space>
+                            <button *nzSpaceItem nz-button nzType="link" nzSize="small" (click)="switchTo(record)">
+                                <i nz-icon nzType="swap"></i>
+                                切換
+                            </button>
+
+                            <button *nzSpaceItem nz-button nzType="link" nzSize="small" (click)="viewDetails(record)">
+                                <i nz-icon nzType="eye"></i>
+                                詳情
+                            </button>
+
+                            @if (record.role === 'owner') {
+                            <button *nzSpaceItem nz-button nzType="link" nzSize="small"
+                                (click)="editOrganization(record)">
+                                <i nz-icon nzType="edit"></i>
+                                編輯
+                            </button>
+
+                            <button *nzSpaceItem nz-button nzType="link" nzSize="small" nzDanger
+                                (click)="deleteOrganization(record)">
+                                <i nz-icon nzType="delete"></i>
+                                刪除
+                            </button>
+                            }
+
+                            @if (record.role !== 'owner') {
+                            <button *nzSpaceItem nz-button nzType="link" nzSize="small" nzDanger
+                                (click)="leaveOrganization(record)">
+                                <i nz-icon nzType="logout"></i>
+                                離開
+                            </button>
+                            }
+                        </nz-space>
+                    </ng-template>
+                    <ng-container *ngTemplateOutlet="actionTpl; context: { $implicit: org }"></ng-container>
+                </td>
+            </tr>
+            }
+
+            @if (organizationList.length === 0 && !tableConfig.loading) {
+            <tr>
+                <td colspan="6" class="text-center empty-state">
+                    <i nz-icon nzType="inbox" class="empty-icon"></i>
+                    <p class="empty-text">尚未加入任何組織</p>
+                    <p class="empty-hint">點擊右上角頭像選擇「新增組織」來創建組織</p>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </nz-table>
+</nz-card>

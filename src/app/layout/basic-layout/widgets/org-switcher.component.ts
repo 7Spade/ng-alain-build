@@ -14,7 +14,6 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { I18nPipe } from '@delon/theme';
 import { OrganizationContextService } from '../../../core/services/organization-context/organization-context.service';
 import { OrganizationFormComponent } from '../../../features/organization/components/organization-form';
 import { OrganizationService } from '../../../features/organization/services/organization.service';
@@ -32,8 +31,7 @@ import type { UserOrganization, CreateOrganizationRequest, ORGANIZATION_ROLE_LAB
     NzIconModule,
     NzAvatarModule,
     NzDividerModule,
-    NzTagModule,
-    I18nPipe
+    NzTagModule
   ],
   template: `
     <div class="org-switcher-wrapper"
@@ -72,8 +70,13 @@ import type { UserOrganization, CreateOrganizationRequest, ORGANIZATION_ROLE_LAB
         
         <li nz-menu-divider></li>
         
-        <!-- 您的組織標題 -->
-        <li nz-menu-group nzTitle="您的組織"></li>
+        <!-- 您的組織標題 + 管理圖示 -->
+        <li class="org-header">
+          <span class="org-header-title">您的組織</span>
+          <a routerLink="/settings/organizations" class="org-header-action" (click)="$event.stopPropagation()">
+            <i nz-icon nzType="setting" nzTheme="outline"></i>
+          </a>
+        </li>
         
         <!-- 組織列表 -->
         @for (org of organizationList(); track org.id) {
@@ -233,12 +236,33 @@ import type { UserOrganization, CreateOrganizationRequest, ORGANIZATION_ROLE_LAB
       font-size: 12px;
     }
     
-    /* 組織群組標題樣式 */
-    ::ng-deep .org-switcher-menu .ant-menu-item-group-title {
+    /* 組織標題區域 */
+    .org-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 8px 16px;
       font-size: 12px;
       color: rgba(0, 0, 0, 0.45);
       font-weight: 500;
+    }
+    
+    .org-header-title {
+      flex: 1;
+    }
+    
+    .org-header-action {
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 14px;
+      padding: 4px;
+      border-radius: 4px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .org-header-action:hover {
+      color: #1890ff;
+      background-color: rgba(24, 144, 255, 0.1);
     }
   `]
 })

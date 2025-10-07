@@ -9,7 +9,13 @@ import {
   UserSwitchOutline,
   PlusCircleOutline,
   SwapOutline,
-  CheckOutline
+  CheckOutline,
+  SettingOutline,
+  EditOutline,
+  DeleteOutline,
+  EyeOutline,
+  InboxOutline,
+  ReloadOutline
 } from '@ant-design/icons-angular/icons';
 
 export const ICONS = [
@@ -21,5 +27,11 @@ export const ICONS = [
   UserSwitchOutline,
   PlusCircleOutline,
   SwapOutline,
-  CheckOutline
+  CheckOutline,
+  SettingOutline,
+  EditOutline,
+  DeleteOutline,
+  EyeOutline,
+  InboxOutline,
+  ReloadOutline
 ];

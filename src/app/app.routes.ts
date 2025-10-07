@@ -56,6 +56,12 @@ export const routes: Routes = [
         path: 'system/extras', 
         loadChildren: () => import('./system/extras/routes').then(m => m.routes),
         data: { title: '其他功能' }
+      },
+      // Settings - 設定頁面
+      {
+        path: 'settings/organizations',
+        loadComponent: () => import('./system/organization-settings').then(m => m.OrganizationSettingsComponent),
+        data: { title: '組織管理' }
       }
     ]
   },
