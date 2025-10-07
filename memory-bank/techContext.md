@@ -1,19 +1,19 @@
-# Memory Bank: Technical Context
+# 技術環境
 
-## Development Environment
-- **Operating System**: Windows 10 (10.0.26100)
+## 開發環境
+- **作業系統**: Windows 10 (10.0.26100)
 - **Shell**: PowerShell
-- **Package Manager**: Yarn 4.9.2
-- **Node.js**: Compatible with Node 22.18.0 (recommended)
+- **套件管理**: Yarn 4.9.2
+- **Node.js**: 22.18.0 (建議)
 
-## Build Configuration
+## 建置配置
 - **Angular CLI**: 20.3.1
 - **TypeScript**: 5.9.2
-- **Build Memory**: --max_old_space_size=8000 (8GB allocation)
-- **Source Maps**: Enabled for development and analysis
-- **Bundle Analysis**: source-map-explorer integration
+- **建置記憶體**: 8GB (--max_old_space_size=8000)
+- **Source Maps**: 開發與分析啟用
+- **Bundle 分析**: source-map-explorer
 
-## Development Scripts
+## 開發腳本
 ```json
 {
   "start": "ng s -o",
@@ -26,34 +26,34 @@
 }
 ```
 
-## Code Quality Tools
-- **ESLint**: TypeScript and Angular specific rules
-- **Stylelint**: Less file linting
-- **Prettier**: Code formatting
+## 代碼品質工具
+- **ESLint**: TypeScript 與 Angular 規則
+- **Stylelint**: Less 檔案 linting
+- **Prettier**: 代碼格式化
 - **Husky**: Git hooks
 - **lint-staged**: Pre-commit linting
 
-## Theme System
-- **Theme Engine**: ng-alain-plugin-theme
-- **Color Generation**: npm run color-less
-- **Theme CSS**: npm run theme
-- **Icon Generation**: npm run icon
+## 主題系統
+- **主題引擎**: ng-alain-plugin-theme
+- **顏色生成**: `npm run color-less`
+- **主題 CSS**: `npm run theme`
+- **圖標生成**: `npm run icon`
 
-## Testing Framework
-- **Unit Tests**: Jasmine + Karma
-- **E2E Tests**: Protractor
-- **Coverage**: Code coverage reporting available
-- **Mock Data**: @delon/mock integration
+## 測試框架
+- **單元測試**: Jasmine + Karma
+- **E2E 測試**: Protractor
+- **覆蓋率**: 代碼覆蓋率報告
+- **Mock 資料**: @delon/mock 整合
 
-## Performance Optimization
-- **Lazy Loading**: Angular Router lazy loading
-- **Tree Shaking**: Automatic unused code elimination
-- **Bundle Analysis**: Source map explorer for optimization
-- **Memory Management**: High memory allocation for large builds
+## 性能優化
+- **Lazy Loading**: Angular Router 懶載入
+- **Tree Shaking**: 自動未使用代碼消除
+- **Bundle 分析**: 優化用 source map explorer
+- **記憶體管理**: 大型建置 8GB 配置
 
-## Development Workflow
-1. **Development**: ng serve with HMR support
-2. **Testing**: Continuous testing with watch mode
-3. **Linting**: Pre-commit and manual linting
-4. **Building**: High memory build process
-5. **Analysis**: Bundle size analysis and optimization
+## 開發流程
+1. **開發**: ng serve + HMR 支援
+2. **測試**: watch 模式持續測試
+3. **Linting**: Pre-commit 與手動 linting
+4. **建置**: 8GB 記憶體建置流程
+5. **分析**: Bundle 大小分析與優化
