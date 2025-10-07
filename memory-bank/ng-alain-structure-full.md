@@ -6,8 +6,8 @@
 
 ## 📊 統計資訊
 
-- **目錄總數**: 350
-- **文件總數**: 894
+- **目錄總數**: 135
+- **文件總數**: 405
 
 ## 📂 目錄結構
 
@@ -23,780 +23,22 @@
     ├── index.ts
     ├── README.md
 └── docs/
-    ├── ng-antd-admin-ng17-mock/
-    │   └── public/
-    │       ├── data/
-    │       │   ├── flare.json
-    │       ├── imgs/
-    │       │   ├── blingbling/
-    │       │   │   ├── bling1.png
-    │       │   │   ├── bling2.png
-    │       │   ├── except/
-    │       │   │   ├── net-error.svg
-    │       │   │   ├── no-data.svg
-    │       │   ├── login1/
-    │       │   │   ├── login-box-bg.svg
-    │       │   │   ├── login1-bg-dark.svg
-    │       │   │   ├── login1-bg.svg
-    │       │   │   ├── moon.svg
-    │       │   │   ├── sun.svg
-    │       │   ├── avatar2.jpg
-    │       │   ├── default_face.png
-    │       │   ├── login-bg.svg
-    │       │   ├── logo-color.svg
-    │       │   ├── logo.svg
-    │       │   ├── menu-side.svg
-    │       │   ├── menu-top.svg
-    │       │   ├── theme-dark.svg
-    │       │   ├── theme-light.svg
-    │       │   ├── zorro.svg
-    │       ├── favicon.ico
-    │   └── src/
-    │       └── app/
-    │           ├── animations/
-    │           │   ├── fade.animation.ts
-    │           ├── config/
-    │           │   ├── actionCode.ts
-    │           │   ├── constant.ts
-    │           ├── core/
-    │           │   ├── services/
-    │           │   │   ├── common/
-    │           │   │   │   ├── guard/
-    │           │   │   │   │   ├── judgeAuth.guard.ts
-    │           │   │   │   │   ├── judgeLogin.guard.ts
-    │           │   │   │   ├── custom-page-title-resolver.service.ts
-    │           │   │   │   ├── driver.service.ts
-    │           │   │   │   ├── init-theme.service.ts
-    │           │   │   │   ├── lazy.service.ts
-    │           │   │   │   ├── load-ali-icon-cdn.service.ts
-    │           │   │   │   ├── login-in-out.service.ts
-    │           │   │   │   ├── preloader.service.ts
-    │           │   │   │   ├── reuse-strategy.ts
-    │           │   │   │   ├── scroll.service.ts
-    │           │   │   │   ├── selective-preloading-strategy.service.ts
-    │           │   │   │   ├── sub-locked-status.service.ts
-    │           │   │   │   ├── sub-window-with.service.ts
-    │           │   │   │   ├── tab.service.ts
-    │           │   │   │   ├── theme-skin.service.ts
-    │           │   │   │   ├── water-mark.service.ts
-    │           │   │   │   ├── window.service.ts
-    │           │   │   ├── http/
-    │           │   │   │   ├── download/
-    │           │   │   │   │   ├── download.service.ts
-    │           │   │   │   ├── example/
-    │           │   │   │   │   ├── example.service.ts
-    │           │   │   │   ├── login/
-    │           │   │   │   │   ├── login.service.ts
-    │           │   │   │   ├── system/
-    │           │   │   │   │   ├── account.service.ts
-    │           │   │   │   │   ├── dept.service.ts
-    │           │   │   │   │   ├── menus.service.ts
-    │           │   │   │   │   ├── role.service.ts
-    │           │   │   │   ├── base-http.service.ts
-    │           │   │   ├── interceptors/
-    │           │   │   │   ├── http-interceptor.service.ts
-    │           │   │   │   ├── index.ts
-    │           │   │   │   ├── login-expired.service.ts
-    │           │   │   ├── store/
-    │           │   │   │   ├── biz-store-service/
-    │           │   │   │   │   ├── search-list/
-    │           │   │   │   │   │   └── search-list-store.service.ts
-    │           │   │   │   ├── common-store/
-    │           │   │   │   │   └── lock-screen-store.service.ts
-    │           │   │   │   │   └── menu-store.service.ts
-    │           │   │   │   │   └── modal-full-status-store.service.ts
-    │           │   │   │   │   └── spin.service.ts
-    │           │   │   │   │   └── split-nav-store.service.ts
-    │           │   │   │   │   └── theme.service.ts
-    │           │   │   │   │   └── userInfo.service.ts
-    │           │   │   │   │   └── windows-width.service.ts
-    │           │   │   ├── validators/
-    │           │   │   │   ├── validators-rule.service.ts
-    │           │   │   │   ├── validators.service.ts
-    │           │   │   ├── types.ts
-    │           │   ├── startup/
-    │           │   │   └── startup.service.ts
-    │           ├── drawer/
-    │           │   ├── biz-drawer/
-    │           │   │   ├── ex-drawer-drawer/
-    │           │   │   │   └── ex-drawer-drawer.component.html
-    │           │   │   │   └── ex-drawer-drawer.component.ts
-    │           │   │   │   └── ex-drawer-drawer.service.ts
-    │           │   ├── base-drawer.ts
-    │           ├── layout/
-    │           │   ├── blank/
-    │           │   │   ├── blank-routing.ts
-    │           │   │   ├── blank.component.ts
-    │           │   ├── default/
-    │           │   │   └── nav-bar/
-    │           │   │       ├── nav-bar.component.html
-    │           │   │       ├── nav-bar.component.ts
-    │           │   │   └── nav-drawer/
-    │           │   │       ├── nav-drawer.component.html
-    │           │   │       ├── nav-drawer.component.less
-    │           │   │       ├── nav-drawer.component.ts
-    │           │   │   └── setting-drawer/
-    │           │   │       ├── setting-drawer.component.html
-    │           │   │       ├── setting-drawer.component.less
-    │           │   │       ├── setting-drawer.component.ts
-    │           │   │   └── side-nav/
-    │           │   │       ├── side-nav.component.html
-    │           │   │       ├── side-nav.component.less
-    │           │   │       ├── side-nav.component.ts
-    │           │   │   └── tab/
-    │           │   │       ├── tab.component.html
-    │           │   │       ├── tab.component.less
-    │           │   │       ├── tab.component.ts
-    │           │   │   └── tool-bar/
-    │           │   │       ├── tool-bar.component.less
-    │           │   │       ├── tool-bar.component.ts
-    │           │   │   └── default-routing.ts
-    │           │   │   └── default.component.html
-    │           │   │   └── default.component.less
-    │           │   │   └── default.component.ts
-    │           ├── pages/
-    │           │   ├── about/
-    │           │   │   ├── about.component.html
-    │           │   │   ├── about.component.ts
-    │           │   ├── comp/
-    │           │   │   ├── basic/
-    │           │   │   │   ├── basic.component.html
-    │           │   │   │   ├── basic.component.less
-    │           │   │   │   ├── basic.component.ts
-    │           │   │   ├── blingbling/
-    │           │   │   │   ├── blingbling.component.html
-    │           │   │   │   ├── blingbling.component.less
-    │           │   │   │   ├── blingbling.component.ts
-    │           │   │   ├── desc/
-    │           │   │   │   ├── desc.component.html
-    │           │   │   │   ├── desc.component.ts
-    │           │   │   ├── form/
-    │           │   │   │   ├── append-form/
-    │           │   │   │   │   ├── append-form.component.html
-    │           │   │   │   │   ├── append-form.component.less
-    │           │   │   │   │   ├── append-form.component.ts
-    │           │   │   │   ├── shrink-form/
-    │           │   │   │   │   ├── shrink-form.component.html
-    │           │   │   │   │   ├── shrink-form.component.ts
-    │           │   │   │   ├── form-routing.ts
-    │           │   │   ├── lazy/
-    │           │   │   │   ├── lazy-basic/
-    │           │   │   │   │   ├── lazy-basic.component.html
-    │           │   │   │   │   ├── lazy-basic.component.less
-    │           │   │   │   │   ├── lazy-basic.component.ts
-    │           │   │   │   ├── lazy-scroll/
-    │           │   │   │   │   ├── lazy-scroll.component.html
-    │           │   │   │   │   ├── lazy-scroll.component.ts
-    │           │   │   │   ├── lazy-targ-comp/
-    │           │   │   │   │   ├── lazy-targ-comp.component.html
-    │           │   │   │   │   ├── lazy-targ-comp.component.less
-    │           │   │   │   │   ├── lazy-targ-comp.component.ts
-    │           │   │   │   ├── lazy-routing.ts
-    │           │   │   │   ├── lazy-service.service.ts
-    │           │   │   ├── luckysheet/
-    │           │   │   │   ├── luckysheet.component.html
-    │           │   │   │   ├── luckysheet.component.less
-    │           │   │   │   ├── luckysheet.component.ts
-    │           │   │   ├── strength-meter/
-    │           │   │   │   ├── strength-meter-routing.module.ts
-    │           │   │   │   ├── strength-meter.component.html
-    │           │   │   │   ├── strength-meter.component.ts
-    │           │   │   ├── transition/
-    │           │   │   │   ├── angular-img/
-    │           │   │   │   │   ├── angular-img.component.html
-    │           │   │   │   │   ├── angular-img.component.less
-    │           │   │   │   │   ├── angular-img.component.ts
-    │           │   │   │   ├── demo-dynamic-params/
-    │           │   │   │   │   ├── demo-dynamic-params.component.html
-    │           │   │   │   │   ├── demo-dynamic-params.component.ts
-    │           │   │   │   ├── demo-main/
-    │           │   │   │   │   ├── demo-main.component.html
-    │           │   │   │   │   ├── demo-main.component.ts
-    │           │   │   │   ├── demo-on-enter-on-leave/
-    │           │   │   │   │   ├── demo-on-enter-on-leave.component.html
-    │           │   │   │   │   ├── demo-on-enter-on-leave.component.ts
-    │           │   │   │   ├── experiments/
-    │           │   │   │   │   ├── experiments.component.html
-    │           │   │   │   │   ├── experiments.component.less
-    │           │   │   │   │   ├── experiments.component.ts
-    │           │   │   │   ├── transition.component.html
-    │           │   │   │   ├── transition.component.ts
-    │           │   │   ├── comp-routing.ts
-    │           │   ├── dashboard/
-    │           │   │   ├── analysis/
-    │           │   │   │   ├── analysis.component.html
-    │           │   │   │   ├── analysis.component.less
-    │           │   │   │   ├── analysis.component.ts
-    │           │   │   ├── monitor/
-    │           │   │   │   ├── monitor.component.html
-    │           │   │   │   ├── monitor.component.less
-    │           │   │   │   ├── monitor.component.ts
-    │           │   │   ├── workbench/
-    │           │   │   │   ├── workbench.component.html
-    │           │   │   │   ├── workbench.component.less
-    │           │   │   │   ├── workbench.component.ts
-    │           │   │   ├── dashboard-routing.ts
-    │           │   ├── empty/
-    │           │   │   ├── empty.component.html
-    │           │   │   ├── empty.component.ts
-    │           │   ├── feat/
-    │           │   │   ├── charts/
-    │           │   │   │   ├── baidu-map/
-    │           │   │   │   │   ├── baidu-map.component.html
-    │           │   │   │   │   ├── baidu-map.component.ts
-    │           │   │   │   ├── echarts/
-    │           │   │   │   │   ├── advanced/
-    │           │   │   │   │   │   ├── connect-charts/
-    │           │   │   │   │   │   │   ├── connect-charts.component.ts
-    │           │   │   │   │   │   ├── draggable-charts/
-    │           │   │   │   │   │   │   ├── draggable-charts.component.ts
-    │           │   │   │   │   │   ├── advanced.component.html
-    │           │   │   │   │   │   ├── advanced.component.ts
-    │           │   │   │   │   ├── series/
-    │           │   │   │   │   │   ├── from-left-to-right/
-    │           │   │   │   │   │   │   ├── from-left-to-right.component.ts
-    │           │   │   │   │   │   ├── radial-tree/
-    │           │   │   │   │   │   │   ├── radial-tree.component.ts
-    │           │   │   │   │   │   ├── simple-graph/
-    │           │   │   │   │   │   │   ├── simple-graph.component.ts
-    │           │   │   │   │   │   ├── series.component.html
-    │           │   │   │   │   │   ├── series.component.ts
-    │           │   │   │   │   ├── started/
-    │           │   │   │   │   │   ├── events-charts/
-    │           │   │   │   │   │   │   ├── events-charts.component.ts
-    │           │   │   │   │   │   ├── init-opts-charts/
-    │           │   │   │   │   │   │   ├── init-opts-charts.component.ts
-    │           │   │   │   │   │   ├── instance-opts-charts/
-    │           │   │   │   │   │   │   ├── instance-opts-charts.component.ts
-    │           │   │   │   │   │   ├── loading-charts/
-    │           │   │   │   │   │   │   ├── loading-charts.component.ts
-    │           │   │   │   │   │   ├── merge-charts/
-    │           │   │   │   │   │   │   ├── merge-charts.component.ts
-    │           │   │   │   │   │   ├── simple-chart/
-    │           │   │   │   │   │   │   ├── simple-chart.component.ts
-    │           │   │   │   │   │   ├── theme-charts/
-    │           │   │   │   │   │   │   ├── data.ts
-    │           │   │   │   │   │   │   ├── theme-charts.component.ts
-    │           │   │   │   │   │   ├── started.component.html
-    │           │   │   │   │   │   ├── started.component.ts
-    │           │   │   │   │   ├── echarts.component.html
-    │           │   │   │   │   ├── echarts.component.ts
-    │           │   │   │   ├── gaode-map/
-    │           │   │   │   │   ├── gaode-map.component.html
-    │           │   │   │   │   ├── gaode-map.component.ts
-    │           │   │   │   ├── charts-routing.ts
-    │           │   │   ├── click-out-side/
-    │           │   │   │   ├── click-out-side.component.html
-    │           │   │   │   ├── click-out-side.component.less
-    │           │   │   │   ├── click-out-side.component.ts
-    │           │   │   ├── color-sel/
-    │           │   │   │   ├── color-sel.component.html
-    │           │   │   │   ├── color-sel.component.ts
-    │           │   │   ├── context-menu/
-    │           │   │   │   ├── context-menu.component.html
-    │           │   │   │   ├── context-menu.component.ts
-    │           │   │   ├── copy/
-    │           │   │   │   ├── copy.component.html
-    │           │   │   │   ├── copy.component.ts
-    │           │   │   ├── download/
-    │           │   │   │   ├── download.component.html
-    │           │   │   │   ├── download.component.ts
-    │           │   │   ├── ex-drawer/
-    │           │   │   │   ├── ex-drawer.component.html
-    │           │   │   │   ├── ex-drawer.component.ts
-    │           │   │   ├── ex-modal/
-    │           │   │   │   ├── ex-modal.component.html
-    │           │   │   │   ├── ex-modal.component.ts
-    │           │   │   ├── frame/
-    │           │   │   │   ├── zorro-doc/
-    │           │   │   │   │   ├── zorro-doc.component.html
-    │           │   │   │   │   ├── zorro-doc.component.less
-    │           │   │   │   │   ├── zorro-doc.component.ts
-    │           │   │   │   ├── frame-routing.ts
-    │           │   │   ├── full-screen/
-    │           │   │   │   ├── full-screen.component.html
-    │           │   │   │   ├── full-screen.component.ts
-    │           │   │   ├── icons/
-    │           │   │   │   ├── icons.component.html
-    │           │   │   │   ├── icons.component.less
-    │           │   │   │   ├── icons.component.ts
-    │           │   │   ├── img-preview/
-    │           │   │   │   ├── img-preview.component.html
-    │           │   │   │   ├── img-preview.component.less
-    │           │   │   │   ├── img-preview.component.ts
-    │           │   │   ├── msg/
-    │           │   │   │   ├── msg.component.html
-    │           │   │   │   ├── msg.component.less
-    │           │   │   │   ├── msg.component.ts
-    │           │   │   ├── qrcode/
-    │           │   │   │   ├── qrcode.component.html
-    │           │   │   │   ├── qrcode.component.less
-    │           │   │   │   ├── qrcode.component.ts
-    │           │   │   ├── rich-text/
-    │           │   │   │   ├── rich-text.component.html
-    │           │   │   │   ├── rich-text.component.ts
-    │           │   │   ├── ripple/
-    │           │   │   │   ├── ripple.component.html
-    │           │   │   │   ├── ripple.component.less
-    │           │   │   │   ├── ripple.component.ts
-    │           │   │   ├── scroll/
-    │           │   │   │   ├── keep-scroll-page/
-    │           │   │   │   │   ├── keep-scroll-page.component.html
-    │           │   │   │   │   ├── keep-scroll-page.component.less
-    │           │   │   │   │   ├── keep-scroll-page.component.ts
-    │           │   │   │   ├── play-scroll/
-    │           │   │   │   │   ├── play-scroll.component.html
-    │           │   │   │   │   ├── play-scroll.component.less
-    │           │   │   │   │   ├── play-scroll.component.ts
-    │           │   │   │   ├── scroll-routing.module.ts
-    │           │   │   ├── session-timeout/
-    │           │   │   │   ├── session-timeout.component.html
-    │           │   │   │   ├── session-timeout.component.ts
-    │           │   │   ├── setup/
-    │           │   │   │   ├── setup.component.html
-    │           │   │   │   ├── setup.component.ts
-    │           │   │   ├── tabs/
-    │           │   │   │   ├── detail/
-    │           │   │   │   │   ├── detail.component.html
-    │           │   │   │   │   ├── detail.component.ts
-    │           │   │   │   ├── tabs-routing.ts
-    │           │   │   │   ├── tabs.component.html
-    │           │   │   │   ├── tabs.component.ts
-    │           │   │   ├── upload/
-    │           │   │   │   ├── upload.component.html
-    │           │   │   │   ├── upload.component.ts
-    │           │   │   ├── water-mark/
-    │           │   │   │   ├── water-mark.component.html
-    │           │   │   │   ├── water-mark.component.less
-    │           │   │   │   ├── water-mark.component.ts
-    │           │   │   ├── websocket/
-    │           │   │   │   ├── websocket.component.html
-    │           │   │   │   ├── websocket.component.ts
-    │           │   │   ├── feat-routing.module.ts
-    │           │   ├── level/
-    │           │   │   ├── menu1/
-    │           │   │   │   ├── menu1-1/
-    │           │   │   │   │   ├── menu1-1-1/
-    │           │   │   │   │   │   ├── menu111.component.html
-    │           │   │   │   │   │   ├── menu111.component.ts
-    │           │   │   │   │   ├── menu1-1-2/
-    │           │   │   │   │   │   ├── menu112.component.html
-    │           │   │   │   │   │   ├── menu112.component.ts
-    │           │   │   │   │   ├── menu1-1-routing.ts
-    │           │   │   │   ├── menu1-2/
-    │           │   │   │   │   ├── menu1-2.component.html
-    │           │   │   │   │   ├── menu1-2.component.ts
-    │           │   │   │   ├── menu1-routing.ts
-    │           │   │   ├── menu2/
-    │           │   │   │   ├── menu2.component.html
-    │           │   │   │   ├── menu2.component.ts
-    │           │   │   ├── level-routing.ts
-    │           │   ├── login/
-    │           │   │   ├── login-form/
-    │           │   │   │   ├── login-form.component.html
-    │           │   │   │   ├── login-form.component.less
-    │           │   │   │   ├── login-form.component.ts
-    │           │   │   ├── register-form/
-    │           │   │   │   ├── register-form.component.html
-    │           │   │   │   ├── register-form.component.less
-    │           │   │   │   ├── register-form.component.ts
-    │           │   │   ├── login-routing.ts
-    │           │   │   ├── login.component.html
-    │           │   │   ├── login.component.less
-    │           │   │   ├── login.component.ts
-    │           │   ├── no-content/
-    │           │   │   ├── no-content.component.ts
-    │           │   ├── page-demo/
-    │           │   │   ├── detail/
-    │           │   │   │   ├── adv-detail/
-    │           │   │   │   │   ├── adv-detail.component.html
-    │           │   │   │   │   ├── adv-detail.component.ts
-    │           │   │   │   ├── base-detail/
-    │           │   │   │   │   ├── base-detail.component.html
-    │           │   │   │   │   ├── base-detail.component.ts
-    │           │   │   │   ├── detail-routing.ts
-    │           │   │   ├── except/
-    │           │   │   │   ├── except403/
-    │           │   │   │   │   ├── except403.component.ts
-    │           │   │   │   ├── except404/
-    │           │   │   │   │   ├── except404.component.ts
-    │           │   │   │   ├── except500/
-    │           │   │   │   │   ├── except500.component.ts
-    │           │   │   │   ├── network-error/
-    │           │   │   │   │   ├── network-error.component.html
-    │           │   │   │   │   ├── network-error.component.ts
-    │           │   │   │   ├── no-data/
-    │           │   │   │   │   ├── no-data.component.html
-    │           │   │   │   │   ├── no-data.component.ts
-    │           │   │   │   ├── except-routing.ts
-    │           │   │   ├── flow/
-    │           │   │   │   ├── flow-chat/
-    │           │   │   │   │   ├── flow-chat.component.html
-    │           │   │   │   │   ├── flow-chat.component.less
-    │           │   │   │   │   ├── flow-chat.component.ts
-    │           │   │   │   ├── flow-routing.ts
-    │           │   │   ├── form/
-    │           │   │   │   ├── advanced/
-    │           │   │   │   │   ├── task-manage-form/
-    │           │   │   │   │   │   ├── task-manage-form.component.html
-    │           │   │   │   │   │   ├── task-manage-form.component.less
-    │           │   │   │   │   │   ├── task-manage-form.component.ts
-    │           │   │   │   │   ├── user-member-manage/
-    │           │   │   │   │   │   ├── user-member-manage.component.html
-    │           │   │   │   │   │   ├── user-member-manage.component.ts
-    │           │   │   │   │   ├── warehouse-manage-form/
-    │           │   │   │   │   │   ├── warehouse-manage-form.component.html
-    │           │   │   │   │   │   ├── warehouse-manage-form.component.less
-    │           │   │   │   │   │   ├── warehouse-manage-form.component.ts
-    │           │   │   │   │   ├── advanced.component.html
-    │           │   │   │   │   ├── advanced.component.less
-    │           │   │   │   │   ├── advanced.component.ts
-    │           │   │   │   ├── base/
-    │           │   │   │   │   ├── base.component.html
-    │           │   │   │   │   ├── base.component.less
-    │           │   │   │   │   ├── base.component.ts
-    │           │   │   │   ├── step/
-    │           │   │   │   │   ├── step-one/
-    │           │   │   │   │   │   ├── step-one.component.html
-    │           │   │   │   │   │   ├── step-one.component.less
-    │           │   │   │   │   │   ├── step-one.component.ts
-    │           │   │   │   │   ├── step-three/
-    │           │   │   │   │   │   ├── step-three.component.html
-    │           │   │   │   │   │   ├── step-three.component.less
-    │           │   │   │   │   │   ├── step-three.component.ts
-    │           │   │   │   │   ├── step-two/
-    │           │   │   │   │   │   ├── step-two.component.html
-    │           │   │   │   │   │   ├── step-two.component.less
-    │           │   │   │   │   │   ├── step-two.component.ts
-    │           │   │   │   │   ├── step.component.html
-    │           │   │   │   │   ├── step.component.less
-    │           │   │   │   │   ├── step.component.ts
-    │           │   │   │   ├── form-routing.ts
-    │           │   │   ├── list/
-    │           │   │   │   ├── card-table/
-    │           │   │   │   │   ├── card-table.component.html
-    │           │   │   │   │   ├── card-table.component.less
-    │           │   │   │   │   ├── card-table.component.ts
-    │           │   │   │   ├── search-list/
-    │           │   │   │   │   ├── application/
-    │           │   │   │   │   │   ├── application.component.html
-    │           │   │   │   │   │   ├── application.component.less
-    │           │   │   │   │   │   ├── application.component.ts
-    │           │   │   │   │   ├── article/
-    │           │   │   │   │   │   ├── article.component.html
-    │           │   │   │   │   │   ├── article.component.less
-    │           │   │   │   │   │   ├── article.component.ts
-    │           │   │   │   │   ├── project/
-    │           │   │   │   │   │   ├── project.component.html
-    │           │   │   │   │   │   ├── project.component.less
-    │           │   │   │   │   │   ├── project.component.ts
-    │           │   │   │   │   ├── search-list-routing.ts
-    │           │   │   │   │   ├── search-list.component.html
-    │           │   │   │   │   ├── search-list.component.ts
-    │           │   │   │   ├── search-table/
-    │           │   │   │   │   ├── search-table-detail/
-    │           │   │   │   │   │   ├── search-table-detail.component.html
-    │           │   │   │   │   │   ├── search-table-detail.component.ts
-    │           │   │   │   │   ├── search-table-routing.ts
-    │           │   │   │   │   ├── search-table.component.html
-    │           │   │   │   │   ├── search-table.component.ts
-    │           │   │   │   ├── standard-table/
-    │           │   │   │   │   ├── standard-table.component.html
-    │           │   │   │   │   ├── standard-table.component.less
-    │           │   │   │   │   ├── standard-table.component.ts
-    │           │   │   │   ├── tree-list/
-    │           │   │   │   │   ├── tree-list.component.html
-    │           │   │   │   │   ├── tree-list.component.ts
-    │           │   │   │   ├── list-routing.module.ts
-    │           │   │   ├── new-page-layout/
-    │           │   │   │   ├── new-page-layout.component.html
-    │           │   │   │   ├── new-page-layout.component.ts
-    │           │   │   ├── personal/
-    │           │   │   │   ├── personal-center/
-    │           │   │   │   │   ├── application/
-    │           │   │   │   │   │   ├── application.component.html
-    │           │   │   │   │   │   ├── application.component.less
-    │           │   │   │   │   │   ├── application.component.ts
-    │           │   │   │   │   ├── article/
-    │           │   │   │   │   │   ├── article.component.html
-    │           │   │   │   │   │   ├── article.component.less
-    │           │   │   │   │   │   ├── article.component.ts
-    │           │   │   │   │   ├── projects/
-    │           │   │   │   │   │   ├── projects.component.html
-    │           │   │   │   │   │   ├── projects.component.less
-    │           │   │   │   │   │   ├── projects.component.ts
-    │           │   │   │   │   ├── personal-center.component.html
-    │           │   │   │   │   ├── personal-center.component.less
-    │           │   │   │   │   ├── personal-center.component.ts
-    │           │   │   │   ├── personal-setting/
-    │           │   │   │   │   ├── base/
-    │           │   │   │   │   │   ├── base.component.html
-    │           │   │   │   │   │   ├── base.component.less
-    │           │   │   │   │   │   ├── base.component.ts
-    │           │   │   │   │   ├── bind/
-    │           │   │   │   │   │   ├── bind.component.html
-    │           │   │   │   │   │   ├── bind.component.less
-    │           │   │   │   │   │   ├── bind.component.ts
-    │           │   │   │   │   ├── notice/
-    │           │   │   │   │   │   ├── notice.component.html
-    │           │   │   │   │   │   ├── notice.component.ts
-    │           │   │   │   │   ├── safe/
-    │           │   │   │   │   │   ├── safe.component.html
-    │           │   │   │   │   │   ├── safe.component.ts
-    │           │   │   │   │   ├── personal-setting.component.html
-    │           │   │   │   │   ├── personal-setting.component.less
-    │           │   │   │   │   ├── personal-setting.component.ts
-    │           │   │   │   ├── personal-routing.ts
-    │           │   │   ├── result/
-    │           │   │   │   ├── fail/
-    │           │   │   │   │   ├── fail.component.html
-    │           │   │   │   │   ├── fail.component.ts
-    │           │   │   │   ├── success/
-    │           │   │   │   │   ├── success.component.html
-    │           │   │   │   │   ├── success.component.ts
-    │           │   │   │   ├── result-routing.ts
-    │           │   │   ├── task/
-    │           │   │   │   ├── task-list-panel/
-    │           │   │   │   │   ├── task-list-panel.component.html
-    │           │   │   │   │   ├── task-list-panel.component.less
-    │           │   │   │   │   ├── task-list-panel.component.ts
-    │           │   │   │   ├── task-search-info/
-    │           │   │   │   │   ├── task-search-filters/
-    │           │   │   │   │   │   ├── task-search-filters.component.html
-    │           │   │   │   │   │   ├── task-search-filters.component.less
-    │           │   │   │   │   │   ├── task-search-filters.component.ts
-    │           │   │   │   │   ├── user-info/
-    │           │   │   │   │   │   ├── user-info.component.html
-    │           │   │   │   │   │   ├── user-info.component.less
-    │           │   │   │   │   │   ├── user-info.component.ts
-    │           │   │   │   │   ├── task-search-info.component.html
-    │           │   │   │   │   ├── task-search-info.component.less
-    │           │   │   │   │   ├── task-search-info.component.ts
-    │           │   │   │   ├── task.component.html
-    │           │   │   │   ├── task.component.less
-    │           │   │   │   ├── task.component.ts
-    │           │   │   ├── page-demo-routing.ts
-    │           │   ├── system/
-    │           │   │   └── account/
-    │           │   │       ├── dept-tree/
-    │           │   │       │   ├── dept-tree-search.service.ts
-    │           │   │       │   ├── dept-tree.component.html
-    │           │   │       │   ├── dept-tree.component.less
-    │           │   │       │   ├── dept-tree.component.ts
-    │           │   │       │   ├── dept-tree.service.ts
-    │           │   │       │   ├── filtered-tree-result.ts
-    │           │   │       ├── account.component.html
-    │           │   │       ├── account.component.ts
-    │           │   │   └── dept/
-    │           │   │       ├── dept.component.html
-    │           │   │       ├── dept.component.ts
-    │           │   │   └── menu/
-    │           │   │       ├── menu.component.html
-    │           │   │       ├── menu.component.ts
-    │           │   │   └── role-manager/
-    │           │   │       ├── set-role/
-    │           │   │       │   ├── set-role.component.html
-    │           │   │       │   ├── set-role.component.less
-    │           │   │       │   ├── set-role.component.ts
-    │           │   │       ├── role-manage-routing.ts
-    │           │   │       ├── role-manage.component.html
-    │           │   │       ├── role-manage.component.ts
-    │           │   │   └── system-routing.ts
-    │           ├── shared/
-    │           │   ├── biz-components/
-    │           │   │   ├── icon-sel/
-    │           │   │   │   ├── icon-sel.component.html
-    │           │   │   │   ├── icon-sel.component.ts
-    │           │   │   │   ├── zorro-icons.ts
-    │           │   │   ├── layout-components/
-    │           │   │   │   ├── home-notice/
-    │           │   │   │   │   ├── home-notice.component.html
-    │           │   │   │   │   ├── home-notice.component.less
-    │           │   │   │   │   ├── home-notice.component.ts
-    │           │   │   │   ├── layout-head-right-menu/
-    │           │   │   │   │   └── layout-head-right-menu.component.html
-    │           │   │   │   │   └── layout-head-right-menu.component.less
-    │           │   │   │   │   └── layout-head-right-menu.component.ts
-    │           │   │   ├── password-strength-meter/
-    │           │   │   │   └── password-strength-meter.component.html
-    │           │   │   │   └── password-strength-meter.component.less
-    │           │   │   │   └── password-strength-meter.component.ts
-    │           │   │   │   └── password-strength-meter.service.ts
-    │           │   │   │   └── password-strength-meter.types.ts
-    │           │   │   │   └── psm-progress-bar.directive.ts
-    │           │   ├── components/
-    │           │   │   ├── ant-table/
-    │           │   │   │   ├── ant-table.component.html
-    │           │   │   │   ├── ant-table.component.less
-    │           │   │   │   ├── ant-table.component.ts
-    │           │   │   │   ├── context-pipe.pipe.ts
-    │           │   │   ├── card-table-wrap/
-    │           │   │   │   ├── card-table-wrap.component.html
-    │           │   │   │   ├── card-table-wrap.component.ts
-    │           │   │   ├── chat/
-    │           │   │   │   ├── chat.component.html
-    │           │   │   │   ├── chat.component.less
-    │           │   │   │   ├── chat.component.ts
-    │           │   │   ├── empty-for-lock/
-    │           │   │   │   ├── empty-for-lock.component.ts
-    │           │   │   ├── footer-submit/
-    │           │   │   │   ├── footer-submit.component.html
-    │           │   │   │   ├── footer-submit.component.less
-    │           │   │   │   ├── footer-submit.component.ts
-    │           │   │   ├── global-loading/
-    │           │   │   │   ├── global-loading.component.ts
-    │           │   │   ├── lock-screen/
-    │           │   │   │   ├── lock-screen.component.html
-    │           │   │   │   ├── lock-screen.component.less
-    │           │   │   │   ├── lock-screen.component.ts
-    │           │   │   ├── page-header/
-    │           │   │   │   ├── page-header.component.html
-    │           │   │   │   ├── page-header.component.less
-    │           │   │   │   ├── page-header.component.ts
-    │           │   │   ├── top-progress-bar/
-    │           │   │   │   ├── top-progress-bar.component.html
-    │           │   │   │   ├── top-progress-bar.component.less
-    │           │   │   │   ├── top-progress-bar.component.ts
-    │           │   │   ├── tree-table/
-    │           │   │   │   ├── tree-table.component.html
-    │           │   │   │   ├── tree-table.component.less
-    │           │   │   │   ├── tree-table.component.ts
-    │           │   │   ├── water-mark/
-    │           │   │   │   └── water-mark.component.html
-    │           │   │   │   └── water-mark.component.less
-    │           │   │   │   └── water-mark.component.ts
-    │           │   ├── directives/
-    │           │   │   ├── ad.directive.ts
-    │           │   │   ├── auth.directive.ts
-    │           │   │   ├── debounceClick.directive.ts
-    │           │   │   ├── disabled.directive.ts
-    │           │   │   ├── mouse-hover-show.directive.ts
-    │           │   │   ├── named-template.ts
-    │           │   │   ├── screen-less-hidden.directive.ts
-    │           │   │   ├── toggle-fullscreen.directive.ts
-    │           │   │   ├── view-outlet.directive.ts
-    │           │   ├── pipes/
-    │           │   │   └── chang-number-to-chinese.pipe.ts
-    │           │   │   └── html.pipe.ts
-    │           │   │   └── map.pipe.ts
-    │           │   │   └── number-loop.pipe.ts
-    │           │   │   └── table-filed.pipe.ts
-    │           ├── tpl/
-    │           │   ├── global-drawer-foot-tpl/
-    │           │   │   ├── global-drawer-foot-tpl-token.ts
-    │           │   │   ├── global-drawer-foot-tpl.component.html
-    │           │   │   ├── global-drawer-foot-tpl.component.ts
-    │           │   ├── global-modal-btn-tpl/
-    │           │   │   └── global-modal-btn-tpl-token.ts
-    │           │   │   └── global-modal-btn-tpl.component.html
-    │           │   │   └── global-modal-btn-tpl.component.ts
-    │           ├── utils/
-    │           │   ├── validate/
-    │           │   │   ├── validate.ts
-    │           │   │   ├── validators.ts
-    │           │   ├── camelFn.ts
-    │           │   ├── errors.ts
-    │           │   ├── tools.ts
-    │           │   ├── treeTableTools.ts
-    │           ├── widget/
-    │           │   ├── biz-widget/
-    │           │   │   ├── change-password/
-    │           │   │   │   ├── change-password.component.html
-    │           │   │   │   ├── change-password.component.ts
-    │           │   │   │   ├── change-password.service.ts
-    │           │   │   ├── drag/
-    │           │   │   │   ├── drag.component.html
-    │           │   │   │   ├── drag.component.ts
-    │           │   │   │   ├── drag.service.ts
-    │           │   │   ├── form/
-    │           │   │   │   ├── append-form-modal/
-    │           │   │   │   │   └── append-form-modal.component.html
-    │           │   │   │   │   └── append-form-modal.component.ts
-    │           │   │   │   │   └── append-form-modal.service.ts
-    │           │   │   ├── login/
-    │           │   │   │   ├── login-modal.component.html
-    │           │   │   │   ├── login-modal.component.ts
-    │           │   │   │   ├── login-modal.service.ts
-    │           │   │   ├── system/
-    │           │   │   │   └── account-modal/
-    │           │   │   │       ├── account-modal.component.html
-    │           │   │   │       ├── account-modal.component.ts
-    │           │   │   │       ├── account-modal.service.ts
-    │           │   │   │   └── dept-manage-modal/
-    │           │   │   │       ├── dept-manage-modal.component.html
-    │           │   │   │       ├── dept-manage-modal.component.ts
-    │           │   │   │       ├── dept-manage-modal.service.ts
-    │           │   │   │   └── menu-modal/
-    │           │   │   │       ├── menu-modal.component.html
-    │           │   │   │       ├── menu-modal.component.ts
-    │           │   │   │       ├── menu-modal.service.ts
-    │           │   │   │   └── role-manage-modal/
-    │           │   │   │       └── role-manage-modal.component.html
-    │           │   │   │       └── role-manage-modal.component.ts
-    │           │   │   │       └── role-manage-modal.service.ts
-    │           │   ├── common-widget/
-    │           │   │   ├── lock-widget/
-    │           │   │   │   ├── lock-widget.component.html
-    │           │   │   │   ├── lock-widget.component.less
-    │           │   │   │   ├── lock-widget.component.ts
-    │           │   │   │   ├── lock-widget.service.ts
-    │           │   │   ├── search-route/
-    │           │   │   │   └── search-route.component.html
-    │           │   │   │   └── search-route.component.less
-    │           │   │   │   └── search-route.component.ts
-    │           │   │   │   └── search-route.service.ts
-    │           │   ├── modal/
-    │           │   │   ├── modal-drag.directive.ts
-    │           │   │   ├── modal-drag.service.ts
-    │           │   │   ├── nz-modal-wrap.service.ts
-    │           │   ├── base-modal.ts
-    │           ├── app-routing.ts
-    │           ├── app.component.ts
-    │           ├── app.config.ts
-    │       └── environments/
-    │           ├── environment.prod.ts
-    │           ├── environment.ts
-    │       └── mocks/
-    │           ├── business/
-    │           │   ├── department.ts
-    │           │   ├── login.ts
-    │           │   ├── menu.ts
-    │           │   ├── other.ts
-    │           │   ├── role.ts
-    │           │   ├── user.ts
-    │           ├── browser.ts
-    │           ├── handlers.ts
-    │           ├── node.ts
-    │       └── styles/
-    │           ├── themes/
-    │           │   ├── admin-variable.less
-    │           │   ├── aliyun.less
-    │           │   ├── base.less
-    │           │   ├── compact.less
-    │           │   ├── dark.less
-    │           │   ├── default.less
-    │           │   ├── minireset.less
-    │           │   ├── mixin.less
-    │           ├── aliyun.less
-    │           ├── compact.less
-    │           ├── dark.less
-    │           ├── default.less
-    │       └── favicon.ico
-    │       └── index.html
-    │       └── main.ts
-    │       └── mockServiceWorker.js
 └── memory-bank/
     ├── active-context/
     │   ├── changes/
+    │   │   ├── component-migration-2025-10-07.md
     │   │   ├── cursor-rules-optimization-2025-10-07.md
     │   │   ├── folder-structure-refactoring-2025-10-07.md
     │   │   ├── recentChanges.md
     │   ├── context/
     │   │   ├── currentFocus.md
     │   │   ├── enhancement-opportunities.md
+    │   │   ├── extraction-final-summary.md
     │   │   ├── implementation-plan.md
+    │   │   ├── migration-summary.md
     │   │   ├── ng-antd-admin-analysis-summary.md
     │   │   ├── refactoring-summary.md
+    │   │   ├── tab-system-guide.md
     │   ├── status/
     │   │   └── systemStatus.md
     ├── archive/
@@ -901,6 +143,13 @@
     │   │   │   ├── helper.ts
     │   │   │   ├── index.ts
     │   │   │   ├── refresh-token.ts
+    │   │   ├── services/
+    │   │   │   ├── tab/
+    │   │   │   │   ├── index.ts
+    │   │   │   │   ├── README.md
+    │   │   │   │   ├── simple-reuse-strategy.ts
+    │   │   │   │   ├── tab.service.ts
+    │   │   │   ├── scroll.service.ts
     │   │   ├── startup/
     │   │   │   ├── startup.service.ts
     │   │   ├── index.ts
@@ -1082,6 +331,23 @@
     │   │   │   ├── README.md
     │   │   │   ├── routes.ts
     │   │   ├── organization/
+    │   │   │   ├── components/
+    │   │   │   │   ├── department-list/
+    │   │   │   │   │   ├── department-list.component.html
+    │   │   │   │   │   ├── department-list.component.less
+    │   │   │   │   │   ├── department-list.component.ts
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   ├── employee-list/
+    │   │   │   │   │   ├── employee-list.component.html
+    │   │   │   │   │   ├── employee-list.component.less
+    │   │   │   │   │   ├── employee-list.component.ts
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   ├── role-management/
+    │   │   │   │   │   ├── index.ts
+    │   │   │   │   │   ├── role-management.component.html
+    │   │   │   │   │   ├── role-management.component.less
+    │   │   │   │   │   ├── role-management.component.ts
+    │   │   │   │   ├── index.ts
     │   │   │   ├── guards/
     │   │   │   │   ├── organization.guard.ts
     │   │   │   ├── models/
@@ -1121,6 +387,12 @@
     │   │   ├── passport-layout/
     │   │   │   ├── passport.component.less
     │   │   │   ├── passport.component.ts
+    │   │   ├── widgets/
+    │   │   │   ├── tab/
+    │   │   │   │   └── index.ts
+    │   │   │   │   └── tab.component.html
+    │   │   │   │   └── tab.component.less
+    │   │   │   │   └── tab.component.ts
     │   │   ├── index.ts
     │   │   ├── README.md
     │   ├── routes/
@@ -1129,15 +401,39 @@
     │   │   ├── components/
     │   │   │   ├── cell-widget/
     │   │   │   │   ├── index.ts
+    │   │   │   ├── page-header/
+    │   │   │   │   ├── index.ts
+    │   │   │   │   ├── page-header.component.html
+    │   │   │   │   ├── page-header.component.less
+    │   │   │   │   ├── page-header.component.ts
     │   │   │   ├── st-widget/
+    │   │   │   │   ├── index.ts
+    │   │   │   │   ├── README.md
+    │   │   │   ├── tree-table/
     │   │   │   │   └── index.ts
     │   │   │   │   └── README.md
+    │   │   │   │   └── tree-table.component.html
+    │   │   │   │   └── tree-table.component.less
+    │   │   │   │   └── tree-table.component.ts
+    │   │   ├── directives/
+    │   │   │   ├── auth.directive.ts
+    │   │   │   ├── debounce-click.directive.ts
+    │   │   │   ├── disabled.directive.ts
+    │   │   │   ├── mouse-hover-show.directive.ts
+    │   │   │   ├── screen-less-hidden.directive.ts
+    │   │   │   ├── toggle-fullscreen.directive.ts
     │   │   ├── json-schema/
     │   │   │   ├── test/
     │   │   │   │   ├── test.widget.ts
     │   │   │   ├── index.ts
     │   │   │   ├── README.md
+    │   │   ├── pipes/
+    │   │   │   ├── html.pipe.ts
+    │   │   │   ├── map.pipe.ts
+    │   │   │   ├── table-filed.pipe.ts
     │   │   ├── utils/
+    │   │   │   ├── tools.ts
+    │   │   │   ├── tree-table-tools.ts
     │   │   │   ├── yuan.ts
     │   │   ├── index.ts
     │   │   ├── README.md

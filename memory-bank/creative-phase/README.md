@@ -18,6 +18,7 @@ last_updated: 2025-10-07
 | 文檔 | 內容 | 適合對象 | 時長 |
 |------|------|----------|------|
 | [設計決策](design-decisions/designDecisions.md) | UI/UX、技術、架構、性能決策記錄 | 所有人 | 10分鐘 |
+| [組織切換器設計](design-decisions/org-switcher-design.md) | 個人/組織空間切換器完整設計 | 所有人 | 15分鐘 |
 | [技術探索](exploration/technologyExploration.md) | 框架評估、替代技術堆疊、性能探索 | 中高級 | 10分鐘 |
 | [替代方案](alternatives/alternativeSolutions.md) | 框架、架構、狀態管理、測試的替代方案 | 架構師 | 8分鐘 |
 
