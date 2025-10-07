@@ -1,23 +1,19 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-
-import { DepartmentService } from '../../services/department.service';
-import { Department } from '../../models/department.model';
-import { 
-  AntTableConfig, 
-  TreeTableComponent, 
-  PageHeaderComponent, 
+import {
+  AntTableConfig,
+  TreeTableComponent,
+  PageHeaderComponent,
   PageHeaderType,
   TreeNodeInterface,
   fnFlatDataHasParentToTree,
   fnFlattenTreeDataByDataList,
   MapPipe,
   MapSet,
-  MapKeyType
+  MapKeyType,
+  AuthDirective
 } from '@shared';
-import { AuthDirective } from '@shared';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
@@ -31,6 +27,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { finalize } from 'rxjs/operators';
+
+import { Department } from '../../models/department.model';
+import { DepartmentService } from '../../services/department.service';
 
 interface SearchParam {
   name: string;
@@ -39,6 +39,7 @@ interface SearchParam {
 
 /**
  * 部門列表組件
+ *
  * @description 使用 TreeTable 顯示部門層級結構
  */
 @Component({
@@ -65,16 +66,16 @@ interface SearchParam {
 export class DepartmentListComponent implements OnInit {
   @ViewChild('operationTpl', { static: true }) operationTpl!: TemplateRef<NzSafeAny>;
   @ViewChild('statusTpl', { static: true }) statusTpl!: TemplateRef<NzSafeAny>;
-  
+
   searchParam: Partial<SearchParam> = {};
   destroyRef = inject(DestroyRef);
   tableConfig!: AntTableConfig;
-  
+
   pageHeaderInfo: Partial<PageHeaderType> = {
     title: '部門管理',
     breadcrumb: ['首頁', '組織管理', '部門列表']
   };
-  
+
   dataList: TreeNodeInterface[] = [];
   statusOptions: Array<{ label: string; value: string }> = [];
 
@@ -100,7 +101,7 @@ export class DepartmentListComponent implements OnInit {
 
   getDataList(e?: NzTableQueryParams): void {
     this.tableLoading(true);
-    
+
     const params = {
       page: e?.pageIndex || this.tableConfig.pageIndex,
       pageSize: this.tableConfig.pageSize,
@@ -127,7 +128,7 @@ export class DepartmentListComponent implements OnInit {
             fatherId: dept.parentId || 0
           }))
         );
-        
+
         // 扁平化為 TreeTable 可用格式
         this.dataList = fnFlattenTreeDataByDataList(treeData);
         this.tableConfig.total = response.total;
@@ -224,4 +225,3 @@ export class DepartmentListComponent implements OnInit {
     this.getDataList();
   }
 }
-

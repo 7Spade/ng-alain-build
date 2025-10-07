@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
-
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 /**
@@ -53,15 +52,16 @@ export interface MapItem {
 
 /**
  * Map 映射管道
+ *
  * @description 用於將值轉換為對應的標籤文字，支持日期格式化
  * @example
  * ```html
  * <!-- 性別映射 -->
  * <span>{{ user.sex | map: 'sex' }}</span>
- * 
+ *
  * <!-- 日期格式化 -->
  * <span>{{ user.createTime | map: 'date:yyyy-MM-dd HH:mm' }}</span>
- * 
+ *
  * <!-- 可用狀態 -->
  * <span>{{ user.available | map: 'available' }}</span>
  * ```
@@ -76,6 +76,7 @@ export class MapPipe implements PipeTransform {
 
   /**
    * 將 Map 轉換為數組
+   *
    * @param data Map 數據
    * @param mapKeyType 鍵類型
    * @returns MapItem 數組
@@ -103,7 +104,7 @@ export class MapPipe implements PipeTransform {
     if (arg === undefined) {
       return value;
     }
-    
+
     let type: string = arg;
     let param = '';
 
@@ -122,4 +123,3 @@ export class MapPipe implements PipeTransform {
     }
   }
 }
-

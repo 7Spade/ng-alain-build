@@ -1,43 +1,43 @@
-import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, signal, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 // ng-zorro
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzStatisticModule } from 'ng-zorro-antd/statistic';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { PageHeaderComponent } from '@shared';
+import { formatStorage } from '@shared';
+import { format } from 'date-fns';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 // @delon
-import { PageHeaderComponent } from '@shared';
-import { format } from 'date-fns';
 
 // Services & Models
-import { ProjectService } from '../../services/project.service';
-import { Project } from '../../models/project.model';
 import { PROJECT_STATUS_COLORS, PROJECT_DEFAULT_COLOR } from '../../models/project.constants';
-import { formatStorage } from '@shared';
+import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 import { ProjectFormComponent } from '../project-form/project-form.component';
 
 /**
  * 專案列表組件
- * 
+ *
  * 功能：
  * - 顯示專案列表（卡片視圖 / 表格視圖）
  * - 搜尋、篩選、排序
  * - 新建專案
  * - 根據組織上下文自動切換（個人/組織專案）
- * 
+ *
  * @example
  * ```html
  * <app-project-list />
@@ -83,22 +83,19 @@ export class ProjectListComponent implements OnInit {
   // 計算屬性
   filteredProjects = computed(() => {
     let result = this.projects();
-    
+
     // 搜尋過濾
     const search = this.searchText().toLowerCase();
     if (search) {
-      result = result.filter(p => 
-        p.name.toLowerCase().includes(search) || 
-        p.description?.toLowerCase().includes(search)
-      );
+      result = result.filter(p => p.name.toLowerCase().includes(search) || p.description?.toLowerCase().includes(search));
     }
-    
+
     // 狀態過濾
     const status = this.statusFilter();
     if (status) {
       result = result.filter(p => p.status === status);
     }
-    
+
     // 排序
     const sortBy = this.sortBy();
     result = [...result].sort((a, b) => {
@@ -112,7 +109,7 @@ export class ProjectListComponent implements OnInit {
           return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
       }
     });
-    
+
     return result;
   });
 
@@ -142,6 +139,7 @@ export class ProjectListComponent implements OnInit {
 
   /**
    * 載入專案列表
+   *
    * @note HTTP 請求是一次性操作，完成後自動清理，無需手動取消訂閱
    */
   loadProjects(): void {

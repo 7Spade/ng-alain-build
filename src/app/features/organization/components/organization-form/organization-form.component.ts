@@ -1,16 +1,18 @@
 import { Component, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTreeSelectModule } from 'ng-zorro-antd/tree-select';
-import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
-import { NzGridModule } from 'ng-zorro-antd/grid';
+
 import { OrganizationType, CreateOrganizationRequest } from '../../models/organization.model';
 import { OrganizationService } from '../../services/organization.service';
 
 /**
  * 組織表單組件
+ *
  * @description 用於新增/編輯組織的 Modal 表單
  * @usage 配合 NzModalService 使用
  */
@@ -20,15 +22,7 @@ import { OrganizationService } from '../../services/organization.service';
   styleUrls: ['./organization-form.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    NzFormModule,
-    NzInputModule,
-    NzSelectModule,
-    NzTreeSelectModule,
-    NzInputNumberModule,
-    NzGridModule
-  ]
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzTreeSelectModule, NzInputNumberModule, NzGridModule]
 })
 export class OrganizationFormComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -64,6 +58,7 @@ export class OrganizationFormComponent implements OnInit {
 
   /**
    * 父組織樹狀數據
+   *
    * @description 從服務獲取組織樹，用於 nz-tree-select
    */
   parentOrgNodes: any[] = [];
@@ -81,7 +76,7 @@ export class OrganizationFormComponent implements OnInit {
     // this.orgService.getOrganizationTree().subscribe(tree => {
     //   this.parentOrgNodes = this.convertToTreeSelectNodes(tree);
     // });
-    
+
     // 臨時 Mock 數據
     this.parentOrgNodes = [
       {
@@ -93,9 +88,7 @@ export class OrganizationFormComponent implements OnInit {
             title: '技術部',
             value: '2',
             key: '2',
-            children: [
-              { title: '前端組', value: '3', key: '3', isLeaf: true }
-            ]
+            children: [{ title: '前端組', value: '3', key: '3', isLeaf: true }]
           },
           {
             title: '業務部',
@@ -110,6 +103,7 @@ export class OrganizationFormComponent implements OnInit {
 
   /**
    * 提交表單
+   *
    * @description 由 Modal 的 OK 按鈕調用
    * @returns Promise<CreateOrganizationRequest> 表單數據
    */
@@ -144,10 +138,10 @@ export class OrganizationFormComponent implements OnInit {
 
   /**
    * 設置表單值（用於編輯模式）
+   *
    * @param data 組織數據
    */
   setValue(data: Partial<CreateOrganizationRequest>): void {
     this.form.patchValue(data);
   }
 }
-

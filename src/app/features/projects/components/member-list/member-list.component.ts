@@ -1,37 +1,33 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 // ng-zorro
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTagModule } from 'ng-zorro-antd/tag';
+import { format } from 'date-fns';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
 
 // Services & Models
+import { ProjectMember, PROJECT_ROLE_COLORS, PROJECT_ROLE_LABELS } from '../../models/project-member.model';
 import { ProjectMemberService } from '../../services/project-member.service';
-import { 
-  ProjectMember, 
-  PROJECT_ROLE_COLORS, 
-  PROJECT_ROLE_LABELS 
-} from '../../models/project-member.model';
-import { format } from 'date-fns';
 
 /**
  * 專案成員列表組件
- * 
+ *
  * 功能：
  * - 顯示專案成員列表
  * - 成員角色管理
  * - 邀請新成員
  * - 移除成員
- * 
+ *
  * @example
  * ```html
  * <app-member-list />
@@ -77,6 +73,7 @@ export class MemberListComponent implements OnInit {
 
   /**
    * 載入成員列表
+   *
    * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadMembers(): void {
@@ -105,6 +102,7 @@ export class MemberListComponent implements OnInit {
 
   /**
    * 移除成員
+   *
    * @note HTTP 請求完成後自動清理
    */
   removeMember(member: ProjectMember): void {

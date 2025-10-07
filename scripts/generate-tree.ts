@@ -7,24 +7,39 @@
  * 2. ng-alain-structure-full.md - 完整結構（含文件）
  */
 
+import { execSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { execSync } from 'node:child_process';
 
 // ============================================================
 // 排除規則
 // ============================================================
 
 const EXCLUDE_PATTERNS: readonly string[] = [
-  'dist', '.angular', 'node_modules', '.git', '.vscode', '.idea',
-  'coverage', '__tests__', 'e2e', '.eslintcache', '.stylelintcache',
-  '*.log', '*.tmp', '.DS_Store', '.env*', '_cli-tpl', '.cursor',
-  '.github', '.husky', '.yarn', 'scripts'
+  'dist',
+  '.angular',
+  'node_modules',
+  '.git',
+  '.vscode',
+  '.idea',
+  'coverage',
+  '__tests__',
+  'e2e',
+  '.eslintcache',
+  '.stylelintcache',
+  '*.log',
+  '*.tmp',
+  '.DS_Store',
+  '.env*',
+  '_cli-tpl',
+  '.cursor',
+  '.github',
+  '.husky',
+  '.yarn',
+  'scripts'
 ] as const;
 
-const EXCLUDE_EXTENSIONS: readonly string[] = [
-  '.map', '.spec.ts', '.spec.js', '.log', '.tmp', '.swp', '.bak'
-] as const;
+const EXCLUDE_EXTENSIONS: readonly string[] = ['.map', '.spec.ts', '.spec.js', '.log', '.tmp', '.swp', '.bak'] as const;
 
 // ============================================================
 // 核心功能
@@ -55,6 +70,7 @@ function shouldExclude(filePath: string, fileName: string): boolean {
 
 /**
  * 生成樹狀結構
+ *
  * @param dirPath - 目錄路徑
  * @param prefix - 前綴字符串
  * @param isLast - 是否為最後一個項目
@@ -62,30 +78,22 @@ function shouldExclude(filePath: string, fileName: string): boolean {
  * @param maxDepth - 最大深度
  * @param foldersOnly - 是否只顯示資料夾
  */
-function generateTree(
-  dirPath: string,
-  prefix: string = '',
-  isLast: boolean = true,
-  depth: number = 0,
-  maxDepth: number = 10,
-  foldersOnly: boolean = false
-): string {
+function generateTree(dirPath: string, prefix = '', isLast = true, depth = 0, maxDepth = 10, foldersOnly = false): string {
   if (depth > maxDepth) {
-    return prefix + (isLast ? '└── ' : '├── ') + '...\n';
+    return `${prefix + (isLast ? '└── ' : '├── ')}...\n`;
   }
 
   let result = '';
   let items: fs.Dirent[] = [];
 
   try {
-    items = fs.readdirSync(dirPath, { withFileTypes: true })
-      .filter((item: fs.Dirent) => {
-        // 排除不需要的文件/目錄
-        if (shouldExclude(path.join(dirPath, item.name), item.name)) return false;
-        // 如果只顯示資料夾，過濾掉文件
-        if (foldersOnly && !item.isDirectory()) return false;
-        return true;
-      });
+    items = fs.readdirSync(dirPath, { withFileTypes: true }).filter((item: fs.Dirent) => {
+      // 排除不需要的文件/目錄
+      if (shouldExclude(path.join(dirPath, item.name), item.name)) return false;
+      // 如果只顯示資料夾，過濾掉文件
+      if (foldersOnly && !item.isDirectory()) return false;
+      return true;
+    });
   } catch (error) {
     return result;
   }
@@ -119,7 +127,7 @@ function generateTree(
 /**
  * 統計文件和目錄數量
  */
-function countItems(dirPath: string, foldersOnly: boolean = false): { files: number; folders: number } {
+function countItems(dirPath: string, foldersOnly = false): { files: number; folders: number } {
   let files = 0;
   let folders = 0;
 
@@ -191,7 +199,7 @@ function runLintAndSaveReport(): void {
   try {
     tsLintOutput = execSync('npx eslint --cache', {
       encoding: 'utf8',
-      stdio: 'pipe',
+      stdio: 'pipe'
     });
   } catch (error: any) {
     tsLintSuccess = false;
@@ -206,7 +214,7 @@ function runLintAndSaveReport(): void {
   try {
     styleLintOutput = execSync("npx stylelint 'src/**/*.less'", {
       encoding: 'utf8',
-      stdio: 'pipe',
+      stdio: 'pipe'
     });
   } catch (error: any) {
     styleLintSuccess = false;
@@ -280,7 +288,7 @@ npm run lint:style
 
   // 寫入報告
   fs.writeFileSync(outputPath, report, 'utf8');
-  
+
   console.log(`✅ Lint 報告已生成: ${outputPath}`);
   if (!tsLintSuccess || !styleLintSuccess) {
     console.log(`   ⚠️  發現問題，請查看報告詳情`);
@@ -315,12 +323,7 @@ function generateProjectStructure(): void {
   console.log('📁 生成資料夾結構...');
   const folderTree = generateTree(rootPath, '', true, 0, 10, true);
   const folderStats = countItems(rootPath, true);
-  const folderContent = generateMarkdown(
-    folderTree,
-    '📁 ng-alain 專案資料夾結構',
-    '僅包含目錄結構，不包含文件',
-    folderStats
-  );
+  const folderContent = generateMarkdown(folderTree, '📁 ng-alain 專案資料夾結構', '僅包含目錄結構，不包含文件', folderStats);
 
   const folderOutputPath = path.join(outputDir, 'ng-alain-structure-folders.md');
   fs.writeFileSync(folderOutputPath, folderContent, 'utf8');
@@ -333,12 +336,7 @@ function generateProjectStructure(): void {
   console.log('📄 生成完整結構...');
   const fullTree = generateTree(rootPath, '', true, 0, 10, false);
   const fullStats = countItems(rootPath, false);
-  const fullContent = generateMarkdown(
-    fullTree,
-    '📄 ng-alain 專案完整結構',
-    '包含完整的目錄和文件結構',
-    fullStats
-  );
+  const fullContent = generateMarkdown(fullTree, '📄 ng-alain 專案完整結構', '包含完整的目錄和文件結構', fullStats);
 
   const fullOutputPath = path.join(outputDir, 'ng-alain-structure-full.md');
   fs.writeFileSync(fullOutputPath, fullContent, 'utf8');

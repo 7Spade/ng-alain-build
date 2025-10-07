@@ -41,24 +41,24 @@ export const routes: Routes = [
         loadChildren: () => import('./examples/widgets-showcase/routes').then(m => m.routes),
         data: { title: '小工具展示' }
       },
-      { 
-        path: 'examples/style', 
+      {
+        path: 'examples/style',
         loadChildren: () => import('./examples/style-guide/routes').then(m => m.routes),
         data: { title: '樣式指南' }
       },
-      { 
-        path: 'examples/delon', 
+      {
+        path: 'examples/delon',
         loadChildren: () => import('./examples/delon-features/routes').then(m => m.routes),
         data: { title: 'Delon 功能示範' }
       },
-      { 
-        path: 'examples/pro', 
+      {
+        path: 'examples/pro',
         loadChildren: () => import('./examples/pro-templates/routes').then(m => m.routes),
         data: { title: 'Pro 模板' }
       },
       // System - 系統頁面
-      { 
-        path: 'system/extras', 
+      {
+        path: 'system/extras',
         loadChildren: () => import('./system/extras/routes').then(m => m.routes),
         data: { title: '其他功能' }
       },
@@ -74,11 +74,13 @@ export const routes: Routes = [
   {
     path: 'data-v',
     component: LayoutBlankComponent,
-    children: [{ 
-      path: '', 
-      loadChildren: () => import('./system/data-visualization/routes').then(m => m.routes),
-      data: { title: '數據可視化' }
-    }]
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./system/data-visualization/routes').then(m => m.routes),
+        data: { title: '數據可視化' }
+      }
+    ]
   },
   // Auth - 認證頁面
   { path: '', loadChildren: () => import('./auth/routes').then(m => m.routes) },
@@ -86,4 +88,3 @@ export const routes: Routes = [
   { path: 'exception', loadChildren: () => import('./system/exception/routes').then(m => m.routes) },
   { path: '**', redirectTo: 'exception/404' }
 ];
-

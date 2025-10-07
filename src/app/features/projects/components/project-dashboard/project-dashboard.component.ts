@@ -1,43 +1,40 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { forkJoin } from 'rxjs';
-
-// ng-zorro
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzStatisticModule } from 'ng-zorro-antd/statistic';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzTimelineModule } from 'ng-zorro-antd/timeline';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-
-// Services & Models
-import { ProjectService } from '../../services/project.service';
-import { ProjectFileService } from '../../services/project-file.service';
-import { ProjectMemberService } from '../../services/project-member.service';
-import { Project } from '../../models/project.model';
-import { ProjectFile } from '../../models/project-file.model';
-import { ProjectMember } from '../../models/project-member.model';
-import { 
-  PROJECT_VISIBILITY_LABELS, 
-  PROJECT_OWNER_TYPE_LABELS 
-} from '../../models/project.constants';
+import { ActivatedRoute } from '@angular/router';
 import { formatStorage } from '@shared';
 import { format } from 'date-fns';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+
+// ng-zorro
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { forkJoin } from 'rxjs';
+
+// Services & Models
+import { ProjectFile } from '../../models/project-file.model';
+import { ProjectMember } from '../../models/project-member.model';
+import { PROJECT_VISIBILITY_LABELS, PROJECT_OWNER_TYPE_LABELS } from '../../models/project.constants';
+import { Project } from '../../models/project.model';
+import { ProjectFileService } from '../../services/project-file.service';
+import { ProjectMemberService } from '../../services/project-member.service';
+import { ProjectService } from '../../services/project.service';
 
 /**
  * 專案儀表板組件（總覽頁面內容）
- * 
+ *
  * 功能：
  * - 顯示專案統計資訊
  * - 最近檔案列表
  * - 專案成員列表
  * - 活動時間線
- * 
+ *
  * @example
  * ```html
  * <app-project-dashboard />

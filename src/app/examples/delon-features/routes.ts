@@ -18,23 +18,23 @@ import { XlsxComponent } from './xlsx-demo/xlsx.component';
 import { ZipComponent } from './zip-demo/zip.component';
 
 export const routes: Routes = [
-  { 
-    path: 'st', 
+  {
+    path: 'st',
     component: STDemoComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'util', 
+  {
+    path: 'util',
     component: UtilComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'print', 
+  {
+    path: 'print',
     component: PrintComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'acl', 
+  {
+    path: 'acl',
     component: ACLComponent,
     data: { shouldDetach: 'no' }
   },
@@ -63,33 +63,33 @@ export const routes: Routes = [
       }
     ]
   },
-  { 
-    path: 'cache', 
+  {
+    path: 'cache',
     component: CacheComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'qr', 
+  {
+    path: 'qr',
     component: QRComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'downfile', 
+  {
+    path: 'downfile',
     component: DownFileComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'xlsx', 
+  {
+    path: 'xlsx',
     component: XlsxComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'zip', 
+  {
+    path: 'zip',
     component: ZipComponent,
     data: { shouldDetach: 'no' }
   },
-  { 
-    path: 'form', 
+  {
+    path: 'form',
     component: DelonFormComponent,
     data: { shouldDetach: 'no' }
   }

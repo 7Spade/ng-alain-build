@@ -2,10 +2,10 @@ import { DOCUMENT } from '@angular/common';
 import { DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
-
-import { ScrollService } from '../scroll.service';
 import { fnGetReuseStrategyKeyFn, getDeepReuseStrategyKeyFn } from '@shared';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+
+import { ScrollService } from '../scroll.service';
 
 /**
  * 復用鉤子類型
@@ -31,8 +31,9 @@ export interface ReuseComponentRef {
 
 /**
  * 簡單路由復用策略
+ *
  * @description 實現路由復用，支持組件緩存和滾動位置保存
- * 
+ *
  * @example
  * ```typescript
  * // 在 app.config.ts 中配置
@@ -40,14 +41,14 @@ export interface ReuseComponentRef {
  *   provide: RouteReuseStrategy,
  *   useClass: SimpleReuseStrategy
  * }
- * 
+ *
  * // 在組件中使用生命週期鉤子
  * export class MyComponent {
  *   _onReuseInit() {
  *     // Tab 激活時執行
  *     console.log('Tab activated');
  *   }
- *   
+ *
  *   _onReuseDestroy() {
  *     // Tab 緩存時執行
  *     console.log('Tab cached');
@@ -62,18 +63,20 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
   /** 緩存每個 component 的 map */
   static handlers: Record<string, NzSafeAny> = {};
-  
+
   /** 緩存每個頁面的 scroll 位置 */
   static scrollHandlers: Record<string, NzSafeAny> = {};
 
-  /** 
+  /**
    * 待刪除的路由 key
+   *
    * @description 在當前頁簽中點擊刪除按鈕時，記錄是否需要緩存當前路由
    */
   public static waitDelete: string | null = null;
 
   /**
    * 刪除路由快照
+   *
    * @param key 路由 key
    */
   public static deleteRouteSnapshot(key: string): void {
@@ -88,6 +91,7 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
   /**
    * 刪除全部的緩存
+   *
    * @description 在退出登錄等操作中需要用到
    */
   public static deleteAllRouteSnapshot(route: ActivatedRouteSnapshot): Promise<void> {
@@ -115,9 +119,9 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
     if (route.data['shouldDetach'] === 'no') {
       return;
     }
-    
+
     const key = fnGetReuseStrategyKeyFn(route);
-    
+
     // 如果待刪除的是當前路由則不存儲快照
     if (SimpleReuseStrategy.waitDelete === key) {
       this.runHook('_onReuseDestroy', handle.componentRef);
@@ -129,7 +133,7 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
     // 離開路由的時候緩存當前頁面的 scroll 位置
     const innerScrollContainer: Array<Record<string, [number, number]>> = [];
-    
+
     if (route.data['needKeepScroll'] !== 'no') {
       const scrollContain: string[] = route.data['scrollContain'] ?? [];
       scrollContain.forEach((item: string) => {
@@ -178,19 +182,19 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
 
     const futureKey = fnGetReuseStrategyKeyFn(future);
     const currKey = fnGetReuseStrategyKeyFn(curr);
-    
+
     if (!!futureKey && SimpleReuseStrategy.handlers[futureKey]) {
       this.runHook('_onReuseInit', SimpleReuseStrategy.handlers[futureKey].componentRef);
     }
 
     // 若任一方沒有 key，退回 Angular 預設：僅當 routeConfig 相同才復用
     const result = !!futureKey && !!currKey ? futureKey === currKey : future.routeConfig === curr.routeConfig;
-    
+
     // 懶加載讀取不到 data，通過此方法下鑽到最下一級路由
     while (future.firstChild) {
       future = future.firstChild;
     }
-    
+
     // 重新獲取是因為 future 在上面 while 循環中已經變了
     const scrollFutureKey = fnGetReuseStrategyKeyFn(future);
     if (!!scrollFutureKey && SimpleReuseStrategy.scrollHandlers[scrollFutureKey]) {
@@ -202,7 +206,7 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
         });
       });
     }
-    
+
     return result;
   }
 
@@ -221,4 +225,3 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
     (fn as () => void).call(compThis);
   }
 }
-

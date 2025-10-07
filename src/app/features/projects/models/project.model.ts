@@ -1,5 +1,6 @@
 /**
  * 專案模型
+ *
  * @description 專案基本資訊和狀態管理
  */
 
@@ -8,31 +9,31 @@
  */
 export interface Project {
   // 基本資訊
-  id: string;                    // 專案 ID
-  name: string;                  // 專案名稱
-  description?: string;          // 專案描述
-  ownerId: string;               // 擁有者 ID
+  id: string; // 專案 ID
+  name: string; // 專案名稱
+  description?: string; // 專案描述
+  ownerId: string; // 擁有者 ID
   ownerType: 'personal' | 'organization'; // 擁有者類型
   organizationId?: string | null; // 組織 ID（如果是組織專案）
-  
+
   // 統計資訊
-  fileCount: number;             // 檔案數量
-  storageUsed: number;           // 使用儲存空間（bytes）
-  memberCount: number;           // 成員數量
-  
+  fileCount: number; // 檔案數量
+  storageUsed: number; // 使用儲存空間（bytes）
+  memberCount: number; // 成員數量
+
   // 狀態
   status: ProjectStatus;
   visibility: ProjectVisibility;
-  
+
   // 時間戳
   createdAt: Date;
   updatedAt: Date;
   lastActivityAt: Date;
-  
+
   // 標籤與分類
   tags?: string[];
   category?: string;
-  
+
   // 圖標與顏色
   avatar?: string;
   color?: string;
@@ -95,4 +96,3 @@ export interface ProjectListResponse {
   list: Project[];
   total: number;
 }
-

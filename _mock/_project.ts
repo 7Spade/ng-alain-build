@@ -1,9 +1,11 @@
 /**
  * 專案功能 Mock 資料
+ *
  * @description 用於本地開發和測試的模擬數據
  */
 
 import { MockRequest } from '@delon/mock';
+
 import type { Project, ProjectFile, ProjectMember, ProjectActivity } from '../src/app/features/projects/models';
 
 // Mock 專案列表
@@ -218,7 +220,7 @@ export const PROJECT_API = {
       total: personalProjects.length
     };
   },
-  
+
   // 獲取組織專案列表
   'GET /api/organizations/:orgId/projects': (req: MockRequest) => {
     const orgId = req.params.orgId;
@@ -228,13 +230,13 @@ export const PROJECT_API = {
       total: orgProjects.length
     };
   },
-  
+
   // 獲取專案詳情
   'GET /api/projects/:id': (req: MockRequest) => {
     const project = mockProjects.find(p => p.id === req.params.id);
     return project || { error: 'Project not found', status: 404 };
   },
-  
+
   // 創建專案（個人）
   'POST /api/users/me/projects': (req: MockRequest) => {
     const newProject: Project = {
@@ -254,7 +256,7 @@ export const PROJECT_API = {
     mockProjects.push(newProject);
     return newProject;
   },
-  
+
   // 創建專案（組織）
   'POST /api/organizations/:orgId/projects': (req: MockRequest) => {
     const newProject: Project = {
@@ -274,7 +276,7 @@ export const PROJECT_API = {
     mockProjects.push(newProject);
     return newProject;
   },
-  
+
   // 更新專案
   'PUT /api/projects/:id': (req: MockRequest) => {
     const project = mockProjects.find(p => p.id === req.params.id);
@@ -284,7 +286,7 @@ export const PROJECT_API = {
     }
     return { error: 'Project not found', status: 404 };
   },
-  
+
   // 刪除專案
   'DELETE /api/projects/:id': (req: MockRequest) => {
     const index = mockProjects.findIndex(p => p.id === req.params.id);
@@ -294,7 +296,7 @@ export const PROJECT_API = {
     }
     return { error: 'Project not found', status: 404 };
   },
-  
+
   // 歸檔專案
   'POST /api/projects/:id/archive': (req: MockRequest) => {
     const project = mockProjects.find(p => p.id === req.params.id);
@@ -305,7 +307,7 @@ export const PROJECT_API = {
     }
     return { error: 'Project not found', status: 404 };
   },
-  
+
   // 獲取專案統計
   'GET /api/projects/:id/stats': (req: MockRequest) => {
     const project = mockProjects.find(p => p.id === req.params.id);
@@ -319,21 +321,21 @@ export const PROJECT_API = {
     }
     return { error: 'Project not found', status: 404 };
   },
-  
+
   // 獲取專案檔案列表
   'GET /api/projects/:id/files': (req: MockRequest) => {
     const projectId = req.params.id;
     const files = mockFiles[projectId] || [];
     const path = req.queryString.path || '/';
     const filteredFiles = files.filter(f => f.path === path);
-    
+
     return {
       files: filteredFiles,
       total: filteredFiles.length,
       currentPath: path
     };
   },
-  
+
   // 上傳檔案
   'POST /api/projects/:id/files': (req: MockRequest) => {
     const newFile: ProjectFile = {
@@ -351,15 +353,15 @@ export const PROJECT_API = {
       isImage: false,
       isFolder: false
     };
-    
+
     if (!mockFiles[req.params.id]) {
       mockFiles[req.params.id] = [];
     }
     mockFiles[req.params.id].push(newFile);
-    
+
     return newFile;
   },
-  
+
   // 刪除檔案
   'DELETE /api/projects/:projectId/files/:fileId': (req: MockRequest) => {
     const { projectId, fileId } = req.params;
@@ -372,18 +374,18 @@ export const PROJECT_API = {
     }
     return { error: 'File not found', status: 404 };
   },
-  
+
   // 獲取專案成員列表
   'GET /api/projects/:id/members': (req: MockRequest) => {
     const projectId = req.params.id;
     const members = mockMembers[projectId] || [];
-    
+
     return {
       members,
       total: members.length
     };
   },
-  
+
   // 邀請成員
   'POST /api/projects/:id/members': (req: MockRequest) => {
     const newMember: ProjectMember = {
@@ -398,15 +400,15 @@ export const PROJECT_API = {
       invitedBy: 'user-1',
       invitedByName: 'Admin'
     };
-    
+
     if (!mockMembers[req.params.id]) {
       mockMembers[req.params.id] = [];
     }
     mockMembers[req.params.id].push(newMember);
-    
+
     return newMember;
   },
-  
+
   // 移除成員
   'DELETE /api/projects/:projectId/members/:memberId': (req: MockRequest) => {
     const { projectId, memberId } = req.params;
@@ -419,7 +421,7 @@ export const PROJECT_API = {
     }
     return { error: 'Member not found', status: 404 };
   },
-  
+
   // 更新成員角色
   'PUT /api/projects/:projectId/members/:memberId': (req: MockRequest) => {
     const { projectId, memberId } = req.params;
@@ -432,16 +434,15 @@ export const PROJECT_API = {
     }
     return { error: 'Member not found', status: 404 };
   },
-  
+
   // 獲取專案活動
   'GET /api/projects/:id/activities': (req: MockRequest) => {
     const projectId = req.params.id;
     const activities = mockActivities[projectId] || [];
-    
+
     return {
       activities,
       total: activities.length
     };
   }
 };
-

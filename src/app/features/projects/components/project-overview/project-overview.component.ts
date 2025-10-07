@@ -1,39 +1,35 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 // ng-zorro
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzStatisticModule } from 'ng-zorro-antd/statistic';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-
-// Services & Models
-import { ProjectService } from '../../services/project.service';
-import { Project } from '../../models/project.model';
-import { 
-  PROJECT_VISIBILITY_LABELS, 
-  PROJECT_OWNER_TYPE_LABELS,
-  PROJECT_DEFAULT_COLOR 
-} from '../../models/project.constants';
 import { formatStorage } from '@shared';
 import { format } from 'date-fns';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+
+// Services & Models
+import { PROJECT_VISIBILITY_LABELS, PROJECT_OWNER_TYPE_LABELS, PROJECT_DEFAULT_COLOR } from '../../models/project.constants';
+import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 
 /**
  * 專案總覽組件
- * 
+ *
  * 功能：
  * - 顯示專案基本資訊
  * - Tab 導航（總覽、檔案、成員、設定）
  * - 統計資訊卡片
  * - 麵包屑導航
- * 
+ *
  * @example
  * ```html
  * <app-project-overview />
@@ -87,6 +83,7 @@ export class ProjectOverviewComponent implements OnInit {
 
   /**
    * 載入專案資料
+   *
    * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadProject(id: string): void {

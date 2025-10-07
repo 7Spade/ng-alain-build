@@ -1,5 +1,6 @@
 /**
  * 專案功能模組 - 資料模型匯出
+ *
  * @description 統一匯出所有資料模型
  */
 
@@ -14,4 +15,3 @@ export * from './project-member.model';
 
 // 活動相關
 export * from './project-activity.model';
-

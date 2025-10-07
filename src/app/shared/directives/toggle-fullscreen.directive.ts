@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Directive, HostListener, inject, OnInit } from '@angular/core';
-
 import screenfull from 'screenfull';
 
 /**
  * 全螢幕切換指令
+ *
  * @description 點擊元素時切換全螢幕模式
  * @example
  * ```html
@@ -20,7 +20,7 @@ import screenfull from 'screenfull';
 export class ToggleFullscreenDirective implements OnInit {
   /** 是否處於全螢幕狀態 */
   isFullscreenFlag = true;
-  
+
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
@@ -38,4 +38,3 @@ export class ToggleFullscreenDirective implements OnInit {
     }
   }
 }
-

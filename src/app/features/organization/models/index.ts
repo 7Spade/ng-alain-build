@@ -1,5 +1,6 @@
 /**
  * 組織管理模組 - 資料模型匯出
+ *
  * @description 統一匯出所有資料模型
  */
 
@@ -20,4 +21,3 @@ export * from './role.model';
 
 // 通用模型
 export * from './common.model';
-

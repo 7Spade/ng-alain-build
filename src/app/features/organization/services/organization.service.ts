@@ -1,13 +1,15 @@
 /**
  * 組織服務
+ *
  * @description 提供組織架構的 CRUD 操作和樹狀結構管理
  */
 
 import { Injectable, inject } from '@angular/core';
+import { CacheService } from '@delon/cache';
+import { _HttpClient } from '@delon/theme';
 import { Observable, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { _HttpClient } from '@delon/theme';
-import { CacheService } from '@delon/cache';
+
 import type { Organization, CreateOrganizationRequest, UpdateOrganizationRequest } from '../models';
 
 @Injectable({ providedIn: 'root' })
@@ -15,7 +17,7 @@ export class OrganizationService {
   private readonly http = inject(_HttpClient);
   private readonly cache = inject(CacheService);
   private readonly API_BASE = '/api/organizations';
-  
+
   // 緩存鍵
   private readonly CACHE_KEY_TREE = 'org:tree';
   private readonly CACHE_KEY_ORG = (id: string) => `org:${id}`;
@@ -23,6 +25,7 @@ export class OrganizationService {
 
   /**
    * 獲取組織架構樹
+   *
    * @param useCache 是否使用緩存
    * @returns Observable<Organization[]>
    */
@@ -34,7 +37,7 @@ export class OrganizationService {
         return of(cached as any);
       }
     }
-    
+
     return this.http.get<Organization[]>(`${this.API_BASE}/tree`).pipe(
       tap(data => this.cache.set(this.CACHE_KEY_TREE, data, { expire: this.CACHE_EXPIRE })),
       catchError(err => {
@@ -46,18 +49,19 @@ export class OrganizationService {
 
   /**
    * 獲取單個組織資訊
+   *
    * @param id 組織 ID
    * @returns Observable<Organization>
    */
   getOrganization(id: string): Observable<Organization> {
     const cacheKey = this.CACHE_KEY_ORG(id);
     const cached: any = this.cache.get(cacheKey);
-    
+
     if (cached) {
       // @delon/cache get() 返回的可能是原始數據，使用 of() 轉為 Observable
       return of(cached);
     }
-    
+
     return this.http.get<Organization>(`${this.API_BASE}/${id}`).pipe(
       tap(data => this.cache.set(cacheKey, data, { expire: this.CACHE_EXPIRE })),
       catchError(err => {
@@ -69,6 +73,7 @@ export class OrganizationService {
 
   /**
    * 創建組織
+   *
    * @param data 組織資料
    * @returns Observable<Organization>
    */
@@ -84,6 +89,7 @@ export class OrganizationService {
 
   /**
    * 更新組織
+   *
    * @param id 組織 ID
    * @param data 更新資料
    * @returns Observable<Organization>
@@ -100,6 +106,7 @@ export class OrganizationService {
 
   /**
    * 刪除組織
+   *
    * @param id 組織 ID
    * @returns Observable<void>
    */
@@ -115,6 +122,7 @@ export class OrganizationService {
 
   /**
    * 移動組織到新的父組織下
+   *
    * @param id 組織 ID
    * @param newParentId 新父組織 ID
    * @returns Observable<Organization>
@@ -131,6 +139,7 @@ export class OrganizationService {
 
   /**
    * 獲取組織的所有子節點
+   *
    * @param id 組織 ID
    * @returns Observable<Organization[]>
    */
@@ -145,6 +154,7 @@ export class OrganizationService {
 
   /**
    * 獲取組織的完整路徑（從根到當前節點）
+   *
    * @param id 組織 ID
    * @returns Observable<Organization[]>
    */
@@ -159,6 +169,7 @@ export class OrganizationService {
 
   /**
    * 搜尋組織
+   *
    * @param keyword 搜尋關鍵字
    * @returns Observable<Organization[]>
    */
@@ -180,4 +191,3 @@ export class OrganizationService {
     // @delon/cache 的 clear() 不支持參數，只能清除所有緩存
   }
 }
-

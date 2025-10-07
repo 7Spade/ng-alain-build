@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TabService, ModeService, ModeType, SimpleReuseStrategy } from '@core';
 import { DA_SERVICE_TOKEN } from '@delon/auth';
 import { I18nPipe, User } from '@delon/theme';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { TabService } from '@core';
-import { ModeService, ModeType } from '@core';
-import { SimpleReuseStrategy } from '@core';
-import { OrganizationFormComponent } from '../../../features/organization/components/organization-form';
-import { OrganizationService } from '../../../features/organization/services/organization.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
 import { OrganizationContextService } from '../../../core/services/organization-context/organization-context.service';
+import { OrganizationFormComponent } from '../../../features/organization/components/organization-form';
 import type { CreateOrganizationRequest, UserOrganization } from '../../../features/organization/models';
+import { OrganizationService } from '../../../features/organization/services/organization.service';
 
 @Component({
   selector: 'header-user',
@@ -113,14 +112,15 @@ export class HeaderUserComponent implements OnInit {
 
   /**
    * 創建新組織（使用 Modal 彈窗）
+   *
    * @description 符合設計決策：使用 Modal 而非路由跳轉
    */
   createOrganization(): void {
     const modal = this.modalSrv.create({
       nzTitle: '新增組織',
       nzContent: OrganizationFormComponent,
-      nzWidth: window.innerWidth < 768 ? '90%' : 600,  // 響應式寬度
-      nzMaskClosable: false,  // 防止誤觸關閉
+      nzWidth: window.innerWidth < 768 ? '90%' : 600, // 響應式寬度
+      nzMaskClosable: false, // 防止誤觸關閉
       nzFooter: [
         {
           label: '取消',
@@ -129,38 +129,41 @@ export class HeaderUserComponent implements OnInit {
         {
           label: '確定',
           type: 'primary',
-          autoLoading: true,  // 自動處理 loading 狀態
+          autoLoading: true, // 自動處理 loading 狀態
           onClick: (componentInstance: OrganizationFormComponent | undefined) => {
             // 調用組件的 submit 方法
             if (!componentInstance) {
               return Promise.reject(new Error('組件實例不存在'));
             }
-            return componentInstance.submit().then((formValue: CreateOrganizationRequest) => {
-              // 本地測試：直接添加組織到上下文
-              const newOrg: UserOrganization = {
-                id: `org-${Date.now()}`,
-                name: formValue.name,
-                type: 'organization' as const,
-                role: 'owner' as const,
-                joinedAt: new Date(),
-                description: formValue.description
-              };
-              
-              // 添加到組織上下文
-              this.orgContextService.addOrganizationLocally(newOrg);
-              
-              this.message.success(`組織「${newOrg.name}」創建成功`);
-              modal.destroy();
-              
-              // TODO: 生產環境使用真實 API
-              // return this.orgService.createOrganization(formValue).toPromise().then(() => {
-              //   this.orgContextService.reloadOrganizations();
-              // });
-            }).catch((error: Error) => {
-              // 驗證失敗時不關閉 Modal
-              console.error('表單驗證失敗', error);
-              // 組件已自動標記錯誤欄位，無需額外處理
-            });
+            return componentInstance
+              .submit()
+              .then((formValue: CreateOrganizationRequest) => {
+                // 本地測試：直接添加組織到上下文
+                const newOrg: UserOrganization = {
+                  id: `org-${Date.now()}`,
+                  name: formValue.name,
+                  type: 'organization' as const,
+                  role: 'owner' as const,
+                  joinedAt: new Date(),
+                  description: formValue.description
+                };
+
+                // 添加到組織上下文
+                this.orgContextService.addOrganizationLocally(newOrg);
+
+                this.message.success(`組織「${newOrg.name}」創建成功`);
+                modal.destroy();
+
+                // TODO: 生產環境使用真實 API
+                // return this.orgService.createOrganization(formValue).toPromise().then(() => {
+                //   this.orgContextService.reloadOrganizations();
+                // });
+              })
+              .catch((error: Error) => {
+                // 驗證失敗時不關閉 Modal
+                console.error('表單驗證失敗', error);
+                // 組件已自動標記錯誤欄位，無需額外處理
+              });
           }
         }
       ]

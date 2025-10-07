@@ -2,8 +2,6 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-
 import { TabModel, TabService } from '@core';
 import { MouseHoverShowDirective, fnStopMouseEvent } from '@shared';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -13,9 +11,11 @@ import { NzContextMenuService, NzDropdownMenuComponent, NzDropDownModule } from 
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { filter } from 'rxjs/operators';
 
 /**
  * Tab 組件
+ *
  * @description 多頁簽管理 UI 組件
  */
 @Component({
@@ -24,16 +24,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
   styleUrls: ['./tab.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    NzCardModule,
-    NzTabsModule,
-    NzDropDownModule,
-    NzMenuModule,
-    NzButtonModule,
-    MouseHoverShowDirective,
-    NzIconModule,
-    AsyncPipe
-  ]
+  imports: [NzCardModule, NzTabsModule, NzDropDownModule, NzMenuModule, NzButtonModule, MouseHoverShowDirective, NzIconModule, AsyncPipe]
 })
 export class TabComponent implements OnInit {
   private tabService = inject(TabService);
@@ -159,4 +150,3 @@ export class TabComponent implements OnInit {
     });
   }
 }
-

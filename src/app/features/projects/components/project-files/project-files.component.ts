@@ -1,36 +1,36 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 // ng-zorro
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzUploadModule, NzUploadFile, NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { format } from 'date-fns';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzUploadModule, NzUploadFile, NzUploadChangeParam } from 'ng-zorro-antd/upload';
 
 // Services & Models
-import { ProjectFileService } from '../../services/project-file.service';
 import { ProjectFile } from '../../models/project-file.model';
-import { format } from 'date-fns';
+import { ProjectFileService } from '../../services/project-file.service';
 
 /**
  * 專案檔案空間組件
- * 
+ *
  * 功能：
  * - 檔案上傳（拖拽上傳）
  * - 檔案列表展示
  * - 檔案下載
  * - 檔案刪除
  * - 檔案預覽（圖片）
- * 
+ *
  * @example
  * ```html
  * <app-project-files />
@@ -82,24 +82,27 @@ export class ProjectFilesComponent implements OnInit {
 
   /**
    * 載入檔案列表
+   *
    * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadFiles(): void {
     this.loading.set(true);
-    this.fileService.getFiles({ 
-      projectId: this.projectId(), 
-      path: this.currentPath() 
-    }).subscribe({
-      next: response => {
-        this.files.set(response.files);
-        this.loading.set(false);
-      },
-      error: err => {
-        console.error('載入檔案失敗', err);
-        this.message.error('載入檔案失敗');
-        this.loading.set(false);
-      }
-    });
+    this.fileService
+      .getFiles({
+        projectId: this.projectId(),
+        path: this.currentPath()
+      })
+      .subscribe({
+        next: response => {
+          this.files.set(response.files);
+          this.loading.set(false);
+        },
+        error: err => {
+          console.error('載入檔案失敗', err);
+          this.message.error('載入檔案失敗');
+          this.loading.set(false);
+        }
+      });
   }
 
   /**
@@ -112,7 +115,7 @@ export class ProjectFilesComponent implements OnInit {
       this.message.error('檔案大小不能超過 50MB！');
       return false;
     }
-    
+
     // 將檔案添加到上傳隊列
     this.fileList = [...this.fileList, file];
     return false; // 阻止自動上傳，使用自定義上傳
@@ -128,48 +131,53 @@ export class ProjectFilesComponent implements OnInit {
     }
 
     this.uploading.set(true);
-    
+
     // 逐個上傳檔案
     const uploadPromises = this.fileList.map(file => {
       if (!file.originFileObj) return Promise.resolve();
-      
+
       return new Promise((resolve, reject) => {
-        this.fileService.uploadFile({
-          projectId: this.projectId(),
-          file: file.originFileObj as File,
-          path: this.currentPath()
-        }).subscribe({
-          next: event => {
-            if (event.type === HttpEventType.UploadProgress) {
-              // 更新進度
-              const percent = event.total ? Math.round(100 * event.loaded / event.total) : 0;
-              file.percent = percent;
-            } else if (event.type === HttpEventType.Response) {
-              // 上傳完成
-              resolve(event.body);
+        this.fileService
+          .uploadFile({
+            projectId: this.projectId(),
+            file: file.originFileObj as File,
+            path: this.currentPath()
+          })
+          .subscribe({
+            next: event => {
+              if (event.type === HttpEventType.UploadProgress) {
+                // 更新進度
+                const percent = event.total ? Math.round((100 * event.loaded) / event.total) : 0;
+                file.percent = percent;
+              } else if (event.type === HttpEventType.Response) {
+                // 上傳完成
+                resolve(event.body);
+              }
+            },
+            error: err => {
+              console.error('上傳失敗', err);
+              reject(err);
             }
-          },
-          error: err => {
-            console.error('上傳失敗', err);
-            reject(err);
-          }
-        });
+          });
       });
     });
 
-    Promise.all(uploadPromises).then(() => {
-      this.message.success('所有檔案上傳成功');
-      this.fileList = [];
-      this.uploading.set(false);
-      this.loadFiles(); // 重新載入列表
-    }).catch(err => {
-      this.message.error('部分檔案上傳失敗');
-      this.uploading.set(false);
-    });
+    Promise.all(uploadPromises)
+      .then(() => {
+        this.message.success('所有檔案上傳成功');
+        this.fileList = [];
+        this.uploading.set(false);
+        this.loadFiles(); // 重新載入列表
+      })
+      .catch(err => {
+        this.message.error('部分檔案上傳失敗');
+        this.uploading.set(false);
+      });
   }
 
   /**
    * 下載檔案
+   *
    * @note HTTP 請求完成後自動清理
    */
   downloadFile(file: ProjectFile): void {
@@ -193,6 +201,7 @@ export class ProjectFilesComponent implements OnInit {
 
   /**
    * 刪除檔案
+   *
    * @note HTTP 請求完成後自動清理
    */
   deleteFile(file: ProjectFile): void {
@@ -223,7 +232,7 @@ export class ProjectFilesComponent implements OnInit {
     const k = 1024;
     const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return `${Math.round((bytes / Math.pow(k, i)) * 100) / 100} ${sizes[i]}`;
   }
 
   /**

@@ -27,5 +27,3 @@ export class ModeService {
     localStorage.setItem(ModeService.STORAGE_KEY, mode);
   }
 }
-
-

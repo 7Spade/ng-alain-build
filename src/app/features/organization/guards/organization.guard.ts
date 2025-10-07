@@ -1,5 +1,6 @@
 /**
  * 組織管理權限守衛
+ *
  * @description 檢查用戶是否有訪問組織管理功能的權限
  */
 
@@ -11,13 +12,14 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 /**
  * 組織管理權限守衛
+ *
  * @description 檢查用戶是否有訪問組織管理功能的權限
  */
 export const organizationGuard: CanActivateFn = (route, state) => {
   // 暫時允許所有訪問，等待實際權限配置
   // TODO: 配置 ACL 權限後啟用
   return true;
-  
+
   /*
   const aclService = inject(ACLService);
   const router = inject(Router);
@@ -41,6 +43,7 @@ export const organizationGuard: CanActivateFn = (route, state) => {
 
 /**
  * 組織編輯權限守衛
+ *
  * @description 檢查用戶是否有編輯組織的權限
  */
 export const organizationEditGuard: CanActivateFn = (route, state) => {
@@ -51,6 +54,7 @@ export const organizationEditGuard: CanActivateFn = (route, state) => {
 
 /**
  * 部門管理權限守衛
+ *
  * @description 檢查用戶是否有管理部門的權限
  */
 export const departmentManageGuard: CanActivateFn = (route, state) => {
@@ -61,6 +65,7 @@ export const departmentManageGuard: CanActivateFn = (route, state) => {
 
 /**
  * 員工管理權限守衛
+ *
  * @description 檢查用戶是否有管理員工的權限
  */
 export const employeeManageGuard: CanActivateFn = (route, state) => {
@@ -71,6 +76,7 @@ export const employeeManageGuard: CanActivateFn = (route, state) => {
 
 /**
  * 角色管理權限守衛
+ *
  * @description 檢查用戶是否有管理角色的權限
  */
 export const roleManageGuard: CanActivateFn = (route, state) => {

@@ -1,31 +1,30 @@
 import { Component, inject, OnInit, DestroyRef, ChangeDetectorRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { TabService, ModeService, ModeType } from '@core';
 import { SettingsService, User } from '@delon/theme';
 import { LayoutDefaultModule, LayoutDefaultOptions } from '@delon/theme/layout-default';
 import { SettingDrawerModule } from '@delon/theme/setting-drawer';
 import { ThemeBtnComponent } from '@delon/theme/theme-btn';
 import { environment } from '@env/environment';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { filter } from 'rxjs/operators';
 
 import { HeaderClearStorageComponent } from './widgets/clear-storage.component';
 import { HeaderFullScreenComponent } from './widgets/fullscreen.component';
 import { HeaderI18nComponent } from './widgets/i18n.component';
 import { HeaderIconComponent } from './widgets/icon.component';
 import { HeaderNotifyComponent } from './widgets/notify.component';
+import { OrgSwitcherComponent } from './widgets/org-switcher.component';
 import { HeaderRTLComponent } from './widgets/rtl.component';
 import { HeaderSearchComponent } from './widgets/search.component';
 import { HeaderTaskComponent } from './widgets/task.component';
 import { HeaderUserComponent } from './widgets/user.component';
-import { OrgSwitcherComponent } from './widgets/org-switcher.component';
 import { TabComponent } from '../widgets/tab/tab.component';
-import { TabService } from '@core';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { ModeService, ModeType } from '@core';
 
 @Component({
   selector: 'layout-basic',
@@ -127,7 +126,7 @@ export class LayoutBasicComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly modeService = inject(ModeService);
   private readonly cdr = inject(ChangeDetectorRef);
-  
+
   options: LayoutDefaultOptions = {
     logoExpanded: `./assets/logo-full.svg`,
     logoCollapsed: `./assets/logo.svg`
@@ -135,7 +134,7 @@ export class LayoutBasicComponent implements OnInit {
   searchToggleStatus = false;
   showSettingDrawer = !environment.production;
   private currentMode: ModeType = this.modeService.getCurrentMode();
-  
+
   get user(): User {
     return this.settings.user;
   }
@@ -171,7 +170,7 @@ export class LayoutBasicComponent implements OnInit {
    */
   private addTabFromRoute(): void {
     let snapshot = this.activatedRoute.snapshot;
-    
+
     // 下鑽到最深層路由
     while (snapshot.firstChild) {
       snapshot = snapshot.firstChild;
@@ -179,7 +178,7 @@ export class LayoutBasicComponent implements OnInit {
 
     // 獲取路由標題
     const title = snapshot.data['title'] || snapshot.data['titleI18n'] || '未命名';
-    
+
     // 如果沒有配置 key，則不添加 Tab
     if (!snapshot.data['key']) {
       return;

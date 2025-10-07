@@ -7,7 +7,7 @@
 ## 📊 統計資訊
 
 - **目錄總數**: 151
-- **文件總數**: 499
+- **文件總數**: 498
 
 ## 📂 目錄結構
 
@@ -126,7 +126,6 @@
     │   │   ├── technicalPatterns.md
     │   ├── workflows/
     │   │   └── developmentWorkflow.md
-    ├── error.md
     ├── memory.json
     ├── ng-alain-lint-error.md
     ├── ng-alain-structure-folders.md

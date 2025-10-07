@@ -1,12 +1,14 @@
 /**
  * 員工服務
+ *
  * @description 提供員工管理的 CRUD 操作
  */
 
 import { Injectable, inject } from '@angular/core';
+import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { _HttpClient } from '@delon/theme';
+
 import type { Employee, CreateEmployeeRequest, UpdateEmployeeRequest, QueryParams, PagedResult } from '../models';
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +18,7 @@ export class EmployeeService {
 
   /**
    * 獲取員工列表（分頁）
+   *
    * @param params 查詢參數
    * @returns Observable<PagedResult<Employee>>
    */
@@ -30,6 +33,7 @@ export class EmployeeService {
 
   /**
    * 獲取單個員工資訊
+   *
    * @param id 員工 ID
    * @returns Observable<Employee>
    */
@@ -44,6 +48,7 @@ export class EmployeeService {
 
   /**
    * 創建員工
+   *
    * @param data 員工資料
    * @returns Observable<Employee>
    */
@@ -58,6 +63,7 @@ export class EmployeeService {
 
   /**
    * 更新員工
+   *
    * @param id 員工 ID
    * @param data 更新資料
    * @returns Observable<Employee>
@@ -73,6 +79,7 @@ export class EmployeeService {
 
   /**
    * 刪除員工
+   *
    * @param id 員工 ID
    * @returns Observable<void>
    */
@@ -87,6 +94,7 @@ export class EmployeeService {
 
   /**
    * 批次刪除員工
+   *
    * @param ids 員工 ID 列表
    * @returns Observable<void>
    */
@@ -101,6 +109,7 @@ export class EmployeeService {
 
   /**
    * 獲取部門下的所有員工
+   *
    * @param departmentId 部門 ID
    * @returns Observable<Employee[]>
    */
@@ -115,6 +124,7 @@ export class EmployeeService {
 
   /**
    * 搜尋員工
+   *
    * @param keyword 搜尋關鍵字
    * @returns Observable<Employee[]>
    */
@@ -129,6 +139,7 @@ export class EmployeeService {
 
   /**
    * 為員工分配角色
+   *
    * @param employeeId 員工 ID
    * @param roleIds 角色 ID 列表
    * @returns Observable<Employee>
@@ -144,6 +155,7 @@ export class EmployeeService {
 
   /**
    * 上傳員工頭像
+   *
    * @param employeeId 員工 ID
    * @param file 頭像檔案
    * @returns Observable<string> 頭像 URL
@@ -151,7 +163,7 @@ export class EmployeeService {
   uploadAvatar(employeeId: string, file: File): Observable<string> {
     const formData = new FormData();
     formData.append('avatar', file);
-    
+
     return this.http.post<{ url: string }>(`${this.API_BASE}/${employeeId}/avatar`, formData).pipe(
       map(response => response.url),
       catchError(err => {
@@ -163,18 +175,20 @@ export class EmployeeService {
 
   /**
    * 匯出員工資料
+   *
    * @param params 查詢參數
    * @returns Observable<Blob>
    */
   exportEmployees(params?: QueryParams): Observable<Blob> {
-    return this.http.get(`${this.API_BASE}/export`, params, {
-      responseType: 'blob'
-    }).pipe(
-      catchError(err => {
-        console.error('匯出員工資料失敗', err);
-        throw err;
+    return this.http
+      .get(`${this.API_BASE}/export`, params, {
+        responseType: 'blob'
       })
-    );
+      .pipe(
+        catchError(err => {
+          console.error('匯出員工資料失敗', err);
+          throw err;
+        })
+      );
   }
 }
-

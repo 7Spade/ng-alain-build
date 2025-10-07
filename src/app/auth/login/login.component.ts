@@ -19,16 +19,7 @@ import { finalize } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
   standalone: true,
-  imports: [
-    RouterLink,
-    ReactiveFormsModule,
-    I18nPipe,
-    NzCheckboxModule,
-    NzAlertModule,
-    NzFormModule,
-    NzInputModule,
-    NzButtonModule
-  ]
+  imports: [RouterLink, ReactiveFormsModule, I18nPipe, NzCheckboxModule, NzAlertModule, NzFormModule, NzInputModule, NzButtonModule]
 })
 export class UserLoginComponent implements OnDestroy {
   private readonly router = inject(Router);

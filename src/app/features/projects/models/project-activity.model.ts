@@ -1,5 +1,6 @@
 /**
  * 專案活動模型
+ *
  * @description 專案活動記錄和時間線
  */
 
@@ -20,12 +21,12 @@ export interface ProjectActivity {
   id: string;
   projectId: string;
   userId: string;
-  userName?: string;             // 操作者名稱
-  userAvatar?: string;           // 操作者頭像
+  userName?: string; // 操作者名稱
+  userAvatar?: string; // 操作者頭像
   action: ActivityAction;
   targetType: ActivityTargetType;
   targetId: string;
-  targetName?: string;           // 目標名稱
+  targetName?: string; // 目標名稱
   description: string;
   metadata?: Record<string, any>; // 額外元數據
   createdAt: Date;
@@ -78,4 +79,3 @@ export const ACTIVITY_COLORS: Record<ActivityAction, string> = {
   invite: 'orange',
   remove: 'volcano'
 };
-

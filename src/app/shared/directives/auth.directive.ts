@@ -3,6 +3,7 @@ import { ACLService } from '@delon/acl';
 
 /**
  * 元素級權限控制指令
+ *
  * @description 根據用戶權限顯示或隱藏元素
  * @example
  * ```html
@@ -10,12 +11,12 @@ import { ACLService } from '@delon/acl';
  * <button *appAuth="'user:delete'" (click)="deleteUser()">
  *   刪除用戶
  * </button>
- * 
+ *
  * <!-- 僅有 'dept:edit' 權限的用戶可見 -->
  * <div *appAuth="'dept:edit'">
  *   編輯部門表單
  * </div>
- * 
+ *
  * <!-- 不傳入權限碼則始終顯示 -->
  * <button *appAuth>通用按鈕</button>
  * ```
@@ -31,6 +32,7 @@ export class AuthDirective {
 
   /**
    * 設置權限碼
+   *
    * @param authCode 權限碼字串，如 'user:delete', 'dept:edit' 等
    */
   @Input()
@@ -40,7 +42,7 @@ export class AuthDirective {
       this.show(true);
       return;
     }
-    
+
     // 使用 ACLService 檢查權限
     const hasPermission = this.aclService.can(authCode);
     this.show(hasPermission);
@@ -48,6 +50,7 @@ export class AuthDirective {
 
   /**
    * 顯示或隱藏元素
+   *
    * @param hasAuth 是否有權限
    */
   private show(hasAuth: boolean): void {
@@ -58,4 +61,3 @@ export class AuthDirective {
     }
   }
 }
-

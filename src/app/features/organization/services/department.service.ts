@@ -1,12 +1,14 @@
 /**
  * 部門服務
+ *
  * @description 提供部門管理的 CRUD 操作
  */
 
 import { Injectable, inject } from '@angular/core';
+import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { _HttpClient } from '@delon/theme';
+
 import type { Department, CreateDepartmentRequest, UpdateDepartmentRequest, Employee, QueryParams, PagedResult } from '../models';
 
 @Injectable({ providedIn: 'root' })
@@ -16,6 +18,7 @@ export class DepartmentService {
 
   /**
    * 獲取部門列表（分頁）
+   *
    * @param params 查詢參數
    * @returns Observable<PagedResult<Department>>
    */
@@ -25,6 +28,7 @@ export class DepartmentService {
 
   /**
    * 獲取單個部門資訊
+   *
    * @param id 部門 ID
    * @returns Observable<Department>
    */
@@ -39,6 +43,7 @@ export class DepartmentService {
 
   /**
    * 創建部門
+   *
    * @param data 部門資料
    * @returns Observable<Department>
    */
@@ -53,6 +58,7 @@ export class DepartmentService {
 
   /**
    * 更新部門
+   *
    * @param id 部門 ID
    * @param data 更新資料
    * @returns Observable<Department>
@@ -68,6 +74,7 @@ export class DepartmentService {
 
   /**
    * 刪除部門
+   *
    * @param id 部門 ID
    * @returns Observable<void>
    */
@@ -82,6 +89,7 @@ export class DepartmentService {
 
   /**
    * 批次刪除部門
+   *
    * @param ids 部門 ID 列表
    * @returns Observable<void>
    */
@@ -96,6 +104,7 @@ export class DepartmentService {
 
   /**
    * 獲取組織下的所有部門
+   *
    * @param organizationId 組織 ID
    * @returns Observable<Department[]>
    */
@@ -110,6 +119,7 @@ export class DepartmentService {
 
   /**
    * 獲取部門成員列表
+   *
    * @param departmentId 部門 ID
    * @returns Observable<Employee[]>
    */
@@ -124,6 +134,7 @@ export class DepartmentService {
 
   /**
    * 搜尋部門
+   *
    * @param keyword 搜尋關鍵字
    * @returns Observable<Department[]>
    */
@@ -138,18 +149,20 @@ export class DepartmentService {
 
   /**
    * 匯出部門資料
+   *
    * @param params 查詢參數
    * @returns Observable<Blob>
    */
   exportDepartments(params?: QueryParams): Observable<Blob> {
-    return this.http.get(`${this.API_BASE}/export`, params, {
-      responseType: 'blob'
-    }).pipe(
-      catchError(err => {
-        console.error('匯出部門資料失敗', err);
-        throw err;
+    return this.http
+      .get(`${this.API_BASE}/export`, params, {
+        responseType: 'blob'
       })
-    );
+      .pipe(
+        catchError(err => {
+          console.error('匯出部門資料失敗', err);
+          throw err;
+        })
+      );
   }
 }
-

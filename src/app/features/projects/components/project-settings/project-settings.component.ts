@@ -1,33 +1,33 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // ng-zorro
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 // Services & Models
-import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 
 /**
  * 專案設定組件
- * 
+ *
  * 功能：
  * - 編輯專案基本資訊
  * - 專案可見性設定
  * - 危險操作（歸檔、刪除專案）
- * 
+ *
  * @example
  * ```html
  * <app-project-settings />
@@ -79,7 +79,7 @@ export class ProjectSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    
+
     // 從父路由獲取專案 ID
     const projectId = this.route.parent?.snapshot.paramMap.get('id');
     if (projectId) {
@@ -101,6 +101,7 @@ export class ProjectSettingsComponent implements OnInit {
 
   /**
    * 載入專案資料
+   *
    * @note HTTP 請求是一次性操作，完成後自動清理
    */
   loadProject(id: string): void {

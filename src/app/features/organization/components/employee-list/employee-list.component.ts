@@ -1,11 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-
-import { EmployeeService } from '../../services/employee.service';
-import { Employee } from '../../models/employee.model';
-import { 
+import {
   AntTableConfig,
   PageHeaderComponent,
   PageHeaderType,
@@ -13,9 +9,9 @@ import {
   TreeNodeInterface,
   MapPipe,
   MapSet,
-  MapKeyType
+  MapKeyType,
+  AuthDirective
 } from '@shared';
-import { AuthDirective } from '@shared';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
@@ -30,6 +26,10 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { finalize } from 'rxjs/operators';
+
+import { Employee } from '../../models/employee.model';
+import { EmployeeService } from '../../services/employee.service';
 
 interface SearchParam {
   name: string;
@@ -40,6 +40,7 @@ interface SearchParam {
 
 /**
  * 員工列表組件
+ *
  * @description 員工管理頁面，含搜索、CRUD 操作
  */
 @Component({
@@ -66,15 +67,15 @@ interface SearchParam {
 export class EmployeeListComponent implements OnInit {
   @ViewChild('operationTpl', { static: true }) operationTpl!: TemplateRef<NzSafeAny>;
   @ViewChild('statusTpl', { static: true }) statusTpl!: TemplateRef<NzSafeAny>;
-  
+
   searchParam: Partial<SearchParam> = {};
   tableConfig!: AntTableConfig;
-  
+
   pageHeaderInfo: Partial<PageHeaderType> = {
     title: '員工管理',
     breadcrumb: ['首頁', '組織管理', '員工列表']
   };
-  
+
   dataList: Employee[] = [];
   checkedArray: Employee[] = [];
   statusOptions: Array<{ label: string; value: string }> = [];
@@ -96,7 +97,7 @@ export class EmployeeListComponent implements OnInit {
 
   getDataList(e?: NzTableQueryParams): void {
     this.tableLoading(true);
-    
+
     const params = {
       page: e?.pageIndex || this.tableConfig.pageIndex,
       pageSize: this.tableConfig.pageSize,
@@ -171,7 +172,7 @@ export class EmployeeListComponent implements OnInit {
       this.message.error('請選擇要刪除的員工');
       return;
     }
-    
+
     this.modalSrv.confirm({
       nzTitle: '確定要刪除選中的員工嗎？',
       nzContent: '刪除後不可恢復',
@@ -194,7 +195,6 @@ export class EmployeeListComponent implements OnInit {
       }
     });
   }
-
 
   changePageSize(e: number): void {
     this.tableConfig.pageSize = e;
@@ -258,4 +258,3 @@ export class EmployeeListComponent implements OnInit {
     this.getDataList();
   }
 }
-

@@ -1,25 +1,25 @@
-import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 // ng-zorro
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalModule, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 // Services & Models
-import { ProjectService } from '../../services/project.service';
-import { CreateProjectRequest } from '../../models/project.model';
 import { PROJECT_VISIBILITY_DESCRIPTIONS } from '../../models/project.constants';
+import { CreateProjectRequest } from '../../models/project.model';
+import { ProjectService } from '../../services/project.service';
 
 /**
  * 專案表單組件（新建/編輯專案）
- * 
+ *
  * 用於 Modal 中的專案表單
- * 
+ *
  * @example
  * ```typescript
  * this.modal.create({
@@ -32,15 +32,7 @@ import { PROJECT_VISIBILITY_DESCRIPTIONS } from '../../models/project.constants'
 @Component({
   selector: 'app-project-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NzFormModule,
-    NzInputModule,
-    NzSelectModule,
-    NzButtonModule,
-    NzModalModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzButtonModule, NzModalModule],
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -59,20 +51,20 @@ export class ProjectFormComponent implements OnInit {
 
   // 可見性選項
   visibilityOptions = [
-    { 
-      label: '公開', 
-      value: 'public', 
-      description: PROJECT_VISIBILITY_DESCRIPTIONS.public 
+    {
+      label: '公開',
+      value: 'public',
+      description: PROJECT_VISIBILITY_DESCRIPTIONS.public
     },
-    { 
-      label: '私有', 
-      value: 'private', 
-      description: PROJECT_VISIBILITY_DESCRIPTIONS.private 
+    {
+      label: '私有',
+      value: 'private',
+      description: PROJECT_VISIBILITY_DESCRIPTIONS.private
     },
-    { 
-      label: '內部', 
-      value: 'internal', 
-      description: PROJECT_VISIBILITY_DESCRIPTIONS.internal 
+    {
+      label: '內部',
+      value: 'internal',
+      description: PROJECT_VISIBILITY_DESCRIPTIONS.internal
     }
   ];
 
@@ -128,4 +120,3 @@ export class ProjectFormComponent implements OnInit {
     this.modal.destroy();
   }
 }
-

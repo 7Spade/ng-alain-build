@@ -10,12 +10,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.less'],
   standalone: true,
-  imports: [
-    NzButtonModule,
-    NzCardModule,
-    NzGridModule,
-    NzTypographyModule
-  ]
+  imports: [NzButtonModule, NzCardModule, NzGridModule, NzTypographyModule]
 })
 export class LandingComponent {
   constructor(private router: Router) {}

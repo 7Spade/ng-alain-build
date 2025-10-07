@@ -1,10 +1,12 @@
 /**
  * 組織管理模組路由配置
+ *
  * @description 定義組織管理相關的所有路由
  */
 
 import type { Routes } from '@angular/router';
 import { authSimpleCanActivate } from '@delon/auth';
+
 import { organizationGuard, departmentManageGuard, employeeManageGuard, roleManageGuard } from './guards/organization.guard';
 
 /**
@@ -21,13 +23,11 @@ export const routes: Routes = [
         redirectTo: 'departments',
         pathMatch: 'full'
       },
-      
+
       // ✅ 部門管理（已實現）
       {
         path: 'departments',
-        loadComponent: () =>
-          import('./components/department-list/department-list.component')
-            .then(m => m.DepartmentListComponent),
+        loadComponent: () => import('./components/department-list/department-list.component').then(m => m.DepartmentListComponent),
         data: {
           title: '部門管理',
           titleI18n: 'organization.departments',
@@ -35,13 +35,11 @@ export const routes: Routes = [
         },
         canActivate: [departmentManageGuard]
       },
-      
+
       // ✅ 員工管理（已實現）
       {
         path: 'employees',
-        loadComponent: () =>
-          import('./components/employee-list/employee-list.component')
-            .then(m => m.EmployeeListComponent),
+        loadComponent: () => import('./components/employee-list/employee-list.component').then(m => m.EmployeeListComponent),
         data: {
           title: '員工管理',
           titleI18n: 'organization.employees',
@@ -49,13 +47,11 @@ export const routes: Routes = [
         },
         canActivate: [employeeManageGuard]
       },
-      
+
       // ✅ 角色管理（已實現）
       {
         path: 'roles',
-        loadComponent: () =>
-          import('./components/role-management/role-management.component')
-            .then(m => m.RoleManagementComponent),
+        loadComponent: () => import('./components/role-management/role-management.component').then(m => m.RoleManagementComponent),
         data: {
           title: '角色管理',
           titleI18n: 'organization.roles',
@@ -63,7 +59,7 @@ export const routes: Routes = [
         },
         canActivate: [roleManageGuard]
       }
-      
+
       // TODO: 以下組件待實現
       /*
       // 組織架構樹
@@ -111,4 +107,3 @@ export const routes: Routes = [
     ]
   }
 ];
-

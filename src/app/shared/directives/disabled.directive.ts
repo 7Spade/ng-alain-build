@@ -2,6 +2,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
 
 /**
  * 啟用/禁用狀態指令
+ *
  * @description 根據條件添加啟用或禁用的樣式類
  * @example
  * ```html
@@ -25,4 +26,3 @@ export class DisabledDirective {
   @HostBinding('class.operate-text') enable = false;
   @HostBinding('class.operate-text-disabled') disabledStyle = false;
 }
-

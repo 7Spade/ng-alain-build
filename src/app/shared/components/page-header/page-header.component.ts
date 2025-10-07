@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, Input, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { NzOutletModule } from 'ng-zorro-antd/core/outlet';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
@@ -24,6 +23,7 @@ export interface PageHeaderType {
 
 /**
  * 頁面標題組件
+ *
  * @description 統一的頁面標題和麵包屑組件
  * @example
  * ```html
@@ -49,10 +49,10 @@ export class PageHeaderComponent {
 
   /** 返回按鈕模板 */
   @Input() backTpl: TemplateRef<NzSafeAny> | undefined;
-  
+
   /** 頁面標題資訊 */
   @Input() pageHeaderInfo: Partial<PageHeaderType> = {};
-  
+
   /** 返回 URL */
   @Input() backUrl = '';
 
@@ -68,4 +68,3 @@ export class PageHeaderComponent {
     }
   }
 }
-

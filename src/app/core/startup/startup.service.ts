@@ -64,7 +64,7 @@ export class StartupService {
         this.aclService.setFull(true);
         // 保存 appData 供後續模式切換使用
         this.appData = appData;
-        
+
         // 初始化組織上下文（多組織切換功能）
         // 注意：這會覆蓋 ModeService 的菜單，所以只在有 userOrganizations 時才初始化
         if (appData.userOrganizations) {
@@ -76,7 +76,7 @@ export class StartupService {
           // 監聽模式變更，動態切換選單
           this.modeService.mode$.subscribe(mode => this.applyMenuByMode(mode));
         }
-        
+
         // 设置页面标题的后缀
         this.titleService.default = '';
         this.titleService.suffix = appData.app.name;

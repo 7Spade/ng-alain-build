@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, inject, Renderer2 } from '@angular
 
 /**
  * 滑鼠懸停顯示指令
+ *
  * @description 當滑鼠懸停時顯示最後一個子元素，離開時隱藏
  * @example
  * ```html
@@ -35,4 +36,3 @@ export class MouseHoverShowDirective {
     }
   }
 }
-

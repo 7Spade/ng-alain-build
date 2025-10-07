@@ -19,4 +19,3 @@ export const firebaseConfig = {
  * TODO: 從這裡獲取 https://console.cloud.google.com/security/recaptcha?project=elite-chiller-455712-c4
  */
 export const recaptchaEnterpriseSiteKey = '6Lf7ed4rAAAAAAnHIaPOK0wBoHGsRra-HFSsYhbD';
-

@@ -1,5 +1,6 @@
 /**
  * 專案成員模型
+ *
  * @description 專案成員和權限管理
  */
 
@@ -15,9 +16,9 @@ export interface ProjectMember {
   id: string;
   projectId: string;
   userId: string;
-  userName?: string;             // 成員名稱
-  userAvatar?: string;           // 成員頭像
-  userEmail?: string;            // 成員郵箱
+  userName?: string; // 成員名稱
+  userAvatar?: string; // 成員頭像
+  userEmail?: string; // 成員郵箱
   role: ProjectMemberRole;
   joinedAt: Date;
   invitedBy?: string;
@@ -85,4 +86,3 @@ export const PROJECT_ROLE_COLORS: Record<ProjectMemberRole, string> = {
   member: 'green',
   viewer: 'default'
 };
-

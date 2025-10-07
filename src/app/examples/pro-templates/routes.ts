@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
+import { ProAccountCenterComponent } from './account/account-center/center.component';
 import { ProAccountCenterApplicationsComponent } from './account/account-center/my-applications-tab/applications.component';
 import { ProAccountCenterArticlesComponent } from './account/account-center/my-articles-tab/articles.component';
-import { ProAccountCenterComponent } from './account/account-center/center.component';
 import { ProAccountCenterProjectsComponent } from './account/account-center/my-projects-tab/projects.component';
 import { ProAccountSettingsBaseComponent } from './account/account-settings/base-settings/base.component';
 import { ProAccountSettingsBindingComponent } from './account/account-settings/binding-settings/binding.component';
@@ -28,18 +28,18 @@ export const routes: Routes = [
   {
     path: 'form',
     children: [
-      { 
-        path: 'basic-form', 
+      {
+        path: 'basic-form',
         component: BasicFormComponent,
         data: { shouldDetach: 'no' }
       },
-      { 
-        path: 'step-form', 
+      {
+        path: 'step-form',
         component: StepFormComponent,
         data: { shouldDetach: 'no' }
       },
-      { 
-        path: 'advanced-form', 
+      {
+        path: 'advanced-form',
         component: AdvancedFormComponent,
         data: { shouldDetach: 'no' }
       }
@@ -48,18 +48,18 @@ export const routes: Routes = [
   {
     path: 'list',
     children: [
-      { 
-        path: 'table-list', 
+      {
+        path: 'table-list',
         component: ProTableListComponent,
         data: { shouldDetach: 'no' }
       },
-      { 
-        path: 'basic-list', 
+      {
+        path: 'basic-list',
         component: ProBasicListComponent,
         data: { shouldDetach: 'no' }
       },
-      { 
-        path: 'card-list', 
+      {
+        path: 'card-list',
         component: ProCardListComponent,
         data: { shouldDetach: 'no' }
       },
@@ -68,18 +68,18 @@ export const routes: Routes = [
         component: ProListLayoutComponent,
         data: { shouldDetach: 'no' },
         children: [
-          { 
-            path: 'articles', 
+          {
+            path: 'articles',
             component: ProListArticlesComponent,
             data: { shouldDetach: 'no' }
           },
-          { 
-            path: 'projects', 
+          {
+            path: 'projects',
             component: ProListProjectsComponent,
             data: { shouldDetach: 'no' }
           },
-          { 
-            path: 'applications', 
+          {
+            path: 'applications',
             component: ProListApplicationsComponent,
             data: { shouldDetach: 'no' }
           }
@@ -90,13 +90,13 @@ export const routes: Routes = [
   {
     path: 'profile',
     children: [
-      { 
-        path: 'basic', 
+      {
+        path: 'basic',
         component: ProProfileBaseComponent,
         data: { shouldDetach: 'no' }
       },
-      { 
-        path: 'advanced', 
+      {
+        path: 'advanced',
         component: ProProfileAdvancedComponent,
         data: { shouldDetach: 'no' }
       }
@@ -105,13 +105,13 @@ export const routes: Routes = [
   {
     path: 'result',
     children: [
-      { 
-        path: 'success', 
+      {
+        path: 'success',
         component: ProResultSuccessComponent,
         data: { shouldDetach: 'no' }
       },
-      { 
-        path: 'fail', 
+      {
+        path: 'fail',
         component: ProResultFailComponent,
         data: { shouldDetach: 'no' }
       }

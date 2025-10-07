@@ -1,27 +1,29 @@
 /**
  * 組織設定頁面
+ *
  * @description 管理用戶所屬的所有組織
  */
 
-import { Component, inject, ChangeDetectionStrategy, OnInit, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { Component, inject, ChangeDetectionStrategy, OnInit, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { OrganizationContextService } from '@core';
 import { PageHeaderComponent, PageHeaderType, AntTableConfig } from '@shared';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzTagModule } from 'ng-zorro-antd/tag';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { OrganizationContextService } from '@core';
-import { UserOrganizationService } from '../../services/user-organization.service';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+
 import type { UserOrganization } from '../../models';
+import { UserOrganizationService } from '../../services/user-organization.service';
 
 @Component({
   selector: 'app-organization-settings',
@@ -49,28 +51,28 @@ export class OrganizationSettingsComponent implements OnInit {
   @ViewChild('actionTpl', { static: true }) actionTpl!: TemplateRef<NzSafeAny>;
   @ViewChild('roleTpl', { static: true }) roleTpl!: TemplateRef<NzSafeAny>;
   @ViewChild('logoTpl', { static: true }) logoTpl!: TemplateRef<NzSafeAny>;
-  
+
   private readonly contextService = inject(OrganizationContextService);
   private readonly userOrgService = inject(UserOrganizationService);
   private readonly modalSrv = inject(NzModalService);
   private readonly message = inject(NzMessageService);
   private readonly cdr = inject(ChangeDetectorRef);
-  
+
   pageHeaderInfo: Partial<PageHeaderType> = {
     title: '組織管理',
     breadcrumb: ['首頁', '設定', '組織管理']
   };
-  
+
   organizationList: UserOrganization[] = [];
   loading = false;
-  
+
   tableConfig!: AntTableConfig;
-  
+
   ngOnInit(): void {
     this.initTable();
     this.loadOrganizations();
   }
-  
+
   /**
    * 初始化表格配置
    */
@@ -120,18 +122,18 @@ export class OrganizationSettingsComponent implements OnInit {
       showCheckbox: false
     };
   }
-  
+
   /**
    * 加載組織列表
    */
   loadOrganizations(): void {
     this.loading = true;
     this.tableConfig.loading = true;
-    
+
     // TODO: [OPTIMIZATION] Memory Leak Risk - HTTP 訂閱未在 ngOnDestroy 中取消訂閱
     // 建議：使用 async pipe 或 takeUntilDestroyed() 自動管理訂閱
     this.userOrgService.getUserOrganizations(false).subscribe({
-      next: (orgs) => {
+      next: orgs => {
         // 過濾掉個人空間
         this.organizationList = orgs.filter(o => o.type === 'organization');
         this.tableConfig.total = this.organizationList.length;
@@ -139,7 +141,7 @@ export class OrganizationSettingsComponent implements OnInit {
         this.tableConfig.loading = false;
         this.cdr.markForCheck();
       },
-      error: (err) => {
+      error: err => {
         console.error('加載組織列表失敗', err);
         this.loading = false;
         this.tableConfig.loading = false;
@@ -148,9 +150,10 @@ export class OrganizationSettingsComponent implements OnInit {
       }
     });
   }
-  
+
   /**
    * 切換到組織
+   *
    * @param org 目標組織
    */
   switchTo(org: UserOrganization): void {
@@ -158,18 +161,20 @@ export class OrganizationSettingsComponent implements OnInit {
       this.contextService.switchToOrganization(org.id);
     }
   }
-  
+
   /**
    * 編輯組織設定
+   *
    * @param org 組織
    */
   editOrganization(org: UserOrganization): void {
     this.message.info(`編輯組織「${org.name}」功能開發中...`);
     // TODO: 打開編輯組織 Modal
   }
-  
+
   /**
    * 離開組織
+   *
    * @param org 組織
    */
   leaveOrganization(org: UserOrganization): void {
@@ -177,7 +182,7 @@ export class OrganizationSettingsComponent implements OnInit {
       this.message.warning('擁有者無法離開組織，請先轉讓擁有權');
       return;
     }
-    
+
     this.modalSrv.confirm({
       nzTitle: '確定要離開組織嗎？',
       nzContent: `離開後將無法訪問「${org.name}」的資源`,
@@ -189,15 +194,16 @@ export class OrganizationSettingsComponent implements OnInit {
         this.contextService.reloadOrganizations();
         this.message.success(`已離開組織「${org.name}」`);
         this.cdr.markForCheck();
-        
+
         // TODO: 生產環境調用 API
         // return this.userOrgService.leaveOrganization(org.id!).toPromise();
       }
     });
   }
-  
+
   /**
    * 刪除組織
+   *
    * @param org 組織
    */
   deleteOrganization(org: UserOrganization): void {
@@ -205,7 +211,7 @@ export class OrganizationSettingsComponent implements OnInit {
       this.message.warning('只有擁有者可以刪除組織');
       return;
     }
-    
+
     this.modalSrv.confirm({
       nzTitle: '確定要刪除組織嗎？',
       nzContent: `刪除後所有數據將無法恢復！`,
@@ -216,23 +222,24 @@ export class OrganizationSettingsComponent implements OnInit {
         // 本地測試：直接從列表移除
         this.organizationList = this.organizationList.filter(o => o.id !== org.id);
         this.contextService.reloadOrganizations();
-        
+
         // 如果刪除的是當前組織，切換到個人空間
         if (org.id === this.contextService.currentOrgId()) {
           this.contextService.switchToPersonal();
         }
-        
+
         this.message.success(`組織「${org.name}」已刪除`);
         this.cdr.markForCheck();
-        
+
         // TODO: 生產環境調用 API
         // return this.userOrgService.deleteOrganization(org.id!).toPromise();
       }
     });
   }
-  
+
   /**
    * 查看組織詳情
+   *
    * @param org 組織
    */
   viewDetails(org: UserOrganization): void {
@@ -251,7 +258,7 @@ export class OrganizationSettingsComponent implements OnInit {
       nzFooter: null
     });
   }
-  
+
   /**
    * 獲取角色標籤
    */
@@ -267,7 +274,7 @@ export class OrganizationSettingsComponent implements OnInit {
     };
     return labels[role] || role;
   }
-  
+
   /**
    * 獲取角色顏色
    */
@@ -283,4 +290,3 @@ export class OrganizationSettingsComponent implements OnInit {
     return colors[role] || 'default';
   }
 }
-

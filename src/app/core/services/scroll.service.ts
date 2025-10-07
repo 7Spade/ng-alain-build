@@ -4,6 +4,7 @@ import { inject, Injectable } from '@angular/core';
 
 /**
  * 滾動服務
+ *
  * @description 管理頁面和元素的滾動位置
  */
 @Injectable({ providedIn: 'root' })
@@ -22,6 +23,7 @@ export class ScrollService {
 
   /**
    * 獲取滾動條位置
+   *
    * @param element 指定元素，預設為 window
    * @returns [scrollLeft, scrollTop]
    */
@@ -40,6 +42,7 @@ export class ScrollService {
 
   /**
    * 設置滾動條位置
+   *
    * @param element 指定元素
    * @param position [scrollLeft, scrollTop]
    */
@@ -52,6 +55,7 @@ export class ScrollService {
 
   /**
    * 滾動至指定元素
+   *
    * @param element 指定元素，預設為 document.body
    * @param topOffset 偏移值，預設為 0
    */
@@ -77,6 +81,7 @@ export class ScrollService {
 
   /**
    * 滾動至頂部
+   *
    * @param topOffset 偏移值，預設為 0
    */
   scrollToTop(topOffset = 0): void {
@@ -86,4 +91,3 @@ export class ScrollService {
     this.scrollToElement(this._getDoc().body, topOffset);
   }
 }
-

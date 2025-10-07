@@ -1,6 +1,6 @@
 /**
  * 專案相關常數定義
- * 
+ *
  * 集中管理專案屬性的標籤、顏色、映射等常數
  * 避免在多個組件中重複定義
  */
@@ -73,4 +73,3 @@ export const PROJECT_DEFAULT_COLOR = '#1890ff';
  * 專案預設頭像
  */
 export const PROJECT_DEFAULT_AVATAR = 'folder';
-

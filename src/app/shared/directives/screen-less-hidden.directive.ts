@@ -8,6 +8,7 @@ import { Directive, inject, Input, TemplateRef, ViewContainerRef } from '@angula
 
 /**
  * 響應式隱藏指令
+ *
  * @description 當螢幕寬度小於指定值時隱藏元素
  * @example
  * ```html
@@ -15,7 +16,7 @@ import { Directive, inject, Input, TemplateRef, ViewContainerRef } from '@angula
  * <div *appScreenLessHidden="'768'">
  *   桌面版內容
  * </div>
- * 
+ *
  * <!-- 螢幕寬度小於 576px 時隱藏 -->
  * <button *appScreenLessHidden="'576'">桌面操作</button>
  * ```
@@ -31,6 +32,7 @@ export class ScreenLessHiddenDirective {
 
   /**
    * 設置隱藏的螢幕寬度閾值（px）
+   *
    * @param lessScreen 螢幕寬度閾值，如 '768', '576' 等
    */
   @Input()
@@ -39,7 +41,7 @@ export class ScreenLessHiddenDirective {
       this.show(true);
       return;
     }
-    
+
     // TODO: [OPTIMIZATION] Memory Leak Risk - breakpointObserver 訂閱未取消訂閱
     // 建議：儲存 subscription 並在 ngOnDestroy 中取消訂閱
     // 監聽螢幕寬度變化
@@ -61,4 +63,3 @@ export class ScreenLessHiddenDirective {
     }
   }
 }
-

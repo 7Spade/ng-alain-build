@@ -1,13 +1,23 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges, inject, TemplateRef } from '@angular/core';
-
-import { fnGetFlattenTreeDataByMap, fnTreeDataToMap, TreeNodeInterface } from '../../utils/tree-table-tools';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges,
+  inject,
+  TemplateRef
+} from '@angular/core';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzResizeEvent, NzResizableModule } from 'ng-zorro-antd/resizable';
 import { NzTableQueryParams, NzTableSize, NzTableModule } from 'ng-zorro-antd/table';
 
 import { MapPipe } from '../../pipes/map.pipe';
 import { TableFiledPipe } from '../../pipes/table-filed.pipe';
+import { fnGetFlattenTreeDataByMap, fnTreeDataToMap, TreeNodeInterface } from '../../utils/tree-table-tools';
 
 /**
  * 表格列配置
@@ -58,6 +68,7 @@ export abstract class AntTreeTableComponentToken {
 
 /**
  * 樹狀表格組件
+ *
  * @description 支持樹狀數據展開/收合、拖動列寬、排序、分頁的表格組件
  * @example
  * ```html
@@ -87,29 +98,29 @@ export class TreeTableComponent implements OnChanges {
   _dataList!: TreeNodeInterface[];
   allChecked = false;
   indeterminate = false;
-  
+
   /** 從業務組件傳入的已選中數據數組 */
   @Input() cashArray: NzSafeAny[] = [];
   checkedCashArrayFromComment: NzSafeAny[] = [];
-  
+
   /** 排序事件 */
   @Output() readonly sortFn: EventEmitter<SortFile> = new EventEmitter<SortFile>();
-  
+
   /** 頁碼變更事件 */
   @Output() readonly changePageNum = new EventEmitter<NzTableQueryParams>();
-  
+
   /** 每頁數量變更事件 */
   @Output() readonly changePageSize = new EventEmitter<number>();
-  
+
   /** Map 格式的展開數據 */
   mapOfExpandedData: Record<string, TreeNodeInterface[]> = {};
-  
+
   /** 表格配置 */
   @Input({ required: true }) tableConfig!: AntTableConfig;
-  
+
   /** 選中項變更事件 */
   @Output() readonly selectedChange: EventEmitter<NzSafeAny[]> = new EventEmitter<NzSafeAny[]>();
-  
+
   /** 緩存已展開節點的 ID */
   cashExpandIdArray: Array<number | string> = [];
 
@@ -118,7 +129,7 @@ export class TreeTableComponent implements OnChanges {
     this._dataList = value;
     // 將樹狀數據轉換為 Map 格式
     this.mapOfExpandedData = fnTreeDataToMap(this._dataList);
-    
+
     const beFilterId: Array<string | number> = [];
     Object.values(this.mapOfExpandedData).forEach(menuArray => {
       menuArray.forEach(menuItem => {
@@ -134,7 +145,7 @@ export class TreeTableComponent implements OnChanges {
         }
       });
     });
-    
+
     // 刪除子節點的重複數據
     beFilterId.forEach(item => {
       delete this.mapOfExpandedData[item];
@@ -304,4 +315,3 @@ export class TreeTableComponent implements OnChanges {
     }
   }
 }
-

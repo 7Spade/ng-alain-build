@@ -1,10 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, Params, Router, UrlSegment } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { uniqBy } from 'lodash';
-
 import { getDeepReuseStrategyKeyFn, fnGetPathWithoutParam } from '@shared';
+import { uniqBy } from 'lodash';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SimpleReuseStrategy } from './simple-reuse-strategy';
 
@@ -22,6 +21,7 @@ export interface TabModel {
 
 /**
  * Tab 管理服務
+ *
  * @description 管理多頁簽的添加、刪除、刷新等操作
  */
 @Injectable({
@@ -65,6 +65,7 @@ export class TabService {
 
   /**
    * 添加 Tab
+   *
    * @param tabModel Tab 模型
    * @param isNewTabDetailPage 是否是新 Tab 詳情頁
    */
@@ -80,7 +81,7 @@ export class TabService {
         tab.path = tabModel.path;
       }
     });
-    
+
     // 如果 Tab 不存在則添加
     if (!this.tabArray.find(value => value.path === tabModel.path)) {
       this.tabArray.push(tabModel);
@@ -127,6 +128,7 @@ export class TabService {
 
   /**
    * 右鍵 Tab 移除右邊所有 Tab
+   *
    * @param tabPath Tab 路徑
    * @param index Tab 索引
    */
@@ -135,13 +137,13 @@ export class TabService {
     const beDelTabArray = this.tabArray.filter((item, tabindex) => {
       return tabindex > index;
     });
-    
+
     // 移除右鍵選中的 tab 右邊的所有 tab
     this.tabArray.length = index + 1;
     beDelTabArray.forEach(({ snapshotArray }) => {
       this.delReuseStrategy(snapshotArray);
     });
-    
+
     // 如果滑鼠右鍵選中的 tab 索引小於當前展示的 tab 的索引，要連同正在打開的 tab 也要被刪除
     if (index < this.currSelectedIndexTab) {
       SimpleReuseStrategy.waitDelete = getDeepReuseStrategyKeyFn(this.activatedRoute.snapshot);
@@ -152,6 +154,7 @@ export class TabService {
 
   /**
    * 右鍵移除左邊所有 Tab
+   *
    * @param tabPath Tab 路徑
    * @param index 當前滑鼠點擊右鍵所在的 tab 索引
    */
@@ -159,7 +162,7 @@ export class TabService {
     if (index === 0) {
       return;
     }
-    
+
     // 要刪除的 tab
     const beDelTabArray = this.tabArray.filter((item, tabindex) => {
       return tabindex < index;
@@ -175,7 +178,7 @@ export class TabService {
     } else if (this.currSelectedIndexTab > index) {
       this.currSelectedIndexTab = this.currSelectedIndexTab - beDelTabArray.length;
     }
-    
+
     // 剩餘的 tab
     this.tabArray = this.tabArray.splice(beDelTabArray.length);
     beDelTabArray.forEach(({ snapshotArray }) => {
@@ -211,6 +214,7 @@ export class TabService {
 
   /**
    * 刪除 Tab
+   *
    * @param tab Tab 模型
    * @param index Tab 索引
    */
@@ -233,7 +237,7 @@ export class TabService {
       // 移除當前頁簽右邊的頁簽
       this.tabArray.splice(index, 1);
     }
-    
+
     // 刪除選中的 tab 所緩存的快照
     this.delReuseStrategy(tab.snapshotArray);
     this.setTabsSourceData();
@@ -273,14 +277,14 @@ export class TabService {
     // 獲取當前的路由快照
     let snapshot = this.activatedRoute.snapshot;
     const key = getDeepReuseStrategyKeyFn(snapshot);
-    
+
     while (snapshot.firstChild) {
       snapshot = snapshot.firstChild;
     }
-    
+
     let params: Params;
     let urlWithOutParam = ''; // 這是沒有參數的 url
-    
+
     // 是路徑傳參的路由，並且有參數
     if (Object.keys(snapshot.params).length > 0) {
       params = snapshot.params;
@@ -310,4 +314,3 @@ export class TabService {
     return this.currSelectedIndexTab;
   }
 }
-

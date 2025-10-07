@@ -14,6 +14,7 @@ export interface TreeNodeInterface {
 
 /**
  * 將樹狀節點轉換為列表
+ *
  * @param root 樹狀根節點
  * @returns 扁平化的節點列表
  */
@@ -48,6 +49,7 @@ function visitNode(node: TreeNodeInterface, hashMap: Record<string, boolean>, ar
 
 /**
  * 將樹狀數據轉換為 Map 格式
+ *
  * @param dataList 樹狀數據列表
  * @returns Map 格式的樹狀數據，key 為節點 id
  */
@@ -61,6 +63,7 @@ export const fnTreeDataToMap = function tableToTreeData(dataList: NzSafeAny[]): 
 
 /**
  * 將具有父子關係的扁平數組轉換為樹狀結構
+ *
  * @param data 扁平數組，每個元素包含 fatherId 屬性
  * @param fatherId 父節點 ID 的字段名，預設為 'fatherId'
  * @returns 樹狀結構數組
@@ -83,21 +86,22 @@ export const fnFlatDataHasParentToTree = function translateDataToTree(data: NzSa
       });
     });
   };
-  
+
   translator(parents, children);
   return parents;
 };
 
 /**
  * 為樹狀結構數據添加層級標記
+ *
  * @param array 樹狀數據數組
  * @param levelName 層級字段名，預設為 'level'
  * @param childrenName 子節點字段名，預設為 'children'
  * @returns 添加層級後的樹狀數據
  */
 export const fnAddTreeDataGradeAndLeaf = function AddTreeDataGradeAndLeaf(
-  array: NzSafeAny[], 
-  levelName = 'level', 
+  array: NzSafeAny[],
+  levelName = 'level',
   childrenName = 'children'
 ): NzSafeAny[] {
   const recursive = (array: NzSafeAny[], level = 0): NzSafeAny => {
@@ -119,6 +123,7 @@ export const fnAddTreeDataGradeAndLeaf = function AddTreeDataGradeAndLeaf(
 
 /**
  * 將樹狀數據扁平化
+ *
  * @param dataList 樹狀數據列表
  * @returns 扁平化的節點數組
  */
@@ -129,10 +134,13 @@ export const fnFlattenTreeDataByDataList = function flattenTreeData(dataList: Nz
 
 /**
  * 從 Map 格式獲取扁平化的樹狀數據
+ *
  * @param mapOfExpandedData Map 格式的樹狀數據
  * @returns 扁平化的節點數組
  */
-export const fnGetFlattenTreeDataByMap = function getFlattenTreeData(mapOfExpandedData: Record<string, TreeNodeInterface[]>): TreeNodeInterface[] {
+export const fnGetFlattenTreeDataByMap = function getFlattenTreeData(
+  mapOfExpandedData: Record<string, TreeNodeInterface[]>
+): TreeNodeInterface[] {
   const targetArray: TreeNodeInterface[] = [];
   Object.values(mapOfExpandedData).forEach(item => {
     item.forEach(item_1 => {
@@ -141,4 +149,3 @@ export const fnGetFlattenTreeDataByMap = function getFlattenTreeData(mapOfExpand
   });
   return targetArray;
 };
-

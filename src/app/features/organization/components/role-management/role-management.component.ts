@@ -1,20 +1,17 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, TemplateRef, ChangeDetectorRef, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { finalize } from 'rxjs/operators';
-
-import { RoleService } from '../../services/role.service';
-import { Role } from '../../models/role.model';
-import { 
+import {
   AntTableConfig,
   PageHeaderComponent,
   PageHeaderType,
   TreeTableComponent,
   MapPipe,
   MapSet,
-  MapKeyType
+  MapKeyType,
+  AuthDirective,
+  DebounceClickDirective
 } from '@shared';
-import { AuthDirective, DebounceClickDirective } from '@shared';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
@@ -28,6 +25,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { finalize } from 'rxjs/operators';
+
+import { Role } from '../../models/role.model';
+import { RoleService } from '../../services/role.service';
 
 interface SearchParam {
   name: string;
@@ -36,6 +37,7 @@ interface SearchParam {
 
 /**
  * 角色管理組件
+ *
  * @description 角色列表與權限管理
  */
 @Component({
@@ -63,15 +65,15 @@ interface SearchParam {
 export class RoleManagementComponent implements OnInit {
   @ViewChild('operationTpl', { static: true }) operationTpl!: TemplateRef<NzSafeAny>;
   @ViewChild('statusTpl', { static: true }) statusTpl!: TemplateRef<NzSafeAny>;
-  
+
   searchParam: Partial<SearchParam> = {};
   tableConfig!: AntTableConfig;
-  
+
   pageHeaderInfo: Partial<PageHeaderType> = {
     title: '角色管理',
     breadcrumb: ['首頁', '組織管理', '角色管理']
   };
-  
+
   dataList: Role[] = [];
   statusOptions: Array<{ label: string; value: string }> = [];
   destroyRef = inject(DestroyRef);
@@ -88,7 +90,7 @@ export class RoleManagementComponent implements OnInit {
 
   getDataList(e?: NzTableQueryParams): void {
     this.tableLoading(true);
-    
+
     const params = {
       page: e?.pageIndex || this.tableConfig.pageIndex,
       pageSize: this.tableConfig.pageSize,
@@ -220,4 +222,3 @@ export class RoleManagementComponent implements OnInit {
     this.getDataList();
   }
 }
-
