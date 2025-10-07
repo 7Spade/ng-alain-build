@@ -170,6 +170,12 @@ export class SimpleReuseStrategy implements RouteReuseStrategy {
    * 進入路由觸發，是同一路由時復用路由
    */
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
+    // 如果路由配置了 shouldDetach: 'no'，則強制不復用（透過比較路由配置）
+    if (future.data['shouldDetach'] === 'no' || curr.data['shouldDetach'] === 'no') {
+      // 不同的路由配置應該重新渲染
+      return future.routeConfig === curr.routeConfig;
+    }
+
     const futureKey = fnGetReuseStrategyKeyFn(future);
     const currKey = fnGetReuseStrategyKeyFn(curr);
     

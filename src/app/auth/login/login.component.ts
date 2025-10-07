@@ -18,7 +18,7 @@ import { finalize } from 'rxjs';
   selector: 'passport-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
   imports: [
     RouterLink,
     ReactiveFormsModule,
@@ -94,7 +94,7 @@ export class UserLoginComponent implements OnDestroy {
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
         this.startupSrv.load().subscribe(() => {
           let url = this.tokenService.referrer!.url || '/dashboard';
-          if (url.includes('/passport')) {
+          if (url.includes('/passport') || url.includes('/auth')) {
             url = '/dashboard';
           }
           this.router.navigateByUrl(url);

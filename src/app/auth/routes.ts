@@ -16,27 +16,27 @@ export const routes: Routes = [
       {
         path: 'landing',
         component: LandingComponent,
-        data: { title: '首頁', titleI18n: 'app.landing' }
+        data: { title: '首頁', titleI18n: 'app.landing', shouldDetach: 'no' }
       },
       {
         path: 'login',
         component: UserLoginComponent,
-        data: { title: '登录', titleI18n: 'app.login.login' }
+        data: { title: '登录', titleI18n: 'app.login.login', shouldDetach: 'no' }
       },
       {
         path: 'register',
         component: UserRegisterComponent,
-        data: { title: '注册', titleI18n: 'app.register.register' }
+        data: { title: '注册', titleI18n: 'app.register.register', shouldDetach: 'no' }
       },
       {
         path: 'register-result',
         component: UserRegisterResultComponent,
-        data: { title: '注册结果', titleI18n: 'app.register.register' }
+        data: { title: '注册结果', titleI18n: 'app.register.register', shouldDetach: 'no' }
       },
       {
         path: 'lock',
         component: UserLockComponent,
-        data: { title: '锁屏', titleI18n: 'app.lock' }
+        data: { title: '锁屏', titleI18n: 'app.lock', shouldDetach: 'no' }
       }
     ]
   },

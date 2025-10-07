@@ -108,7 +108,7 @@ export class UserRegisterComponent implements OnDestroy {
         })
       )
       .subscribe(() => {
-        this.router.navigate(['passport', 'register-result'], { queryParams: { email: data.mail } });
+        this.router.navigate(['/auth/register-result'], { queryParams: { email: data.mail } });
       });
   }
 

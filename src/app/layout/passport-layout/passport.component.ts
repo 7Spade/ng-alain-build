@@ -20,7 +20,7 @@ import { HeaderI18nComponent } from '../basic-layout/widgets/i18n.component';
           </div>
           <div class="desc">武林中最有影响力的《葵花宝典》；欲练神功，挥刀自宫</div>
         </div>
-        <router-outlet />
+        <router-outlet (activate)="onActivate($event)" />
         <global-footer [links]="links">
           Copyright
           <i nz-icon nzType="copyright"></i> 2023 <a href="//github.com/cipchk" target="_blank">卡色</a>出品
@@ -52,5 +52,11 @@ export class LayoutPassportComponent implements OnInit {
 
   ngOnInit(): void {
     this.tokenService.clear();
+  }
+
+  onActivate(component: any): void {
+    // router-outlet 激活新組件時觸發
+    // 確保視圖更新
+    console.log('Component activated:', component);
   }
 }
