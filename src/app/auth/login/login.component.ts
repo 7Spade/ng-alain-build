@@ -3,14 +3,18 @@ import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { StartupService } from '@core';
+import { FirebaseAuthService } from '@core/services/firebase-auth.service';
 import { ReuseTabService } from '@delon/abc/reuse-tab';
 import { ALLOW_ANONYMOUS, DA_SERVICE_TOKEN } from '@delon/auth';
 import { I18nPipe, _HttpClient } from '@delon/theme';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -18,7 +22,18 @@ import { finalize } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, I18nPipe, NzCheckboxModule, NzAlertModule, NzFormModule, NzInputModule, NzButtonModule]
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    I18nPipe,
+    NzCheckboxModule,
+    NzAlertModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
+    NzDividerModule,
+    NzIconModule
+  ]
 })
 export class UserLoginComponent implements OnDestroy {
   private readonly router = inject(Router);
@@ -27,6 +42,8 @@ export class UserLoginComponent implements OnDestroy {
   private readonly startupSrv = inject(StartupService);
   private readonly http = inject(_HttpClient);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly firebaseAuth = inject(FirebaseAuthService);
+  private readonly message = inject(NzMessageService);
 
   form = inject(FormBuilder).nonNullable.group({
     userName: ['', [Validators.required, Validators.pattern(/^(admin|user)$/)]],

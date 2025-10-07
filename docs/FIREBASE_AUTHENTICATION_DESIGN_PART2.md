@@ -537,33 +537,46 @@ src/app/
 ├── core/
 │   ├── services/
 │   │   ├── firebase-auth.service.ts          # Firebase 認證服務
-│   │   ├── delon-token.service.ts           # @delon Token 同步
-│   │   ├── token-refresh.service.ts         # Token 刷新
-│   │   └── rbac.service.ts                  # 權限管理
-│   ├── interceptors/
-│   │   ├── firebase-auth.interceptor.ts     # Token 附加
-│   │   └── default.interceptor.ts           # 錯誤處理
+│   │   ├── delon-firebase-token.service.ts   # @delon Token 同步
+│   │   ├── token-refresh.service.ts          # Token 刷新
+│   │   ├── auto-refresh.service.ts           # 自動刷新
+│   │   ├── rbac.service.ts                   # 權限管理
+│   │   ├── multi-tenant-auth.service.ts      # 多租戶認證
+│   │   └── firebase-error-handler.service.ts # 錯誤處理
+│   ├── net/
+│   │   ├── firebase-auth.interceptor.ts      # Firebase Token 附加
+│   │   ├── firebase-refresh-token.ts         # Firebase Token 刷新
+│   │   ├── default.interceptor.ts            # 錯誤處理（已更新）
+│   │   └── helper.ts                         # 輔助函數
 │   ├── guards/
-│   │   ├── firebase-auth.guard.ts           # 認證守衛
-│   │   └── permission.guard.ts              # 權限守衛
+│   │   ├── firebase-auth.guard.ts            # Firebase 認證守衛
+│   │   └── permission.guard.ts               # 權限守衛（工廠函數）
 │   └── models/
-│       └── firebase-token.model.ts          # Token 模型
-├── features/
-│   └── auth/
-│       ├── login/
-│       │   ├── login.component.ts
-│       │   ├── login.component.html
-│       │   └── login.component.less
-│       ├── callback/
-│       │   └── callback.component.ts
-│       └── services/
-│           └── multi-tenant-auth.service.ts
+│       └── firebase-token.model.ts           # Token 模型與枚舉
+├── auth/                                      # 認證功能模組（現有）
+│   ├── login/
+│   │   ├── login.component.ts               # 登入頁（需更新整合 Firebase）
+│   │   ├── login.component.html
+│   │   └── login.component.less
+│   ├── register/
+│   │   ├── register.component.ts            # 註冊頁（需更新整合 Firebase）
+│   │   ├── register.component.html
+│   │   └── register.component.less
+│   ├── callback/                             # Firebase 回調處理（新增）
+│   │   ├── callback.component.ts
+│   │   └── callback.component.html
+│   ├── landing/                              # 著陸頁（現有）
+│   ├── lock/                                 # 鎖定頁（現有）
+│   ├── register-result/                      # 註冊結果（現有）
+│   ├── routes.ts                             # 認證路由（需更新）
+│   └── README.md                             # 模組說明
 └── shared/
     ├── directives/
-    │   ├── has-permission.directive.ts      # 權限指令
-    │   └── has-role.directive.ts            # 角色指令
+    │   ├── has-permission.directive.ts       # 權限指令
+    │   ├── has-role.directive.ts             # 角色指令
+    │   └── has-not-permission.directive.ts   # 非權限指令
     └── pipes/
-        └── firebase-user.pipe.ts            # 使用者管道
+        └── firebase-user.pipe.ts             # 使用者管道（可選）
 ```
 
 ### 2. 環境配置

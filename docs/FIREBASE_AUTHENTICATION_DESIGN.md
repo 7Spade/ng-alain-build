@@ -1083,5 +1083,47 @@ export class TokenRefreshService {
 
 ---
 
-*（文件持續中，因字數限制，將在下一個檔案繼續...）*
+## 📂 實作檔案清單
+
+### 已創建的核心文件
+
+| 文件路徑 | 說明 | 狀態 |
+|---------|------|------|
+| `src/app/core/models/firebase-token.model.ts` | Token 模型與枚舉定義 | ✅ 已創建 |
+| `src/app/core/services/firebase-auth.service.ts` | Firebase 認證核心服務 | ✅ 已創建 |
+| `src/app/core/services/delon-firebase-token.service.ts` | @delon Token 同步服務 | ✅ 已創建 |
+| `src/app/core/services/token-refresh.service.ts` | Token 刷新服務 | ✅ 已創建 |
+| `src/app/core/services/auto-refresh.service.ts` | 自動刷新服務 | ✅ 已創建 |
+| `src/app/core/services/rbac.service.ts` | RBAC 權限管理服務 | ✅ 已創建 |
+| `src/app/core/net/firebase-auth.interceptor.ts` | Firebase Token 附加攔截器 | ✅ 已創建 |
+| `src/app/core/net/firebase-refresh-token.ts` | Firebase Token 刷新函數 | ✅ 已創建 |
+| `src/app/core/net/default.interceptor.ts` | 錯誤處理攔截器 | ✅ 已更新 |
+| `src/app/core/guards/firebase-auth.guard.ts` | Firebase 認證守衛 | ✅ 已創建 |
+| `src/app/core/guards/permission.guard.ts` | 權限與角色守衛工廠 | ✅ 已創建 |
+| `src/app/shared/directives/has-permission.directive.ts` | 權限指令（3個） | ✅ 已創建 |
+
+### 待更新的現有文件
+
+| 文件路徑 | 需要的變更 | 優先級 |
+|---------|-----------|--------|
+| `src/app/auth/login/login.component.ts` | 整合 Firebase 登入方法 | 🔴 高 |
+| `src/app/auth/register/register.component.ts` | 整合 Firebase 註冊方法 | 🟠 中 |
+| `src/app/auth/routes.ts` | 添加 callback 路由 | 🔴 高 |
+| `src/app/app.config.ts` | 整合新服務與攔截器 | 🔴 高 |
+| `src/environments/environment.ts` | 添加 Token 配置 | 🟡 低 |
+
+### 待創建的可選文件
+
+| 文件路徑 | 說明 | 優先級 |
+|---------|------|--------|
+| `src/app/auth/callback/callback.component.ts` | Firebase 回調處理組件 | 🟠 中 |
+| `src/app/core/services/multi-tenant-auth.service.ts` | 多租戶認證服務 | 🟡 低 |
+| `src/app/core/services/firebase-error-handler.service.ts` | Firebase 錯誤處理 | 🟡 低 |
+| `src/app/shared/pipes/firebase-user.pipe.ts` | 使用者資訊管道 | 🟢 可選 |
+
+---
+
+*（接續第二部分：最佳實踐與實作）*
+
+> 請參閱 [FIREBASE_AUTHENTICATION_DESIGN_PART2.md](./FIREBASE_AUTHENTICATION_DESIGN_PART2.md)
 
