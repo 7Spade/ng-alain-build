@@ -1,3 +1,3 @@
 export * from './basic/basic.component';
-export * from './blank/blank.component';
-export * from './passport/passport.component';
+export * from './blank-layout/blank.component';
+export * from './passport-layout/passport.component';
