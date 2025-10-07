@@ -91,9 +91,6 @@ import { ModeService, ModeType } from '@core';
         </div>
         <nz-dropdown-menu #userMenu="nzDropdownMenu">
           <ul nz-menu>
-            <li nz-menu-item routerLink="/pro/account/center">{{ 'menu.account.center' | i18n }}</li>
-            <li nz-menu-item routerLink="/pro/account/settings">{{ 'menu.account.settings' | i18n }}</li>
-            <li nz-menu-divider></li>
             <li nz-menu-group [nzTitle]="'menu.switcher' | i18n"></li>
             <li nz-menu-item (click)="switchMode('user')">{{ 'menu.switcher.user' | i18n }}</li>
             <li nz-menu-item (click)="switchMode('org')">{{ 'menu.switcher.org' | i18n }}</li>
