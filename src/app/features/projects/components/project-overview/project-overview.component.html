@@ -1,0 +1,78 @@
+<!-- 載入中 -->
+@if (loading()) {
+<div class="text-center py-lg">
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+}
+
+<!-- 專案內容 -->
+@if (!loading() && project()) {
+<div class="project-overview-container">
+    <!-- 麵包屑導航 -->
+    <nz-breadcrumb class="mb-md">
+        <nz-breadcrumb-item>
+            <a [routerLink]="['/']">
+                <span nz-icon nzType="home"></span>
+            </a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>
+            <a [routerLink]="['/projects']">專案</a>
+        </nz-breadcrumb-item>
+        <nz-breadcrumb-item>{{ project()!.name }}</nz-breadcrumb-item>
+    </nz-breadcrumb>
+
+    <!-- 專案標題區 -->
+    <nz-card class="project-header-card mb-md">
+        <div class="project-header">
+            <div class="project-info">
+                <nz-avatar [nzSize]="64" [nzIcon]="'folder'"
+                    [ngStyle]="{ backgroundColor: getProjectColor(project()!) }"></nz-avatar>
+                <div class="project-title-section">
+                    <h1 class="project-name">{{ project()!.name }}</h1>
+                    <p class="project-description">{{ project()!.description || '暫無描述' }}</p>
+                </div>
+            </div>
+            <div class="project-actions">
+                <button nz-button nzType="default">
+                    <span nz-icon nzType="star" nzTheme="outline"></span>
+                    收藏
+                </button>
+                <button nz-button nzType="default">
+                    <span nz-icon nzType="share-alt" nzTheme="outline"></span>
+                    分享
+                </button>
+                <button nz-button nzType="primary" [routerLink]="['settings']">
+                    <span nz-icon nzType="setting" nzTheme="outline"></span>
+                    設定
+                </button>
+            </div>
+        </div>
+    </nz-card>
+
+    <!-- Tab 導航 -->
+    <nz-card>
+        <nz-tabset [nzSelectedIndex]="currentTab()" (nzSelectedIndexChange)="onTabChange($event)" [nzLinkRouter]="true">
+            @for (tab of tabs; track tab.path) {
+            <nz-tab [nzTitle]="tabTitle">
+                <ng-template #tabTitle>
+                    <span nz-icon [nzType]="tab.icon" nzTheme="outline"></span>
+                    {{ tab.label }}
+                </ng-template>
+
+                <!-- 嵌套路由內容 -->
+                <div class="tab-content">
+                    <router-outlet></router-outlet>
+                </div>
+            </nz-tab>
+            }
+        </nz-tabset>
+    </nz-card>
+</div>
+}
+
+<!-- 專案不存在 -->
+@if (!loading() && !project()) {
+<nz-card>
+    <nz-empty nzNotFoundContent="專案不存在或已被刪除"></nz-empty>
+</nz-card>
+}

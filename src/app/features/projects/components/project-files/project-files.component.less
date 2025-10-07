@@ -1,0 +1,62 @@
+.file-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  .toolbar-left {
+    flex: 1;
+  }
+
+  .toolbar-right {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+// 工具類
+:host ::ng-deep {
+  .mb-md {
+    margin-bottom: 16px;
+  }
+
+  .mr-sm {
+    margin-right: 8px;
+  }
+
+  .py-lg {
+    padding: 24px 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  // 上傳區域樣式優化
+  .ant-upload.ant-upload-drag {
+    background: #fafafa;
+    border: 2px dashed #d9d9d9;
+    border-radius: 8px;
+    
+    &:hover {
+      border-color: #40a9ff;
+    }
+  }
+
+  .ant-upload-drag-icon {
+    font-size: 48px;
+    color: #40a9ff;
+  }
+
+  .ant-upload-text {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .ant-upload-hint {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+

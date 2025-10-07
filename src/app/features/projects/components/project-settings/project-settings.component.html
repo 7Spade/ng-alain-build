@@ -1,0 +1,115 @@
+<!-- 載入中 -->
+@if (loading()) {
+  <div class="text-center py-lg">
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+  </div>
+}
+
+<!-- 設定表單 -->
+@if (!loading() && project()) {
+  <div class="project-settings">
+    <!-- 基本資訊 -->
+    <nz-card nzTitle="基本資訊" class="mb-md">
+      <form nz-form [formGroup]="settingsForm" nzLayout="vertical">
+        <!-- 專案名稱 -->
+        <nz-form-item>
+          <nz-form-label nzRequired>專案名稱</nz-form-label>
+          <nz-form-control nzErrorTip="請輸入專案名稱（最多 100 個字符）">
+            <input nz-input formControlName="name" placeholder="請輸入專案名稱" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- 專案描述 -->
+        <nz-form-item>
+          <nz-form-label>專案描述</nz-form-label>
+          <nz-form-control nzErrorTip="描述最多 500 個字符">
+            <textarea 
+              nz-input 
+              formControlName="description" 
+              placeholder="請輸入專案描述"
+              [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+            ></textarea>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- 可見性 -->
+        <nz-form-item>
+          <nz-form-label nzRequired>可見性</nz-form-label>
+          <nz-form-control>
+            <nz-select formControlName="visibility" placeholder="選擇可見性">
+              @for (option of visibilityOptions; track option.value) {
+                <nz-option 
+                  [nzValue]="option.value" 
+                  [nzLabel]="option.label"
+                >
+                  <div>
+                    <div>{{ option.label }}</div>
+                    <div style="font-size: 12px; color: rgba(0,0,0,0.45);">
+                      {{ option.description }}
+                    </div>
+                  </div>
+                </nz-option>
+              }
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- 儲存按鈕 -->
+        <nz-form-item>
+          <nz-form-control>
+            <button 
+              nz-button 
+              nzType="primary" 
+              [nzLoading]="saving()"
+              (click)="saveSettings()"
+            >
+              儲存設定
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </nz-card>
+
+    <!-- 危險操作區 -->
+    <nz-card nzTitle="危險操作">
+      <!-- 歸檔專案 -->
+      <div class="danger-action-item">
+        <div class="action-info">
+          <h4>歸檔專案</h4>
+          <p>歸檔後專案將不再顯示在活躍列表中，但可以隨時恢復。</p>
+        </div>
+        <button 
+          nz-button 
+          nzDanger
+          [disabled]="project()!.status === 'archived'"
+          (click)="archiveProject()"
+        >
+          <span nz-icon nzType="inbox" nzTheme="outline"></span>
+          歸檔專案
+        </button>
+      </div>
+
+      <nz-divider></nz-divider>
+
+      <!-- 刪除專案 -->
+      <div class="danger-action-item">
+        <div class="action-info">
+          <h4>刪除專案</h4>
+          <p class="danger-text">
+            <span nz-icon nzType="exclamation-circle" nzTheme="fill"></span>
+            此操作無法撤銷！專案及其所有檔案將被永久刪除。
+          </p>
+        </div>
+        <button 
+          nz-button 
+          nzDanger
+          (click)="deleteProject()"
+        >
+          <span nz-icon nzType="delete" nzTheme="outline"></span>
+          刪除專案
+        </button>
+      </div>
+    </nz-card>
+  </div>
+}
+

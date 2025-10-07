@@ -1,28 +1,165 @@
-/**
- * 成員列表組件
- * @description 專案成員管理
- */
-
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
+// ng-zorro
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
+// Services & Models
+import { ProjectMemberService } from '../../services/project-member.service';
+import { ProjectMember } from '../../models/project-member.model';
+import { format } from 'date-fns';
+
+/**
+ * 專案成員列表組件
+ * 
+ * 功能：
+ * - 顯示專案成員列表
+ * - 成員角色管理
+ * - 邀請新成員
+ * - 移除成員
+ * 
+ * @example
+ * ```html
+ * <app-member-list />
+ * ```
+ */
 @Component({
   selector: 'app-member-list',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
-  template: `
-    <div class="member-list-container">
-      <h3>專案成員</h3>
-      <p>Phase 3 將實現成員邀請、角色管理功能</p>
-    </div>
-  `,
-  styles: [`
-    .member-list-container {
-      padding: 16px;
-    }
-  `]
+  imports: [
+    CommonModule,
+    NzCardModule,
+    NzTableModule,
+    NzButtonModule,
+    NzIconModule,
+    NzTagModule,
+    NzAvatarModule,
+    NzSpinModule,
+    NzEmptyModule,
+    NzPopconfirmModule
+  ],
+  templateUrl: './member-list.component.html',
+  styleUrls: ['./member-list.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberListComponent {
-}
+export class MemberListComponent implements OnInit {
+  private readonly memberService = inject(ProjectMemberService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly message = inject(NzMessageService);
 
+  // 狀態管理
+  projectId = signal<string>('');
+  members = signal<ProjectMember[]>([]);
+  loading = signal(false);
+
+  ngOnInit(): void {
+    // 從父路由獲取專案 ID
+    const projectId = this.route.parent?.snapshot.paramMap.get('id');
+    if (projectId) {
+      this.projectId.set(projectId);
+      this.loadMembers();
+    }
+  }
+
+  /**
+   * 載入成員列表
+   */
+  loadMembers(): void {
+    this.loading.set(true);
+    this.memberService.getMembers({ projectId: this.projectId() }).subscribe({
+      next: response => {
+        this.members.set(response.members);
+        this.loading.set(false);
+      },
+      error: err => {
+        console.error('載入成員失敗', err);
+        this.message.error('載入成員失敗');
+        this.loading.set(false);
+      }
+    });
+  }
+
+  /**
+   * 邀請成員
+   */
+  inviteMember(): void {
+    // TODO: 打開邀請成員 Modal
+    this.message.info('邀請成員功能開發中');
+  }
+
+  /**
+   * 移除成員
+   */
+  removeMember(member: ProjectMember): void {
+    this.memberService.removeMember(this.projectId(), member.id).subscribe({
+      next: () => {
+        this.message.success('成員已移除');
+        this.loadMembers();
+      },
+      error: err => {
+        console.error('移除成員失敗', err);
+        this.message.error('移除成員失敗');
+      }
+    });
+  }
+
+  /**
+   * 格式化日期
+   */
+  formatDate(date: Date): string {
+    return format(new Date(date), 'yyyy-MM-dd');
+  }
+
+  /**
+   * 獲取角色標籤顏色
+   */
+  getRoleColor(role: string): string {
+    switch (role) {
+      case 'owner':
+        return 'red';
+      case 'admin':
+        return 'orange';
+      case 'member':
+        return 'blue';
+      case 'viewer':
+        return 'default';
+      default:
+        return 'default';
+    }
+  }
+
+  /**
+   * 獲取角色文字
+   */
+  getRoleText(role: string): string {
+    switch (role) {
+      case 'owner':
+        return '擁有者';
+      case 'admin':
+        return '管理員';
+      case 'member':
+        return '成員';
+      case 'viewer':
+        return '查看者';
+      default:
+        return role;
+    }
+  }
+
+  /**
+   * TrackBy 函數
+   */
+  trackByMemberId(index: number, member: ProjectMember): string {
+    return member.id;
+  }
+}

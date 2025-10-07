@@ -1,0 +1,135 @@
+<!-- 頁面標題 -->
+<page-header [title]="'我的專案'">
+    <ng-container extra>
+        <button nz-button nzType="primary" (click)="createProject()">
+            <span nz-icon nzType="plus" nzTheme="outline"></span>
+            新建專案
+        </button>
+    </ng-container>
+</page-header>
+
+<!-- 搜尋和篩選工具列 -->
+<nz-card class="mb-md">
+    <div nz-row [nzGutter]="16">
+        <!-- 搜尋框 -->
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8">
+            <nz-input-group [nzPrefix]="prefixIconSearch">
+                <input type="text" nz-input placeholder="搜尋專案名稱或描述" [ngModel]="searchText()"
+                    (ngModelChange)="onSearchChange($event)" />
+            </nz-input-group>
+            <ng-template #prefixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+        </div>
+
+        <!-- 狀態篩選 -->
+        <div nz-col [nzXs]="12" [nzSm]="8" [nzMd]="6">
+            <nz-select class="w-full" nzPlaceHolder="選擇狀態" [ngModel]="statusFilter()"
+                (ngModelChange)="onStatusFilterChange($event)">
+                @for (option of statusOptions; track option.value) {
+                <nz-option [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                }
+            </nz-select>
+        </div>
+
+        <!-- 排序 -->
+        <div nz-col [nzXs]="12" [nzSm]="8" [nzMd]="6">
+            <nz-select class="w-full" [ngModel]="sortBy()" (ngModelChange)="onSortChange($event)">
+                @for (option of sortOptions; track option.value) {
+                <nz-option [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
+                }
+            </nz-select>
+        </div>
+
+        <!-- 視圖切換 -->
+        <div nz-col [nzXs]="24" [nzSm]="8" [nzMd]="4" class="text-right">
+            <nz-segmented [nzOptions]="viewOptions" [ngModel]="viewMode()"
+                (ngModelChange)="onViewModeChange($event)"></nz-segmented>
+        </div>
+    </div>
+</nz-card>
+
+<!-- 載入中 -->
+@if (loading()) {
+<div class="text-center py-lg">
+    <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>
+}
+
+<!-- 卡片視圖 -->
+@if (!loading() && viewMode() === 'card') {
+@if (filteredProjects().length === 0) {
+<nz-empty nzNotFoundContent="暫無專案" [nzNotFoundFooter]="emptyFooter">
+    <ng-template #emptyFooter>
+        <button nz-button nzType="primary" (click)="createProject()">
+            立即創建
+        </button>
+    </ng-template>
+</nz-empty>
+} @else {
+<div nz-row [nzGutter]="[16, 16]">
+    @for (project of filteredProjects(); track trackByProjectId($index, project)) {
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="8" [nzXl]="6">
+        <nz-card class="project-card" [nzHoverable]="true" (click)="viewProject(project)">
+            <!-- 專案標題 -->
+            <div class="project-header">
+                <nz-avatar [nzSize]="48" [nzIcon]="'folder'"
+                    [ngStyle]="{ backgroundColor: getProjectColor(project) }"></nz-avatar>
+                <div class="project-title">
+                    <h3>{{ project.name }}</h3>
+                    <nz-tag [nzColor]="getStatusColor(project.status)">
+                        {{ project.status === 'active' ? '活躍' : '已歸檔' }}
+                    </nz-tag>
+                </div>
+            </div>
+
+            <!-- 專案描述 -->
+            <div class="project-description">
+                {{ project.description || '暫無描述' }}
+            </div>
+
+            <!-- 標籤 -->
+            @if (project.tags && project.tags.length > 0) {
+            <div class="project-tags">
+                @for (tag of project.tags; track tag) {
+                <nz-tag>{{ tag }}</nz-tag>
+                }
+            </div>
+            }
+
+            <!-- 統計資訊 -->
+            <div class="project-stats">
+                <div class="stat-item">
+                    <span nz-icon nzType="file" nzTheme="outline"></span>
+                    <span>{{ project.fileCount }} 檔案</span>
+                </div>
+                <div class="stat-item">
+                    <span nz-icon nzType="database" nzTheme="outline"></span>
+                    <span>{{ formatStorage(project.storageUsed) }}</span>
+                </div>
+                <div class="stat-item">
+                    <span nz-icon nzType="team" nzTheme="outline"></span>
+                    <span>{{ project.memberCount }} 成員</span>
+                </div>
+            </div>
+
+            <!-- 底部資訊 -->
+            <div class="project-footer">
+                <span class="update-time">
+                    <span nz-icon nzType="clock-circle" nzTheme="outline"></span>
+                    {{ formatDate(project.updatedAt) }}
+                </span>
+            </div>
+        </nz-card>
+    </div>
+    }
+</div>
+}
+}
+
+<!-- 表格視圖（暫未實現） -->
+@if (!loading() && viewMode() === 'table') {
+<nz-card>
+    <nz-empty nzNotFoundContent="表格視圖開發中"></nz-empty>
+</nz-card>
+}

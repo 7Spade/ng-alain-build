@@ -65,7 +65,7 @@ export const routes: Routes = [
       // Settings - 設定頁面
       {
         path: 'settings/organizations',
-        loadComponent: () => import('./system/organization-settings').then(m => m.OrganizationSettingsComponent),
+        loadComponent: () => import('./features/organization/components/organization-settings').then(m => m.OrganizationSettingsComponent),
         data: { title: '組織管理' }
       }
     ]

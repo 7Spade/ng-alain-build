@@ -20,8 +20,8 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { OrganizationContextService } from '@core';
-import { UserOrganizationService } from '../../features/organization/services/user-organization.service';
-import type { UserOrganization } from '../../features/organization/models';
+import { UserOrganizationService } from '../../services/user-organization.service';
+import type { UserOrganization } from '../../models';
 
 @Component({
   selector: 'app-organization-settings',

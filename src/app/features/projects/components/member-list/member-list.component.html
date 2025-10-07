@@ -1,0 +1,77 @@
+<!-- 工具列 -->
+<div class="member-toolbar mb-md">
+  <h3>成員管理</h3>
+  <button nz-button nzType="primary" (click)="inviteMember()">
+    <span nz-icon nzType="plus" nzTheme="outline"></span>
+    邀請成員
+  </button>
+</div>
+
+<!-- 成員列表 -->
+<nz-card>
+  @if (loading()) {
+    <div class="text-center py-lg">
+      <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+    </div>
+  } @else {
+    @if (members().length === 0) {
+      <nz-empty nzNotFoundContent="暫無成員"></nz-empty>
+    } @else {
+      <nz-table
+        #memberTable
+        [nzData]="members()"
+        [nzPageSize]="10"
+        [nzShowPagination]="members().length > 10"
+      >
+        <thead>
+          <tr>
+            <th>成員</th>
+            <th>角色</th>
+            <th>加入時間</th>
+            <th nzWidth="150px">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (member of memberTable.data; track trackByMemberId($index, member)) {
+            <tr>
+              <td>
+                <div class="member-cell">
+                  <nz-avatar 
+                    [nzIcon]="'user'"
+                    [nzSize]="32"
+                  ></nz-avatar>
+                  <span>{{ member.userId }}</span>
+                </div>
+              </td>
+              <td>
+                <nz-tag [nzColor]="getRoleColor(member.role)">
+                  {{ getRoleText(member.role) }}
+                </nz-tag>
+              </td>
+              <td>{{ formatDate(member.joinedAt) }}</td>
+              <td>
+                @if (member.role !== 'owner') {
+                  <button 
+                    nz-button 
+                    nzType="link" 
+                    nzSize="small"
+                    nzDanger
+                    nz-popconfirm
+                    nzPopconfirmTitle="確定要移除此成員嗎？"
+                    (nzOnConfirm)="removeMember(member)"
+                  >
+                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                    移除
+                  </button>
+                } @else {
+                  <span style="color: rgba(0,0,0,0.25);">-</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    }
+  }
+</nz-card>
+
