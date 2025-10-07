@@ -81,7 +81,11 @@ export const fnFlatDataHasParentToTree = function translateDataToTree(data: NzSa
           const temp = JSON.parse(JSON.stringify(children));
           temp.splice(index, 1);
           translator([current], temp);
-          typeof parent.children !== 'undefined' ? parent.children.push(current) : (parent.children = [current]);
+          if (typeof parent.children !== 'undefined') {
+            parent.children.push(current);
+          } else {
+            parent.children = [current];
+          }
         }
       });
     });

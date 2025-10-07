@@ -213,7 +213,7 @@ const mockActivities: Record<string, ProjectActivity[]> = {
 
 export const PROJECT_API = {
   // 獲取個人專案列表
-  'GET /api/users/me/projects': (req: MockRequest) => {
+  'GET /api/users/me/projects': (_req: MockRequest) => {
     const personalProjects = mockProjects.filter(p => p.ownerType === 'personal');
     return {
       list: personalProjects,

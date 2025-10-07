@@ -8,7 +8,7 @@ import { Injectable, inject } from '@angular/core';
 import { CacheService } from '@delon/cache';
 import { _HttpClient } from '@delon/theme';
 import { Observable, of } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 import type { Organization, CreateOrganizationRequest, UpdateOrganizationRequest } from '../models';
 

@@ -4,10 +4,9 @@
  * @description 檔案上傳、下載、管理
  */
 
-import { HttpClient, HttpEvent, HttpEventType, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import type { ProjectFile, FileQueryParams, FileListResponse, CreateFolderRequest, UploadFileRequest } from '../models';
 

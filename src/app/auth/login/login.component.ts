@@ -1,5 +1,5 @@
 import { HttpContext } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { StartupService } from '@core';
@@ -10,7 +10,6 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { finalize } from 'rxjs';
 
@@ -94,6 +93,4 @@ export class UserLoginComponent implements OnDestroy {
         });
       });
   }
-
-  ngOnDestroy(): void {}
 }

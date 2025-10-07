@@ -29,7 +29,6 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { finalize } from 'rxjs/operators';
 
-import { Department } from '../../models/department.model';
 import { DepartmentService } from '../../services/department.service';
 
 interface SearchParam {
@@ -141,12 +140,12 @@ export class DepartmentListComponent implements OnInit {
     this.getDataList();
   }
 
-  add(parentId?: string): void {
+  add(_parentId?: string): void {
     this.message.info('新增部門功能待實現（需要 Modal 組件）');
     // TODO: 實施新增部門 Modal
   }
 
-  edit(id: string): void {
+  edit(_id: string): void {
     this.message.info('編輯部門功能待實現（需要 Modal 組件）');
     // TODO: 實施編輯部門 Modal
   }

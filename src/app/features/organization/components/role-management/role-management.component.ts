@@ -133,12 +133,12 @@ export class RoleManagementComponent implements OnInit {
     this.getDataList();
   }
 
-  edit(id: string): void {
+  edit(_id: string): void {
     this.message.info('編輯角色功能待實現（需要 Modal 組件）');
     // TODO: 實施編輯角色 Modal
   }
 
-  setPermissions(id: string): void {
+  setPermissions(_id: string): void {
     this.message.info('設置權限功能待實現（需要 Modal 組件）');
     // TODO: 實施設置權限 Modal
   }

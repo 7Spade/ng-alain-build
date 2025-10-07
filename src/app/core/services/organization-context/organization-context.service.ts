@@ -11,12 +11,7 @@ import { ACLService } from '@delon/acl';
 import { MenuService } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
-import type {
-  UserOrganization,
-  OrganizationContext,
-  OrganizationRole,
-  ORGANIZATION_ROLE_PERMISSIONS
-} from '../../../features/organization/models';
+import type { UserOrganization, OrganizationContext, OrganizationRole } from '../../../features/organization/models';
 import { UserOrganizationService } from '../../../features/organization/services/user-organization.service';
 import { TabService } from '../tab/tab.service';
 

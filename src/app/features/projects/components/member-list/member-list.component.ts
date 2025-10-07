@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 // ng-zorro
 import { format } from 'date-fns';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';

@@ -6,7 +6,6 @@ import {
   PageHeaderComponent,
   PageHeaderType,
   TreeTableComponent,
-  TreeNodeInterface,
   MapPipe,
   MapSet,
   MapKeyType,
@@ -23,7 +22,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { finalize } from 'rxjs/operators';
@@ -140,12 +138,12 @@ export class EmployeeListComponent implements OnInit {
     this.getDataList();
   }
 
-  edit(id: string): void {
+  edit(_id: string): void {
     this.message.info('編輯員工功能待實現（需要 Modal 組件）');
     // TODO: 實施編輯員工 Modal
   }
 
-  delete(id: string): void {
+  delete(_id: string): void {
     this.modalSrv.confirm({
       nzTitle: '確定要刪除嗎？',
       nzContent: '刪除後不可恢復',

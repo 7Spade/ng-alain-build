@@ -18,12 +18,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 
 import { OrganizationContextService } from '../../../core/services/organization-context/organization-context.service';
 import { OrganizationFormComponent } from '../../../features/organization/components/organization-form';
-import type {
-  UserOrganization,
-  CreateOrganizationRequest,
-  ORGANIZATION_ROLE_LABELS,
-  ORGANIZATION_ROLE_COLORS
-} from '../../../features/organization/models';
+import type { UserOrganization, CreateOrganizationRequest } from '../../../features/organization/models';
 import { OrganizationService } from '../../../features/organization/services/organization.service';
 
 @Component({

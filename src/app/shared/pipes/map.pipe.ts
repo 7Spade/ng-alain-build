@@ -118,7 +118,7 @@ export class MapPipe implements PipeTransform {
       case 'date':
         return this.datePipe.transform(value, param);
       default:
-        // @ts-ignore
+        // @ts-expect-error - Legacy code, mapObj type is dynamic
         return this.mapObj[type] ? this.mapObj[type][value] : '';
     }
   }

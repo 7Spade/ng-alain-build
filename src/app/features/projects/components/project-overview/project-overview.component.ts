@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-
 // ng-zorro
 import { formatStorage } from '@shared';
 import { format } from 'date-fns';

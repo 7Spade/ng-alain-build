@@ -9,11 +9,9 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
-import { NzSelectModule } from 'ng-zorro-antd/select';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -111,6 +109,4 @@ export class UserRegisterComponent implements OnDestroy {
         this.router.navigate(['/auth/register-result'], { queryParams: { email: data.mail } });
       });
   }
-
-  ngOnDestroy(): void {}
 }

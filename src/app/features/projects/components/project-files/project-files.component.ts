@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
 import { Component, ChangeDetectionStrategy, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 // ng-zorro
 import { format } from 'date-fns';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
@@ -15,7 +14,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzUploadModule, NzUploadFile, NzUploadChangeParam } from 'ng-zorro-antd/upload';
+import { NzUploadModule, NzUploadFile } from 'ng-zorro-antd/upload';
 
 // Services & Models
 import { ProjectFile } from '../../models/project-file.model';
@@ -169,7 +168,7 @@ export class ProjectFilesComponent implements OnInit {
         this.uploading.set(false);
         this.loadFiles(); // 重新載入列表
       })
-      .catch(err => {
+      .catch(_err => {
         this.message.error('部分檔案上傳失敗');
         this.uploading.set(false);
       });

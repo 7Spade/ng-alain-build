@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * ng-alain 專案結構樹狀圖生成腳本（簡化版）
- * 生成兩份文件：
+ * ng-alain 專案結構樹狀圖生成腳本（精簡版）
+ * 生成兩份文件 + Lint 報告：
  * 1. ng-alain-structure-folders.md - 只有資料夾結構
  * 2. ng-alain-structure-full.md - 完整結構（含文件）
+ * 3. ng-alain-lint-error.md - ESLint + Stylelint 報告
  */
 
 import { execSync } from 'node:child_process';
@@ -12,7 +13,27 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 // ============================================================
-// 排除規則
+// 類型定義
+// ============================================================
+
+interface LintResult {
+  success: boolean;
+  output: string;
+  errors: string;
+}
+
+interface ProjectStats {
+  files: number;
+  folders: number;
+}
+
+interface TreeResult {
+  tree: string;
+  stats: ProjectStats;
+}
+
+// ============================================================
+// 常數定義
 // ============================================================
 
 const EXCLUDE_PATTERNS: readonly string[] = [
@@ -42,45 +63,26 @@ const EXCLUDE_PATTERNS: readonly string[] = [
 const EXCLUDE_EXTENSIONS: readonly string[] = ['.map', '.spec.ts', '.spec.js', '.log', '.tmp', '.swp', '.bak'] as const;
 
 // ============================================================
-// 核心功能
+// 核心工具函數
 // ============================================================
 
-/**
- * 檢查路徑是否應該被排除
- */
 function shouldExclude(filePath: string, fileName: string): boolean {
-  // 檢查排除模式
   for (const pattern of EXCLUDE_PATTERNS) {
     if (pattern.includes('*')) {
       const regex = new RegExp(pattern.replace(/\*/g, '.*'));
       if (regex.test(fileName)) return true;
     } else {
-      if (fileName === pattern) return true;
-      const pathParts = filePath.split(path.sep);
-      if (pathParts.includes(pattern)) return true;
+      if (fileName === pattern || filePath.split(path.sep).includes(pattern)) return true;
     }
   }
-
-  // 檢查文件擴展名
-  const ext = path.extname(fileName);
-  if (EXCLUDE_EXTENSIONS.includes(ext)) return true;
-
-  return false;
+  return EXCLUDE_EXTENSIONS.includes(path.extname(fileName));
 }
 
-/**
- * 生成樹狀結構
- *
- * @param dirPath - 目錄路徑
- * @param prefix - 前綴字符串
- * @param isLast - 是否為最後一個項目
- * @param depth - 當前深度
- * @param maxDepth - 最大深度
- * @param foldersOnly - 是否只顯示資料夾
- */
-function generateTree(dirPath: string, prefix = '', isLast = true, depth = 0, maxDepth = 10, foldersOnly = false): string {
+function generateTreeWithStats(dirPath: string, prefix = '', isLast = true, depth = 0, maxDepth = 10, foldersOnly = false): TreeResult {
+  const stats: ProjectStats = { files: 0, folders: 0 };
+
   if (depth > maxDepth) {
-    return `${prefix + (isLast ? '└── ' : '├── ')}...\n`;
+    return { tree: `${prefix + (isLast ? '└── ' : '├── ')}...\n`, stats };
   }
 
   let result = '';
@@ -88,18 +90,15 @@ function generateTree(dirPath: string, prefix = '', isLast = true, depth = 0, ma
 
   try {
     items = fs.readdirSync(dirPath, { withFileTypes: true }).filter((item: fs.Dirent) => {
-      // 排除不需要的文件/目錄
       if (shouldExclude(path.join(dirPath, item.name), item.name)) return false;
-      // 如果只顯示資料夾，過濾掉文件
       if (foldersOnly && !item.isDirectory()) return false;
       return true;
     });
-  } catch (error) {
-    return result;
+  } catch {
+    return { tree: result, stats };
   }
 
-  // 排序：目錄優先，然後按名稱排序
-  items = items.sort((a: fs.Dirent, b: fs.Dirent) => {
+  items.sort((a: fs.Dirent, b: fs.Dirent) => {
     if (a.isDirectory() && !b.isDirectory()) return -1;
     if (!a.isDirectory() && b.isDirectory()) return 1;
     return a.name.localeCompare(b.name);
@@ -114,51 +113,23 @@ function generateTree(dirPath: string, prefix = '', isLast = true, depth = 0, ma
 
     if (item.isDirectory()) {
       result += '/\n';
+      stats.folders++;
       const subPath = path.join(dirPath, item.name);
-      result += generateTree(subPath, prefix + nextPrefix, isLastItem, depth + 1, maxDepth, foldersOnly);
+      const subResult = generateTreeWithStats(subPath, prefix + nextPrefix, isLastItem, depth + 1, maxDepth, foldersOnly);
+      result += subResult.tree;
+      stats.files += subResult.stats.files;
+      stats.folders += subResult.stats.folders;
     } else {
       result += '\n';
+      stats.files++;
     }
   });
 
-  return result;
+  return { tree: result, stats };
 }
 
-/**
- * 統計文件和目錄數量
- */
-function countItems(dirPath: string, foldersOnly = false): { files: number; folders: number } {
-  let files = 0;
-  let folders = 0;
-
-  function walk(dir: string): void {
-    try {
-      const items = fs.readdirSync(dir, { withFileTypes: true });
-      for (const item of items) {
-        if (shouldExclude(path.join(dir, item.name), item.name)) continue;
-
-        if (item.isDirectory()) {
-          folders++;
-          walk(path.join(dir, item.name));
-        } else if (!foldersOnly) {
-          files++;
-        }
-      }
-    } catch {
-      // 忽略無法讀取的目錄
-    }
-  }
-
-  walk(dirPath);
-  return { files, folders };
-}
-
-/**
- * 生成 Markdown 文件
- */
-function generateMarkdown(tree: string, title: string, description: string, stats: { files: number; folders: number }): string {
+function generateMarkdown(tree: string, title: string, description: string, stats: ProjectStats): string {
   const timestamp = new Date().toISOString().split('T')[0];
-
   return `# ${title}
 
 > ${description}
@@ -178,56 +149,16 @@ ${tree.trim()}
 
 ---
 
-*Generated by ng-alain Structure Generator (Simplified)*
+*Generated by ng-alain Structure Generator (Optimized)*
 `;
 }
 
-/**
- * 執行 Lint 檢查並生成報告
- */
-function runLintAndSaveReport(): void {
-  const rootPath = process.cwd();
-  const outputDir = path.join(rootPath, 'memory-bank');
-  const outputPath = path.join(outputDir, 'ng-alain-lint-error.md');
-
-  console.log('🔍 開始執行 Lint 檢查...\n');
-
-  // 執行 TypeScript Lint
-  console.log('📝 執行 TypeScript Lint (ESLint)...');
-  let tsLintOutput = '';
-  let tsLintSuccess = true;
-  try {
-    tsLintOutput = execSync('npx eslint --cache', {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
-  } catch (error: any) {
-    tsLintSuccess = false;
-    // 即使有錯誤，也從 error.stdout 和 error.stderr 獲取輸出
-    tsLintOutput = (error.stdout || '') + (error.stderr || '');
-  }
-
-  // 執行 Style Lint
-  console.log('🎨 執行 Style Lint (Stylelint)...');
-  let styleLintOutput = '';
-  let styleLintSuccess = true;
-  try {
-    styleLintOutput = execSync("npx stylelint 'src/**/*.less'", {
-      encoding: 'utf8',
-      stdio: 'pipe'
-    });
-  } catch (error: any) {
-    styleLintSuccess = false;
-    styleLintOutput = (error.stdout || '') + (error.stderr || '');
-  }
-
-  // 分析結果
-  const tsErrors = (tsLintOutput.match(/✖ \d+ problem/g) || [])[0] || '無錯誤';
-  const styleErrors = (styleLintOutput.match(/✖ \d+ problem/g) || [])[0] || '無錯誤';
-
-  // 生成 Markdown 報告
+function generateLintMarkdown(tsResult: LintResult, styleResult: LintResult): string {
   const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
-  const report = `# 📋 ng-alain Lint 錯誤報告
+  const tsErrors = (tsResult.output.match(/✖ \d+ problem/g) || [])[0] || '無錯誤';
+  const styleErrors = (styleResult.output.match(/✖ \d+ problem/g) || [])[0] || '無錯誤';
+
+  return `# 📋 ng-alain Lint 錯誤報告
 
 > 自動生成的程式碼品質檢查報告
 
@@ -237,25 +168,25 @@ function runLintAndSaveReport(): void {
 
 | 檢查類型 | 狀態 | 結果 |
 |---------|------|------|
-| TypeScript (ESLint) | ${tsLintSuccess ? '✅ 通過' : '❌ 發現問題'} | ${tsErrors} |
-| Style (Stylelint) | ${styleLintSuccess ? '✅ 通過' : '❌ 發現問題'} | ${styleErrors} |
+| TypeScript (ESLint) | ${tsResult.success ? '✅ 通過' : '❌ 發現問題'} | ${tsErrors} |
+| Style (Stylelint) | ${styleResult.success ? '✅ 通過' : '❌ 發現問題'} | ${styleErrors} |
 
 ## 🔍 詳細報告
 
 ### TypeScript Lint (ESLint)
 
-${tsLintSuccess ? '✅ **無錯誤** - 程式碼符合 ESLint 規範' : ''}
+${tsResult.success ? '✅ **無錯誤** - 程式碼符合 ESLint 規範' : ''}
 
 \`\`\`
-${tsLintOutput.trim() || '(無輸出)'}
+${tsResult.output.trim() || '(無輸出)'}
 \`\`\`
 
 ### Style Lint (Stylelint)
 
-${styleLintSuccess ? '✅ **無錯誤** - 樣式檔案符合 Stylelint 規範' : ''}
+${styleResult.success ? '✅ **無錯誤** - 樣式檔案符合 Stylelint 規範' : ''}
 
 \`\`\`
-${styleLintOutput.trim() || '(無輸出)'}
+${styleResult.output.trim() || '(無輸出)'}
 \`\`\`
 
 ## 💡 建議修復步驟
@@ -285,64 +216,70 @@ npm run lint:style
 
 *Generated by ng-alain Structure Generator - Lint Report Module*
 `;
+}
 
-  // 寫入報告
+function runLintAndSaveReport(): void {
+  const outputPath = path.join(process.cwd(), 'memory-bank', 'ng-alain-lint-error.md');
+
+  console.log('🔍 開始執行 Lint 檢查...\n');
+
+  // 執行 TypeScript Lint
+  console.log('📝 執行 TypeScript Lint (ESLint)...');
+  const tsResult: LintResult = { success: true, output: '', errors: '' };
+  try {
+    tsResult.output = execSync('npx eslint --cache', { encoding: 'utf8', stdio: 'pipe' });
+  } catch (error: unknown) {
+    tsResult.success = false;
+    const err = error as { stdout?: string; stderr?: string };
+    tsResult.output = (err.stdout || '') + (err.stderr || '');
+  }
+
+  // 執行 Style Lint
+  console.log('🎨 執行 Style Lint (Stylelint)...');
+  const styleResult: LintResult = { success: true, output: '', errors: '' };
+  try {
+    styleResult.output = execSync("npx stylelint 'src/**/*.less'", { encoding: 'utf8', stdio: 'pipe' });
+  } catch (error: unknown) {
+    styleResult.success = false;
+    const err = error as { stdout?: string; stderr?: string };
+    styleResult.output = (err.stdout || '') + (err.stderr || '');
+  }
+
+  // 生成並寫入報告
+  const report = generateLintMarkdown(tsResult, styleResult);
   fs.writeFileSync(outputPath, report, 'utf8');
 
   console.log(`✅ Lint 報告已生成: ${outputPath}`);
-  if (!tsLintSuccess || !styleLintSuccess) {
-    console.log(`   ⚠️  發現問題，請查看報告詳情`);
-  } else {
-    console.log(`   ✨ 所有檢查通過！`);
-  }
+  console.log(tsResult.success && styleResult.success ? '   ✨ 所有檢查通過！' : '   ⚠️  發現問題，請查看報告詳情');
   console.log('');
 }
 
-/**
- * 主函數：生成專案結構文件
- */
 function generateProjectStructure(): void {
   const rootPath = process.cwd();
   const outputDir = path.join(rootPath, 'memory-bank');
 
-  // 確保輸出目錄存在
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
   console.log('🔍 開始生成專案結構與 Lint 報告...\n');
 
-  // ============================================================
   // 1. 執行 Lint 檢查
-  // ============================================================
   runLintAndSaveReport();
 
-  // ============================================================
   // 2. 生成資料夾結構（只有目錄）
-  // ============================================================
   console.log('📁 生成資料夾結構...');
-  const folderTree = generateTree(rootPath, '', true, 0, 10, true);
-  const folderStats = countItems(rootPath, true);
-  const folderContent = generateMarkdown(folderTree, '📁 ng-alain 專案資料夾結構', '僅包含目錄結構，不包含文件', folderStats);
+  const folderResult = generateTreeWithStats(rootPath, '', true, 0, 10, true);
+  const folderContent = generateMarkdown(folderResult.tree, '📁 ng-alain 專案資料夾結構', '僅包含目錄結構，不包含文件', folderResult.stats);
+  fs.writeFileSync(path.join(outputDir, 'ng-alain-structure-folders.md'), folderContent, 'utf8');
+  console.log(`✅ 資料夾結構已生成\n   📊 目錄總數: ${folderResult.stats.folders}\n`);
 
-  const folderOutputPath = path.join(outputDir, 'ng-alain-structure-folders.md');
-  fs.writeFileSync(folderOutputPath, folderContent, 'utf8');
-  console.log(`✅ 資料夾結構已生成: ${folderOutputPath}`);
-  console.log(`   📊 目錄總數: ${folderStats.folders}\n`);
-
-  // ============================================================
   // 3. 生成完整結構（包含文件）
-  // ============================================================
   console.log('📄 生成完整結構...');
-  const fullTree = generateTree(rootPath, '', true, 0, 10, false);
-  const fullStats = countItems(rootPath, false);
-  const fullContent = generateMarkdown(fullTree, '📄 ng-alain 專案完整結構', '包含完整的目錄和文件結構', fullStats);
-
-  const fullOutputPath = path.join(outputDir, 'ng-alain-structure-full.md');
-  fs.writeFileSync(fullOutputPath, fullContent, 'utf8');
-  console.log(`✅ 完整結構已生成: ${fullOutputPath}`);
-  console.log(`   📊 目錄總數: ${fullStats.folders}`);
-  console.log(`   📊 文件總數: ${fullStats.files}\n`);
+  const fullResult = generateTreeWithStats(rootPath, '', true, 0, 10, false);
+  const fullContent = generateMarkdown(fullResult.tree, '📄 ng-alain 專案完整結構', '包含完整的目錄和文件結構', fullResult.stats);
+  fs.writeFileSync(path.join(outputDir, 'ng-alain-structure-full.md'), fullContent, 'utf8');
+  console.log(`✅ 完整結構已生成\n   📊 目錄總數: ${fullResult.stats.folders}\n   📊 文件總數: ${fullResult.stats.files}\n`);
 
   console.log('🎉 專案結構與 Lint 報告生成完成！');
 }
@@ -350,6 +287,7 @@ function generateProjectStructure(): void {
 // ============================================================
 // 執行腳本
 // ============================================================
+
 if (require.main === module) {
   try {
     generateProjectStructure();
@@ -359,5 +297,4 @@ if (require.main === module) {
   }
 }
 
-// 導出函數供其他模組使用
-export { generateProjectStructure, generateTree };
+export { generateProjectStructure, generateTreeWithStats };

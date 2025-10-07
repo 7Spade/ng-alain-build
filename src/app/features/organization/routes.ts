@@ -7,7 +7,7 @@
 import type { Routes } from '@angular/router';
 import { authSimpleCanActivate } from '@delon/auth';
 
-import { organizationGuard, departmentManageGuard, employeeManageGuard, roleManageGuard } from './guards/organization.guard';
+import { departmentManageGuard, employeeManageGuard, roleManageGuard } from './guards/organization.guard';
 
 /**
  * 組織管理模組路由

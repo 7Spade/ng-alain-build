@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -13,7 +13,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   imports: [NzButtonModule, NzCardModule, NzGridModule, NzTypographyModule]
 })
 export class LandingComponent {
-  constructor(private router: Router) {}
+  private router = inject(Router);
 
   goToLogin(): void {
     this.router.navigate(['/auth/login']);

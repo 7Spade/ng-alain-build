@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { Observable, zip, catchError, map, switchMap, from } from 'rxjs';
+import { Observable, zip, catchError, switchMap } from 'rxjs';
 
 import { I18NService } from '../i18n/i18n.service';
 import { ModeService, ModeType } from '../services/mode/mode.service';

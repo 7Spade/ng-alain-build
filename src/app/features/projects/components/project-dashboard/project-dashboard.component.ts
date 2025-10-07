@@ -8,7 +8,6 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-
 // ng-zorro
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzListModule } from 'ng-zorro-antd/list';
