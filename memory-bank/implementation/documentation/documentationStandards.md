@@ -2,444 +2,87 @@
 
 ## Documentation Structure
 
-### Project Documentation
-- **README.md**: Project overview and setup instructions
-- **CONTRIBUTING.md**: Contribution guidelines
-- **CHANGELOG.md**: Version history and changes
-- **LICENSE**: Project license information
-- **API.md**: API documentation
-
-### Code Documentation
-- **Inline Comments**: Explain complex logic
-- **JSDoc**: Document public APIs and methods
-- **Type Definitions**: Document interfaces and types
-- **Examples**: Provide usage examples
-
-## README.md Standards
-
-### Required Sections
+### README Template
 ```markdown
-# Project Title
+# Project Name
 
-Brief project description
-
-## Features
-- Key feature 1
-- Key feature 2
-- Key feature 3
-
-## Prerequisites
-- Node.js version requirements
-- Package manager requirements
-- System requirements
+## Overview
+簡潔的專案描述和目標
 
 ## Installation
 ```bash
-# Installation commands
 npm install
-# or
-yarn install
-```
-
-## Development
-```bash
-# Development server
 npm start
-# or
-yarn start
 ```
-
-## Building
-```bash
-# Production build
-npm run build
-# or
-yarn build
-```
-
-## Testing
-```bash
-# Unit tests
-npm test
-# or
-yarn test
-```
-
-## Contributing
-See CONTRIBUTING.md for guidelines
-
-## License
-See LICENSE file
-```
-
-## API Documentation Standards
-
-### JSDoc Format
-```typescript
-/**
- * Service for managing user data
- * @description Provides CRUD operations for user management
- * @example
- * ```typescript
- * constructor(private userService: UserService) {}
- * 
- * this.userService.getUsers().subscribe(users => {
- *   console.log(users);
- * });
- * ```
- */
-@Injectable({
-  providedIn: 'root'
-})
-export class UserService {
-  /**
-   * Retrieves all users
-   * @returns Observable<User[]> Array of users
-   * @throws {HttpErrorResponse} When API request fails
-   */
-  getUsers(): Observable<User[]> {
-    // Implementation
-  }
-
-  /**
-   * Creates a new user
-   * @param user - User data to create
-   * @returns Observable<User> Created user
-   */
-  createUser(user: CreateUserRequest): Observable<User> {
-    // Implementation
-  }
-}
-```
-
-### Interface Documentation
-```typescript
-/**
- * User entity interface
- * @interface User
- */
-export interface User {
-  /** Unique user identifier */
-  id: string;
-  /** User's full name */
-  name: string;
-  /** User's email address */
-  email: string;
-  /** User's role in the system */
-  role: UserRole;
-  /** Account creation timestamp */
-  createdAt: Date;
-  /** Last update timestamp */
-  updatedAt: Date;
-}
-```
-
-## Component Documentation
-
-### Component README Template
-```markdown
-# ComponentName
-
-Brief component description
 
 ## Usage
-```html
-<app-component-name
-  [inputProperty]="value"
-  (outputEvent)="handler($event)">
-</app-component-name>
+基本使用範例
+
+## API Documentation
+公開 API 說明
+
+## Contributing
+貢獻指南
 ```
 
-## Properties
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| inputProperty | string | '' | Description of property |
-
-## Events
-| Event | Type | Description |
-|-------|------|-------------|
-| outputEvent | EventEmitter<T> | Description of event |
-
-## Examples
-### Basic Usage
-```html
-<app-component-name></app-component-name>
-```
-
-### With Properties
-```html
-<app-component-name
-  [inputProperty]="'custom value'"
-  (outputEvent)="handleEvent($event)">
-</app-component-name>
-```
-```
-
-## Style Guide Documentation
-
-### CSS/Less Documentation
-```less
-/**
- * Component styles for FeatureComponent
- * Uses BEM methodology for class naming
- */
-
-// Variables
-@component-padding: 16px;
-@component-border-radius: 4px;
-
-// Component styles
-.feature-component {
-  // Block styles
-  padding: @component-padding;
-  border-radius: @component-border-radius;
-
-  // Element styles
-  &__header {
-    // Header element styles
-  }
-
-  &__content {
-    // Content element styles
-  }
-
-  // Modifier styles
-  &--large {
-    // Large modifier styles
-  }
-}
-```
-
-## Testing Documentation
-
-### Test Documentation Standards
-```typescript
-describe('FeatureComponent', () => {
-  /**
-   * Test suite for FeatureComponent
-   * Tests component initialization, user interactions, and data handling
-   */
-  
-  describe('Component Initialization', () => {
-    it('should create component successfully', () => {
-      // Test implementation
-    });
-  });
-
-  describe('User Interactions', () => {
-    it('should handle button click events', () => {
-      // Test implementation
-    });
-  });
-
-  describe('Data Handling', () => {
-    it('should display data correctly', () => {
-      // Test implementation
-    });
-  });
-});
-```
-
-## Architecture Documentation
-
-### System Architecture
-```markdown
-# System Architecture
-
-## Overview
-High-level system architecture description
-
-## Components
-### Core Components
-- Component 1: Description
-- Component 2: Description
-
-### Feature Components
-- Feature 1: Description
-- Feature 2: Description
-
-## Data Flow
-```mermaid
-graph TD
-    A[User Input] --> B[Component]
-    B --> C[Service]
-    C --> D[API]
-    D --> E[Response]
-    E --> F[Update UI]
-```
-
-## Dependencies
-- Angular 20.3.0
-- ng-alain 20.0.2
-- ng-zorro-antd 20.3.1
-```
-
-## Deployment Documentation
-
-### Build Process
-```markdown
-# Build Process
-
-## Development Build
-```bash
-ng build
-```
-
-## Production Build
-```bash
-ng build --configuration production
-```
-
-## Build Optimization
-- Tree shaking enabled
-- Minification enabled
-- Source maps disabled in production
-- Bundle analysis available
-
-## Deployment Steps
-1. Run production build
-2. Deploy dist folder to web server
-3. Configure server for Angular routing
-4. Set up monitoring and logging
-```
-
-## Maintenance Documentation
-
-### Update Procedures
-```markdown
-# Update Procedures
-
-## Dependency Updates
-1. Check for updates: `npm outdated`
-2. Update packages: `npm update`
-3. Test application: `npm test`
-4. Build application: `npm run build`
-
-## Angular Updates
-1. Check Angular update guide
-2. Run Angular update command
-3. Fix breaking changes
-4. Update dependencies
-5. Test thoroughly
-```
-
-## Documentation Maintenance
-
-### Regular Updates
-- **Monthly**: Review and update README files
-- **Release**: Update CHANGELOG.md
-- **Feature**: Update API documentation
-- **Bug Fix**: Update known issues section
-
-### Documentation Review
-- **Accuracy**: Verify all information is current
-- **Completeness**: Ensure all features are documented
-- **Clarity**: Check for clear and understandable language
-- **Examples**: Verify all examples work correctly
-
-## ng-alain Documentation Standards
-
-### Module README Template
-```markdown
-# [Feature Name] Module
-
-## 功能概述
-[簡短描述功能模組的用途和主要功能]
-
-## 目錄結構
-```
-src/app/routes/[feature]/
-├── components/
-│   ├── [feature]-list/
-│   │   ├── [feature]-list.component.ts
-│   │   ├── [feature]-list.component.html (可選)
-│   │   └── [feature]-list.component.less (可選)
-│   ├── [feature]-form/
-│   └── [feature]-detail/
-├── services/
-│   └── [feature].service.ts
-├── models/
-│   └── [feature].model.ts
-├── guards/
-│   └── [feature]-permission.guard.ts
-├── routes.ts
-├── index.ts
-└── README.md
-```
-
-## 使用方式
-[代碼示例和基本使用方法]
-
-## API 文檔
-[API 說明和參數]
-
-## 開發指南
-[開發注意事項和最佳實踐]
-```
+## Code Documentation
 
 ### JSDoc Standards
 ```typescript
 /**
- * 獲取組織列表
- * @description 根據查詢參數獲取組織列表，支援分頁、搜索和篩選
- * @param params 查詢參數（分頁、搜索、篩選）
- * @returns Observable<{data: Organization[]; total: number}>
+ * 獲取用戶列表
+ * @param params 查詢參數
+ * @returns Observable<用戶列表>
  * @example
  * ```typescript
- * this.organizationService.getOrganizations({
- *   page: 1,
- *   pageSize: 10,
- *   search: 'test'
- * }).subscribe(result => {
- *   console.log(result.data);
+ * this.userService.getUsers({ page: 1 }).subscribe(users => {
+ *   console.log(users);
  * });
  * ```
  */
-getOrganizations(params?: OrganizationQueryParams): Observable<{data: Organization[]; total: number}> {
-  return this.http.get('/api/organizations', params);
+getUsers(params?: QueryParams): Observable<User[]> {
+  return this.http.get('/api/users', params);
 }
 ```
 
-### Component Documentation Template
-```markdown
-# ComponentName
-
-Brief component description
-
-## Usage
-```html
-<app-component-name
-  [inputProperty]="value"
-  (outputEvent)="handler($event)">
-</app-component-name>
+### Component Documentation
+```typescript
+/**
+ * 用戶列表組件
+ * 
+ * 功能：
+ * - 顯示用戶列表
+ * - 支持搜索和分頁
+ * - 提供編輯和刪除操作
+ * 
+ * @example
+ * ```html
+ * <app-user-list 
+ *   [users]="users" 
+ *   (edit)="onEdit($event)"
+ *   (delete)="onDelete($event)">
+ * </app-user-list>
+ * ```
+ */
+@Component({
+  selector: 'app-user-list',
+  template: `...`
+})
+export class UserListComponent {
+  /** 用戶列表數據 */
+  @Input() users: User[] = [];
+  
+  /** 編輯用戶事件 */
+  @Output() edit = new EventEmitter<User>();
+  
+  /** 刪除用戶事件 */
+  @Output() delete = new EventEmitter<User>();
+}
 ```
 
-## Properties
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| inputProperty | string | '' | Description of property |
+## Git Documentation
 
-## Events
-| Event | Type | Description |
-|-------|------|-------------|
-| outputEvent | EventEmitter<T> | Description of event |
-
-## Examples
-### Basic Usage
-```html
-<app-component-name></app-component-name>
-```
-
-### With Properties
-```html
-<app-component-name
-  [inputProperty]="'custom value'"
-  (outputEvent)="handleEvent($event)">
-</app-component-name>
-```
-```
-
-### Git Commit Standards
+### Commit Standards
 ```
 <type>(<scope>): <subject>
 
@@ -447,281 +90,281 @@ Brief component description
 
 <footer>
 
-Header: Mandatory, includes type, scope (optional), and subject.
-  - Type: Must be one of:
-    - build: Changes that affect the build system or external dependencies
-    - ci: Changes to our CI configuration files and scripts
-    - docs: Documentation only changes
-    - feat: A new feature
-    - fix: A bug fix
-    - perf: A code change that improves performance
-    - refactor: A code change that neither fixes a bug nor adds a feature
-    - style: Changes that do not affect the meaning of the code
-    - test: Adding missing tests or correcting existing tests
-  - Subject: Succinct description of the change.
-    - Use imperative, present tense: "change" not "changed" nor "changes"
-    - Don't capitalize first letter
-    - No dot (.) at the end
-
-Body: Optional.
-  - Use imperative, present tense: "change" not "changed" nor "changes".
-  - Should include the motivation for the change and contrast this with previous behavior.
-
-Footer: Optional.
-  - Should contain any information about Breaking Changes.
-  - Should reference GitHub issues that this commit Closes.
-  - Breaking Changes: Start with `BREAKING CHANGE:` followed by a space or two newlines.
-
-Examples:
-  - docs(changelog): update change log to beta.5
-  - fix(release): need to depend on latest rxjs and zone.js
+類型: feat, fix, docs, style, refactor, perf, test, build, ci
+範例: feat(user): add user management module
 ```
 
-### API Documentation Standards
-```typescript
-/**
- * Service for managing user data
- * @description Provides CRUD operations for user management
- * @example
- * ```typescript
- * constructor(private userService: UserService) {}
- * 
- * this.userService.getUsers().subscribe(users => {
- *   console.log(users);
- * });
- * ```
- */
-@Injectable({
-  providedIn: 'root'
-})
-export class UserService {
-  /**
-   * Retrieves all users
-   * @returns Observable<User[]> Array of users
-   * @throws {HttpErrorResponse} When API request fails
-   */
-  getUsers(): Observable<User[]> {
-    // Implementation
-  }
+### Pull Request Template
+```markdown
+## 變更描述
+簡潔描述變更內容
 
-  /**
-   * Creates a new user
-   * @param user - User data to create
-   * @returns Observable<User> Created user
-   */
-  createUser(user: CreateUserRequest): Observable<User> {
-    // Implementation
-  }
-}
+## 變更類型
+- [ ] Bug 修復
+- [ ] 新功能
+- [ ] 文檔更新
+- [ ] 代碼重構
+
+## 測試
+- [ ] 單元測試
+- [ ] 整合測試
+- [ ] E2E 測試
+
+## 檢查清單
+- [ ] 代碼符合專案標準
+- [ ] 通過所有測試
+- [ ] 更新相關文檔
 ```
 
-### Interface Documentation Standards
+## API Documentation
+
+### Interface Documentation
 ```typescript
 /**
- * User entity interface
- * @interface User
+ * 用戶介面定義
  */
 export interface User {
-  /** Unique user identifier */
+  /** 用戶唯一標識 */
   id: string;
-  /** User's full name */
+  
+  /** 用戶姓名 */
   name: string;
-  /** User's email address */
+  
+  /** 用戶郵箱 */
   email: string;
-  /** User's role in the system */
-  role: UserRole;
-  /** Account creation timestamp */
+  
+  /** 用戶狀態 */
+  status: UserStatus;
+  
+  /** 創建時間 */
   createdAt: Date;
-  /** Last update timestamp */
+  
+  /** 更新時間 */
   updatedAt: Date;
 }
+
+/**
+ * 用戶狀態枚舉
+ */
+export enum UserStatus {
+  /** 啟用 */
+  ACTIVE = 'active',
+  /** 禁用 */
+  INACTIVE = 'inactive',
+  /** 待審核 */
+  PENDING = 'pending'
+}
 ```
 
-### Style Guide Documentation
+### Service Documentation
+```typescript
+/**
+ * 用戶服務
+ * 
+ * 提供用戶相關的業務邏輯操作
+ */
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private readonly http = inject(_HttpClient);
+  private readonly API_BASE = '/api/users';
+  
+  /**
+   * 獲取用戶列表
+   * @param params 查詢參數
+   * @returns 用戶列表 Observable
+   */
+  getUsers(params?: QueryParams): Observable<User[]> {
+    return this.http.get(this.API_BASE, params);
+  }
+  
+  /**
+   * 創建新用戶
+   * @param userData 用戶數據
+   * @returns 創建的用戶 Observable
+   */
+  createUser(userData: CreateUserRequest): Observable<User> {
+    return this.http.post(this.API_BASE, userData);
+  }
+}
+```
+
+## Style Guide Documentation
+
+### CSS/Less Documentation
 ```less
 /**
- * Component styles for FeatureComponent
- * Uses BEM methodology for class naming
+ * 用戶卡片組件樣式
+ * 
+ * 使用 BEM 命名規範
+ * 支持響應式設計
  */
-
-// Variables
-@component-padding: 16px;
-@component-border-radius: 4px;
-
-// Component styles
-.feature-component {
-  // Block styles
-  padding: @component-padding;
-  border-radius: @component-border-radius;
-
-  // Element styles
+.user-card {
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
   &__header {
-    // Header element styles
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
   }
-
+  
   &__content {
-    // Content element styles
+    color: #666;
+    line-height: 1.5;
   }
-
-  // Modifier styles
+  
   &--large {
-    // Large modifier styles
+    padding: 24px;
+  }
+  
+  // 響應式設計
+  @media (max-width: 768px) {
+    padding: 12px;
   }
 }
 ```
 
-### Architecture Documentation
+## Architecture Documentation
+
+### System Overview
 ```markdown
-# System Architecture
+# 系統架構
 
-## Overview
-High-level system architecture description
-
-## Components
-### Core Components
-- Component 1: Description
-- Component 2: Description
-
-### Feature Components
-- Feature 1: Description
-- Feature 2: Description
-
-## Data Flow
-```mermaid
-graph TD
-    A[User Input] --> B[Component]
-    B --> C[Service]
-    C --> D[API]
-    D --> E[Response]
-    E --> F[Update UI]
-```
-
-## Dependencies
-- Angular 20.3.0
+## 技術棧
+- Angular 20+
 - ng-alain 20.0.2
 - ng-zorro-antd 20.3.1
+- TypeScript 5.0+
+
+## 目錄結構
+```
+src/
+├── app/
+│   ├── core/           # 核心服務
+│   ├── shared/         # 共享組件
+│   ├── routes/         # 路由模組
+│   └── layout/         # 佈局組件
+├── assets/             # 靜態資源
+└── environments/       # 環境配置
 ```
 
-### Deployment Documentation
-```markdown
-# Build Process
+## 設計原則
+- 組件化開發
+- 響應式設計
+- 模組化架構
+- 類型安全
+```
 
-## Development Build
+## Deployment Documentation
+
+### Build Process
 ```bash
-ng build
+# 開發環境
+npm run start
+
+# 生產環境
+npm run build
+
+# 測試
+npm run test
+
+# 代碼檢查
+npm run lint
 ```
 
-## Production Build
-```bash
-ng build --configuration production
+### Environment Configuration
+```typescript
+// environments/environment.ts
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000/api',
+  version: '1.0.0'
+};
+
+// environments/environment.prod.ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://api.example.com',
+  version: '1.0.0'
+};
 ```
 
-## Build Optimization
-- Tree shaking enabled
-- Minification enabled
-- Source maps disabled in production
-- Bundle analysis available
+## Update Procedures
 
-## Deployment Steps
-1. Run production build
-2. Deploy dist folder to web server
-3. Configure server for Angular routing
-4. Set up monitoring and logging
-```
-
-### Update Procedures Documentation
+### Version Update
 ```markdown
-# Update Procedures
+# 版本更新流程
 
-## Dependency Updates
-1. Check for updates: `npm outdated`
-2. Update packages: `npm update`
-3. Test application: `npm test`
-4. Build application: `npm run build`
+## 1. 準備階段
+- 備份當前版本
+- 檢查依賴更新
+- 準備回滾方案
 
-## Angular Updates
-1. Check Angular update guide
-2. Run Angular update command
-3. Fix breaking changes
-4. Update dependencies
-5. Test thoroughly
+## 2. 更新步驟
+1. 更新依賴包
+2. 運行測試套件
+3. 檢查構建過程
+4. 部署到測試環境
+
+## 3. 驗證階段
+- 功能測試
+- 性能測試
+- 用戶驗收測試
+
+## 4. 發布階段
+- 部署到生產環境
+- 監控系統狀態
+- 記錄更新日誌
 ```
 
-### Development Tools Configuration
-```json
-// package.json scripts
-{
-  "scripts": {
-    "start": "ng serve",
-    "hmr": "ng serve --hmr",
-    "build": "ng build --max_old_space_size=8000",
-    "analyze": "ng build --stats-json && npx source-map-explorer dist/ng-alain-build/stats.json",
-    "lint": "ng lint && stylelint \"src/**/*.less\"",
-    "test": "ng test --code-coverage",
-    "e2e": "ng e2e"
-  }
-}
-```
+## Code Review Checklist
+
+### 代碼審查清單
+- [ ] 代碼符合專案標準
+- [ ] 通過所有測試
+- [ ] 文檔完整且準確
+- [ ] 性能考慮適當
+- [ ] 安全性檢查通過
+- [ ] 錯誤處理完善
+- [ ] 代碼可讀性良好
+- [ ] 無重複代碼
+- [ ] 適當的註釋
+- [ ] 提交信息清晰
+
+## Development Tools
 
 ### ESLint Configuration
-```javascript
-// eslint.config.mjs
-export default [
-  {
-    files: ['**/*.ts'],
-    languageOptions: {
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        project: './tsconfig.json'
-      }
-    },
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/explicit-function-return-type': 'warn',
-      '@angular-eslint/prefer-standalone': 'error'
-    }
+```json
+{
+  "extends": [
+    "@angular-eslint/recommended",
+    "@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@angular-eslint/no-empty-lifecycle-method": "error"
   }
-];
+}
 ```
 
 ### Stylelint Configuration
-```javascript
-// stylelint.config.mjs
-export default {
-  extends: ['stylelint-config-standard'],
-  rules: {
-    'selector-class-pattern': '^[a-z][a-zA-Z0-9]*$',
-    'custom-property-pattern': '^[a-z][a-zA-Z0-9]*$'
+```json
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "color-no-invalid-hex": true,
+    "font-family-no-duplicate-names": true
   }
-};
+}
 ```
 
 ### Prettier Configuration
 ```json
-// .prettierrc
 {
   "singleQuote": true,
   "trailingComma": "es5",
   "tabWidth": 2,
-  "semi": true,
-  "printWidth": 100
+  "semi": true
 }
-```
-
-### Husky Configuration
-```json
-// .husky/pre-commit
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-npx lint-staged
-```
-
-### Lint-staged Configuration
-```json
-// lint-staged.config.js
-module.exports = {
-  '*.ts': ['eslint --fix', 'prettier --write'],
-  '*.less': ['stylelint --fix', 'prettier --write']
-};
 ```

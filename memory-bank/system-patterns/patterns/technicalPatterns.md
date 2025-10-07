@@ -1,23 +1,16 @@
-# 技術模式與實踐指南
+# Technical Patterns
 
-> 生成日期: 2025-01-07  
-> 基於: Sequential Thinking 分析 + 實際代碼模式 + 官方文檔查詢  
-> 目的: 記錄專案中使用的技術模式和實踐方法
-
-## 🎨 設計模式應用
+## Design Patterns
 
 ### 1. Repository Pattern（倉儲模式）
-
 **應用場景**: Service 層數據訪問
 
-**實現**：
 ```typescript
 @Injectable({ providedIn: 'root' })
 export class DataService {
   private readonly http = inject(_HttpClient);
   private readonly API_BASE = '/api/data';
   
-  // Repository 方法
   getAll(params?: QueryParams): Observable<Data[]> {
     return this.http.get(this.API_BASE, params);
   }
@@ -40,1018 +33,423 @@ export class DataService {
 }
 ```
 
-**優勢**:
-- 業務邏輯與數據訪問分離
-- 易於測試（Mock Service）
-- 易於切換數據源
-
----
+**優勢**: 業務邏輯與數據訪問分離，易於測試和切換數據源
 
 ### 2. Observer Pattern（觀察者模式）
-
 **應用場景**: RxJS Observable 數據流
 
-**實現**：
 ```typescript
-// Subject: 服務發布數據
 @Injectable({ providedIn: 'root' })
 export class DataService {
   private dataSubject = new BehaviorSubject<Data[]>([]);
-  data$ = this.dataSubject.asObservable();  // Observable
+  public data$ = this.dataSubject.asObservable();
   
-  loadData(): void {
-    this.http.get('/api/data').subscribe(data => {
-      this.dataSubject.next(data);  // 發布
-    });
+  updateData(newData: Data[]): void {
+    this.dataSubject.next([...newData]);
   }
-}
-
-// Observer: 組件訂閱數據
-@Component({...})
-export class MyComponent implements OnInit {
-  data$ = inject(DataService).data$;  // 訂閱
-  
-  // 在模板中使用 async pipe
-  // @for (item of data$ | async; track item.id) {...}
-}
-```
-
-**優勢**:
-- 響應式數據流
-- 自動取消訂閱（使用 async pipe）
-- 多個組件可訂閱同一數據流
-
----
-
-### 3. Strategy Pattern（策略模式）
-
-**應用場景**: Change Detection Strategy
-
-**實現**：
-```typescript
-// 策略 1: Default (默認策略)
-@Component({
-  changeDetection: ChangeDetectionStrategy.Default
-})
-export class SimpleComponent {}
-
-// 策略 2: OnPush (優化策略)
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class OptimizedComponent {
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  updateData(): void {
-    this.cdr.detectChanges();
-  }
-}
-```
-
-**何時使用哪個策略**：
-- **Default**: 簡單組件，頻繁更新，性能不敏感
-- **OnPush**: 列表組件，性能敏感，控制變更時機
-
----
-
-### 4. Guard Pattern（守衛模式）
-
-**應用場景**: 路由權限控制
-
-**實現**：
-```typescript
-// 守衛函數
-export const authGuard: CanActivateFn = (route, state) => {
-  const service = inject(AuthService);
-  const router = inject(Router);
-  const notification = inject(NzNotificationService);
-  
-  return service.isAuthenticated().pipe(
-    map(isAuth => {
-      if (!isAuth) {
-        notification.error('權限不足', '請先登入');
-        router.navigate(['/login']);
-        return false;
-      }
-      return true;
-    }),
-    catchError(() => of(false))
-  );
-};
-
-// 路由配置
-{
-  path: 'protected',
-  canActivate: [authGuard],  // 應用守衛
-  loadComponent: () => import('./protected.component')
-}
-```
-
-**分層守衛**:
-1. **Authentication Layer**: authGuard
-2. **Authorization Layer**: roleGuard, permissionGuard
-3. **Business Logic Layer**: customBusinessGuard
-
----
-
-### 5. Adapter Pattern（適配器模式）
-
-**應用場景**: @delon _HttpClient 包裝 Angular HttpClient
-
-**實現**：
-```typescript
-// Angular HttpClient (被適配者)
-class HttpClient {
-  get(url: string, options?: any): Observable<any> {...}
-}
-
-// @delon _HttpClient (適配器)
-class _HttpClient extends HttpClient {
-  get(url: string, params?: any, options?: HttpOptions): Observable<any> {
-    // 額外的處理邏輯
-    // - 自動錯誤處理
-    // - Loading 狀態管理
-    // - 參數處理
-    return super.get(url, { params, ...options });
-  }
-}
-```
-
-**優勢**:
-- 增強原有功能
-- 不破壞原有接口
-- 統一行為
-
----
-
-### 6. Template Method Pattern（模板方法模式）
-
-**應用場景**: 組件生命週期
-
-**實現**：
-```typescript
-@Component({...})
-export class ListComponent implements OnInit, OnDestroy {
-  private subscription?: Subscription;
-  
-  // Template Method: ngOnInit
-  ngOnInit(): void {
-    this.loadData();      // Step 1
-    this.setupFilters();  // Step 2
-    this.subscribeEvents(); // Step 3
-  }
-  
-  // 具體步驟（可被子類覆寫）
-  protected loadData(): void {
-    this.subscription = this.service.getData().subscribe(...);
-  }
-  
-  protected setupFilters(): void {
-    // 設置篩選器
-  }
-  
-  protected subscribeEvents(): void {
-    // 訂閱事件
-  }
-  
-  // Template Method: ngOnDestroy
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-}
-```
-
----
-
-### 7. Factory Pattern（工廠模式）
-
-**應用場景**: 動態組件創建（Modal, Drawer）
-
-**實現**：
-```typescript
-@Component({...})
-export class MyComponent {
-  private readonly modal = inject(NzModalService);
-  
-  openEditModal(data: any): void {
-    this.modal.create({
-      nzTitle: '編輯',
-      nzContent: EditFormComponent,  // 工廠創建組件
-      nzComponentParams: { data },   // 注入數據
-      nzWidth: 600
-    });
-  }
-}
-```
-
----
-
-## 🔧 技術實踐模式
-
-### Pattern 1: Smart & Dumb Components
-
-**Smart Component（聰明組件）**：
-- 包含業務邏輯
-- 與服務交互
-- 管理狀態
-- 處理路由
-
-```typescript
-@Component({
-  selector: 'app-data-list-page',  // Page suffix
-  template: `
-    <app-data-list
-      [data]="data"
-      (create)="handleCreate()"
-      (select)="handleSelect($event)"
-    />
-  `
-})
-export class DataListPageComponent {
-  private readonly service = inject(DataService);
-  data: Data[] = [];
-  
-  ngOnInit(): void {
-    this.service.getData().subscribe(data => {
-      this.data = data;
-    });
-  }
-  
-  handleCreate(): void {
-    this.router.navigate(['/data/create']);
-  }
-}
-```
-
-**Dumb Component（笨組件）**：
-- 僅展示
-- 通過 Input 接收數據
-- 通過 Output 發出事件
-- 無業務邏輯
-
-```typescript
-@Component({
-  selector: 'app-data-list',
-  template: `
-    @for (item of data; track item.id) {
-      <app-data-card 
-        [data]="item"
-        (click)="select.emit(item)"
-      />
-    }
-  `
-})
-export class DataListComponent {
-  @Input() data: Data[] = [];
-  @Output() create = new EventEmitter<void>();
-  @Output() select = new EventEmitter<Data>();
-}
-```
-
-**何時使用**:
-- **Smart**: 路由級別組件（Pages）
-- **Dumb**: 可重用組件（Cards, Lists, Forms）
-
----
-
-### Pattern 2: Async Pipe Pattern
-
-**理念**: 使用 async pipe 自動訂閱和取消訂閱
-
-**實踐**：
-```typescript
-// ✅ 使用 async pipe（推薦）
-@Component({
-  template: `
-    @for (item of items$ | async; track item.id) {
-      <div>{{ item.name }}</div>
-    }
-  `
-})
-export class MyComponent {
-  items$ = inject(MyService).getItems();  // Observable
-}
-
-// ❌ 手動訂閱（不推薦）
-@Component({
-  template: `
-    @for (item of items; track item.id) {
-      <div>{{ item.name }}</div>
-    }
-  `
-})
-export class MyComponent implements OnInit, OnDestroy {
-  items: Item[] = [];
-  private subscription?: Subscription;
-  
-  ngOnInit(): void {
-    this.subscription = this.service.getItems().subscribe(items => {
-      this.items = items;
-    });
-  }
-  
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();  // 需要手動取消
-  }
-}
-```
-
-**優勢**:
-- ✅ 自動取消訂閱（防止記憶體洩漏）
-- ✅ 代碼更簡潔
-- ✅ 不需要 ngOnDestroy
-
-**何時不使用 async pipe**:
-- 需要對數據進行處理後再顯示
-- 需要在多個地方使用同一數據
-- 需要手動控制訂閱時機
-
----
-
-### Pattern 3: RxJS Operators Pattern
-
-**常用 operators 組合**：
-```typescript
-// 搜索防抖
-searchControl.valueChanges.pipe(
-  debounceTime(300),
-  distinctUntilChanged(),
-  switchMap(keyword => this.service.search(keyword))
-).subscribe(results => {...});
-
-// 錯誤處理 + 重試
-this.service.getData().pipe(
-  retry(3),
-  catchError(error => {
-    this.handleError(error);
-    return of([]);  // 返回空數組作為後備
-  })
-).subscribe(data => {...});
-
-// 多個請求並行
-forkJoin({
-  data1: this.service1.getData(),
-  data2: this.service2.getData(),
-  data3: this.service3.getData()
-}).subscribe(({ data1, data2, data3 }) => {...});
-
-// 請求依賴
-this.service1.getData(id).pipe(
-  switchMap(result => this.service2.getDetails(result.id))
-).subscribe(details => {...});
-
-// 緩存結果
-this.service.getData().pipe(
-  shareReplay(1)  // 多個訂閱者共享結果
-).subscribe(...);
-```
-
----
-
-### Pattern 4: Guard Composition Pattern
-
-**理念**: 組合多個守衛實現複雜權限邏輯
-
-**實踐**：
-```typescript
-// 基礎守衛
-export const isAuthenticatedGuard: CanActivateFn = () => {
-  return inject(AuthService).isAuthenticated();
-};
-
-export const hasRoleGuard = (role: string): CanActivateFn => {
-  return () => inject(AuthService).hasRole(role);
-};
-
-// 組合守衛
-export const canEditData: CanActivateFn = (route) => {
-  const auth = inject(AuthService);
-  const permission = inject(PermissionService);
-  
-  return auth.isAuthenticated().pipe(
-    switchMap(isAuth => {
-      if (!isAuth) return of(false);
-      return permission.checkPermission(route.params.id);
-    }),
-    map(hasPermission => hasPermission === 'edit' || hasPermission === 'admin')
-  );
-};
-
-// 路由中使用
-{
-  path: 'edit',
-  canActivate: [canEditData],  // 組合後的守衛
-  loadComponent: () => import('./edit.component')
-}
-```
-
----
-
-### Pattern 5: Error Handling Pattern
-
-**統一錯誤處理模式**：
-```typescript
-@Injectable({ providedIn: 'root' })
-export class ErrorHandlerService {
-  private readonly notification = inject(NzNotificationService);
-  
-  handleError(error: any, userMessage?: string): void {
-    // 1. 記錄錯誤
-    console.error('Error occurred:', error);
-    
-    // 2. 分析錯誤類型
-    let message = userMessage || '操作失敗，請稍後再試';
-    
-    if (error.status === 403) {
-      message = '權限不足';
-    } else if (error.status === 404) {
-      message = '資源不存在';
-    } else if (error.status === 500) {
-      message = '伺服器錯誤';
-    }
-    
-    // 3. 通知用戶
-    this.notification.error('錯誤', message);
-  }
-}
-
-// 在服務中使用
-@Injectable({ providedIn: 'root' })
-export class DataService {
-  private readonly http = inject(_HttpClient);
-  private readonly errorHandler = inject(ErrorHandlerService);
   
   getData(): Observable<Data[]> {
-    return this.http.get('/api/data').pipe(
-      catchError(error => {
-        this.errorHandler.handleError(error, '載入數據失敗');
-        return of([]);
-      })
-    );
+    return this.data$;
   }
 }
 ```
 
----
+**優勢**: 響應式數據流，自動更新訂閱者
 
-### Pattern 6: Loading State Pattern
+### 3. Strategy Pattern（策略模式）
+**應用場景**: 不同驗證策略
 
-**統一載入狀態管理**：
 ```typescript
-@Component({...})
-export class ListComponent {
-  loading = false;
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  loadData(): void {
-    this.setLoading(true);
-    
-    this.service.getData().subscribe({
-      next: (data) => {
-        this.data = data;
-        this.setLoading(false);
-      },
-      error: (error) => {
-        this.handleError(error);
-        this.setLoading(false);
-      }
-    });
-  }
-  
-  private setLoading(loading: boolean): void {
-    this.loading = loading;
-    this.cdr.detectChanges();
+interface ValidationStrategy {
+  validate(value: any): boolean;
+}
+
+class EmailValidationStrategy implements ValidationStrategy {
+  validate(value: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   }
 }
 
-// 在模板中
-@if (loading) {
-  <nz-spin nzSize="large" />
-} @else {
-  <!-- 內容 -->
-}
-```
-
----
-
-### Pattern 7: Form Handling Pattern
-
-**Reactive Forms 模式**：
-```typescript
-@Component({...})
-export class DataFormComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
-  
-  // 類型化表單
-  dataForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    description: [''],
-    isActive: [true],
-    email: ['', [Validators.email]]
-  });
-  
-  ngOnInit(): void {
-    // 如果是編輯模式，載入現有數據
-    if (this.dataId) {
-      this.service.getData(this.dataId).subscribe(data => {
-        this.dataForm.patchValue(data);
-      });
-    }
-  }
-  
-  submit(): void {
-    if (this.dataForm.valid) {
-      const formValue = this.dataForm.value;
-      this.service.save(formValue).subscribe({
-        next: () => this.router.navigate(['/data']),
-        error: (error) => this.handleError(error)
-      });
-    }
-  }
-}
-```
-
-**驗證錯誤顯示**：
-```html
-<nz-form-item>
-  <nz-form-label nzRequired>名稱</nz-form-label>
-  <nz-form-control [nzErrorTip]="nameErrorTpl">
-    <input nz-input formControlName="name" />
-    <ng-template #nameErrorTpl let-control>
-      @if (control.hasError('required')) {
-        請輸入名稱
-      } @else if (control.hasError('minlength')) {
-        名稱至少2個字符
-      }
-    </ng-template>
-  </nz-form-control>
-</nz-form-item>
-```
-
----
-
-### Pattern 8: Pagination Pattern
-
-**統一分頁處理**：
-```typescript
-@Component({...})
-export class ListComponent {
-  items: Item[] = [];
-  total = 0;
-  currentPage = 1;
-  pageSize = 20;
-  
-  loadData(): void {
-    this.service.getItems({
-      page: this.currentPage,
-      pageSize: this.pageSize
-    }).subscribe(result => {
-      this.items = result.data;
-      this.total = result.total;
-    });
-  }
-  
-  onPageChange(): void {
-    this.loadData();
-  }
-  
-  onPageSizeChange(): void {
-    this.currentPage = 1;  // 重置到第一頁
-    this.loadData();
+class PhoneValidationStrategy implements ValidationStrategy {
+  validate(value: string): boolean {
+    return /^\+?[\d\s-()]+$/.test(value);
   }
 }
 
-// 模板
-<nz-pagination
-  [(nzPageIndex)]="currentPage"
-  [nzTotal]="total"
-  [nzPageSize]="pageSize"
-  [nzShowSizeChanger]="true"
-  (nzPageIndexChange)="onPageChange()"
-  (nzPageSizeChange)="onPageSizeChange()"
-/>
-```
-
----
-
-### Pattern 9: Search & Filter Pattern
-
-**實時搜索模式**：
-```typescript
-@Component({...})
-export class ListComponent {
-  searchKeyword = '';
-  
-  onSearch(): void {
-    this.currentPage = 1;  // 重置分頁
-    this.loadData();
-  }
-  
-  loadData(): void {
-    this.service.getItems({
-      page: this.currentPage,
-      pageSize: this.pageSize,
-      search: this.searchKeyword || undefined
-    }).subscribe(...);
-  }
-}
-
-// 模板
-<nz-input-group [nzPrefix]="searchIcon">
-  <input
-    nz-input
-    [(ngModel)]="searchKeyword"
-    placeholder="搜索..."
-    (input)="onSearch()"
-  />
-</nz-input-group>
-```
-
-**防抖搜索模式**（大數據量）：
-```typescript
-export class ListComponent implements OnInit {
-  private searchSubject = new Subject<string>();
-  
-  ngOnInit(): void {
-    this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(keyword => this.service.search(keyword))
-    ).subscribe(results => {
-      this.items = results;
-    });
-  }
-  
-  onSearch(keyword: string): void {
-    this.searchSubject.next(keyword);
-  }
-}
-```
-
----
-
-### Pattern 10: Modal Communication Pattern
-
-**Parent-Child 通信模式**：
-```typescript
-// Parent Component
-openEditModal(data: Data): void {
-  const modalRef = this.modal.create({
-    nzTitle: '編輯數據',
-    nzContent: DataFormComponent,
-    nzComponentParams: {
-      data,  // 傳入數據
-      mode: 'edit'
-    },
-    nzWidth: 600
-  });
-  
-  // 監聽 Modal 關閉後的回調
-  modalRef.afterClose.subscribe(result => {
-    if (result) {
-      this.loadData();  // 重新載入列表
-    }
-  });
-}
-
-// Child Component (Modal)
-@Component({...})
-export class DataFormComponent {
-  @Input() data?: Data;
-  @Input() mode: 'create' | 'edit' = 'create';
-  
-  private readonly modal = inject(NzModalRef);
-  
-  submit(): void {
-    if (this.form.valid) {
-      this.service.save(this.form.value).subscribe({
-        next: (result) => {
-          this.modal.close(result);  // 關閉並返回結果
-        }
-      });
-    }
-  }
-  
-  cancel(): void {
-    this.modal.close();  // 關閉不返回結果
-  }
-}
-```
-
-## 🔧 技術實踐模式
-
-### 1. Service Pattern
-**描述**: 服務層模式
-```typescript
-@Injectable({
-  providedIn: 'root'
-})
-export class UserService {
-  private readonly http = inject(_HttpClient);
-  private readonly cache = inject(CacheService);
-  
-  getUsers(): Observable<User[]> {
-    const cacheKey = 'users';
-    return this.cache.get(cacheKey, () => 
-      this.http.get<User[]>('/api/users')
-    );
-  }
-  
-  createUser(user: CreateUserRequest): Observable<User> {
-    return this.http.post<User>('/api/users', user).pipe(
-      tap(newUser => {
-        // Update cache
-        this.cache.clear('users');
-      })
-    );
-  }
-}
-```
-
-### 2. Guard Pattern
-**描述**: 路由守衛模式
-```typescript
-export const authGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
-  
-  if (authService.isAuthenticated()) {
-    return true;
-  }
-  
-  router.navigate(['/login']);
-  return false;
-};
-
-export const roleGuard: CanActivateFn = (route, state) => {
-  const aclService = inject(ACLService);
-  const requiredRole = route.data?.['role'];
-  
-  if (aclService.can(requiredRole)) {
-    return true;
-  }
-  
-  return false;
-};
-```
-
-### 3. Interceptor Pattern
-**描述**: HTTP 攔截器模式
-```typescript
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authService = inject(AuthService);
-    const token = authService.getToken();
-    
-    if (token) {
-      const authReq = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`)
-      });
-      return next.handle(authReq);
-    }
-    
-    return next.handle(req);
-  }
-}
-```
-
-### 4. Resolver Pattern
-**描述**: 路由解析器模式
-```typescript
-@Injectable()
-export class UserResolver implements Resolve<User> {
-  private userService = inject(UserService);
-  
-  resolve(route: ActivatedRouteSnapshot): Observable<User> {
-    const userId = route.paramMap.get('id');
-    return this.userService.getUser(userId!);
-  }
-}
-```
-
-### 5. Directive Pattern
-**描述**: 自定義指令模式
-```typescript
-@Directive({
-  selector: '[appPermission]'
-})
-export class PermissionDirective {
-  @Input() appPermission!: string;
-  
-  constructor(
-    private templateRef: TemplateRef<any>,
-    private viewContainer: ViewContainerRef,
-    private aclService: ACLService
-  ) {}
-  
-  ngOnInit() {
-    if (this.aclService.can(this.appPermission)) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-    } else {
-      this.viewContainer.clear();
-    }
-  }
-}
-```
-
-### 6. Pipe Pattern
-**描述**: 自定義管道模式
-```typescript
-@Pipe({
-  name: 'dateFormat'
-})
-export class DateFormatPipe implements PipeTransform {
-  transform(value: Date | string, format: string = 'short'): string {
-    if (!value) return '';
-    
-    const date = new Date(value);
-    return date.toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  }
-}
-```
-
-### 7. Factory Pattern
-**描述**: 工廠模式
-```typescript
-@Injectable()
-export class ComponentFactory {
-  createComponent(type: string): Component {
-    switch (type) {
-      case 'user':
-        return new UserComponent();
-      case 'admin':
-        return new AdminComponent();
-      default:
-        throw new Error(`Unknown component type: ${type}`);
-    }
-  }
-}
-```
-
-### 8. Observer Pattern
-**描述**: 觀察者模式
-```typescript
-@Injectable()
-export class EventBus {
-  private events$ = new Subject<Event>();
-  
-  emit(event: Event) {
-    this.events$.next(event);
-  }
-  
-  on<T extends Event>(eventType: string): Observable<T> {
-    return this.events$.pipe(
-      filter(event => event.type === eventType),
-      map(event => event as T)
-    );
-  }
-}
-```
-
-### 9. Strategy Pattern
-**描述**: 策略模式
-```typescript
-interface ExportStrategy {
-  export(data: any[]): void;
-}
-
-@Injectable()
-export class CSVExportStrategy implements ExportStrategy {
-  export(data: any[]): void {
-    // CSV export logic
-  }
-}
-
-@Injectable()
-export class ExcelExportStrategy implements ExportStrategy {
-  export(data: any[]): void {
-    // Excel export logic
-  }
-}
-
-@Injectable()
-export class ExportService {
-  export(data: any[], strategy: ExportStrategy): void {
-    strategy.export(data);
-  }
-}
-```
-
-### 10. Singleton Pattern
-**描述**: 單例模式
-```typescript
-@Injectable({
-  providedIn: 'root'
-})
-export class ConfigService {
-  private static instance: ConfigService;
-  private config: any = {};
+@Injectable({ providedIn: 'root' })
+export class ValidationService {
+  private strategies = new Map<string, ValidationStrategy>();
   
   constructor() {
-    if (ConfigService.instance) {
-      return ConfigService.instance;
-    }
-    ConfigService.instance = this;
+    this.strategies.set('email', new EmailValidationStrategy());
+    this.strategies.set('phone', new PhoneValidationStrategy());
   }
   
-  getConfig(key: string): any {
-    return this.config[key];
-  }
-  
-  setConfig(key: string, value: any): void {
-    this.config[key] = value;
+  validate(type: string, value: any): boolean {
+    const strategy = this.strategies.get(type);
+    return strategy ? strategy.validate(value) : false;
   }
 }
 ```
 
-## 🚀 性能優化模式
+## Angular Patterns
 
-### 1. OnPush Strategy
+### 1. Smart & Dumb Components
+**Smart Component**: 處理業務邏輯和狀態
+**Dumb Component**: 純展示組件
+
 ```typescript
+// Smart Component
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `...`
+  selector: 'app-user-list',
+  template: `
+    <app-user-card 
+      *ngFor="let user of users; trackBy: trackByUserId"
+      [user]="user"
+      (edit)="onEditUser($event)"
+      (delete)="onDeleteUser($event)">
+    </app-user-card>
+  `
 })
-export class OptimizedComponent {
-  private cdr = inject(ChangeDetectorRef);
+export class UserListComponent {
+  users: User[] = [];
   
-  updateData() {
-    // Update data
-    this.cdr.markForCheck();
+  constructor(private userService: UserService) {}
+  
+  ngOnInit(): void {
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
   }
+  
+  trackByUserId(index: number, user: User): string {
+    return user.id;
+  }
+}
+
+// Dumb Component
+@Component({
+  selector: 'app-user-card',
+  template: `
+    <nz-card>
+      <h3>{{ user.name }}</h3>
+      <p>{{ user.email }}</p>
+      <button nz-button (click)="edit.emit(user)">編輯</button>
+      <button nz-button nzDanger (click)="delete.emit(user)">刪除</button>
+    </nz-card>
+  `
+})
+export class UserCardComponent {
+  @Input() user!: User;
+  @Output() edit = new EventEmitter<User>();
+  @Output() delete = new EventEmitter<User>();
 }
 ```
 
-### 2. TrackBy Function
+### 2. Async Pipe Pattern
+**使用 async pipe 處理 Observable**
+
 ```typescript
 @Component({
   template: `
-    <div *ngFor="let item of items; trackBy: trackByFn">
-      {{ item.name }}
+    <div *ngIf="users$ | async as users">
+      <div *ngFor="let user of users; trackBy: trackByUserId">
+        {{ user.name }}
+      </div>
     </div>
   `
 })
-export class ListComponent {
-  trackByFn(index: number, item: any): any {
-    return item.id;
+export class UserListComponent {
+  users$ = this.userService.getUsers();
+  
+  trackByUserId(index: number, user: User): string {
+    return user.id;
   }
 }
 ```
 
-### 3. Virtual Scrolling
+### 3. RxJS Operators Pattern
+**使用 RxJS 操作符處理數據流**
+
 ```typescript
-@Component({
-  template: `
-    <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-      <div *cdkVirtualFor="let item of items">
-        {{ item.name }}
-      </div>
-    </cdk-virtual-scroll-viewport>
-  `
-})
-export class VirtualScrollComponent {
-  items = Array.from({length: 10000}, (_, i) => ({id: i, name: `Item ${i}`}));
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  private readonly http = inject(_HttpClient);
+  
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users').pipe(
+      map(response => response.data),
+      catchError(error => {
+        console.error('獲取用戶失敗:', error);
+        return of([]);
+      }),
+      shareReplay(1)
+    );
+  }
+  
+  searchUsers(query: string): Observable<User[]> {
+    return this.http.get<User[]>(`/api/users/search?q=${query}`).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(response => of(response.data))
+    );
+  }
 }
 ```
 
-## 🧪 測試模式
+## ng-alain Patterns
 
-### 1. Component Testing
+### 1. ST (Simple Table) Pattern
+**數據表格模式**
+
 ```typescript
-describe('UserComponent', () => {
-  let component: UserComponent;
-  let fixture: ComponentFixture<UserComponent>;
+@Component({
+  template: `
+    <st [data]="users" [columns]="columns" [req]="req" [res]="res">
+      <ng-template #actions let-record>
+        <button nz-button (click)="edit(record)">編輯</button>
+        <button nz-button nzDanger (click)="delete(record)">刪除</button>
+      </ng-template>
+    </st>
+  `
+})
+export class UserListComponent {
+  users: User[] = [];
   
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [UserComponent],
-      imports: [NoopAnimationsModule]
-    }).compileComponents();
-    
-    fixture = TestBed.createComponent(UserComponent);
-    component = fixture.componentInstance;
-  });
+  columns: STColumn[] = [
+    { title: '姓名', index: 'name' },
+    { title: '郵箱', index: 'email' },
+    { title: '操作', type: 'template', template: 'actions' }
+  ];
   
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  req: STReq = {
+    method: 'GET',
+    url: '/api/users'
+  };
   
-  it('should display user data', () => {
-    component.user = { id: 1, name: 'John Doe' };
-    fixture.detectChanges();
-    
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h3').textContent).toContain('John Doe');
-  });
-});
+  res: STRes = {
+    process: (data: any[]) => data
+  };
+}
 ```
 
-### 2. Service Testing
+### 2. SE (Search Engine) Pattern
+**搜索引擎模式**
+
+```typescript
+@Component({
+  template: `
+    <se [schema]="searchSchema" (submit)="onSearch($event)" (reset)="onReset()">
+    </se>
+  `
+})
+export class UserSearchComponent {
+  searchSchema: SFSchema = {
+    properties: {
+      name: {
+        type: 'string',
+        title: '姓名',
+        ui: { placeholder: '請輸入姓名' }
+      },
+      email: {
+        type: 'string',
+        title: '郵箱',
+        ui: { placeholder: '請輸入郵箱' }
+      },
+      status: {
+        type: 'string',
+        title: '狀態',
+        enum: [
+          { label: '啟用', value: 'active' },
+          { label: '禁用', value: 'inactive' }
+        ]
+      }
+    }
+  };
+  
+  onSearch(searchParams: any): void {
+    // 處理搜索邏輯
+  }
+  
+  onReset(): void {
+    // 重置搜索
+  }
+}
+```
+
+### 3. ACL Pattern
+**權限控制模式**
+
+```typescript
+@Component({
+  template: `
+    <div *acl="'user.create'">
+      <button nz-button (click)="createUser()">創建用戶</button>
+    </div>
+    
+    <div *acl="'user.edit'">
+      <button nz-button (click)="editUser()">編輯用戶</button>
+    </div>
+  `
+})
+export class UserComponent {
+  constructor(private acl: ACLService) {}
+  
+  ngOnInit(): void {
+    // 設置用戶權限
+    this.acl.setRole(['admin', 'user']);
+  }
+}
+```
+
+## Performance Patterns
+
+### 1. Lazy Loading Pattern
+**懶加載模式**
+
+```typescript
+const routes: Routes = [
+  {
+    path: 'users',
+    loadComponent: () => import('./user/user.component').then(m => m.UserComponent)
+  },
+  {
+    path: 'organizations',
+    loadChildren: () => import('./organization/organization.routes').then(m => m.organizationRoutes)
+  }
+];
+```
+
+### 2. OnPush Pattern
+**OnPush 變更檢測模式**
+
+```typescript
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class UserComponent {
+  private readonly cdr = inject(ChangeDetectorRef);
+  
+  updateUser(user: User): void {
+    this.userService.updateUser(user).subscribe(() => {
+      this.cdr.detectChanges();
+    });
+  }
+}
+```
+
+### 3. TrackBy Pattern
+**TrackBy 優化模式**
+
+```typescript
+@Component({
+  template: `
+    <div *ngFor="let user of users; trackBy: trackByUserId">
+      {{ user.name }}
+    </div>
+  `
+})
+export class UserListComponent {
+  trackByUserId(index: number, user: User): string {
+    return user.id;
+  }
+}
+```
+
+## State Management Patterns
+
+### 1. Service-based State
+**服務狀態管理**
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class UserStateService {
+  private usersSubject = new BehaviorSubject<User[]>([]);
+  public users$ = this.usersSubject.asObservable();
+  
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
+  
+  getUsers(): Observable<User[]> {
+    this.loadingSubject.next(true);
+    
+    return this.userService.getUsers().pipe(
+      tap(users => {
+        this.usersSubject.next(users);
+        this.loadingSubject.next(false);
+      }),
+      catchError(error => {
+        this.loadingSubject.next(false);
+        throw error;
+      })
+    );
+  }
+  
+  addUser(user: User): void {
+    const currentUsers = this.usersSubject.value;
+    this.usersSubject.next([...currentUsers, user]);
+  }
+  
+  updateUser(updatedUser: User): void {
+    const currentUsers = this.usersSubject.value;
+    const index = currentUsers.findIndex(u => u.id === updatedUser.id);
+    if (index !== -1) {
+      currentUsers[index] = updatedUser;
+      this.usersSubject.next([...currentUsers]);
+    }
+  }
+  
+  deleteUser(userId: string): void {
+    const currentUsers = this.usersSubject.value;
+    this.usersSubject.next(currentUsers.filter(u => u.id !== userId));
+  }
+}
+```
+
+### 2. URL as State
+**URL 作為狀態**
+
+```typescript
+@Component({
+  template: `
+    <div>
+      <button (click)="goToUser(1)">用戶 1</button>
+      <button (click)="goToUser(2)">用戶 2</button>
+    </div>
+  `
+})
+export class UserNavigationComponent {
+  constructor(private router: Router) {}
+  
+  goToUser(userId: number): void {
+    this.router.navigate(['/users', userId]);
+  }
+}
+
+@Component({
+  template: `
+    <div *ngIf="user$ | async as user">
+      <h1>{{ user.name }}</h1>
+    </div>
+  `
+})
+export class UserDetailComponent {
+  user$ = this.route.params.pipe(
+    switchMap(params => this.userService.getUser(params['id']))
+  );
+  
+  constructor(
+    private route: ActivatedRoute,
+    private userService: UserService
+  ) {}
+}
+```
+
+## Testing Patterns
+
+### 1. AAA Pattern
+**Arrange, Act, Assert 測試模式**
+
 ```typescript
 describe('UserService', () => {
   let service: UserService;
@@ -1062,15 +460,17 @@ describe('UserService', () => {
       imports: [HttpClientTestingModule],
       providers: [UserService]
     });
-    
     service = TestBed.inject(UserService);
     httpMock = TestBed.inject(HttpTestingController);
   });
   
   it('should get users', () => {
-    const mockUsers = [{ id: 1, name: 'John' }];
+    // Arrange
+    const mockUsers = [{ id: '1', name: 'John' }];
     
+    // Act
     service.getUsers().subscribe(users => {
+      // Assert
       expect(users).toEqual(mockUsers);
     });
     
@@ -1081,25 +481,198 @@ describe('UserService', () => {
 });
 ```
 
-## 📝 代碼審查模式
+### 2. Mock Pattern
+**Mock 測試模式**
 
-### 1. 組件審查清單
-- [ ] 是否使用 OnPush 變更檢測策略
-- [ ] 是否正確處理訂閱和取消訂閱
-- [ ] 是否使用 trackBy 函數
-- [ ] 是否遵循單一職責原則
-- [ ] 是否使用 TypeScript 嚴格模式
+```typescript
+describe('UserComponent', () => {
+  let component: UserComponent;
+  let fixture: ComponentFixture<UserComponent>;
+  let mockUserService: jasmine.SpyObj<UserService>;
+  
+  beforeEach(async () => {
+    const spy = jasmine.createSpyObj('UserService', ['getUsers', 'createUser']);
+    
+    await TestBed.configureTestingModule({
+      imports: [UserComponent],
+      providers: [
+        { provide: UserService, useValue: spy }
+      ]
+    }).compileComponents();
+    
+    fixture = TestBed.createComponent(UserComponent);
+    component = fixture.componentInstance;
+    mockUserService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
+  });
+  
+  it('should load users on init', () => {
+    const mockUsers = [{ id: '1', name: 'John' }];
+    mockUserService.getUsers.and.returnValue(of(mockUsers));
+    
+    component.ngOnInit();
+    
+    expect(mockUserService.getUsers).toHaveBeenCalled();
+    expect(component.users).toEqual(mockUsers);
+  });
+});
+```
 
-### 2. 服務審查清單
-- [ ] 是否使用 inject() 函數
-- [ ] 是否正確處理錯誤
-- [ ] 是否使用適當的 RxJS 操作符
-- [ ] 是否實現適當的緩存策略
-- [ ] 是否遵循 RESTful API 設計
+## Error Handling Patterns
 
-### 3. 模板審查清單
-- [ ] 是否使用原生控制流 (@if, @for, @switch)
-- [ ] 是否避免複雜的表達式
-- [ ] 是否使用適當的管道
-- [ ] 是否遵循無障礙設計原則
-- [ ] 是否使用語義化 HTML
+### 1. Centralized Error Handling
+**集中錯誤處理**
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class ErrorHandlerService {
+  constructor(private notification: NzNotificationService) {}
+  
+  handleError(error: any): void {
+    console.error('Error occurred:', error);
+    
+    if (error.status === 404) {
+      this.notification.error('錯誤', '資源未找到');
+    } else if (error.status === 500) {
+      this.notification.error('錯誤', '服務器內部錯誤');
+    } else {
+      this.notification.error('錯誤', '發生未知錯誤');
+    }
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  constructor(
+    private http: _HttpClient,
+    private errorHandler: ErrorHandlerService
+  ) {}
+  
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users').pipe(
+      catchError(error => {
+        this.errorHandler.handleError(error);
+        return of([]);
+      })
+    );
+  }
+}
+```
+
+### 2. Retry Pattern
+**重試模式**
+
+```typescript
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users').pipe(
+      retry(3),
+      catchError(error => {
+        console.error('Failed to get users after 3 retries:', error);
+        return of([]);
+      })
+    );
+  }
+}
+```
+
+## Form Patterns
+
+### 1. Reactive Forms Pattern
+**響應式表單模式**
+
+```typescript
+@Component({
+  template: `
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <nz-form-item>
+        <nz-form-label>姓名</nz-form-label>
+        <nz-form-control [nzErrorTip]="nameError">
+          <input nz-input formControlName="name" placeholder="請輸入姓名">
+        </nz-form-control>
+      </nz-form-item>
+      
+      <nz-form-item>
+        <nz-form-label>郵箱</nz-form-label>
+        <nz-form-control [nzErrorTip]="emailError">
+          <input nz-input formControlName="email" placeholder="請輸入郵箱">
+        </nz-form-control>
+      </nz-form-item>
+      
+      <button nz-button nzType="primary" [disabled]="userForm.invalid">
+        提交
+      </button>
+    </form>
+  `
+})
+export class UserFormComponent {
+  userForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]]
+  });
+  
+  get nameError(): string {
+    const control = this.userForm.get('name');
+    if (control?.hasError('required')) return '姓名為必填項';
+    if (control?.hasError('minlength')) return '姓名至少需要2個字符';
+    return '';
+  }
+  
+  get emailError(): string {
+    const control = this.userForm.get('email');
+    if (control?.hasError('required')) return '郵箱為必填項';
+    if (control?.hasError('email')) return '請輸入有效的郵箱地址';
+    return '';
+  }
+  
+  constructor(private fb: FormBuilder) {}
+  
+  onSubmit(): void {
+    if (this.userForm.valid) {
+      const formData = this.userForm.value;
+      // 處理表單提交
+    }
+  }
+}
+```
+
+### 2. Dynamic Forms Pattern
+**動態表單模式**
+
+```typescript
+@Component({
+  template: `
+    <sf [schema]="schema" [formData]="formData" (formSubmit)="onSubmit($event)">
+    </sf>
+  `
+})
+export class DynamicFormComponent {
+  schema: SFSchema = {
+    properties: {
+      name: {
+        type: 'string',
+        title: '姓名',
+        ui: { placeholder: '請輸入姓名' }
+      },
+      email: {
+        type: 'string',
+        title: '郵箱',
+        ui: { placeholder: '請輸入郵箱' }
+      },
+      age: {
+        type: 'number',
+        title: '年齡',
+        minimum: 0,
+        maximum: 120
+      }
+    },
+    required: ['name', 'email']
+  };
+  
+  formData = {};
+  
+  onSubmit(formData: any): void {
+    console.log('Form submitted:', formData);
+  }
+}
+```

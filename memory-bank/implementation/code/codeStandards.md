@@ -1,117 +1,113 @@
 # Code Standards
 
-## TypeScript Standards
+## Core Standards
 
-### Type Definitions
-- **Strict Mode**: Enable strict TypeScript compilation
-- **Interface Definitions**: Use interfaces for object shapes
-- **Type Guards**: Implement proper type checking
-- **Generic Types**: Use generics for reusable components
-- **Union Types**: Leverage union types for flexible APIs
-
-### Naming Conventions
-- **PascalCase**: Classes, interfaces, enums
-- **camelCase**: Variables, functions, methods
-- **kebab-case**: File names, component selectors
-- **UPPER_CASE**: Constants and environment variables
-- **Prefixes**: Use meaningful prefixes (is, has, can, should)
-
-### Code Organization
-- **Single Responsibility**: One responsibility per class/function
-- **Dependency Injection**: Use Angular's DI system
-- **Imports**: Organize imports (Angular, third-party, local)
-- **Exports**: Use barrel exports for clean imports
-- **File Structure**: Follow Angular style guide structure
+### TypeScript Standards
+| 項目 | 標準 | 說明 |
+|------|------|------|
+| Strict Mode | 啟用 | 最大類型安全 |
+| Naming | PascalCase (類), camelCase (變數), kebab-case (檔案) | 一致性命名 |
+| Organization | 單一職責, 明確導入, Barrel exports | 清晰結構 |
+| Type Safety | 介面定義, 類型守衛, 泛型 | 完整類型定義 |
 
 ## Angular Standards
 
-### Component Standards
+### Component Template
 ```typescript
 @Component({
-  selector: 'app-feature-component',
-  templateUrl: './feature-component.html',
-  styleUrls: ['./feature-component.less'],
+  selector: 'app-feature',
+  standalone: true,
+  imports: [CommonModule, NzButtonModule],
+  template: `
+    <div class="feature-container">
+      @if (loading) {
+        <nz-spin nzSize="large" />
+      } @else {
+        @for (item of items; track item.id) {
+          <div>{{ item.name }}</div>
+        }
+      }
+    </div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeatureComponent implements OnInit, OnDestroy {
-  // Properties
-  // Constructor with DI
-  // Lifecycle hooks
-  // Public methods
-  // Private methods
+export class FeatureComponent {
+  private readonly http = inject(_HttpClient);
+  private readonly cdr = inject(ChangeDetectorRef);
+  
+  items: Item[] = [];
+  loading = false;
 }
 ```
 
-### Service Standards
+### Service Template
 ```typescript
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class FeatureService {
-  // Private properties
-  // Constructor
-  // Public methods
-  // Private methods
+  private readonly http = inject(_HttpClient);
+  private readonly API_BASE = '/api/feature';
+  
+  getAll(): Observable<Item[]> {
+    return this.http.get(this.API_BASE);
+  }
+  
+  create(item: Partial<Item>): Observable<Item> {
+    return this.http.post(this.API_BASE, item);
+  }
 }
-```
-
-### Module Standards
-```typescript
-@NgModule({
-  declarations: [...],
-  imports: [...],
-  exports: [...],
-  providers: [...]
-})
-export class FeatureModule { }
 ```
 
 ## ng-alain Standards
 
-### ST (Simple Table) Usage
-- **Data Source**: Use proper data source configuration
-- **Columns**: Define columns with proper types
-- **Actions**: Implement consistent action patterns
-- **Selection**: Handle row selection appropriately
-- **Pagination**: Configure pagination settings
-
-### SE (Search Engine) Usage
-- **Schema**: Define search schema properly
-- **Validation**: Implement search validation
-- **Reset**: Handle search reset functionality
-- **Submit**: Manage search submission
-
-### ACL Integration
-- **Permissions**: Define clear permission structure
-- **Guards**: Implement route guards
-- **Directives**: Use ACL directives in templates
-- **Service**: Integrate ACL service properly
+### Component Usage
+| 組件 | 用途 | 關鍵配置 |
+|------|------|----------|
+| ST (Simple Table) | 數據表格 | 列定義, 操作按鈕, 分頁 |
+| SE (Search Engine) | 搜索功能 | Schema 定義, 驗證, 重置 |
+| ACL | 權限控制 | 角色定義, 守衛, 指令 |
+| Theme | 主題系統 | 動態主題, 顏色變數 |
 
 ## Styling Standards
 
-### Less Standards
-- **Variables**: Use Less variables for consistency
-- **Mixins**: Create reusable mixins
-- **Nesting**: Proper CSS nesting (max 3 levels)
-- **BEM**: Use BEM methodology for class names
-- **Responsive**: Mobile-first responsive design
+### Less 標準
+```less
+// 變數定義
+@primary-color: #1890ff;
+@border-radius: 4px;
 
-### Component Styles
-- **Scoped Styles**: Use component-specific styles
-- **Global Styles**: Minimize global style usage
-- **Theme Variables**: Use ng-alain theme variables
-- **Custom Properties**: CSS custom properties for dynamic values
+// BEM 命名
+.feature-component {
+  padding: 16px;
+  border-radius: @border-radius;
+  
+  &__header {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  &--large {
+    padding: 24px;
+  }
+}
+
+// 響應式設計
+@media (max-width: 768px) {
+  .feature-component {
+    padding: 12px;
+  }
+}
+```
 
 ## Testing Standards
 
-### Unit Testing
-- **Test Structure**: Arrange, Act, Assert pattern
-- **Mocking**: Proper service and dependency mocking
-- **Coverage**: Maintain >80% code coverage
-- **Descriptive Names**: Clear test descriptions
-- **Isolation**: Test components in isolation
+### 測試覆蓋率
+| 類型 | 覆蓋率 | 說明 |
+|------|--------|------|
+| Services | 80% | 業務邏輯測試 |
+| Components | 60% | UI 組件測試 |
+| Guards | 100% | 安全邏輯測試 |
 
-### Component Testing
+### 測試模板
 ```typescript
 describe('FeatureComponent', () => {
   let component: FeatureComponent;
@@ -119,14 +115,11 @@ describe('FeatureComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FeatureComponent]
+      imports: [FeatureComponent]
     }).compileComponents();
-  });
-
-  beforeEach(() => {
+    
     fixture = TestBed.createComponent(FeatureComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -137,71 +130,74 @@ describe('FeatureComponent', () => {
 
 ## Documentation Standards
 
-### Code Comments
-- **JSDoc**: Use JSDoc for public APIs
-- **Complex Logic**: Comment complex business logic
-- **TODO**: Mark temporary code with TODO comments
-- **Deprecation**: Mark deprecated code clearly
-
-### README Files
-- **Project Overview**: Clear project description
-- **Setup Instructions**: Step-by-step setup guide
-- **Usage Examples**: Code examples and usage patterns
-- **API Documentation**: Public API documentation
-
-## Performance Standards
-
-### Bundle Optimization
-- **Tree Shaking**: Ensure unused code elimination
-- **Lazy Loading**: Implement route-based lazy loading
-- **Dynamic Imports**: Use dynamic imports for large libraries
-- **Bundle Analysis**: Regular bundle size analysis
-
-### Runtime Performance
-- **OnPush Strategy**: Use OnPush change detection
-- **TrackBy Functions**: Implement trackBy for *ngFor
-- **Unsubscribe**: Proper subscription cleanup
-- **Memory Leaks**: Prevent memory leaks
-
-## Security Standards
-
-### Input Validation
-- **Form Validation**: Implement proper form validation
-- **Sanitization**: Sanitize user inputs
-- **Type Checking**: Runtime type validation
-- **Error Handling**: Proper error handling and logging
-
-### Authentication
-- **Token Management**: Secure token handling
-- **Route Guards**: Implement proper route protection
-- **ACL Integration**: Use ng-alain ACL system
-- **Session Management**: Proper session handling
-
-## Modern Angular Standards
-
-### Standalone Component Standards
+### JSDoc 標準
 ```typescript
-@Component({
-  selector: 'app-feature-component',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './feature-component.html',
-  styleUrls: ['./feature-component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class FeatureComponent implements OnInit, OnDestroy {
-  // Use inject() for dependency injection
-  private readonly http = inject(_HttpClient);
-  private readonly router = inject(Router);
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  // Component implementation
+/**
+ * 獲取用戶列表
+ * @param params 查詢參數
+ * @returns Observable<用戶列表>
+ * @example
+ * ```typescript
+ * this.userService.getUsers({ page: 1 }).subscribe(users => {
+ *   console.log(users);
+ * });
+ * ```
+ */
+getUsers(params?: QueryParams): Observable<User[]> {
+  return this.http.get('/api/users', params);
 }
 ```
 
-### Functional Guard Standards
+### README 結構
+- **專案概述**: 簡潔描述
+- **安裝指南**: 步驟說明
+- **使用範例**: 代碼示例
+- **API 文檔**: 公開 API
+
+## Performance Standards
+
+### 性能基準
+| 指標 | 目標值 | 說明 |
+|------|--------|------|
+| Initial Bundle | 1.8 MB | 懶加載後 |
+| Time to Interactive | 1.2s | 首次互動時間 |
+| Change Detection | OnPush | 40-60% 性能提升 |
+| Bundle Reduction | 57% | 懶加載 vs 急加載 |
+
+### 優化策略
 ```typescript
-export const authGuard: CanActivateFn = (route, state) => {
+// 懶加載配置
+const routes: Routes = [
+  {
+    path: 'feature',
+    loadComponent: () => import('./feature.component').then(m => m.FeatureComponent)
+  }
+];
+
+// 記憶體管理
+ngOnDestroy(): void {
+  this.subscription?.unsubscribe();
+}
+
+// TrackBy 優化
+@for (item of items; track item.id) {
+  <div>{{ item.name }}</div>
+}
+```
+
+## Security Standards
+
+### 安全原則
+| 項目 | 標準 | 實現 |
+|------|------|------|
+| 輸入驗證 | 表單驗證 | Validators.required |
+| 權限控制 | ACL 系統 | @delon/acl |
+| 路由守衛 | Functional Guards | CanActivateFn |
+| 錯誤處理 | 統一處理 | catchError |
+
+### 守衛模板
+```typescript
+export const authGuard: CanActivateFn = (route) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   
@@ -214,214 +210,87 @@ export const authGuard: CanActivateFn = (route, state) => {
 };
 ```
 
-### Template Standards
+## Modern Angular Standards
+
+### 現代 Angular 模式
+| 特性 | 標準 | 範例 |
+|------|------|------|
+| Standalone | 100% 採用 | standalone: true |
+| inject() | 優先使用 | inject(Service) |
+| Control Flow | 原生語法 | @if, @for, @switch |
+| OnPush | 所有組件 | ChangeDetectionStrategy.OnPush |
+| Path Alias | TypeScript 映射 | @shared, @core |
+
+### 模板標準
 ```html
-<!-- Use native control flow -->
+<!-- 原生控制流 -->
 @if (loading) {
-  <div class="loading">載入中...</div>
+  <nz-spin nzSize="large" />
 } @else if (items.length === 0) {
-  <div class="empty">暫無數據</div>
+  <nz-empty />
 } @else {
   @for (item of items; track item.id) {
-    <div class="item">{{ item.name }}</div>
+    <nz-card>{{ item.name }}</nz-card>
   }
 }
 ```
 
-### State Management Standards
+### 狀態管理
 ```typescript
-// URL as state
-loadCurrentEntity(): void {
-  const currentUrl = this.router.url;
-  const match = currentUrl.match(/\/entity\/([^\/]+)/);
-  
-  if (match) {
-    const entityId = match[1];
-    this.loadEntity(entityId);
-  }
+// URL 作為狀態
+loadFromUrl(): void {
+  const id = this.route.snapshot.params['id'];
+  if (id) this.loadEntity(id);
 }
 
-// Service-based state
+// 服務狀態管理
 @Injectable({ providedIn: 'root' })
-export class EntityService {
-  private readonly entities$ = new BehaviorSubject<Entity[]>([]);
+export class DataService {
+  private data$ = new BehaviorSubject<Data[]>([]);
   
-  getEntities(): Observable<Entity[]> {
-    return this.entities$.asObservable();
+  getData(): Observable<Data[]> {
+    return this.data$.asObservable();
   }
   
-  updateEntities(entities: Entity[]): void {
-    this.entities$.next([...entities]); // Immutable update
+  updateData(data: Data[]): void {
+    this.data$.next([...data]);
   }
 }
 ```
 
-### Path Alias Standards
+## 錯誤處理標準
+
+### Observable 錯誤處理
 ```typescript
-// Use path aliases instead of relative paths
-import { EntityService } from '@shared/services/entity.service';
-import { EntityModel } from '@models/entity.model';
-import { AuthGuard } from '@guards/auth.guard';
-```
-
-### Grid Layout Standards
-```less
-// CSS Grid for card layouts
-.entity-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 16px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-}
-```
-
-### Performance Standards
-```typescript
-// OnPush change detection
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class PerformanceComponent {
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  updateData(): void {
-    this.data = newData;
-    this.cdr.detectChanges(); // Manual change detection
-  }
-}
-
-// TrackBy for lists
-@for (item of items; track item.id) {
-  <div>{{ item.name }}</div>
-}
-
-// Proper subscription cleanup
-ngOnDestroy(): void {
-  this.subscription?.unsubscribe();
-}
-```
-
-### Performance Benchmarks
-- **Initial Bundle**: 1.8 MB (with lazy loading)
-- **Time to Interactive**: 1.2s
-- **Change Detection**: OnPush (40-60% faster)
-- **Bundle Reduction**: 57% (lazy vs eager)
-- **List Rendering**: 40-60% performance improvement with trackBy
-
-### Bundle Optimization Standards
-```typescript
-// Lazy loading configuration
-const routes: Routes = [
-  {
-    path: 'feature',
-    loadComponent: () => import('./feature/feature.component').then(m => m.FeatureComponent)
-  }
-];
-
-// Tree shaking optimization
-import { specificFunction } from 'library'; // Instead of import * from 'library'
-
-// Dynamic imports for large libraries
-const loadChart = () => import('chart.js').then(m => m.Chart);
-```
-
-### Memory Management Standards
-```typescript
-// Proper subscription cleanup
-export class DataComponent implements OnDestroy {
-  private destroy$ = new Subject<void>();
-  
-  ngOnInit(): void {
-    this.service.getData()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(data => this.handleData(data));
-  }
-  
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-}
-
-// Memory leak prevention
-export class ServiceComponent {
-  private subscriptions: Subscription[] = [];
-  
-  addSubscription(sub: Subscription): void {
-    this.subscriptions.push(sub);
-  }
-  
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-}
-```
-
-### Error Handling Standards
-```typescript
-// Observable error handling
+// 組件錯誤處理
 this.service.getData().subscribe({
   next: (data) => this.handleData(data),
   error: (error) => {
-    console.error('Error loading data:', error);
+    console.error('載入失敗:', error);
     this.notification.error('錯誤', '載入數據失敗');
   }
 });
 
-// Service error handling
+// 服務錯誤處理
 getData(): Observable<Data[]> {
   return this.http.get<Data[]>('/api/data').pipe(
     catchError(error => {
-      console.error('API Error:', error);
-      return of([]); // Return empty array as fallback
+      console.error('API 錯誤:', error);
+      return of([]); // 返回空數組作為後備
     })
   );
 }
 ```
 
-### TypeScript Standards
+### 表單標準
 ```typescript
-// Strict type definitions
-export interface Entity {
-  id: string;
-  name: string;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Generic types
-export interface ApiResponse<T> {
-  data: T;
-  total: number;
-  page: number;
-  pageSize: number;
-}
-
-// Type guards
-export function isEntity(obj: any): obj is Entity {
-  return obj && typeof obj.id === 'string' && typeof obj.name === 'string';
-}
-
-// Optional chaining and nullish coalescing
-const displayName = entity?.displayName ?? entity?.name ?? 'Unknown';
-const isActive = request.body.isActive ?? true;
-```
-
-### Form Standards
-```typescript
-// Reactive forms
+// 響應式表單
 export class FormComponent {
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
     isActive: [true]
   });
-
-  constructor(private fb: FormBuilder) {}
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -432,55 +301,14 @@ export class FormComponent {
 }
 ```
 
-### Testing Standards
+## ng-alain 專用標準
+
+### 組件模板標準
 ```typescript
-// Component testing
-describe('FeatureComponent', () => {
-  let component: FeatureComponent;
-  let fixture: ComponentFixture<FeatureComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [FeatureComponent]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(FeatureComponent);
-    component = fixture.componentInstance;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should display data correctly', () => {
-    component.data = mockData;
-    fixture.detectChanges();
-    
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.data-item')).toBeTruthy();
-  });
-});
-```
-
-## ng-alain Code Standards
-
-### Component Template Standards
-```typescript
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { _HttpClient } from '@delon/theme';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-
 @Component({
-  selector: 'app-feature-name',
+  selector: 'app-feature',
   standalone: true,
-  imports: [
-    CommonModule,
-    NzButtonModule,
-    NzCardModule
-  ],
+  imports: [CommonModule, NzButtonModule, NzCardModule],
   template: `
     <div class="feature-container">
       @if (loading) {
@@ -492,228 +320,94 @@ import { NzCardModule } from 'ng-zorro-antd/card';
       }
     </div>
   `,
-  styles: [`
-    .feature-container {
-      padding: 24px;
-    }
-  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FeatureComponent implements OnInit {
+export class FeatureComponent {
   private readonly http = inject(_HttpClient);
-  private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
   
   items: Item[] = [];
   loading = false;
-  
-  ngOnInit(): void {
-    this.loadData();
-  }
-  
-  loadData(): void {
-    this.loading = true;
-    this.cdr.detectChanges();
-    
-    this.http.get('/api/items').subscribe({
-      next: (result) => {
-        this.items = result.data;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('載入失敗:', error);
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
-    });
-  }
 }
 ```
 
-### Service Template Standards
+### 服務模板標準
 ```typescript
 @Injectable({ providedIn: 'root' })
-export class MyService {
+export class FeatureService {
   private readonly http = inject(_HttpClient);
-  private readonly API_BASE = '/api/resource';
+  private readonly API_BASE = '/api/feature';
   
   getAll(params?: Params): Observable<{data: T[]; total: number}> {
     return this.http.get(this.API_BASE, params);
   }
   
-  getById(id: string): Observable<T> {
-    return this.http.get(`${this.API_BASE}/${id}`);
-  }
-  
   create(entity: Partial<T>): Observable<T> {
     return this.http.post(this.API_BASE, entity);
   }
-  
-  update(id: string, entity: Partial<T>): Observable<T> {
-    return this.http.put(`${this.API_BASE}/${id}`, entity);
-  }
-  
-  delete(id: string): Observable<void> {
-    return this.http.delete(`${this.API_BASE}/${id}`);
-  }
 }
 ```
 
-### Guard Template Standards
-```typescript
-export const permissionGuard: CanActivateFn = (route) => {
-  const service = inject(PermissionService);
-  const router = inject(Router);
-  const notification = inject(NzNotificationService);
-  
-  const resourceId = route.paramMap.get('id');
-  if (!resourceId) {
-    notification.error('錯誤', '無效的資源');
-    return of(false);
-  }
-  
-  return service.checkPermission(resourceId).pipe(
-    map(hasPermission => {
-      if (!hasPermission) {
-        notification.error('權限不足', '無法訪問');
-        router.navigate(['/fallback']);
-      }
-      return hasPermission;
-    }),
-    catchError(() => of(false))
-  );
-};
+### 路徑別名標準
+| 別名 | 路徑 | 用途 |
+|------|------|------|
+| @shared | src/app/shared/ | 共享組件 |
+| @core | src/app/core/ | 核心服務 |
+| @organization | src/organization/ | 組織模組 |
+| @env/* | src/environments/* | 環境配置 |
+| @_mock | _mock/ | Mock 數據 |
+
+### ng-zorro 組件分類
+| 分類 | 組件 | 用途 |
+|------|------|------|
+| Layout | NzCardModule, NzGridModule | 佈局組件 |
+| Navigation | NzMenuModule, NzTabsModule | 導航組件 |
+| Input | NzInputModule, NzSelectModule | 輸入組件 |
+| Display | NzAvatarModule, NzTagModule | 顯示組件 |
+| Feedback | NzSpinModule, NzEmptyModule | 反饋組件 |
+| Table | NzTableModule, NzPaginationModule | 表格組件 |
+
+### 國際化標準
+```html
+<!-- 使用 i18n 管道 -->
+<h2>{{ 'organization.list.title' | i18n }}</h2>
+<button>{{ 'common.create' | i18n }}</button>
+
+<!-- 翻譯鍵結構: feature.component.element -->
+organization.list.title    // 組織列表標題
+organization.form.submit   // 組織表單提交按鈕
+common.cancel             // 通用取消按鈕
+validation.required       // 通用必填驗證
 ```
 
-### Path Alias Standards
+### Mock 數據標準
 ```typescript
-// Use path aliases instead of relative paths
-@shared      → src/app/shared/
-@core        → src/app/core/
-@organization → src/organization/
-@env/*       → src/environments/*
-@_mock       → _mock/
-```
-
-### ng-zorro Component Standards
-```typescript
-// Layout Components
-NzCardModule, NzGridModule, NzDividerModule, NzSpaceModule
-
-// Navigation Components
-NzMenuModule, NzDropDownModule, NzTabsModule, NzBreadCrumbModule
-
-// Input Components
-NzInputModule, NzSelectModule, NzDatePickerModule, NzCheckboxModule
-
-// Display Components
-NzAvatarModule, NzTagModule, NzBadgeModule, NzTooltipModule
-
-// Feedback Components
-NzSpinModule, NzEmptyModule, NzNotificationModule, NzModalModule
-
-// Table Components
-NzTableModule, NzPaginationModule
-```
-
-### Performance Standards
-- **Initial Bundle**: 1.8 MB (with lazy loading)
-- **Time to Interactive**: 1.2s
-- **Change Detection**: OnPush (40-60% faster)
-- **Bundle Reduction**: 57% (lazy vs eager)
-
-### Security Standards
-- **Input Validation**: Always validate user inputs
-- **Complete Error Handling**: Comprehensive error handling with user feedback
-- **Avoid Function Calls in Templates**: Use pipes or pre-computed values
-- **Safe Navigation**: Use safe navigation operators and null checks
-
-### Data Model Standards
-```typescript
-// Interface for data structures
-export interface Organization {
-  id: string;
-  name: string;
-  isPublic: boolean;
-}
-
-// Enum for constants
-export enum MemberRole {
-  OWNER = 'owner',
-  ADMIN = 'admin',
-  MEMBER = 'member'
-}
-
-// Separate request/response types
-export interface OrganizationQueryParams {
-  page?: number;
-  pageSize?: number;
-  search?: string;
-}
-
-export interface CreateOrganizationRequest {
-  name: string;
-  displayName?: string;
-  isPublic: boolean;
-}
-
-export interface OrganizationListResponse {
-  data: Organization[];
-  total: number;
-}
-```
-
-### Mock Data Standards
-```typescript
-export const ORGANIZATIONS = {
-  'GET /api/organizations': (req) => getOrganizations(req),
-  'GET /api/organizations/:id': (req) => getOrganization(req),
-  'POST /api/organizations': (req) => createOrganization(req),
-  'PUT /api/organizations/:id': (req) => updateOrganization(req),
-  'DELETE /api/organizations/:id': (req) => deleteOrganization(req)
+export const FEATURE_MOCK = {
+  'GET /api/features': (req) => getFeatures(req),
+  'POST /api/features': (req) => createFeature(req),
+  'PUT /api/features/:id': (req) => updateFeature(req),
+  'DELETE /api/features/:id': (req) => deleteFeature(req)
 };
 
-function getOrganizations(req: MockRequest) {
-  const { page = 1, pageSize = 10, search, isPublic } = req.queryString;
+function getFeatures(req: MockRequest) {
+  const { page = 1, pageSize = 10, search } = req.queryString;
   
-  let filtered = [...organizations];
-  
+  let filtered = [...features];
   if (search) {
-    filtered = filtered.filter(org => 
-      org.name.includes(search) || 
-      org.displayName?.includes(search)
-    );
-  }
-  
-  if (isPublic !== undefined) {
-    filtered = filtered.filter(org => org.isPublic === (isPublic === 'true'));
+    filtered = filtered.filter(item => item.name.includes(search));
   }
   
   const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  
   return {
-    data: filtered.slice(start, end),
+    data: filtered.slice(start, start + pageSize),
     total: filtered.length
   };
 }
 ```
 
-### Internationalization Standards
-```html
-<!-- Use i18n pipe for all text -->
-<h2>{{ 'organization.list.title' | i18n }}</h2>
-<button>{{ 'common.create' | i18n }}</button>
+## Git Workflow Standards
 
-<!-- Translation key structure: feature.component.element -->
-organization.list.title          // 組織列表標題
-organization.form.submit         // 組織表單提交按鈕
-common.cancel                    // 通用取消按鈕
-validation.required              // 通用必填驗證
-```
-
-### Git Workflow Standards
+### Commit 規範
 ```
 <type>(<scope>): <subject>
 
@@ -721,447 +415,15 @@ validation.required              // 通用必填驗證
 
 <footer>
 
-Header: Mandatory, includes type, scope (optional), and subject.
-  - Type: Must be one of:
-    - build: Changes that affect the build system or external dependencies
-    - ci: Changes to our CI configuration files and scripts
-    - docs: Documentation only changes
-    - feat: A new feature
-    - fix: A bug fix
-    - perf: A code change that improves performance
-    - refactor: A code change that neither fixes a bug nor adds a feature
-    - style: Changes that do not affect the meaning of the code
-    - test: Adding missing tests or correcting existing tests
-  - Subject: Succinct description of the change.
-    - Use imperative, present tense: "change" not "changed" nor "changes"
-    - Don't capitalize first letter
-    - No dot (.) at the end
-
-Body: Optional.
-  - Use imperative, present tense: "change" not "changed" nor "changes".
-  - Should include the motivation for the change and contrast this with previous behavior.
-
-Footer: Optional.
-  - Should contain any information about Breaking Changes.
-  - Should reference GitHub issues that this commit Closes.
-  - Breaking Changes: Start with `BREAKING CHANGE:` followed by a space or two newlines.
-
-Examples:
-  - docs(changelog): update change log to beta.5
-  - fix(release): need to depend on latest rxjs and zone.js
+類型: feat, fix, docs, style, refactor, perf, test, build, ci
+範例: feat(organization): add organization switcher component
 ```
 
-## Development Principles Integration
-
-### Component Development Standards
-```typescript
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { _HttpClient } from '@delon/theme';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-
-@Component({
-  selector: 'app-feature-name',
-  standalone: true,
-  imports: [
-    CommonModule,
-    NzButtonModule,
-    NzCardModule
-  ],
-  template: `
-    <div class="feature-container">
-      @if (loading) {
-        <nz-spin nzSize="large" />
-      } @else {
-        @for (item of items; track item.id) {
-          <nz-card>{{ item.name }}</nz-card>
-        }
-      }
-    </div>
-  `,
-  styles: [`
-    .feature-container {
-      padding: 24px;
-    }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class FeatureComponent implements OnInit {
-  private readonly http = inject(_HttpClient);
-  private readonly router = inject(Router);
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  items: Item[] = [];
-  loading = false;
-  
-  ngOnInit(): void {
-    this.loadData();
-  }
-  
-  loadData(): void {
-    this.loading = true;
-    this.cdr.detectChanges();
-    
-    this.http.get('/api/items').subscribe({
-      next: (result) => {
-        this.items = result.data;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('載入失敗:', error);
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
-    });
-  }
-}
-```
-
-### Service Development Standards
-```typescript
-@Injectable({
-  providedIn: 'root'  // Tree-shakable
-})
-export class MyService {
-  private readonly http = inject(_HttpClient);
-  private readonly API_BASE = '/api/resource';
-  
-  // GET /api/resource - 列表
-  getAll(params?: QueryParams): Observable<{data: T[]; total: number}> {
-    return this.http.get(this.API_BASE, params);
-  }
-  
-  // GET /api/resource/:id - 詳情
-  getById(id: string): Observable<T> {
-    return this.http.get(`${this.API_BASE}/${id}`);
-  }
-  
-  // POST /api/resource - 創建
-  create(entity: Partial<T>): Observable<T> {
-    return this.http.post(this.API_BASE, entity);
-  }
-  
-  // PUT /api/resource/:id - 更新
-  update(id: string, entity: Partial<T>): Observable<T> {
-    return this.http.put(`${this.API_BASE}/${id}`, entity);
-  }
-  
-  // DELETE /api/resource/:id - 刪除
-  delete(id: string): Observable<void> {
-    return this.http.delete(`${this.API_BASE}/${id}`);
-  }
-}
-```
-
-### Guard Development Standards
-```typescript
-export const myFeatureGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
-): Observable<boolean> => {
-  const service = inject(MyService);
-  const router = inject(Router);
-  const notification = inject(NzNotificationService);
-  
-  const resourceId = route.paramMap.get('id');
-  
-  if (!resourceId) {
-    notification.error('錯誤', '無效的資源 ID');
-    router.navigate(['/fallback']);
-    return of(false);
-  }
-  
-  return service.checkPermission(resourceId).pipe(
-    map(hasPermission => {
-      if (!hasPermission) {
-        notification.error('權限不足', '您沒有權限訪問此資源');
-        router.navigate(['/fallback']);
-      }
-      return hasPermission;
-    }),
-    catchError(error => {
-      console.error('權限檢查失敗:', error);
-      notification.error('錯誤', '無法驗證權限');
-      router.navigate(['/fallback']);
-      return of(false);
-    })
-  );
-};
-```
-
-### Routing Development Standards
-```typescript
-// Level 1: Layout
-{
-  path: 'feature',
-  component: LayoutBasicComponent,
-  canActivate: [authSimpleCanActivate],
-  canActivateChild: [authSimpleCanActivateChild],
-  children: [
-    // Level 2: Feature Module
-    {
-      path: '',
-      loadChildren: () => import('./feature/routes').then(m => m.routes)
-    }
-  ]
-}
-
-// Level 3: Sub-features (in feature/routes.ts)
-export const routes: Routes = [
-  { path: 'list', loadComponent: () => import('./list.component') },
-  { path: 'create', loadComponent: () => import('./form.component') },
-  {
-    path: ':id',
-    children: [
-      { path: '', loadComponent: () => import('./detail.component') },
-      { path: 'edit', loadComponent: () => import('./edit.component') }
-    ]
-  }
-];
-
-// Route Data for Metadata
-{
-  path: 'list',
-  loadComponent: () => import('./list.component'),
-  data: {
-    title: '資源列表',
-    titleI18n: 'resource.list',
-    permission: 'resource:read'  // 可選：權限標識
-  }
-}
-```
-
-### Styling Development Standards
-```less
-// BEM 命名規範
-.resource-list {              // Block
-  &__header {                 // Element
-    &--primary {              // Modifier
-      color: #1890ff;
-    }
-  }
-}
-
-// CSS Grid for Layouts
-.resource-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 16px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-// Design Tokens（設計令牌）
-@primary-color: #1890ff;
-@success-color: #52c41a;
-@warning-color: #faad14;
-@error-color: #f5222d;
-
-@spacing-sm: 12px;
-@spacing-md: 16px;
-@spacing-lg: 24px;
-
-@border-radius-base: 2px;
-@border-radius-lg: 4px;
-```
-
-### Performance Standards
-```typescript
-// trackBy in @for Loops
-@for (item of items; track item.id) {
-  <div>{{ item.name }}</div>
-}
-
-// OnPush + Manual detectChanges
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class MyComponent {
-  private readonly cdr = inject(ChangeDetectorRef);
-  
-  updateData(): void {
-    this.data = newData;
-    this.cdr.detectChanges();  // 必須手動觸發
-  }
-}
-
-// Lazy Load Heavy Dependencies
-{
-  path: 'editor',
-  loadComponent: () => import('./editor.component')
-}
-```
-
-### Security Standards
-```typescript
-// 永遠驗證輸入
-const resourceId = route.paramMap.get('id');
-if (!resourceId) {
-  notification.error('錯誤', '無效的資源 ID');
-  return of(false);
-}
-
-// 錯誤處理必須完整
-this.service.getData().subscribe({
-  next: (data) => { /* handle success */ },
-  error: (error) => {
-    console.error('Error:', error);
-    this.notification.error('錯誤', '操作失敗');
-  }
-});
-
-// 避免在模板中使用 Function Calls
-<!-- ❌ 每次變更檢測都會調用 -->
-<div>{{ getRoleLabel(member.role) }}</div>
-
-<!-- ✅ 使用 Pipe -->
-<div>{{ member.role | roleLabel }}</div>
-
-<!-- ✅ 或在組件中預計算 -->
-<div>{{ member.roleLabel }}</div>
-```
-
-### Data Model Standards
-```typescript
-// Interface for Data, Enum for Constants
-export interface Resource {
-  id: string;
-  name: string;
-  isActive: boolean;
-}
-
-export enum ResourceStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  PENDING = 'pending'
-}
-
-// 分離請求和響應類型
-export interface ResourceQueryParams {
-  page?: number;
-  pageSize?: number;
-  search?: string;
-}
-
-export interface CreateResourceRequest {
-  name: string;
-  displayName?: string;
-  isActive: boolean;
-}
-
-export interface UpdateResourceRequest {
-  displayName?: string;
-  description?: string;
-}
-
-export interface ResourceListResponse {
-  data: Resource[];
-  total: number;
-}
-```
-
-### Mock Data Standards
-```typescript
-export const RESOURCES = {
-  'GET /api/resources': (req) => getResources(req),
-  'GET /api/resources/:id': (req) => getResource(req),
-  'POST /api/resources': (req) => createResource(req),
-  'PUT /api/resources/:id': (req) => updateResource(req),
-  'DELETE /api/resources/:id': (req) => deleteResource(req)
-};
-
-function getResources(req: MockRequest) {
-  const { page = 1, pageSize = 10, search, isActive } = req.queryString;
-  
-  let filtered = [...resources];
-  
-  // 搜索篩選
-  if (search) {
-    filtered = filtered.filter(resource => 
-      resource.name.includes(search) || 
-      resource.displayName?.includes(search)
-    );
-  }
-  
-  // 狀態篩選
-  if (isActive !== undefined) {
-    filtered = filtered.filter(resource => resource.isActive === (isActive === 'true'));
-  }
-  
-  // 分頁
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  
-  return {
-    data: filtered.slice(start, end),
-    total: filtered.length
-  };
-}
-```
-
-### Internationalization Standards
-```html
-<!-- ✅ 使用 i18n pipe -->
-<h2>{{ 'resource.list.title' | i18n }}</h2>
-<button>{{ 'common.create' | i18n }}</button>
-
-<!-- ❌ 硬編碼文字 -->
-<h2>資源列表</h2>
-<button>創建</button>
-```
-
-```typescript
-// i18n key 結構
-feature.component.element
-
-// 範例
-resource.list.title          // 資源列表標題
-resource.form.submit         // 資源表單提交按鈕
-common.cancel                // 通用取消按鈕
-validation.required          // 通用必填驗證
-```
-
-### Testing Standards
-```typescript
-describe('ResourceService', () => {
-  let service: ResourceService;
-  let httpMock: HttpTestingController;
-  
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ResourceService]
-    });
-    service = TestBed.inject(ResourceService);
-    httpMock = TestBed.inject(HttpTestingController);
-  });
-  
-  it('should get resources', () => {
-    const mockResources = [{ id: '1', name: 'Test Resource' }];
-    
-    service.getResources().subscribe(result => {
-      expect(result.data).toEqual(mockResources);
-    });
-    
-    const req = httpMock.expectOne('/api/resources');
-    expect(req.request.method).toBe('GET');
-    req.flush({ data: mockResources, total: 1 });
-  });
-  
-  afterEach(() => {
-    httpMock.verify();
-  });
-});
-```
-
-### Code Review Checklist
-- **Architecture**: Standalone components, lazy loading, proper guards, providedIn: 'root'
-- **Performance**: OnPush strategy, trackBy in loops, avoid function calls in templates
-- **Type Safety**: All parameters typed, avoid any, Observable return types
-- **User Experience**: Loading states, empty states, error notifications, responsive design
-- **Code Quality**: ESLint compliance, Stylelint compliance, proper comments, README files
+### 代碼審查清單
+- [ ] 組件是 standalone
+- [ ] 使用 OnPush 變更檢測
+- [ ] @for 循環有 track
+- [ ] 避免在模板中調用函數
+- [ ] 有載入狀態和空狀態處理
+- [ ] 通過 ESLint 和 Stylelint
+- [ ] 有適當的註釋和文檔
