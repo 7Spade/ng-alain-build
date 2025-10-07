@@ -29,8 +29,9 @@ import { ICONS } from '../style-icons';
 import { ICONS_AUTO } from '../style-icons-auto';
 import { routes } from './app.routes';
 import { SimpleReuseStrategy } from './core/services/tab/simple-reuse-strategy';
+// Firebase imports
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth as provideAuth_alias } from '@angular/fire/auth';
+import { getAuth, provideAuth as provideFirebaseAuth } from '@angular/fire/auth';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { initializeAppCheck, ReCaptchaEnterpriseProvider, provideAppCheck } from '@angular/fire/app-check';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
@@ -39,6 +40,7 @@ import { getPerformance, providePerformance } from '@angular/fire/performance';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { getRemoteConfig, provideRemoteConfig } from '@angular/fire/remote-config';
 import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai';
+import { firebaseConfig, recaptchaEnterpriseSiteKey } from '@env/firebase.config';
 
 const defaultLang: AlainProvideLang = {
   abbr: 'zh-CN',
@@ -68,18 +70,47 @@ const routerFeatures: RouterFeatures[] = [
 if (environment.useHash) routerFeatures.push(withHashLocation());
 
 const providers: Array<Provider | EnvironmentProviders> = [
+  // HTTP & Interceptors
   provideHttpClient(withInterceptors([...(environment.interceptorFns ?? []), authSimpleInterceptor, organizationInterceptor, defaultInterceptor])),
   provideAnimations(),
   provideRouter(routes, ...routerFeatures),
   // 路由復用策略（支持多頁簽）
   { provide: RouteReuseStrategy, useClass: SimpleReuseStrategy },
+  
+  // ng-alain & ng-zorro
   provideAlain({ config: alainConfig, defaultLang, i18nClass: I18NService, icons: [...ICONS_AUTO, ...ICONS] }),
   provideNzConfig(ngZorroConfig),
+  
+  // @delon/auth (認證系統)
   provideAuth(),
+  
+  // Firebase 整合
+  provideFirebaseApp(() => initializeApp(firebaseConfig)),
+  provideFirebaseAuth(() => getAuth()),
+  provideAnalytics(() => getAnalytics()),
+  ScreenTrackingService,
+  UserTrackingService,
+  provideAppCheck(() => {
+    // TODO: 從 https://console.cloud.google.com/security/recaptcha?project=elite-chiller-455712-c4 獲取 reCAPTCHA Enterprise site key
+    const provider = new ReCaptchaEnterpriseProvider(recaptchaEnterpriseSiteKey);
+    return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
+  }),
+  provideFirestore(() => getFirestore()),
+  provideMessaging(() => getMessaging()),
+  providePerformance(() => getPerformance()),
+  provideStorage(() => getStorage()),
+  provideRemoteConfig(() => getRemoteConfig()),
+  provideVertexAI(() => getVertexAI()),
+  
+  // @delon Widgets & Forms
   provideCellWidgets(...CELL_WIDGETS),
   provideSTWidgets(...ST_WIDGETS),
   provideSFConfig({ widgets: SF_WIDGETS }),
+  
+  // Startup Service
   provideStartup(),
+  
+  // Environment Providers
   ...(environment.providers || [])
 ];
 
@@ -89,10 +120,5 @@ if (environment.api?.refreshTokenEnabled && environment.api.refreshTokenType ===
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: providers,
-  providers: [provideFirebaseApp(() => initializeApp({ projectId: "elite-chiller-455712-c4", appId: "1:7807661688:web:ff2a2fcd4ff3d8451d1f8d", storageBucket: "elite-chiller-455712-c4.firebasestorage.app", apiKey: "AIzaSyCJ-eayGjJwBKsNIh3oEAG2GjbfTrvAMEI", authDomain: "elite-chiller-455712-c4.firebaseapp.com", messagingSenderId: "7807661688", measurementId: "G-CY8DV4DD7J", projectNumber: "7807661688", version: "2" })), provideAuth_alias(() => getAuth()), provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideAppCheck(() => {
-  // TODO get a reCAPTCHA Enterprise here https://console.cloud.google.com/security/recaptcha?project=_
-  const provider = new ReCaptchaEnterpriseProvider(/* reCAPTCHA Enterprise site key */);
-  return initializeAppCheck(undefined, { provider, isTokenAutoRefreshEnabled: true });
-}), provideFirestore(() => getFirestore()), provideMessaging(() => getMessaging()), providePerformance(() => getPerformance()), provideStorage(() => getStorage()), provideRemoteConfig(() => getRemoteConfig()), provideVertexAI(() => getVertexAI())]
+  providers: providers
 };
