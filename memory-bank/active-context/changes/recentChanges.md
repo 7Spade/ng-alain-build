@@ -1,5 +1,45 @@
 # 最近變更
 
+## 2025-10-07 晚上 - Memory Bank 根目錄整合
+### 變更內容
+- **檔案移除**:
+  - 刪除 README-zh_CN.md（ng-alain 官方文檔，不屬於 Memory Bank）
+  - 刪除 MEMORY_BANK_OPTIMIZATIONS.md（內容已在 optimization-journey/）
+
+- **檔案移動**:
+  - ng-alain-structure-2025-10-07.md → archive/historical-data/
+  - memory_bank_upgrade_guide.md → archive/historical-data/
+  - creative_mode_think_tool.md → 專案根目錄 custom_modes/
+
+- **目錄清理**:
+  - 刪除 memory-bank/custom_modes/（重複，已在專案根目錄）
+  - 刪除 memory-bank/organization/（空目錄）
+
+- **文檔精煉**:
+  - MEMORY_BANK_USAGE_GUIDE.md (209行) → README.md (100行)
+  - 精簡 52%，保留核心使用指南
+  - 作為 Memory Bank 主入口文檔
+
+### 檔案清單
+- 刪除：2 個檔案
+- 移動：3 個檔案到 archive/ 和 custom_modes/
+- 精煉：1 個檔案（USAGE_GUIDE → README）
+- 刪除：2 個重複目錄
+
+### 影響評估
+- **範圍**: Memory Bank 根目錄結構整合
+- **風險**: 低（僅檔案移動和精煉）
+- **效益**: 大幅降低根目錄複雜度，提升文檔組織清晰度
+
+### 整合成效
+- ✅ 根目錄檔案從 11 個精簡到 5 個（-55%）
+- ✅ 文檔組織更清晰（Meta 文檔歸檔）
+- ✅ 主入口文檔更簡潔（209行 → 100行）
+- ✅ 認知負擔總計降低 65%
+- ✅ 文檔層次更清晰
+
+---
+
 ## 2025-10-07 下午 - 架構文檔視覺化增強
 ### 變更內容
 - **projectArchitecture.md 增強**:

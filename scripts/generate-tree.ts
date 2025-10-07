@@ -170,12 +170,18 @@ function shouldExclude(filePath: string, fileName: string): boolean {
     if (pattern.includes('*')) {
       // 處理通配符模式
       const regex = new RegExp(pattern.replace(/\*/g, '.*'));
-      if (regex.test(fileName) || regex.test(filePath)) {
+      if (regex.test(fileName)) {
         return true;
       }
     } else {
-      // 精確匹配
-      if (fileName === pattern || filePath.includes(pattern)) {
+      // 精確匹配 - 只檢查文件名，不檢查完整路徑
+      // 這樣避免誤傷（例如 'test' 不會排除包含 'test' 的其他路徑）
+      if (fileName === pattern) {
+        return true;
+      }
+      // 檢查路徑片段（僅檢查路徑組件，不是 includes）
+      const pathParts = filePath.split(path.sep);
+      if (pathParts.includes(pattern)) {
         return true;
       }
     }
@@ -288,16 +294,24 @@ function generateTree(
   prefix: string = '', 
   isLast: boolean = true, 
   depth: number = 0, 
-  maxDepth: number = 8  // 減少深度限制，避免過度複雜
+  maxDepth: number = 10  // 增加深度限制以顯示完整結構
 ): string {
   if (depth > maxDepth) {
-    return '';
+    return prefix + (isLast ? '└── ' : '├── ') + '...(更多內容)\n';
   }
 
   let result = '';
-  const items = fs.readdirSync(dirPath, { withFileTypes: true })
-    .filter((item: fs.Dirent) => !shouldExclude(path.join(dirPath, item.name), item.name))
-    .sort((a: fs.Dirent, b: fs.Dirent) => {
+  let items: fs.Dirent[] = [];
+  
+  try {
+    items = fs.readdirSync(dirPath, { withFileTypes: true })
+      .filter((item: fs.Dirent) => !shouldExclude(path.join(dirPath, item.name), item.name));
+  } catch (error) {
+    console.warn(`⚠️  無法讀取目錄 ${dirPath}:`, error);
+    return result;
+  }
+
+  items = items.sort((a: fs.Dirent, b: fs.Dirent) => {
       // Angular 重要目錄優先
       const aIsAngular = isAngularDirectory(dirPath, a.name);
       const bIsAngular = isAngularDirectory(dirPath, b.name);
@@ -366,9 +380,18 @@ function generateProjectStructure(): void {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
+  console.log(`🔍 開始生成專案結構樹 (根目錄: ${rootPath})...`);
   const tree = generateTree(rootPath);
+  
+  if (!tree || tree.trim().length === 0) {
+    console.warn('⚠️  警告: 生成的樹結構為空！');
+    console.log('📋 根目錄內容:', fs.readdirSync(rootPath).slice(0, 10).join(', '));
+  } else {
+    console.log(`✅ 樹結構生成成功 (${tree.split('\n').length} 行)`);
+  }
+  
   const timestamp = new Date().toISOString().split('T')[0];
-  const outputPath = path.join(outputDir, `ng-alain-structure-${timestamp}.md`);
+  const outputPath = path.join(outputDir, `ng-alain-structure.md`);
 
   // 讀取 package.json 獲取項目信息
   interface ProjectInfo {
