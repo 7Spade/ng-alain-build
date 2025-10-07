@@ -7,6 +7,7 @@
   "menu.main": "기본 탐색",
   "menu.dashboard": "대시 보드",
   "menu.dashboard.v1": "기본값",
+  "menu.projects": "프로젝트",
   "menu.dashboard.analysis": "분석",
   "menu.dashboard.monitor": "모니터",
   "menu.dashboard.workplace": "Workplace",

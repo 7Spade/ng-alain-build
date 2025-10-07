@@ -65,6 +65,13 @@
           "icon": "anticon-dashboard",
           "link": "/dashboard/v1",
           "shortcut": true
+        },
+        {
+          "text": "專案",
+          "i18n": "menu.projects",
+          "icon": "anticon-folder",
+          "link": "/projects",
+          "shortcut": true
         }
       ]
     }
@@ -100,6 +107,13 @@
               { "text": "員工管理", "link": "/organization/employees", "shortcut": true },
               { "text": "角色管理", "link": "/organization/roles" }
             ]
+          },
+          {
+            "text": "專案",
+            "i18n": "menu.projects",
+            "icon": "anticon-folder",
+            "link": "/projects",
+            "shortcut": true
           }
         ]
       }
@@ -132,6 +146,13 @@
             "children": [
               { "text": "員工管理", "link": "/organization/employees", "shortcut": true }
             ]
+          },
+          {
+            "text": "專案",
+            "i18n": "menu.projects",
+            "icon": "anticon-folder",
+            "link": "/projects",
+            "shortcut": true
           }
         ]
       }
@@ -156,6 +177,13 @@
             "i18n": "menu.dashboard",
             "icon": "anticon-dashboard",
             "link": "/dashboard/monitor",
+            "shortcut": true
+          },
+          {
+            "text": "專案",
+            "i18n": "menu.projects",
+            "icon": "anticon-folder",
+            "link": "/projects",
             "shortcut": true
           }
         ]
@@ -188,6 +216,13 @@
               { "text": "监控页", "link": "/dashboard/monitor", "i18n": "menu.dashboard.monitor" },
               { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace", "shortcut": true }
             ]
+          },
+          {
+            "text": "专项",
+            "i18n": "menu.projects",
+            "icon": "anticon-folder",
+            "link": "/projects",
+            "shortcut": true
           }
         ]
       },
@@ -250,6 +285,13 @@
             "children": [
               { "text": "工作台", "link": "/dashboard/workplace", "i18n": "menu.dashboard.workplace", "shortcut": true }
             ]
+          },
+          {
+            "text": "专项",
+            "i18n": "menu.projects",
+            "icon": "anticon-folder",
+            "link": "/projects",
+            "shortcut": true
           }
         ]
       }
