@@ -312,220 +312,428 @@ export class DataListComponent {
 - **Smart**: 路由級別組件（Pages）
 - **Dumb**: 可重用組件（Cards, Lists, Forms）
 
-### 2. Async Pipe Pattern
-**描述**: 使用 Async Pipe 處理異步數據
+---
+
+### Pattern 2: Async Pipe Pattern
+
+**理念**: 使用 async pipe 自動訂閱和取消訂閱
+
+**實踐**：
 ```typescript
+// ✅ 使用 async pipe（推薦）
 @Component({
   template: `
-    @if (users$ | async; as users) {
-      <div *ngFor="let user of users">
-        {{ user.name }}
-      </div>
-    } @else {
-      <div>Loading...</div>
+    @for (item of items$ | async; track item.id) {
+      <div>{{ item.name }}</div>
     }
   `
 })
-export class UserComponent {
-  users$ = this.userService.getUsers();
+export class MyComponent {
+  items$ = inject(MyService).getItems();  // Observable
+}
+
+// ❌ 手動訂閱（不推薦）
+@Component({
+  template: `
+    @for (item of items; track item.id) {
+      <div>{{ item.name }}</div>
+    }
+  `
+})
+export class MyComponent implements OnInit, OnDestroy {
+  items: Item[] = [];
+  private subscription?: Subscription;
   
-  constructor(private userService: UserService) {}
+  ngOnInit(): void {
+    this.subscription = this.service.getItems().subscribe(items => {
+      this.items = items;
+    });
+  }
+  
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();  // 需要手動取消
+  }
 }
 ```
 
-### 3. RxJS Operators Pattern
-**描述**: 使用 RxJS 操作符處理數據流
+**優勢**:
+- ✅ 自動取消訂閱（防止記憶體洩漏）
+- ✅ 代碼更簡潔
+- ✅ 不需要 ngOnDestroy
+
+**何時不使用 async pipe**:
+- 需要對數據進行處理後再顯示
+- 需要在多個地方使用同一數據
+- 需要手動控制訂閱時機
+
+---
+
+### Pattern 3: RxJS Operators Pattern
+
+**常用 operators 組合**：
 ```typescript
-@Component({
-  template: `
-    <input (input)="searchTerm$.next($event.target.value)" 
-           placeholder="Search users...">
-    @for (user of filteredUsers$ | async; track user.id) {
-      <div>{{ user.name }}</div>
-    }
-  `
-})
-export class UserSearchComponent {
-  searchTerm$ = new BehaviorSubject<string>('');
+// 搜索防抖
+searchControl.valueChanges.pipe(
+  debounceTime(300),
+  distinctUntilChanged(),
+  switchMap(keyword => this.service.search(keyword))
+).subscribe(results => {...});
+
+// 錯誤處理 + 重試
+this.service.getData().pipe(
+  retry(3),
+  catchError(error => {
+    this.handleError(error);
+    return of([]);  // 返回空數組作為後備
+  })
+).subscribe(data => {...});
+
+// 多個請求並行
+forkJoin({
+  data1: this.service1.getData(),
+  data2: this.service2.getData(),
+  data3: this.service3.getData()
+}).subscribe(({ data1, data2, data3 }) => {...});
+
+// 請求依賴
+this.service1.getData(id).pipe(
+  switchMap(result => this.service2.getDetails(result.id))
+).subscribe(details => {...});
+
+// 緩存結果
+this.service.getData().pipe(
+  shareReplay(1)  // 多個訂閱者共享結果
+).subscribe(...);
+```
+
+---
+
+### Pattern 4: Guard Composition Pattern
+
+**理念**: 組合多個守衛實現複雜權限邏輯
+
+**實踐**：
+```typescript
+// 基礎守衛
+export const isAuthenticatedGuard: CanActivateFn = () => {
+  return inject(AuthService).isAuthenticated();
+};
+
+export const hasRoleGuard = (role: string): CanActivateFn => {
+  return () => inject(AuthService).hasRole(role);
+};
+
+// 組合守衛
+export const canEditData: CanActivateFn = (route) => {
+  const auth = inject(AuthService);
+  const permission = inject(PermissionService);
   
-  filteredUsers$ = this.searchTerm$.pipe(
-    debounceTime(300),
-    distinctUntilChanged(),
-    switchMap(term => 
-      term ? this.userService.searchUsers(term) : of([])
-    )
+  return auth.isAuthenticated().pipe(
+    switchMap(isAuth => {
+      if (!isAuth) return of(false);
+      return permission.checkPermission(route.params.id);
+    }),
+    map(hasPermission => hasPermission === 'edit' || hasPermission === 'admin')
   );
+};
+
+// 路由中使用
+{
+  path: 'edit',
+  canActivate: [canEditData],  // 組合後的守衛
+  loadComponent: () => import('./edit.component')
 }
 ```
 
-### 4. Error Handling Pattern
-**描述**: 統一的錯誤處理模式
-```typescript
-@Injectable()
-export class UserService {
-  private handleError = (error: HttpErrorResponse) => {
-    console.error('UserService Error:', error);
-    return throwError(() => error);
-  };
+---
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/users').pipe(
-      catchError(this.handleError)
+### Pattern 5: Error Handling Pattern
+
+**統一錯誤處理模式**：
+```typescript
+@Injectable({ providedIn: 'root' })
+export class ErrorHandlerService {
+  private readonly notification = inject(NzNotificationService);
+  
+  handleError(error: any, userMessage?: string): void {
+    // 1. 記錄錯誤
+    console.error('Error occurred:', error);
+    
+    // 2. 分析錯誤類型
+    let message = userMessage || '操作失敗，請稍後再試';
+    
+    if (error.status === 403) {
+      message = '權限不足';
+    } else if (error.status === 404) {
+      message = '資源不存在';
+    } else if (error.status === 500) {
+      message = '伺服器錯誤';
+    }
+    
+    // 3. 通知用戶
+    this.notification.error('錯誤', message);
+  }
+}
+
+// 在服務中使用
+@Injectable({ providedIn: 'root' })
+export class DataService {
+  private readonly http = inject(_HttpClient);
+  private readonly errorHandler = inject(ErrorHandlerService);
+  
+  getData(): Observable<Data[]> {
+    return this.http.get('/api/data').pipe(
+      catchError(error => {
+        this.errorHandler.handleError(error, '載入數據失敗');
+        return of([]);
+      })
     );
   }
 }
 ```
 
-### 5. Form Handling Pattern
-**描述**: 響應式表單處理模式
+---
+
+### Pattern 6: Loading State Pattern
+
+**統一載入狀態管理**：
 ```typescript
-@Component({
-  template: `
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-      <input formControlName="name" placeholder="Name">
-      <input formControlName="email" placeholder="Email">
-      <button type="submit" [disabled]="userForm.invalid">
-        Save
-      </button>
-    </form>
-  `
-})
-export class UserFormComponent {
-  userForm = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]]
-  });
-
-  constructor(private fb: FormBuilder) {}
-
-  onSubmit() {
-    if (this.userForm.valid) {
-      const user = this.userForm.value;
-      // Handle form submission
-    }
-  }
-}
-```
-
-### 6. Pagination Pattern
-**描述**: 分頁處理模式
-```typescript
-@Component({
-  template: `
-    <nz-table [nzData]="users$ | async" [nzPageSize]="pageSize">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users$ | async">
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
-    <nz-pagination 
-      [nzPageIndex]="currentPage"
-      [nzTotal]="totalCount"
-      (nzPageIndexChange)="onPageChange($event)">
-    </nz-pagination>
-  `
-})
-export class UserListComponent {
-  currentPage = 1;
-  pageSize = 10;
-  totalCount = 0;
+@Component({...})
+export class ListComponent {
+  loading = false;
+  private readonly cdr = inject(ChangeDetectorRef);
   
-  users$ = this.currentPage$.pipe(
-    switchMap(page => this.userService.getUsers(page, this.pageSize))
-  );
-  
-  private currentPage$ = new BehaviorSubject(1);
-  
-  onPageChange(page: number) {
-    this.currentPage = page;
-    this.currentPage$.next(page);
-  }
-}
-```
-
-### 7. Search & Filter Pattern
-**描述**: 搜索和篩選模式
-```typescript
-@Component({
-  template: `
-    <input [(ngModel)]="searchTerm" (input)="onSearch()" 
-           placeholder="Search...">
-    <select [(ngModel)]="selectedCategory" (change)="onFilter()">
-      <option value="">All Categories</option>
-      <option *ngFor="let cat of categories" [value]="cat.id">
-        {{ cat.name }}
-      </option>
-    </select>
-  `
-})
-export class SearchComponent {
-  searchTerm = '';
-  selectedCategory = '';
-  
-  filteredData$ = combineLatest([
-    this.searchTerm$,
-    this.selectedCategory$
-  ]).pipe(
-    switchMap(([term, category]) => 
-      this.dataService.search(term, category)
-    )
-  );
-  
-  private searchTerm$ = new BehaviorSubject('');
-  private selectedCategory$ = new BehaviorSubject('');
-  
-  onSearch() {
-    this.searchTerm$.next(this.searchTerm);
-  }
-  
-  onFilter() {
-    this.selectedCategory$.next(this.selectedCategory);
-  }
-}
-```
-
-### 8. Loading State Pattern
-**描述**: 載入狀態處理模式
-```typescript
-@Component({
-  template: `
-    @if (loading$ | async) {
-      <nz-spin [nzSpinning]="true">
-        <div>Loading...</div>
-      </nz-spin>
-    } @else if (error$ | async; as error) {
-      <nz-alert [nzType]="'error'" [nzMessage]="error.message">
-      </nz-alert>
-    } @else {
-      <div *ngFor="let item of data$ | async">
-        {{ item.name }}
-      </div>
-    }
-  `
-})
-export class DataComponent {
-  loading$ = new BehaviorSubject(false);
-  error$ = new BehaviorSubject<Error | null>(null);
-  data$ = new BehaviorSubject<any[]>([]);
-  
-  loadData() {
-    this.loading$.next(true);
-    this.error$.next(null);
+  loadData(): void {
+    this.setLoading(true);
     
-    this.dataService.getData().pipe(
-      finalize(() => this.loading$.next(false))
-    ).subscribe({
-      next: data => this.data$.next(data),
-      error: error => this.error$.next(error)
+    this.service.getData().subscribe({
+      next: (data) => {
+        this.data = data;
+        this.setLoading(false);
+      },
+      error: (error) => {
+        this.handleError(error);
+        this.setLoading(false);
+      }
     });
+  }
+  
+  private setLoading(loading: boolean): void {
+    this.loading = loading;
+    this.cdr.detectChanges();
+  }
+}
+
+// 在模板中
+@if (loading) {
+  <nz-spin nzSize="large" />
+} @else {
+  <!-- 內容 -->
+}
+```
+
+---
+
+### Pattern 7: Form Handling Pattern
+
+**Reactive Forms 模式**：
+```typescript
+@Component({...})
+export class DataFormComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  
+  // 類型化表單
+  dataForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    description: [''],
+    isActive: [true],
+    email: ['', [Validators.email]]
+  });
+  
+  ngOnInit(): void {
+    // 如果是編輯模式，載入現有數據
+    if (this.dataId) {
+      this.service.getData(this.dataId).subscribe(data => {
+        this.dataForm.patchValue(data);
+      });
+    }
+  }
+  
+  submit(): void {
+    if (this.dataForm.valid) {
+      const formValue = this.dataForm.value;
+      this.service.save(formValue).subscribe({
+        next: () => this.router.navigate(['/data']),
+        error: (error) => this.handleError(error)
+      });
+    }
+  }
+}
+```
+
+**驗證錯誤顯示**：
+```html
+<nz-form-item>
+  <nz-form-label nzRequired>名稱</nz-form-label>
+  <nz-form-control [nzErrorTip]="nameErrorTpl">
+    <input nz-input formControlName="name" />
+    <ng-template #nameErrorTpl let-control>
+      @if (control.hasError('required')) {
+        請輸入名稱
+      } @else if (control.hasError('minlength')) {
+        名稱至少2個字符
+      }
+    </ng-template>
+  </nz-form-control>
+</nz-form-item>
+```
+
+---
+
+### Pattern 8: Pagination Pattern
+
+**統一分頁處理**：
+```typescript
+@Component({...})
+export class ListComponent {
+  items: Item[] = [];
+  total = 0;
+  currentPage = 1;
+  pageSize = 20;
+  
+  loadData(): void {
+    this.service.getItems({
+      page: this.currentPage,
+      pageSize: this.pageSize
+    }).subscribe(result => {
+      this.items = result.data;
+      this.total = result.total;
+    });
+  }
+  
+  onPageChange(): void {
+    this.loadData();
+  }
+  
+  onPageSizeChange(): void {
+    this.currentPage = 1;  // 重置到第一頁
+    this.loadData();
+  }
+}
+
+// 模板
+<nz-pagination
+  [(nzPageIndex)]="currentPage"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [nzShowSizeChanger]="true"
+  (nzPageIndexChange)="onPageChange()"
+  (nzPageSizeChange)="onPageSizeChange()"
+/>
+```
+
+---
+
+### Pattern 9: Search & Filter Pattern
+
+**實時搜索模式**：
+```typescript
+@Component({...})
+export class ListComponent {
+  searchKeyword = '';
+  
+  onSearch(): void {
+    this.currentPage = 1;  // 重置分頁
+    this.loadData();
+  }
+  
+  loadData(): void {
+    this.service.getItems({
+      page: this.currentPage,
+      pageSize: this.pageSize,
+      search: this.searchKeyword || undefined
+    }).subscribe(...);
+  }
+}
+
+// 模板
+<nz-input-group [nzPrefix]="searchIcon">
+  <input
+    nz-input
+    [(ngModel)]="searchKeyword"
+    placeholder="搜索..."
+    (input)="onSearch()"
+  />
+</nz-input-group>
+```
+
+**防抖搜索模式**（大數據量）：
+```typescript
+export class ListComponent implements OnInit {
+  private searchSubject = new Subject<string>();
+  
+  ngOnInit(): void {
+    this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(keyword => this.service.search(keyword))
+    ).subscribe(results => {
+      this.items = results;
+    });
+  }
+  
+  onSearch(keyword: string): void {
+    this.searchSubject.next(keyword);
+  }
+}
+```
+
+---
+
+### Pattern 10: Modal Communication Pattern
+
+**Parent-Child 通信模式**：
+```typescript
+// Parent Component
+openEditModal(data: Data): void {
+  const modalRef = this.modal.create({
+    nzTitle: '編輯數據',
+    nzContent: DataFormComponent,
+    nzComponentParams: {
+      data,  // 傳入數據
+      mode: 'edit'
+    },
+    nzWidth: 600
+  });
+  
+  // 監聽 Modal 關閉後的回調
+  modalRef.afterClose.subscribe(result => {
+    if (result) {
+      this.loadData();  // 重新載入列表
+    }
+  });
+}
+
+// Child Component (Modal)
+@Component({...})
+export class DataFormComponent {
+  @Input() data?: Data;
+  @Input() mode: 'create' | 'edit' = 'create';
+  
+  private readonly modal = inject(NzModalRef);
+  
+  submit(): void {
+    if (this.form.valid) {
+      this.service.save(this.form.value).subscribe({
+        next: (result) => {
+          this.modal.close(result);  // 關閉並返回結果
+        }
+      });
+    }
+  }
+  
+  cancel(): void {
+    this.modal.close();  // 關閉不返回結果
   }
 }
 ```

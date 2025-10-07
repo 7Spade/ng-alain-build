@@ -361,7 +361,7 @@ function generateProjectStructure(): void {
   const rootPath = process.cwd();
   
   // 確保輸出目錄存在
-  const outputDir = path.join(rootPath, 'docs');
+  const outputDir = path.join(rootPath, 'memory-bank');
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
