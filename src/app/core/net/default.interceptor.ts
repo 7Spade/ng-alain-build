@@ -38,12 +38,13 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
       break;
     case 401:
       if (environment.api.refreshTokenEnabled) {
+        const refreshType = (environment.api as any).refreshTokenType;
         // Firebase Token 刷新模式
-        if (environment.api.refreshTokenType === 'firebase') {
+        if (refreshType === 'firebase') {
           return tryRefreshFirebaseToken(injector, ev, req, next);
         }
         // 傳統 HTTP 刷新模式
-        if (environment.api.refreshTokenType === 're-request') {
+        if (refreshType === 're-request') {
           return tryRefreshToken(injector, ev, req, next);
         }
       }

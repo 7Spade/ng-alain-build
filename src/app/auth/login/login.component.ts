@@ -44,6 +44,10 @@ export class UserLoginComponent implements OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly firebaseAuth = inject(FirebaseAuthService);
   private readonly message = inject(NzMessageService);
+  
+  ngOnDestroy(): void {
+    // 清理資源
+  }
 
   form = inject(FormBuilder).nonNullable.group({
     userName: ['', [Validators.required, Validators.pattern(/^(admin|user)$/)]],

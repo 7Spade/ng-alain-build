@@ -8,6 +8,9 @@ export * from './services/rbac.service';
 export * from './services/multi-tenant-auth.service';
 export * from './services/firebase-error-handler.service';
 export * from './services/organization-context/organization-context.service';
+export * from './services/mode/mode.service';
+export * from './services/scroll.service';
+export * from './services/tab';
 
 // i18n
 export * from './i18n/i18n.service';
@@ -26,3 +29,4 @@ export * from './net/firebase-auth.interceptor';
 export * from './net/firebase-refresh-token';
 export * from './net/refresh-token';
 export * from './net/helper';
+export * from './net/organization.interceptor';

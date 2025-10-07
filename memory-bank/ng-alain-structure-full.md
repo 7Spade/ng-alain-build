@@ -6,8 +6,8 @@
 
 ## 📊 統計資訊
 
-- **目錄總數**: 151
-- **文件總數**: 498
+- **目錄總數**: 154
+- **文件總數**: 517
 
 ## 📂 目錄結構
 
@@ -24,6 +24,10 @@
     ├── index.ts
     ├── README.md
 └── docs/
+    ├── FIREBASE_AUTHENTICATION_DESIGN_PART2.md
+    ├── FIREBASE_AUTHENTICATION_DESIGN.md
+    ├── FIREBASE_IMPLEMENTATION_SUMMARY.md
+    ├── README_FIREBASE_DESIGN.md
 └── memory-bank/
     ├── active-context/
     │   ├── changes/
@@ -127,6 +131,7 @@
     │   ├── workflows/
     │   │   └── developmentWorkflow.md
     ├── memory.json
+    ├── ng-alain-lint-error-style.md
     ├── ng-alain-lint-error.md
     ├── ng-alain-structure-folders.md
     ├── ng-alain-structure-full.md
@@ -142,6 +147,8 @@
 └── src/
     ├── app/
     │   ├── auth/
+    │   │   ├── callback/
+    │   │   │   ├── callback.component.ts
     │   │   ├── landing/
     │   │   │   ├── landing.component.html
     │   │   │   ├── landing.component.less
@@ -164,11 +171,18 @@
     │   │   ├── README.md
     │   │   ├── routes.ts
     │   ├── core/
+    │   │   ├── guards/
+    │   │   │   ├── firebase-auth.guard.ts
+    │   │   │   ├── permission.guard.ts
     │   │   ├── i18n/
     │   │   │   ├── i18n.service.spec.ts
     │   │   │   ├── i18n.service.ts
+    │   │   ├── models/
+    │   │   │   ├── firebase-token.model.ts
     │   │   ├── net/
     │   │   │   ├── default.interceptor.ts
+    │   │   │   ├── firebase-auth.interceptor.ts
+    │   │   │   ├── firebase-refresh-token.ts
     │   │   │   ├── helper.ts
     │   │   │   ├── index.ts
     │   │   │   ├── organization.interceptor.ts
@@ -184,7 +198,14 @@
     │   │   │   │   ├── README.md
     │   │   │   │   ├── simple-reuse-strategy.ts
     │   │   │   │   ├── tab.service.ts
+    │   │   │   ├── auto-refresh.service.ts
+    │   │   │   ├── delon-firebase-token.service.ts
+    │   │   │   ├── firebase-auth.service.ts
+    │   │   │   ├── firebase-error-handler.service.ts
+    │   │   │   ├── multi-tenant-auth.service.ts
+    │   │   │   ├── rbac.service.ts
     │   │   │   ├── scroll.service.ts
+    │   │   │   ├── token-refresh.service.ts
     │   │   ├── startup/
     │   │   │   ├── startup.service.ts
     │   │   ├── index.ts
@@ -521,6 +542,7 @@
     │   │   │   ├── auth.directive.ts
     │   │   │   ├── debounce-click.directive.ts
     │   │   │   ├── disabled.directive.ts
+    │   │   │   ├── has-permission.directive.ts
     │   │   │   ├── mouse-hover-show.directive.ts
     │   │   │   ├── screen-less-hidden.directive.ts
     │   │   │   ├── toggle-fullscreen.directive.ts
