@@ -109,6 +109,8 @@ const providers: Array<Provider | EnvironmentProviders> = [
   providePerformance(() => getPerformance()),
   provideStorage(() => getStorage()),
   provideRemoteConfig(() => getRemoteConfig()),
+  // TODO: Migrate to new Firebase AI SDK when @angular/fire supports it
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   provideVertexAI(() => getVertexAI()),
 
   // @delon Widgets & Forms

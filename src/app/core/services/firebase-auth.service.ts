@@ -62,6 +62,7 @@ export class FirebaseAuthService {
 
   /**
    * Google 登入（使用 Redirect 模式，避免 Popup 被瀏覽器阻止）
+   *
    * @param useRedirect - 是否使用 Redirect 模式（預設 true）
    */
   loginWithGoogle(useRedirect = true): Observable<void> {
@@ -198,12 +199,12 @@ export class FirebaseAuthService {
             console.log('[Firebase Auth] Redirect 登入成功:', result.user.email);
             // 判斷登入方法
             const providerId = result.providerId;
-            const method = providerId?.includes('google') 
-              ? FirebaseLoginMethod.GOOGLE 
-              : providerId?.includes('github') 
-              ? FirebaseLoginMethod.GITHUB 
-              : FirebaseLoginMethod.EMAIL_PASSWORD;
-            
+            const method = providerId?.includes('google')
+              ? FirebaseLoginMethod.GOOGLE
+              : providerId?.includes('github')
+                ? FirebaseLoginMethod.GITHUB
+                : FirebaseLoginMethod.EMAIL_PASSWORD;
+
             this.onLoginSuccess(result.user, method);
 
             // 導航至原始頁面或首頁（延遲以確保 Token 同步完成）

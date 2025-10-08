@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { MenuService } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { firstValueFrom } from 'rxjs';
 
 import type { UserOrganization, OrganizationContext, OrganizationRole } from '../../../features/organization/models';
 import { UserOrganizationService } from '../../../features/organization/services/user-organization.service';
@@ -52,7 +53,7 @@ export class OrganizationContextService {
   async initialize(): Promise<void> {
     try {
       // 獲取用戶所屬的所有組織
-      const orgs = await this.userOrgService.getUserOrganizations().toPromise();
+      const orgs = await firstValueFrom(this.userOrgService.getUserOrganizations());
 
       // 確保包含個人空間
       const orgsWithPersonal = this.ensurePersonalSpace(orgs || []);
@@ -175,7 +176,7 @@ export class OrganizationContextService {
    */
   async reloadOrganizations(): Promise<void> {
     try {
-      const orgs = await this.userOrgService.getUserOrganizations(false).toPromise();
+      const orgs = await firstValueFrom(this.userOrgService.getUserOrganizations(false));
       const orgsWithPersonal = this.ensurePersonalSpace(orgs || []);
       this._availableOrgs.set(orgsWithPersonal);
     } catch (error) {
@@ -200,7 +201,7 @@ export class OrganizationContextService {
    */
   private async loadOrganizationMenu(orgId: string): Promise<void> {
     try {
-      const menuData = await this.userOrgService.getOrganizationMenu(orgId).toPromise();
+      const menuData = await firstValueFrom(this.userOrgService.getOrganizationMenu(orgId));
       this.menuService.clear();
       this.menuService.add(menuData || []);
     } catch (error) {

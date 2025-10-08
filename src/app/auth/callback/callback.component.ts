@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '@angular/fire/auth';
+import { Router, ActivatedRoute } from '@angular/router';
 import { StartupService, FirebaseAuthService } from '@core';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';

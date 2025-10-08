@@ -1,5 +1,5 @@
 import { HttpContext } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { StartupService, FirebaseAuthService } from '@core';
@@ -34,7 +34,7 @@ import { finalize } from 'rxjs';
     NzIconModule
   ]
 })
-export class UserLoginComponent implements OnDestroy {
+export class UserLoginComponent {
   private readonly router = inject(Router);
   private readonly reuseTabService = inject(ReuseTabService, { optional: true });
   private readonly tokenService = inject(DA_SERVICE_TOKEN);
@@ -223,9 +223,5 @@ export class UserLoginComponent implements OnDestroy {
           this.router.navigateByUrl(url);
         });
       });
-  }
-
-  ngOnDestroy(): void {
-    // 組件銷毀時的清理工作
   }
 }

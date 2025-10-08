@@ -1,5 +1,5 @@
 import { HttpContext } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { FirebaseAuthService } from '@core';
@@ -32,7 +32,7 @@ import { finalize } from 'rxjs';
     NzButtonModule
   ]
 })
-export class UserRegisterComponent implements OnDestroy {
+export class UserRegisterComponent {
   private readonly router = inject(Router);
   private readonly http = inject(_HttpClient);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -111,7 +111,7 @@ export class UserRegisterComponent implements OnDestroy {
     const data = this.form.value;
     const mail = (data.mail as unknown as string) || '';
     const password = (data.password as unknown as string) || '';
-    
+
     this.loading = true;
     this.cdr.detectChanges();
 
@@ -161,9 +161,5 @@ export class UserRegisterComponent implements OnDestroy {
       .subscribe(() => {
         this.router.navigate(['/auth/register-result'], { queryParams: { email: data.mail } });
       });
-  }
-
-  ngOnDestroy(): void {
-    // 組件銷毀時的清理工作
   }
 }
