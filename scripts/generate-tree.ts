@@ -53,6 +53,8 @@ const EXCLUDE_PATTERNS: readonly string[] = [
   '*.tmp',
   '.DS_Store',
   '.env*',
+  'docs',
+  'memory-bank',
   '_cli-tpl',
   '.cursor',
   '.github',
@@ -279,7 +281,7 @@ function runLintAndSaveReport(): void {
   console.log('📝 執行 TypeScript Lint (ESLint)...');
   const tsResult: LintResult = { success: true, output: '', errors: '' };
   try {
-    tsResult.output = execSync('yarn eslint --cache', { encoding: 'utf8', stdio: 'pipe' });
+    tsResult.output = execSync('yarn run eslint --cache', { encoding: 'utf8', stdio: 'pipe' });
   } catch (error: unknown) {
     tsResult.success = false;
     const err = error as { stdout?: string; stderr?: string };
@@ -290,7 +292,7 @@ function runLintAndSaveReport(): void {
   console.log('🎨 執行 Style Lint (Stylelint)...');
   const styleResult: LintResult = { success: true, output: '', errors: '' };
   try {
-    styleResult.output = execSync("yarn stylelint 'src/**/*.less'", { encoding: 'utf8', stdio: 'pipe' });
+    styleResult.output = execSync("yarn run stylelint 'src/**/*.less'", { encoding: 'utf8', stdio: 'pipe' });
   } catch (error: unknown) {
     styleResult.success = false;
     const err = error as { stdout?: string; stderr?: string };

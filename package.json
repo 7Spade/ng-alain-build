@@ -28,9 +28,9 @@
     "build": "npm run ng-high-memory build",
     "analyze": "npm run ng-high-memory build -- --source-map",
     "analyze:view": "source-map-explorer dist/**/*.js",
-    "lint": "npm run lint:ts && npm run lint:style",
-    "lint:ts": "npx eslint --cache --fix",
-    "lint:style": "npx stylelint 'src/**/*.less'",
+    "lint": "eslint --cache && stylelint 'src/**/*.less'",
+    "lint:ts": "eslint --cache --fix",
+    "lint:style": "stylelint 'src/**/*.less'",
     "e2e": "ng e2e",
     "test": "ng test --watch",
     "test-coverage": "ng test --code-coverage --watch=false",
@@ -38,8 +38,8 @@
     "theme": "ng-alain-plugin-theme -t=themeCss",
     "icon": "ng g ng-alain:plugin icon",
     "prepare": "husky install",
-    "structure:generate": "npx tsx scripts/generate-tree.ts",
-    "structure:check": "npm run structure:generate && echo '✅ ng-alain 結構驗證完成'"
+    "structure:generate": "yarn dlx tsx scripts/generate-tree.ts",
+    "structure:check": "yarn run structure:generate && echo '✅ ng-alain 結構驗證完成'"
   },
   "dependencies": {
     "@angular/animations": "^20.3.0",
