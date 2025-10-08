@@ -26,17 +26,11 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@config": [
-        "src/app/config/index"
-      ],
       "@shared": [
         "src/app/shared/index"
       ],
       "@core": [
         "src/app/core/index"
-      ],
-      "@features/*": [
-        "src/app/features/*"
       ],
       "@env/*": [
         "src/environments/*"

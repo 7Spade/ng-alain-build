@@ -148,8 +148,7 @@
     "schematicCollections": [
       "@schematics/angular",
       "ng-alain"
-    ],
-    "analytics": false
+    ]
   },
   "schematics": {
     "@angular-eslint/schematics:application": {
