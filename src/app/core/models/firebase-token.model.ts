@@ -102,9 +102,6 @@ export enum FirebaseLoginMethod {
   /** Facebook */
   FACEBOOK = 'facebook.com',
 
-  /** GitHub */
-  GITHUB = 'github.com',
-
   /** Microsoft */
   MICROSOFT = 'microsoft.com',
 

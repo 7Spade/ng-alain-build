@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { TabService, ModeService, ModeType, SimpleReuseStrategy } from '@core';
-import { DA_SERVICE_TOKEN } from '@delon/auth';
+import { Router, RouterLink } from '@angular/router';
+import { FirebaseAuthService, TabService, ModeService, ModeType } from '@core';
 import { I18nPipe, User } from '@delon/theme';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
@@ -64,8 +63,7 @@ import { OrganizationService } from '../../../features/organization/services/org
 export class HeaderUserComponent implements OnInit {
   @Input() user!: User;
   private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly tokenService = inject(DA_SERVICE_TOKEN);
+  private readonly firebaseAuth = inject(FirebaseAuthService);
   private readonly tabService = inject(TabService);
   private readonly modeService = inject(ModeService);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -98,11 +96,19 @@ export class HeaderUserComponent implements OnInit {
   private readonly message = inject(NzMessageService);
 
   logout(): void {
-    // 清空自訂路由復用與頁籤，避免回到舊狀態
-    SimpleReuseStrategy.deleteAllRouteSnapshot(this.activatedRoute.snapshot).then(() => {
-      this.tabService.clearTabs();
-      this.tokenService.clear();
-      this.router.navigateByUrl(this.tokenService.login_url!);
+    // 先清除 Tab 和路由快取，然後調用 Firebase 登出
+    this.tabService.clearTabs();
+
+    // 調用 Firebase 登出（會自動清除 Token、設定和導航）
+    this.firebaseAuth.logout().subscribe({
+      next: () => {
+        console.log('[HeaderUser] 登出完成');
+      },
+      error: (err: Error) => {
+        console.error('[HeaderUser] 登出失敗:', err);
+        // 即使失敗也清除本地狀態
+        this.router.navigateByUrl('/auth/login');
+      }
     });
   }
 

@@ -24,7 +24,7 @@ import {
 import { I18NService, defaultInterceptor, provideBindAuthRefresh, provideStartup } from '@core';
 import { provideCellWidgets } from '@delon/abc/cell';
 import { provideSTWidgets } from '@delon/abc/st';
-import { authSimpleInterceptor, provideAuth } from '@delon/auth';
+import { provideAuth } from '@delon/auth';
 import { provideSFConfig } from '@delon/form';
 import { AlainProvideLang, provideAlain, zh_CN as delonLang } from '@delon/theme';
 import { AlainConfig } from '@delon/util/config';
@@ -75,8 +75,9 @@ const providers: Array<Provider | EnvironmentProviders> = [
   provideHttpClient(
     withInterceptors([
       ...(environment.interceptorFns ?? []),
-      authSimpleInterceptor,
-      firebaseAuthInterceptor, // Firebase Token 附加
+      // 注意：使用 Firebase 認證時，移除 authSimpleInterceptor 避免衝突
+      // authSimpleInterceptor 會檢查 @delon token，但 Firebase token 同步有延遲
+      firebaseAuthInterceptor, // Firebase Token 附加（會自動同步到 @delon）
       organizationInterceptor,
       defaultInterceptor
     ])

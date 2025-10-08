@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import {
   Auth,
   GoogleAuthProvider,
-  GithubAuthProvider,
   signInWithPopup,
   signInWithRedirect,
   getRedirectResult,
@@ -12,7 +11,6 @@ import {
   user,
   idToken,
   User,
-  UserCredential,
   sendPasswordResetEmail,
   updateProfile
 } from '@angular/fire/auth';
@@ -81,29 +79,10 @@ export class FirebaseAuthService {
     } else {
       // Popup 模式：適用於不會被阻止的環境（fallback）
       return from(signInWithPopup(this.auth, provider)).pipe(
-        tap(credential => this.onLoginSuccess(credential.user, FirebaseLoginMethod.GOOGLE)),
-        map(() => undefined),
+        switchMap(credential => this.onLoginSuccess(credential.user, FirebaseLoginMethod.GOOGLE)),
         catchError(error => this.handleLoginError(error))
       );
     }
-  }
-
-  /**
-   * GitHub 登入
-   */
-  loginWithGitHub(useRedirect = false): Observable<User> {
-    this.authStateSubject.next(FirebaseAuthState.AUTHENTICATING);
-
-    const provider = new GithubAuthProvider();
-    provider.addScope('user:email');
-
-    const signInMethod = useRedirect ? signInWithRedirect : signInWithPopup;
-
-    return from(signInMethod(this.auth, provider)).pipe(
-      map(credential => (credential as UserCredential).user),
-      tap(user => this.onLoginSuccess(user, FirebaseLoginMethod.GITHUB)),
-      catchError(error => this.handleLoginError(error))
-    );
   }
 
   /**
@@ -113,8 +92,10 @@ export class FirebaseAuthService {
     this.authStateSubject.next(FirebaseAuthState.AUTHENTICATING);
 
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      map(credential => credential.user),
-      tap(user => this.onLoginSuccess(user, FirebaseLoginMethod.EMAIL_PASSWORD)),
+      switchMap(credential => {
+        const user = credential.user;
+        return this.onLoginSuccess(user, FirebaseLoginMethod.EMAIL_PASSWORD).pipe(map(() => user));
+      }),
       catchError(error => this.handleLoginError(error))
     );
   }
@@ -133,7 +114,7 @@ export class FirebaseAuthService {
         }
         return of(credential.user);
       }),
-      tap(user => this.onLoginSuccess(user, FirebaseLoginMethod.EMAIL_PASSWORD)),
+      switchMap(user => this.onLoginSuccess(user, FirebaseLoginMethod.EMAIL_PASSWORD).pipe(map(() => user))),
       catchError(error => this.handleLoginError(error))
     );
   }
@@ -194,27 +175,25 @@ export class FirebaseAuthService {
   private handleRedirectResult(): void {
     from(getRedirectResult(this.auth))
       .pipe(
-        tap(result => {
+        switchMap(result => {
           if (result && result.user) {
             console.log('[Firebase Auth] Redirect 登入成功:', result.user.email);
             // 判斷登入方法
             const providerId = result.providerId;
-            const method = providerId?.includes('google')
-              ? FirebaseLoginMethod.GOOGLE
-              : providerId?.includes('github')
-                ? FirebaseLoginMethod.GITHUB
-                : FirebaseLoginMethod.EMAIL_PASSWORD;
+            const method = providerId?.includes('google') ? FirebaseLoginMethod.GOOGLE : FirebaseLoginMethod.EMAIL_PASSWORD;
 
-            this.onLoginSuccess(result.user, method);
-
-            // 導航至原始頁面或首頁（延遲以確保 Token 同步完成）
-            const redirect = sessionStorage.getItem('firebase_redirect_url') || '/dashboard';
-            sessionStorage.removeItem('firebase_redirect_url');
-            setTimeout(() => {
-              console.log('[Firebase Auth] 導航至:', redirect);
-              this.router.navigateByUrl(redirect);
-            }, 200);
+            // 等待 Token 同步完成後再導航
+            return this.onLoginSuccess(result.user, method).pipe(
+              tap(() => {
+                // Token 已同步完成，現在可以安全導航
+                const redirect = sessionStorage.getItem('firebase_redirect_url') || '/dashboard';
+                sessionStorage.removeItem('firebase_redirect_url');
+                console.log('[Firebase Auth] Token 同步完成，導航至:', redirect);
+                this.router.navigateByUrl(redirect);
+              })
+            );
           }
+          return of(null);
         }),
         catchError(error => {
           if (error && error.code) {
@@ -257,7 +236,9 @@ export class FirebaseAuthService {
   /**
    * 獲取 ID Token Result（包含 Custom Claims）
    */
-  getIdTokenResult(forceRefresh = false): Observable<any> {
+  getIdTokenResult(
+    forceRefresh = false
+  ): Observable<{ token: string; claims: Record<string, unknown>; expirationTime: string; issuedAtTime: string } | null> {
     if (!this.auth.currentUser) {
       return of(null);
     }
@@ -281,66 +262,69 @@ export class FirebaseAuthService {
   // ===== 私有方法 =====
 
   /**
-   * 登入成功處理
+   * 登入成功處理（返回 Observable 確保 Token 同步完成）
    */
-  private onLoginSuccess(user: User, method: FirebaseLoginMethod): void {
+  private onLoginSuccess(user: User, method: FirebaseLoginMethod): Observable<void> {
     console.log('[Firebase Auth] 登入成功:', user.email, '方法:', method);
 
-    // 獲取 ID Token 並同步
-    user.getIdTokenResult().then(result => {
-      // 同步到 @delon/auth
-      const tokenModel: FirebaseTokenModel = {
-        token: result.token,
-        expired: new Date(result.expirationTime).getTime(),
-        // Firebase 基礎欄位
-        uid: user.uid,
-        email: user.email || undefined,
-        email_verified: user.emailVerified,
-        name: user.displayName || undefined,
-        picture: user.photoURL || undefined,
-        // Custom Claims
-        role: result.claims['role'] as string,
-        permissions: result.claims['permissions'] as string[],
-        tenantId: result.claims['tenantId'] as string,
-        tenants: result.claims['tenants'] as string[],
-        departmentId: result.claims['departmentId'] as string,
-        premium: result.claims['premium'] as boolean,
-        // Token 元數據
-        issuedAt: result.issuedAtTime,
-        expirationTime: result.expirationTime,
-        signInProvider: result.signInProvider || method,
-        // 其他 Claims
-        ...result.claims
-      };
+    // 獲取 ID Token 並同步（使用 Observable 確保完成）
+    return from(user.getIdTokenResult()).pipe(
+      tap(result => {
+        // 同步到 @delon/auth
+        const tokenModel: FirebaseTokenModel = {
+          token: result.token,
+          expired: new Date(result.expirationTime).getTime(),
+          // Firebase 基礎欄位
+          uid: user.uid,
+          email: user.email || undefined,
+          email_verified: user.emailVerified,
+          name: user.displayName || undefined,
+          picture: user.photoURL || undefined,
+          // Custom Claims
+          role: result.claims['role'] as string,
+          permissions: result.claims['permissions'] as string[],
+          tenantId: result.claims['tenantId'] as string,
+          tenants: result.claims['tenants'] as string[],
+          departmentId: result.claims['departmentId'] as string,
+          premium: result.claims['premium'] as boolean,
+          // Token 元數據
+          issuedAt: result.issuedAtTime,
+          expirationTime: result.expirationTime,
+          signInProvider: result.signInProvider || method,
+          // 其他 Claims
+          ...result.claims
+        };
 
-      this.tokenService.set(tokenModel);
+        this.tokenService.set(tokenModel);
 
-      // 更新使用者設定
-      this.settings.setUser({
-        name: user.displayName || user.email,
-        email: user.email,
-        avatar: user.photoURL,
-        uid: user.uid,
-        role: result.claims['role']
-      });
+        // 更新使用者設定
+        this.settings.setUser({
+          name: user.displayName || user.email,
+          email: user.email,
+          avatar: user.photoURL,
+          uid: user.uid,
+          role: result.claims['role']
+        });
 
-      // 發送登入事件
-      this.emitAuthEvent({
-        type: 'login',
-        timestamp: Date.now(),
-        uid: user.uid,
-        method
-      });
+        // 發送登入事件
+        this.emitAuthEvent({
+          type: 'login',
+          timestamp: Date.now(),
+          uid: user.uid,
+          method
+        });
 
-      // 更新狀態
-      this.authStateSubject.next(FirebaseAuthState.AUTHENTICATED);
-    });
+        // 更新狀態
+        this.authStateSubject.next(FirebaseAuthState.AUTHENTICATED);
+      }),
+      map(() => undefined)
+    );
   }
 
   /**
    * 登入錯誤處理
    */
-  private handleLoginError(error: any): Observable<never> {
+  private handleLoginError(error: { code?: string; message?: string }): Observable<never> {
     console.error('[Firebase Auth] 登入失敗:', error);
 
     let message = '登入失敗';

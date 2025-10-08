@@ -40,14 +40,9 @@
 @if (useFirebase) {
 <nz-divider nzText="或使用社交帳號登入"></nz-divider>
 <div class="social-login">
-  <button nz-button nzType="default" nzSize="large" nzBlock (click)="loginWithGoogle()" [nzLoading]="loading"
-    class="mb-sm">
-    <span nz-icon nzType="google-plus" nzTheme="outline"></span>
+  <button nz-button nzType="default" nzSize="large" nzBlock (click)="loginWithGoogle()" [nzLoading]="loading">
+    <span nz-icon nzType="google" nzTheme="outline"></span>
     Google 登入
-  </button>
-  <button nz-button nzType="default" nzSize="large" nzBlock (click)="loginWithGitHub()" [nzLoading]="loading">
-    <span nz-icon nzType="github" nzTheme="outline"></span>
-    GitHub 登入
   </button>
 </div>
 }

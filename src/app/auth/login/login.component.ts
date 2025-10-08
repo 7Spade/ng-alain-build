@@ -140,31 +140,6 @@ export class UserLoginComponent {
   }
 
   /**
-   * GitHub 登入
-   */
-  loginWithGitHub(): void {
-    if (!this.useFirebase) {
-      this.message.warning('Firebase 登入未啟用');
-      return;
-    }
-
-    this.loading = true;
-    this.cdr.detectChanges();
-
-    this.firebaseAuth.loginWithGitHub().subscribe({
-      next: () => {
-        this.message.success('GitHub 登入成功');
-        this.router.navigateByUrl('/dashboard');
-      },
-      error: (err: Error) => {
-        this.message.error(err.message || 'GitHub 登入失敗');
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
-  /**
    * 傳統 Mock API 登入
    */
   private loginWithMockAPI(): void {
