@@ -55,6 +55,7 @@ const EXCLUDE_PATTERNS: readonly string[] = [
   '.env*',
   'docs',
   'memory-bank',
+  '.playwright-mcp',
   '_cli-tpl',
   '.cursor',
   '.github',
