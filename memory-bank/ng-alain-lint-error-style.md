@@ -2,7 +2,7 @@
 
 > 自動生成的樣式檔案品質檢查報告（Stylelint）
 
-**生成時間**: 2025-10-07 17:56:37
+**生成時間**: 2025-10-08 04:21:54
 
 ## 📊 檢查摘要
 
@@ -26,7 +26,7 @@ NoFilesFoundError: No files matching the pattern "'src/**/*.less'" were found.
 ### 自動修復
 ```bash
 # 自動修復 Style 問題
-npm run lint:style
+yarn lint:style
 ```
 
 ### 手動檢查

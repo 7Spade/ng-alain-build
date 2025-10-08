@@ -2,13 +2,13 @@
 
 > 自動生成的程式碼品質檢查報告
 
-**生成時間**: 2025-10-07 17:56:37
+**生成時間**: 2025-10-08 04:21:54
 
 ## 📊 檢查摘要
 
 | 檢查類型 | 狀態 | 結果 |
 |---------|------|------|
-| TypeScript (ESLint) | ❌ 發現問題 | ✖ 196 problem |
+| TypeScript (ESLint) | ❌ 發現問題 | ✖ 205 problem |
 | Style (Stylelint) | ❌ 發現問題 | 無錯誤 |
 
 ## 🔍 詳細報告
@@ -35,6 +35,9 @@ C:\Users\user\Downloads\ng-alain-build\_mock\_chart.ts
   165:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   172:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
+C:\Users\user\Downloads\ng-alain-build\_mock\_project.ts
+  216:34  error  '_req' is defined but never used  @typescript-eslint/no-unused-vars
+
 C:\Users\user\Downloads\ng-alain-build\_mock\_rule.ts
    3:13  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   26:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -45,9 +48,6 @@ C:\Users\user\Downloads\ng-alain-build\_mock\_user.ts
   27:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   27:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   40:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-
-C:\Users\user\Downloads\ng-alain-build\docs\ng-alain-master\.yarn\releases\yarn-4.9.2.cjs
-  2:1  warning  Unused eslint-disable directive (no problems were reported)
 
 C:\Users\user\Downloads\ng-alain-build\docs\ng-alain-master\_mock\_api.ts
    35:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -194,27 +194,15 @@ C:\Users\user\Downloads\ng-alain-build\e2e\src\app.po.ts
   5:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 C:\Users\user\Downloads\ng-alain-build\src\app\app.config.ts
-   84:3   warning  `provideAnimations` is deprecated. 20.2 Use `animate.enter` or `animate.leave` instead. Intent to remove in v23                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-deprecated
-  112:25  warning  `getVertexAI` is deprecated. Use the new {@link getAIgetAI()} instead. The Vertex AI in Firebase SDK has been
-replaced with the Firebase AI SDK to accommodate the evolving set of supported features and
-services. For migration details, see the {@link https://firebase.google.com/docs/vertex-ai/migrate-to-latest-sdk migration guide}.
+  85:3  warning  `provideAnimations` is deprecated. 20.2 Use `animate.enter` or `animate.leave` instead. Intent to remove in v23  @typescript-eslint/no-deprecated
 
-Returns a {@link VertexAI} instance for the given app, configured to use the
-Vertex AI Gemini API. This instance will be
-configured to use the Vertex AI Gemini API  @typescript-eslint/no-deprecated
-
-C:\Users\user\Downloads\ng-alain-build\src\app\auth\callback\callback.component.ts
-  4:1  error  `@angular/fire/auth` import should occur before import of `@angular/router`  import/order
-
-C:\Users\user\Downloads\ng-alain-build\src\app\auth\login\login.component.ts
-  217:3  error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
-
-C:\Users\user\Downloads\ng-alain-build\src\app\auth\register\register.component.ts
-  113:3  error  Lifecycle methods should not be empty  @angular-eslint/no-empty-lifecycle-method
+C:\Users\user\Downloads\ng-alain-build\src\app\core\guards\firebase-auth.guard.ts
+  57:51  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
+  57:83  error  '_state' is defined but never used  @typescript-eslint/no-unused-vars
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\models\firebase-token.model.ts
    66:18  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  161:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  158:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\net\default.interceptor.ts
   11:80   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -244,20 +232,14 @@ C:\Users\user\Downloads\ng-alain-build\src\app\core\net\refresh-token.ts
   33:92   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   33:131  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-C:\Users\user\Downloads\ng-alain-build\src\app\core\services\firebase-auth.service.ts
-  193:54  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  276:35  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+C:\Users\user\Downloads\ng-alain-build\src\app\core\services\auto-refresh.service.ts
+  90:24  error  '_token' is defined but never used  @typescript-eslint/no-unused-vars
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\services\firebase-error-handler.service.ts
    33:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   232:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   240:25  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   248:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-
-C:\Users\user\Downloads\ng-alain-build\src\app\core\services\organization-context\organization-context.service.ts
-   55:69  warning  `toPromise` is deprecated. Replaced with {@link firstValueFrom } and {@link lastValueFrom }. Will be removed in v8. Details: https://rxjs.dev/deprecations/to-promise  @typescript-eslint/no-deprecated
-  178:74  warning  `toPromise` is deprecated. Replaced with {@link firstValueFrom } and {@link lastValueFrom }. Will be removed in v8. Details: https://rxjs.dev/deprecations/to-promise  @typescript-eslint/no-deprecated
-  203:77  warning  `toPromise` is deprecated. Replaced with {@link firstValueFrom } and {@link lastValueFrom }. Will be removed in v8. Details: https://rxjs.dev/deprecations/to-promise  @typescript-eslint/no-deprecated
 
 C:\Users\user\Downloads\ng-alain-build\src\app\examples\delon-features\form-demo\form.component.ts
   12:11  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -333,8 +315,31 @@ C:\Users\user\Downloads\ng-alain-build\src\app\features\dashboard\dashboard-work
   87:48  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   90:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
+C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\components\department-list\department-list.component.ts
+  143:7  error  '_parentId' is defined but never used  @typescript-eslint/no-unused-vars
+  148:8  error  '_id' is defined but never used        @typescript-eslint/no-unused-vars
+
+C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\components\employee-list\employee-list.component.ts
+  141:8  error  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+
 C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\components\organization-form\organization-form.component.ts
   64:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\components\role-management\role-management.component.ts
+  136:8   error  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+  141:18  error  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\guards\organization.guard.ts
+  14:50  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
+  14:58  error  '_state' is defined but never used  @typescript-eslint/no-unused-vars
+  45:54  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
+  45:62  error  '_state' is defined but never used  @typescript-eslint/no-unused-vars
+  56:54  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
+  56:62  error  '_state' is defined but never used  @typescript-eslint/no-unused-vars
+  67:52  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
+  67:60  error  '_state' is defined but never used  @typescript-eslint/no-unused-vars
+  78:48  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
+  78:56  error  '_state' is defined but never used  @typescript-eslint/no-unused-vars
 
 C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\models\common.model.ts
    27:28  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -354,6 +359,9 @@ C:\Users\user\Downloads\ng-alain-build\src\app\features\organization\services\us
   102:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   123:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
   125:26  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\user\Downloads\ng-alain-build\src\app\features\projects\components\project-files\project-files.component.ts
+  171:14  error  '_err' is defined but never used  @typescript-eslint/no-unused-vars
 
 C:\Users\user\Downloads\ng-alain-build\src\app\features\projects\models\project-activity.model.ts
   31:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -375,10 +383,6 @@ C:\Users\user\Downloads\ng-alain-build\src\app\shared\directives\has-permission.
 C:\Users\user\Downloads\ng-alain-build\src\app\shared\directives\screen-less-hidden.directive.ts
   30:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-C:\Users\user\Downloads\ng-alain-build\src\app\shared\shared-zorro.module.ts
-  38:3  warning  `NzToolTipModule` is deprecated. Use {@link NzTooltipModule} instead.
-This will be removed in v21.0.0  @typescript-eslint/no-deprecated
-
 C:\Users\user\Downloads\ng-alain-build\src\app\system\extras\poi\edit\edit.component.ts
   17:6  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
@@ -391,8 +395,7 @@ C:\Users\user\Downloads\ng-alain-build\src\environments\environment.prod.ts
 C:\Users\user\Downloads\ng-alain-build\src\environments\environment.ts
   15:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-✖ 196 problems (3 errors, 193 warnings)
-  1 error and 1 warning potentially fixable with the `--fix` option.
+✖ 205 problems (20 errors, 185 warnings)
 ```
 
 ### Style Lint (Stylelint)
@@ -409,10 +412,10 @@ NoFilesFoundError: No files matching the pattern "'src/**/*.less'" were found.
 ### 自動修復
 ```bash
 # 自動修復 TypeScript 問題
-npm run lint:ts
+yarn lint:ts
 
 # 自動修復 Style 問題
-npm run lint:style
+yarn lint:style
 ```
 
 ### 手動檢查

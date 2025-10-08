@@ -2,12 +2,12 @@
 
 > 包含完整的目錄和文件結構
 
-**生成時間**: 2025-10-07
+**生成時間**: 2025-10-08
 
 ## 📊 統計資訊
 
-- **目錄總數**: 248
-- **文件總數**: 795
+- **目錄總數**: 249
+- **文件總數**: 796
 
 ## 📂 目錄結構
 
@@ -24,7 +24,6 @@
     ├── index.ts
     ├── README.md
 └── .playwright-mcp/
-    ├── firebase-500-error.png
 └── docs/
     ├── ng-alain-master/
     │   ├── _mock/
@@ -395,10 +394,15 @@
     │   ├── tsconfig.spec.json
     ├── FIREBASE_AUTHENTICATION_DESIGN_PART2.md
     ├── FIREBASE_AUTHENTICATION_DESIGN.md
+    ├── FIREBASE_BUG_FIXES_2025-10-07.md
+    ├── FIREBASE_CONSOLE_SETUP.md
     ├── FIREBASE_FILES_INDEX.md
     ├── FIREBASE_IMPLEMENTATION_COMPLETE.md
     ├── FIREBASE_IMPLEMENTATION_SUMMARY.md
+    ├── FIREBASE_INTEGRATION_ANALYSIS_2025-10-08.md
+    ├── FIREBASE_INTEGRATION_GUIDE.md
     ├── FIREBASE_QUICK_START.md
+    ├── FIREBASE_VAN_COMPLETE_REPORT_2025-10-07.md
     ├── README_FIREBASE_DESIGN.md
 └── memory-bank/
     ├── active-context/
@@ -543,6 +547,7 @@
     │   │   ├── README.md
     │   │   ├── routes.ts
     │   ├── core/
+    │   │   ├── firebase/
     │   │   ├── guards/
     │   │   │   ├── firebase-auth.guard.ts
     │   │   │   ├── permission.guard.ts
@@ -1040,12 +1045,9 @@
 └── CONTRIBUTING.md
 └── custom_modes
 └── eslint.config.mjs
-└── FIREBASE_INTEGRATION_GUIDE.md
 └── firebase.json
 └── LICENSE
 └── ng-alain.json
-└── OPTIMIZATION_QUICK_REFERENCE.md
-└── OPTIMIZATION_SUMMARY.md
 └── package.json
 └── proxy.conf.js
 └── README.md
