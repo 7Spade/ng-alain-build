@@ -4,6 +4,8 @@ import { IGNORE_BASE_URL } from '@delon/theme';
 import { environment } from '@env/environment';
 import { Observable, of, throwError, mergeMap } from 'rxjs';
 
+// TODO(FIREBASE_REFACTOR_P1): 移除對 firebase-refresh-token.ts 的引用
+// 此檔案將在階段 5 被刪除，刷新邏輯應整合到此處
 import { tryRefreshFirebaseToken } from './firebase-refresh-token';
 import { ReThrowHttpError, checkStatus, getAdditionalHeaders, toLogin } from './helper';
 import { tryRefreshToken } from './refresh-token';
@@ -37,6 +39,12 @@ function handleData(injector: Injector, ev: HttpResponseBase, req: HttpRequest<a
       // }
       break;
     case 401:
+      // TODO(FIREBASE_REFACTOR_P1): 整合 Firebase 刷新邏輯到此處
+      // - 移除對 firebase-refresh-token.ts 的依賴（將被刪除）
+      // - 直接在此處實作 Firebase Token 刷新
+      // - 使用 Firebase SDK: auth.currentUser.getIdToken(true)
+      // - @delon/auth 適配器會自動更新（無需手動同步）
+      // 參考: FIREBASE_REFACTOR_PLAN.md 階段 2 (Line 310-446)
       if (environment.api.refreshTokenEnabled) {
         const refreshType = (environment.api as any).refreshTokenType;
         // Firebase Token 刷新模式

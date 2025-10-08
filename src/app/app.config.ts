@@ -72,6 +72,12 @@ if (environment.useHash) routerFeatures.push(withHashLocation());
 
 const providers: Array<Provider | EnvironmentProviders> = [
   // HTTP & Interceptors
+  // TODO(FIREBASE_REFACTOR_P0): 恢復 ng-alain 原始攔截器架構
+  // - 移除 firebaseAuthInterceptor (自製攔截器違反架構原則)
+  // - 移除 organizationInterceptor (應整合到 defaultInterceptor)
+  // - 恢復 authSimpleInterceptor (@delon/auth 核心攔截器)
+  // - 只保留: authSimpleInterceptor + defaultInterceptor
+  // 參考: FIREBASE_REFACTOR_PLAN.md 階段 1
   provideHttpClient(
     withInterceptors([
       ...(environment.interceptorFns ?? []),
@@ -93,6 +99,11 @@ const providers: Array<Provider | EnvironmentProviders> = [
 
   // @delon/auth (認證系統)
   provideAuth(),
+  // TODO(FIREBASE_REFACTOR_P0): 配置 FirebaseTokenAdapter
+  // - 創建 src/app/core/adapters/firebase-token.adapter.ts
+  // - 實作 ITokenService 介面
+  // - 使用 { provide: DA_SERVICE_TOKEN, useClass: FirebaseTokenAdapter }
+  // 參考: FIREBASE_REFACTOR_PLAN.md 階段 1 (Line 185-300)
 
   // Firebase 整合
   provideFirebaseApp(() => initializeApp(firebaseConfig)),
@@ -122,6 +133,10 @@ const providers: Array<Provider | EnvironmentProviders> = [
   // Startup Service
   provideStartup(),
 
+  // TODO(FIREBASE_REFACTOR_P0): 移除 AutoRefreshService 初始化
+  // Firebase SDK 自動管理 Token 刷新，無需手動實作
+  // 此服務將在階段 5 刪除
+  // 參考: FIREBASE_REFACTOR_PLAN.md 階段 5 (Line 657-712)
   // Firebase Auto Refresh Service (初始化)
   provideAppInitializer(() => {
     const autoRefresh = inject(AutoRefreshService);

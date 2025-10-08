@@ -2,13 +2,13 @@
 
 > 自動生成的程式碼品質檢查報告
 
-**生成時間**: 2025-10-08 04:25:14
+**生成時間**: 2025-10-08 04:49:39
 
 ## 📊 檢查摘要
 
 | 檢查類型 | 狀態 | 結果 |
 |---------|------|------|
-| TypeScript (ESLint) | ❌ 發現問題 | ✖ 205 problem |
+| TypeScript (ESLint) | ❌ 發現問題 | ✖ 341 problem |
 | Style (Stylelint) | ❌ 發現問題 | 無錯誤 |
 
 ## 🔍 詳細報告
@@ -194,7 +194,144 @@ C:\Users\user\Downloads\ng-alain-build\e2e\src\app.po.ts
   5:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 C:\Users\user\Downloads\ng-alain-build\src\app\app.config.ts
-  85:3  warning  `provideAnimations` is deprecated. 20.2 Use `animate.enter` or `animate.leave` instead. Intent to remove in v23  @typescript-eslint/no-deprecated
+  91:3  warning  `provideAnimations` is deprecated. 20.2 Use `animate.enter` or `animate.leave` instead. Intent to remove in v23  @typescript-eslint/no-deprecated
+
+C:\Users\user\Downloads\ng-alain-build\src\app\core\adapters\firebase-token.adapter.ts
+    1:55  error    Delete `␍`                                prettier/prettier
+    2:38  error    Delete `␍`                                prettier/prettier
+    3:53  error    Delete `␍`                                prettier/prettier
+    4:1   error    Delete `␍`                                prettier/prettier
+    5:52  error    Delete `␍`                                prettier/prettier
+    6:16  error    'idToken' is defined but never used       @typescript-eslint/no-unused-vars
+    6:25  error    'user' is defined but never used          @typescript-eslint/no-unused-vars
+    6:58  error    Delete `␍`                                prettier/prettier
+    7:22  error    'from' is defined but never used          @typescript-eslint/no-unused-vars
+    7:28  error    'of' is defined but never used            @typescript-eslint/no-unused-vars
+    7:45  error    Delete `␍`                                prettier/prettier
+    8:10  error    'map' is defined but never used           @typescript-eslint/no-unused-vars
+    8:15  error    'switchMap' is defined but never used     @typescript-eslint/no-unused-vars
+    8:49  error    Delete `␍`                                prettier/prettier
+    9:1   error    Delete `␍`                                prettier/prettier
+   10:49  error    Delete `␍`                                prettier/prettier
+   11:61  error    Delete `␍`                                prettier/prettier
+   12:1   error    Delete `␍`                                prettier/prettier
+   13:4   error    Delete `␍`                                prettier/prettier
+   14:22  error    Delete `␍`                                prettier/prettier
+   15:3   error    Delete `·␍`                               prettier/prettier
+   16:13  error    Delete `␍`                                prettier/prettier
+   17:61  error    Delete `␍`                                prettier/prettier
+   18:39  error    Delete `␍`                                prettier/prettier
+   19:39  error    Delete `␍`                                prettier/prettier
+   20:3   error    Delete `·␍`                               prettier/prettier
+   21:13  error    Delete `␍`                                prettier/prettier
+   22:24  error    Delete `␍`                                prettier/prettier
+   23:17  error    Delete `␍`                                prettier/prettier
+   24:65  error    Delete `␍`                                prettier/prettier
+   25:7   error    Delete `␍`                                prettier/prettier
+   26:3   error    Delete `·␍`                               prettier/prettier
+   27:27  error    Delete `␍`                                prettier/prettier
+   28:55  error    Delete `␍`                                prettier/prettier
+   29:43  error    Delete `␍`                                prettier/prettier
+   30:44  error    Delete `␍`                                prettier/prettier
+   31:4   error    Delete `␍`                                prettier/prettier
+   32:36  error    Delete `␍`                                prettier/prettier
+   33:73  error    Delete `␍`                                prettier/prettier
+   34:31  error    Delete `␍`                                prettier/prettier
+   35:1   error    Delete `␍`                                prettier/prettier
+   36:45  error    Delete `␍`                                prettier/prettier
+   37:6   error    Delete `␍`                                prettier/prettier
+   38:27  error    Delete `␍`                                prettier/prettier
+   39:5   error    Delete `·␍`                               prettier/prettier
+   40:15  error    Delete `␍`                                prettier/prettier
+   41:39  error    Delete `␍`                                prettier/prettier
+   42:40  error    Delete `␍`                                prettier/prettier
+   43:59  error    Delete `␍`                                prettier/prettier
+   44:38  error    Delete `␍`                                prettier/prettier
+   45:5   error    Delete `·␍`                               prettier/prettier
+   46:59  error    Delete `␍`                                prettier/prettier
+   47:19  error    Delete `␍`                                prettier/prettier
+   48:38  error    Delete `␍`                                prettier/prettier
+   49:39  error    Delete `␍`                                prettier/prettier
+   50:30  error    Delete `␍`                                prettier/prettier
+   51:51  error    Delete `␍`                                prettier/prettier
+   52:30  error    Delete `␍`                                prettier/prettier
+   53:13  error    Delete `␍`                                prettier/prettier
+   54:71  error    Delete `␍`                                prettier/prettier
+   55:30  error    Delete `␍`                                prettier/prettier
+   56:36  error    Delete `␍`                                prettier/prettier
+   57:67  error    Delete `␍`                                prettier/prettier
+   58:48  error    Delete `␍`                                prettier/prettier
+   59:44  error    Delete `␍`                                prettier/prettier
+   60:58  error    Delete `␍`                                prettier/prettier
+   61:32  error    Delete `␍`                                prettier/prettier
+   62:17  error    Delete `␍`                                prettier/prettier
+   63:14  error    Delete `␍`                                prettier/prettier
+   64:12  error    Delete `␍`                                prettier/prettier
+   65:10  error    Delete `␍`                                prettier/prettier
+   66:7   error    Delete `␍`                                prettier/prettier
+   67:9   error    Delete `␍`                                prettier/prettier
+   68:6   error    Delete `␍`                                prettier/prettier
+   69:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   69:51  error    Delete `␍`                                prettier/prettier
+   70:19  error    Delete `␍`                                prettier/prettier
+   71:56  error    Delete `␍`                                prettier/prettier
+   72:4   error    Delete `␍`                                prettier/prettier
+   73:1   error    Delete `␍`                                prettier/prettier
+   74:45  error    Delete `␍`                                prettier/prettier
+   75:6   error    Delete `␍`                                prettier/prettier
+   76:14  error    Delete `␍`                                prettier/prettier
+   77:5   error    Delete `·␍`                               prettier/prettier
+   78:1   error    Expected 1 lines after block description  jsdoc/tag-lines
+   78:45  error    Delete `␍`                                prettier/prettier
+   79:51  error    Delete `␍`                                prettier/prettier
+   80:5   error    Delete `·␍`                               prettier/prettier
+   81:32  error    Delete `␍`                                prettier/prettier
+   82:45  error    Delete `␍`                                prettier/prettier
+   83:6   error    Delete `␍`                                prettier/prettier
+   84:7   error    '_data' is defined but never used         @typescript-eslint/no-unused-vars
+   84:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   84:53  error    Delete `␍`                                prettier/prettier
+   85:38  error    Delete `␍`                                prettier/prettier
+   86:17  error    Delete `␍`                                prettier/prettier
+   87:4   error    Delete `␍`                                prettier/prettier
+   88:1   error    Delete `␍`                                prettier/prettier
+   89:47  error    Delete `␍`                                prettier/prettier
+   90:6   error    Delete `␍`                                prettier/prettier
+   91:14  error    Delete `␍`                                prettier/prettier
+   92:5   error    Delete `·␍`                               prettier/prettier
+   93:58  error    Delete `␍`                                prettier/prettier
+   94:29  error    Delete `␍`                                prettier/prettier
+   95:6   error    Delete `␍`                                prettier/prettier
+   96:18  error    Delete `␍`                                prettier/prettier
+   97:45  error    Delete `␍`                                prettier/prettier
+   98:4   error    Delete `␍`                                prettier/prettier
+   99:1   error    Delete `␍`                                prettier/prettier
+  100:52  error    Delete `␍`                                prettier/prettier
+  101:6   error    Delete `␍`                                prettier/prettier
+  102:14  error    Delete `␍`                                prettier/prettier
+  103:5   error    Delete `·␍`                               prettier/prettier
+  104:43  error    Delete `␍`                                prettier/prettier
+  105:5   error    Delete `·␍`                               prettier/prettier
+  106:27  error    Delete `␍`                                prettier/prettier
+  107:24  error    Delete `␍`                                prettier/prettier
+  108:6   error    Delete `␍`                                prettier/prettier
+  109:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  109:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  109:76  error    Delete `␍`                                prettier/prettier
+  110:22  error    Delete `␍`                                prettier/prettier
+  111:18  error    Delete `␍`                                prettier/prettier
+  112:4   error    Delete `␍`                                prettier/prettier
+  113:2   error    Delete `␍`                                prettier/prettier
+  114:1   error    Delete `␍`                                prettier/prettier
+  115:42  error    Delete `␍`                                prettier/prettier
+  116:41  error    Delete `␍`                                prettier/prettier
+  117:47  error    Delete `␍`                                prettier/prettier
+  118:24  error    Delete `␍`                                prettier/prettier
+  119:26  error    Delete `␍`                                prettier/prettier
+  120:33  error    Delete `␍`                                prettier/prettier
+  121:30  error    Delete `␍`                                prettier/prettier
+  122:23  error    Delete `␍`                                prettier/prettier
+  123:20  error    Delete `␍⏎␍`                              prettier/prettier
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\guards\firebase-auth.guard.ts
   57:51  error  '_route' is defined but never used  @typescript-eslint/no-unused-vars
@@ -205,9 +342,9 @@ C:\Users\user\Downloads\ng-alain-build\src\app\core\models\firebase-token.model.
   158:10  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\net\default.interceptor.ts
-  11:80   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  11:119  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  41:49   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:80   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:119  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:49   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\net\firebase-auth.interceptor.ts
   13:58   warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -234,6 +371,9 @@ C:\Users\user\Downloads\ng-alain-build\src\app\core\net\refresh-token.ts
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\services\auto-refresh.service.ts
   90:24  error  '_token' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\user\Downloads\ng-alain-build\src\app\core\services\firebase-auth.service.ts
+  28:3  error  Delete `·`  prettier/prettier
 
 C:\Users\user\Downloads\ng-alain-build\src\app\core\services\firebase-error-handler.service.ts
    33:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
@@ -395,7 +535,8 @@ C:\Users\user\Downloads\ng-alain-build\src\environments\environment.prod.ts
 C:\Users\user\Downloads\ng-alain-build\src\environments\environment.ts
   15:37  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
 
-✖ 205 problems (20 errors, 185 warnings)
+✖ 341 problems (152 errors, 189 warnings)
+  125 errors and 0 warnings potentially fixable with the `--fix` option.
 ```
 
 ### Style Lint (Stylelint)

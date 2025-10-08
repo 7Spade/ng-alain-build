@@ -25,10 +25,19 @@ import { FirebaseTokenModel, FirebaseAuthState, FirebaseLoginMethod, FirebaseAut
 /**
  * Firebase 認證服務
  * 整合 Firebase Authentication 與 @delon/auth
+ * 
+ * TODO(FIREBASE_REFACTOR_P2): 簡化此服務
+ * - 移除所有 Token 同步邏輯（由 FirebaseTokenAdapter 處理）
+ * - 移除 setupTokenSync() 方法和調用
+ * - 移除 onLoginSuccess() 中的 Token 同步代碼
+ * - 簡化 logout() 方法（不再手動清除 Token）
+ * - 預期從 423 行減少到 200 行（-53%）
+ * 參考: FIREBASE_REFACTOR_PLAN.md 階段 3 (Line 449-544)
  */
 @Injectable({ providedIn: 'root' })
 export class FirebaseAuthService {
   private auth = inject(Auth);
+  // TODO(FIREBASE_REFACTOR_P2): 移除 tokenService 注入（不再需要手動同步）
   private tokenService = inject(DA_SERVICE_TOKEN);
   private settings = inject(SettingsService);
   private router = inject(Router);
@@ -37,6 +46,7 @@ export class FirebaseAuthService {
   user$: Observable<User | null> = user(this.auth);
 
   // Observable: ID Token
+  // TODO(FIREBASE_REFACTOR_P2): 可移除 idToken$（FirebaseTokenAdapter 會處理）
   idToken$: Observable<string | null> = idToken(this.auth);
 
   // 認證狀態
@@ -48,6 +58,8 @@ export class FirebaseAuthService {
   authEvents$ = this.authEventsSubject.asObservable();
 
   constructor() {
+    // TODO(FIREBASE_REFACTOR_P2): 移除 setupTokenSync() 調用
+    // FirebaseTokenAdapter 會自動處理 Token 同步
     // 自動同步 Firebase Token 到 @delon/auth
     this.setupTokenSync();
     // 監聽認證狀態變化
