@@ -3,9 +3,11 @@
   <nz-alert [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg" />
   }
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter username, must be: admin or user">
+    <nz-form-control
+      [nzErrorTip]="useFirebase ? 'Please enter your email address' : 'Please enter username, must be: admin or user'">
       <nz-input-group nzSize="large" nzPrefixIcon="user">
-        <input nz-input formControlName="userName" placeholder="username: admin or user" />
+        <input nz-input formControlName="userName" [placeholder]="useFirebase ? 'Email' : 'username: admin or user'"
+          [type]="useFirebase ? 'email' : 'text'" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>

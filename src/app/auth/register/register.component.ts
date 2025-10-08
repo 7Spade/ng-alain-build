@@ -2,6 +2,7 @@ import { HttpContext } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { FirebaseAuthService } from '@core';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { I18nPipe, _HttpClient } from '@delon/theme';
 import { MatchControl } from '@delon/util/form';
@@ -35,6 +36,10 @@ export class UserRegisterComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly http = inject(_HttpClient);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly firebaseAuth = inject(FirebaseAuthService);
+
+  // Firebase 註冊模式
+  useFirebase = true; // 設為 true 使用 Firebase，false 使用 Mock API
 
   // #region fields
 
@@ -82,6 +87,54 @@ export class UserRegisterComponent implements OnDestroy {
   }
 
   submit(): void {
+    if (this.useFirebase) {
+      this.registerWithFirebase();
+    } else {
+      this.registerWithMockAPI();
+    }
+  }
+
+  /**
+   * Firebase Email/Password 註冊
+   */
+  private registerWithFirebase(): void {
+    this.error = '';
+    Object.keys(this.form.controls).forEach(key => {
+      const control = (this.form.controls as NzSafeAny)[key] as AbstractControl;
+      control.markAsDirty();
+      control.updateValueAndValidity();
+    });
+    if (this.form.invalid) {
+      return;
+    }
+
+    const data = this.form.value;
+    const mail = (data.mail as unknown as string) || '';
+    const password = (data.password as unknown as string) || '';
+    
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    this.firebaseAuth.registerWithEmailPassword(mail, password).subscribe({
+      next: () => {
+        console.log('[Register] Firebase 註冊成功');
+        this.loading = false;
+        this.cdr.detectChanges();
+        this.router.navigate(['/auth/register-result'], { queryParams: { email: mail } });
+      },
+      error: (err: Error) => {
+        console.error('[Register] Firebase 註冊失敗:', err);
+        this.error = err.message || '註冊失敗';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  /**
+   * Mock API 註冊
+   */
+  private registerWithMockAPI(): void {
     this.error = '';
     Object.keys(this.form.controls).forEach(key => {
       const control = (this.form.controls as NzSafeAny)[key] as AbstractControl;

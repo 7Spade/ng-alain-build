@@ -45,8 +45,8 @@ export class UserLoginComponent implements OnDestroy {
   private readonly message = inject(NzMessageService);
 
   form = inject(FormBuilder).nonNullable.group({
-    userName: ['', [Validators.required, Validators.pattern(/^(admin|user)$/)]],
-    password: ['', [Validators.required, Validators.pattern(/^(123456)$/)]],
+    userName: ['', [Validators.required]], // Firebase: 移除 Mock 驗證模式
+    password: ['', [Validators.required, Validators.minLength(6)]],
     remember: [true]
   });
   error = '';
@@ -72,8 +72,15 @@ export class UserLoginComponent implements OnDestroy {
       return;
     }
 
-    const email = `${this.form.value.userName}@example.com`;
+    // Firebase: 直接使用輸入的 email（不再添加 @example.com）
+    const email = this.form.value.userName || '';
     const password = this.form.value.password || '';
+
+    // 驗證 email 格式
+    if (!email.includes('@')) {
+      this.message.error('請輸入有效的 Email 地址');
+      return;
+    }
 
     this.loading = true;
     this.error = '';
@@ -104,7 +111,7 @@ export class UserLoginComponent implements OnDestroy {
   }
 
   /**
-   * Google 登入
+   * Google 登入（使用 Redirect 模式）
    */
   loginWithGoogle(): void {
     if (!this.useFirebase) {
@@ -112,13 +119,17 @@ export class UserLoginComponent implements OnDestroy {
       return;
     }
 
+    // 儲存當前 URL，登入後返回
+    const currentUrl = this.tokenService.referrer?.url || '/dashboard';
+    sessionStorage.setItem('firebase_redirect_url', currentUrl);
+
     this.loading = true;
     this.cdr.detectChanges();
 
+    // signInWithRedirect 會離開頁面，返回後在 FirebaseAuthService.handleRedirectResult 處理
     this.firebaseAuth.loginWithGoogle().subscribe({
       next: () => {
-        this.message.success('Google 登入成功');
-        this.router.navigateByUrl('/dashboard');
+        // Redirect 模式下不會執行到這裡（已離開頁面）
       },
       error: (err: Error) => {
         this.message.error(err.message || 'Google 登入失敗');

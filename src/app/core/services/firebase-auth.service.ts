@@ -5,6 +5,7 @@ import {
   GithubAuthProvider,
   signInWithPopup,
   signInWithRedirect,
+  getRedirectResult,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
@@ -53,27 +54,37 @@ export class FirebaseAuthService {
     this.setupTokenSync();
     // 監聽認證狀態變化
     this.setupAuthStateMonitor();
+    // 處理 Redirect 登入回調
+    this.handleRedirectResult();
   }
 
   // ===== 登入方法 =====
 
   /**
-   * Google 登入（彈窗方式）
+   * Google 登入（使用 Redirect 模式，避免 Popup 被瀏覽器阻止）
+   * @param useRedirect - 是否使用 Redirect 模式（預設 true）
    */
-  loginWithGoogle(useRedirect = false): Observable<User> {
+  loginWithGoogle(useRedirect = true): Observable<void> {
     this.authStateSubject.next(FirebaseAuthState.AUTHENTICATING);
 
     const provider = new GoogleAuthProvider();
     provider.addScope('profile');
     provider.addScope('email');
 
-    const signInMethod = useRedirect ? signInWithRedirect : signInWithPopup;
-
-    return from(signInMethod(this.auth, provider)).pipe(
-      map(credential => (credential as UserCredential).user),
-      tap(user => this.onLoginSuccess(user, FirebaseLoginMethod.GOOGLE)),
-      catchError(error => this.handleLoginError(error))
-    );
+    if (useRedirect) {
+      // Redirect 模式：會離開頁面，返回後在 handleRedirectResult 處理
+      return from(signInWithRedirect(this.auth, provider)).pipe(
+        tap(() => console.log('[Firebase Auth] 正在跳轉至 Google 登入頁...')),
+        catchError(error => this.handleLoginError(error))
+      );
+    } else {
+      // Popup 模式：適用於不會被阻止的環境（fallback）
+      return from(signInWithPopup(this.auth, provider)).pipe(
+        tap(credential => this.onLoginSuccess(credential.user, FirebaseLoginMethod.GOOGLE)),
+        map(() => undefined),
+        catchError(error => this.handleLoginError(error))
+      );
+    }
   }
 
   /**
@@ -173,6 +184,61 @@ export class FirebaseAuthService {
         return throwError(() => error);
       })
     );
+  }
+
+  /**
+   * 處理 Redirect 登入回調
+   * 應在應用啟動時調用（constructor 中）
+   */
+  private handleRedirectResult(): void {
+    from(getRedirectResult(this.auth))
+      .pipe(
+        tap(result => {
+          if (result && result.user) {
+            console.log('[Firebase Auth] Redirect 登入成功:', result.user.email);
+            // 判斷登入方法
+            const providerId = result.providerId;
+            const method = providerId?.includes('google') 
+              ? FirebaseLoginMethod.GOOGLE 
+              : providerId?.includes('github') 
+              ? FirebaseLoginMethod.GITHUB 
+              : FirebaseLoginMethod.EMAIL_PASSWORD;
+            
+            this.onLoginSuccess(result.user, method);
+
+            // 導航至原始頁面或首頁（延遲以確保 Token 同步完成）
+            const redirect = sessionStorage.getItem('firebase_redirect_url') || '/dashboard';
+            sessionStorage.removeItem('firebase_redirect_url');
+            setTimeout(() => {
+              console.log('[Firebase Auth] 導航至:', redirect);
+              this.router.navigateByUrl(redirect);
+            }, 200);
+          }
+        }),
+        catchError(error => {
+          if (error && error.code) {
+            console.error('[Firebase Auth] Redirect 登入失敗:', error);
+            // 顯示用戶友好的錯誤訊息
+            let userMessage = '登入失敗';
+            switch (error.code) {
+              case 'auth/popup-closed-by-user':
+                userMessage = '登入視窗已關閉';
+                break;
+              case 'auth/popup-blocked':
+                userMessage = '瀏覽器阻擋了登入視窗';
+                break;
+              case 'auth/network-request-failed':
+                userMessage = '網路連接失敗';
+                break;
+              default:
+                userMessage = error.message || '登入失敗';
+            }
+            console.error('[Firebase Auth] 錯誤訊息:', userMessage);
+          }
+          return of(null);
+        })
+      )
+      .subscribe();
   }
 
   // ===== Token 管理 =====
